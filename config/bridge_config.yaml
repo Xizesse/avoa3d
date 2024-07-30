@@ -1,0 +1,21 @@
+# To call the ros2 gz bridge, use the following command:
+#hmm ros2 run ros_gz_bridge parameter_bridge -p avoa/config/bridge_config.yaml
+
+
+- ros_topic_name: "agent_vel_cmd"
+  gz_topic_name: "agent_vel_cmd"
+  ros_type_name: "geometric_msgs/Twist"
+  gz_type_name: "gazebo_msgs/Twist"
+  subscriber_queue: 6
+  publisher_queue: 6
+  lazy: true
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "agent_pose"
+  gz_topic_name: "agent_pose"
+  ros_type_name: "geometric_msgs/Pose"
+  gz_type_name: "gazebo_msgs/Pose"
+  subscriber_queue: 6
+  publisher_queue: 6
+  lazy: true
+  direction: GZ_TO_ROS
