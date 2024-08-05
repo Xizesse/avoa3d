@@ -19,6 +19,8 @@
   <build_depend>rosidl_default_generators</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>builtin_interfaces</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>tf2_ros</build_depend>
 
   
   
@@ -31,6 +33,9 @@
   <exec_depend>rosidl_default_runtime</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>builtin_interfaces</exec_depend>
+  <exec_depend>nav_msgs</exec_depend> 
+  <exec_depend>tf2_ros</exec_depend>
+
 
   <!-- Member of groups -->
   <member_of_group>rosidl_interface_packages</member_of_group>

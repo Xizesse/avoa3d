@@ -10,6 +10,8 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(nav_msgs REQUIRED) 
+find_package(tf2_ros REQUIRED)
 
 # Generate custom messages
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -28,15 +30,19 @@ include_directories(
 rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 # Create executables
-add_executable(a_publisher src/a_publisher.cpp)
+add_executable(rviz_marker src/rviz_marker.cpp)
 add_executable(point_cloud_publisher src/point_cloud_publisher.cpp)
 add_executable(velocity_publisher src/velocity_publisher.cpp)
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 
 # Link dependencies to executables
-ament_target_dependencies(a_publisher
+ament_target_dependencies(rviz_marker
   rclcpp
   visualization_msgs
+  geometry_msgs
+  std_msgs
+  nav_msgs
+  tf2_ros
 )
 
 ament_target_dependencies(point_cloud_publisher
@@ -56,14 +62,14 @@ ament_target_dependencies(obstacle_publisher
 )
 
 # Link the typesupport target to the executables
-target_link_libraries(a_publisher ${cpp_typesupport_target})
+target_link_libraries(rviz_marker ${cpp_typesupport_target})
 target_link_libraries(point_cloud_publisher ${cpp_typesupport_target})
 target_link_libraries(velocity_publisher ${cpp_typesupport_target})
 target_link_libraries(obstacle_publisher ${cpp_typesupport_target})
 
 # Install executables
 install(TARGETS
-  a_publisher
+  rviz_marker
   point_cloud_publisher
   velocity_publisher
   obstacle_publisher
@@ -74,6 +80,12 @@ if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+# Install launch files.
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 # Ament package
 ament_package()

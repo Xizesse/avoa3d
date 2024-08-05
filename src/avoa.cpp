@@ -24,7 +24,7 @@ class avoa : public rclcpp::Node
     private:
         void timer_callback()
         {
-            RCLCPP_INFO(this->get_logger(), "Hello, world!");
+            RCLCPP_INFO(this->get_logger(), "Loop");
         }
     float height_m_;
     float width_m_;

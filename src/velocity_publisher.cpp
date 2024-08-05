@@ -18,7 +18,7 @@ public:
   VelocityPublisher()
   : Node("velocity_publisher"), start_time_(this->get_clock()->now())
   {
-    publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/agent_vel_cmd", 10);
+    publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/cmd_vel", 10);
     timer_ = this->create_wall_timer(
       100ms, std::bind(&VelocityPublisher::timer_callback, this));
   }
@@ -30,11 +30,11 @@ private:
     auto current_time = this->get_clock()->now() - start_time_;
     double t = current_time.seconds();
 
-    // Harmonic motion
+    //circunferencia
     msg.linear.x = std::sin(t);
     msg.linear.y = std::cos(t);
-    msg.linear.z = std::sin(t/2);
-
+    //msg.linear.z = std::sin(t/2);
+    msg.linear.z = 0.0;
     RCLCPP_INFO(this->get_logger(), "Publishing: '%f', '%f', '%f'", msg.linear.x, msg.linear.y, msg.linear.z);
     publisher_->publish(msg);
   }
