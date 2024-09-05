@@ -34,6 +34,7 @@ add_executable(rviz_marker src/rviz_marker.cpp)
 add_executable(point_cloud_publisher src/point_cloud_publisher.cpp)
 add_executable(velocity_publisher src/velocity_publisher.cpp)
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
+add_executable(test_w_goal src/test_w_goal.cpp)
 
 # Link dependencies to executables
 ament_target_dependencies(rviz_marker
@@ -53,6 +54,15 @@ ament_target_dependencies(point_cloud_publisher
 ament_target_dependencies(velocity_publisher
   rclcpp
   geometry_msgs
+  nav_msgs
+  tf2_ros
+)
+
+ament_target_dependencies(test_w_goal
+  rclcpp
+  geometry_msgs
+  nav_msgs
+  tf2_ros
 )
 
 ament_target_dependencies(obstacle_publisher
@@ -66,12 +76,14 @@ target_link_libraries(rviz_marker ${cpp_typesupport_target})
 target_link_libraries(point_cloud_publisher ${cpp_typesupport_target})
 target_link_libraries(velocity_publisher ${cpp_typesupport_target})
 target_link_libraries(obstacle_publisher ${cpp_typesupport_target})
+target_link_libraries(test_w_goal ${cpp_typesupport_target})
 
 # Install executables
 install(TARGETS
   rviz_marker
   point_cloud_publisher
   velocity_publisher
+  test_w_goal
   obstacle_publisher
   DESTINATION lib/${PROJECT_NAME})
 
