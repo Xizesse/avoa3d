@@ -1,0 +1,11 @@
+source;share/avoa/hook/cmake_prefix_path.ps1
+source;share/avoa/hook/cmake_prefix_path.dsv
+source;share/avoa/hook/cmake_prefix_path.sh
+source;share/avoa/hook/ld_library_path_lib.ps1
+source;share/avoa/hook/ld_library_path_lib.dsv
+source;share/avoa/hook/ld_library_path_lib.sh
+source;share/avoa/local_setup.bash
+source;share/avoa/local_setup.dsv
+source;share/avoa/local_setup.ps1
+source;share/avoa/local_setup.sh
+source;share/avoa/local_setup.zsh

@@ -1,0 +1,4 @@
+source;share/avoa/local_setup.bash
+source;share/avoa/local_setup.dsv
+source;share/avoa/local_setup.sh
+source;share/avoa/local_setup.zsh

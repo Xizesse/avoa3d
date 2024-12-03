@@ -1,0 +1,69 @@
+-- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found rclcpp: 16.0.9 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found visualization_msgs: 4.2.4 (/opt/ros/humble/share/visualization_msgs/cmake)
+-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+-- Found nav_msgs: 4.2.4 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found tf2_ros: 0.25.7 (/opt/ros/humble/share/tf2_ros/cmake)
+-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+-- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+-- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/xizesse/ros2_ws/src/avoa/build/avoa
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_generator_c[0m
+[ 10%] Built target avoa__cpp
+[ 10%] Built target avoa__rosidl_generator_c
+[ 10%] Built target ament_cmake_python_copy_avoa
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_introspection_c[0m
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_fastrtps_c[0m
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_c[0m
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_introspection_cpp[0m
+[ 30%] Built target avoa__rosidl_typesupport_c
+[ 33%] Built target avoa__rosidl_typesupport_introspection_c
+[ 33%] Built target avoa__rosidl_typesupport_fastrtps_c
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_fastrtps_cpp[0m
+[ 41%] Built target avoa__rosidl_typesupport_introspection_cpp
+[ 56%] Built target avoa__rosidl_typesupport_fastrtps_cpp
+[ 56%] Built target avoa__rosidl_typesupport_cpp
+[35m[1mConsolidate compiler generated dependencies of target point_cloud_publisher[0m
+[35m[1mConsolidate compiler generated dependencies of target obstacle_publisher[0m
+[35m[1mConsolidate compiler generated dependencies of target rviz_marker[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o[0m
+[ 58%] Built target avoa
+[ 66%] Built target rviz_marker
+[ 69%] Built target obstacle_publisher
+[ 74%] Built target point_cloud_publisher
+[ 76%] Built target avoa__py
+[ 79%] [32mBuilding C object CMakeFiles/avoa__rosidl_generator_py.dir/rosidl_generator_py/avoa/msg/_element_characteristics_stamped_s.c.o[0m
+[ 82%] [32m[1mLinking C shared library rosidl_generator_py/avoa/libavoa__rosidl_generator_py.so[0m
+running egg_info
+writing avoa.egg-info/PKG-INFO
+writing dependency_links to avoa.egg-info/dependency_links.txt
+writing top-level names to avoa.egg-info/top_level.txt
+reading manifest file 'avoa.egg-info/SOURCES.txt'
+writing manifest file 'avoa.egg-info/SOURCES.txt'
+[ 82%] Built target avoa__rosidl_generator_py
+[ 82%] Built target ament_cmake_python_build_avoa_egg
+[ 89%] [32mBuilding C object CMakeFiles/avoa__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/avoa/_avoa_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[ 89%] [32mBuilding C object CMakeFiles/avoa__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/avoa/_avoa_s.ep.rosidl_typesupport_c.c.o[0m
+[ 89%] [32mBuilding C object CMakeFiles/avoa__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/avoa/_avoa_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[ 94%] [32m[1mLinking C shared library rosidl_generator_py/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[ 94%] [32m[1mLinking C shared library rosidl_generator_py/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[ 97%] [32m[1mLinking C shared library rosidl_generator_py/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[ 97%] Built target avoa__rosidl_typesupport_fastrtps_c__pyext
+[ 97%] Built target avoa__rosidl_typesupport_introspection_c__pyext
+[ 97%] Built target avoa__rosidl_typesupport_c__pyext

@@ -1,0 +1,11 @@
+[01m[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:[m[K In constructor ‘[01m[KVelocityPublisher::VelocityPublisher()[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:23:33:[m[K [01;31m[Kerror: [m[Kclass ‘[01m[KVelocityPublisher[m[K’ does not have any field named ‘[01m[Kstart_time_[m[K’
+   23 |   : Node("velocity_publisher"), [01;31m[Kstart_time_[m[K(this->get_clock()->now())
+      |                                 [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:[m[K In member function ‘[01m[Kvoid VelocityPublisher::odometry_callback(nav_msgs::msg::Odometry_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:43:19:[m[K [01;31m[Kerror: [m[K‘[01m[Kgoal_position_[m[K’ was not declared in this scope
+   43 |     direction.x = [01;31m[Kgoal_position_[m[K.x - current_position.x;
+      |                   [01;31m[K^~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/velocity_publisher.dir/build.make:76: CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:653: CMakeFiles/velocity_publisher.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

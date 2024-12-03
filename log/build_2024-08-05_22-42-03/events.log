@@ -1,0 +1,102 @@
+[0.000000] (-) TimerEvent: {}
+[0.000262] (avoa) JobQueued: {'identifier': 'avoa', 'dependencies': OrderedDict()}
+[0.000481] (avoa) JobStarted: {'identifier': 'avoa'}
+[0.008570] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'cmake'}
+[0.008982] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'build'}
+[0.009410] (avoa) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/xizesse/ros2_ws/src/avoa/build/avoa', '--', '-j20', '-l20'], 'cwd': '/home/xizesse/ros2_ws/src/avoa/build/avoa', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'xizesse'), ('LC_TIME', 'pt_PT.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/xizesse/ros2_ws/install/avoa/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/xizesse'), ('OLDPWD', '/home/xizesse/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'pt_PT.UTF-8'), ('MANAGERPID', '1822'), ('LC_CTYPE', 'pt_PT.UTF-8'), ('SYSTEMD_EXEC_PID', '2603'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '4808'), ('COLCON_PREFIX_PATH', '/home/xizesse/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'xizesse'), ('JOURNAL_STREAM', '8:43490'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'xizesse'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/home/xizesse/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/xizesse:@/tmp/.ICE-unix/2285,unix/xizesse:/tmp/.ICE-unix/2285'), ('INVOCATION_ID', '73af8a5d9afd4eb0b24e209db657f8e7'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'pt_PT.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'pt_PT.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'pt_PT.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:9e4a7ec0-5668-4c4d-a741-0ccaa03ff6d2'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'pt_PT.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'pt_PT.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/xizesse/ros2_ws/src/avoa/build/avoa'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/xizesse/ros2_ws/install/avoa/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'pt_PT.UTF-8'), ('LC_PAPER', 'pt_PT.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble')]), 'shell': False}
+[0.058911] (avoa) StdoutLine: {'line': b'[ 10%] Built target avoa__cpp\n'}
+[0.059137] (avoa) StdoutLine: {'line': b'[ 10%] Built target avoa__rosidl_generator_c\n'}
+[0.068771] (avoa) StdoutLine: {'line': b'[ 10%] Built target ament_cmake_python_copy_avoa\n'}
+[0.080249] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_cpp\n'}
+[0.080524] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_fastrtps_cpp\n'}
+[0.080607] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_introspection_cpp\n'}
+[0.080681] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_introspection_c\n'}
+[0.080751] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_fastrtps_c\n'}
+[0.080819] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_c\n'}
+[0.092606] (avoa) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target velocity_publisher\x1b[0m\n'}
+[0.099833] (-) TimerEvent: {}
+[0.103250] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa\n'}
+[0.106226] (avoa) StdoutLine: {'line': b'[ 66%] Built target obstacle_publisher\n'}
+[0.106414] (avoa) StdoutLine: {'line': b'[ 66%] Built target rviz_marker\n'}
+[0.106461] (avoa) StdoutLine: {'line': b'[ 71%] Built target point_cloud_publisher\n'}
+[0.110754] (avoa) StdoutLine: {'line': b'[ 74%] \x1b[32mBuilding CXX object CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o\x1b[0m\n'}
+[0.127078] (avoa) StdoutLine: {'line': b'[ 76%] Built target avoa__py\n'}
+[0.141891] (avoa) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target avoa__rosidl_generator_py\x1b[0m\n'}
+[0.155980] (avoa) StdoutLine: {'line': b'[ 82%] Built target avoa__rosidl_generator_py\n'}
+[0.169779] (avoa) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_introspection_c__pyext\x1b[0m\n'}
+[0.169993] (avoa) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_fastrtps_c__pyext\x1b[0m\n'}
+[0.170045] (avoa) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_c__pyext\x1b[0m\n'}
+[0.183421] (avoa) StdoutLine: {'line': b'[ 97%] Built target avoa__rosidl_typesupport_c__pyext\n'}
+[0.183890] (avoa) StdoutLine: {'line': b'[ 97%] Built target avoa__rosidl_typesupport_fastrtps_c__pyext\n'}
+[0.183942] (avoa) StdoutLine: {'line': b'[ 97%] Built target avoa__rosidl_typesupport_introspection_c__pyext\n'}
+[0.200011] (-) TimerEvent: {}
+[0.285877] (avoa) StdoutLine: {'line': b'running egg_info\n'}
+[0.286635] (avoa) StdoutLine: {'line': b'writing avoa.egg-info/PKG-INFO\n'}
+[0.286974] (avoa) StdoutLine: {'line': b'writing dependency_links to avoa.egg-info/dependency_links.txt\n'}
+[0.287156] (avoa) StdoutLine: {'line': b'writing top-level names to avoa.egg-info/top_level.txt\n'}
+[0.288972] (avoa) StdoutLine: {'line': b"reading manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[0.289337] (avoa) StdoutLine: {'line': b"writing manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[0.300180] (-) TimerEvent: {}
+[0.331063] (avoa) StdoutLine: {'line': b'[ 97%] Built target ament_cmake_python_build_avoa_egg\n'}
+[0.400301] (-) TimerEvent: {}
+[0.500908] (-) TimerEvent: {}
+[0.601200] (-) TimerEvent: {}
+[0.701556] (-) TimerEvent: {}
+[0.802004] (-) TimerEvent: {}
+[0.902651] (-) TimerEvent: {}
+[1.003651] (-) TimerEvent: {}
+[1.104743] (-) TimerEvent: {}
+[1.205610] (-) TimerEvent: {}
+[1.306625] (-) TimerEvent: {}
+[1.407146] (-) TimerEvent: {}
+[1.507785] (-) TimerEvent: {}
+[1.608150] (-) TimerEvent: {}
+[1.708491] (-) TimerEvent: {}
+[1.809302] (-) TimerEvent: {}
+[1.909764] (-) TimerEvent: {}
+[2.010093] (-) TimerEvent: {}
+[2.110444] (-) TimerEvent: {}
+[2.133912] (avoa) StderrLine: {'line': b'\x1b[01m\x1b[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:64:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kgoal_position_\x1b[m\x1b[K\xe2\x80\x99 does not name a type\n'}
+[2.134249] (avoa) StderrLine: {'line': b'   64 |   \x1b[01;31m\x1b[Kgoal_position_\x1b[m\x1b[K.x = 10.0;\n'}
+[2.134336] (avoa) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.135787] (avoa) StderrLine: {'line': b'\x1b[01m\x1b[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:65:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kgoal_position_\x1b[m\x1b[K\xe2\x80\x99 does not name a type\n'}
+[2.136002] (avoa) StderrLine: {'line': b'   65 |   \x1b[01;31m\x1b[Kgoal_position_\x1b[m\x1b[K.y = 10.0;\n'}
+[2.136061] (avoa) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.138369] (avoa) StderrLine: {'line': b'\x1b[01m\x1b[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:66:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kgoal_position_\x1b[m\x1b[K\xe2\x80\x99 does not name a type\n'}
+[2.138705] (avoa) StderrLine: {'line': b'   66 |   \x1b[01;31m\x1b[Kgoal_position_\x1b[m\x1b[K.z = 10.0;\n'}
+[2.138793] (avoa) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.139338] (avoa) StderrLine: {'line': b'\x1b[01m\x1b[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:\x1b[m\x1b[K In constructor \xe2\x80\x98\x1b[01m\x1b[KVelocityPublisher::VelocityPublisher()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.139430] (avoa) StderrLine: {'line': b'\x1b[01m\x1b[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:23:33:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kclass \xe2\x80\x98\x1b[01m\x1b[KVelocityPublisher\x1b[m\x1b[K\xe2\x80\x99 does not have any field named \xe2\x80\x98\x1b[01m\x1b[Kstart_time_\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.139469] (avoa) StderrLine: {'line': b'   23 |   : Node("velocity_publisher"), \x1b[01;31m\x1b[Kstart_time_\x1b[m\x1b[K(this->get_clock()->now())\n'}
+[2.139503] (avoa) StderrLine: {'line': b'      |                                 \x1b[01;31m\x1b[K^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.210535] (-) TimerEvent: {}
+[2.310799] (-) TimerEvent: {}
+[2.411257] (-) TimerEvent: {}
+[2.511644] (-) TimerEvent: {}
+[2.612473] (-) TimerEvent: {}
+[2.712932] (-) TimerEvent: {}
+[2.813758] (-) TimerEvent: {}
+[2.914204] (-) TimerEvent: {}
+[3.014841] (-) TimerEvent: {}
+[3.115335] (-) TimerEvent: {}
+[3.215731] (-) TimerEvent: {}
+[3.316119] (-) TimerEvent: {}
+[3.416477] (-) TimerEvent: {}
+[3.516808] (-) TimerEvent: {}
+[3.617229] (-) TimerEvent: {}
+[3.717667] (-) TimerEvent: {}
+[3.818212] (-) TimerEvent: {}
+[3.918957] (-) TimerEvent: {}
+[4.019350] (-) TimerEvent: {}
+[4.120456] (-) TimerEvent: {}
+[4.221072] (-) TimerEvent: {}
+[4.321879] (-) TimerEvent: {}
+[4.422278] (-) TimerEvent: {}
+[4.522864] (-) TimerEvent: {}
+[4.587202] (avoa) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/velocity_publisher.dir/build.make:76: CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o] Error 1\n'}
+[4.587397] (avoa) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:653: CMakeFiles/velocity_publisher.dir/all] Error 2\n'}
+[4.587508] (avoa) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[4.591377] (avoa) CommandEnded: {'returncode': 2}
+[4.623030] (-) TimerEvent: {}
+[4.655895] (avoa) JobEnded: {'identifier': 'avoa', 'rc': 2}
+[4.657053] (-) EventReactorShutdown: {}

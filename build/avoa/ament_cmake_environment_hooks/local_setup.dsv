@@ -1,0 +1,4 @@
+source;share/avoa/environment/ament_prefix_path.sh
+source;share/avoa/environment/library_path.sh
+source;share/avoa/environment/path.sh
+source;share/avoa/environment/pythonpath.sh

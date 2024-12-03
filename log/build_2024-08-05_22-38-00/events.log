@@ -1,0 +1,232 @@
+[0.000000] (-) TimerEvent: {}
+[0.000081] (avoa) JobQueued: {'identifier': 'avoa', 'dependencies': OrderedDict()}
+[0.000097] (avoa) JobStarted: {'identifier': 'avoa'}
+[0.007495] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'cmake'}
+[0.007644] (avoa) Command: {'cmd': ['/usr/bin/cmake', '/home/xizesse/ros2_ws/src/avoa', '-DCMAKE_INSTALL_PREFIX=/home/xizesse/ros2_ws/src/avoa/install/avoa'], 'cwd': '/home/xizesse/ros2_ws/src/avoa/build/avoa', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'xizesse'), ('LC_TIME', 'pt_PT.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/xizesse/ros2_ws/install/avoa/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/xizesse'), ('OLDPWD', '/home/xizesse/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'pt_PT.UTF-8'), ('MANAGERPID', '1822'), ('LC_CTYPE', 'pt_PT.UTF-8'), ('SYSTEMD_EXEC_PID', '2603'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '4808'), ('COLCON_PREFIX_PATH', '/home/xizesse/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'xizesse'), ('JOURNAL_STREAM', '8:43490'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'xizesse'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/home/xizesse/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/xizesse:@/tmp/.ICE-unix/2285,unix/xizesse:/tmp/.ICE-unix/2285'), ('INVOCATION_ID', '73af8a5d9afd4eb0b24e209db657f8e7'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'pt_PT.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'pt_PT.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'pt_PT.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:9e4a7ec0-5668-4c4d-a741-0ccaa03ff6d2'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'pt_PT.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'pt_PT.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/xizesse/ros2_ws/src/avoa/build/avoa'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/xizesse/ros2_ws/install/avoa/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'pt_PT.UTF-8'), ('LC_PAPER', 'pt_PT.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble')]), 'shell': False}
+[0.089700] (avoa) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.099646] (-) TimerEvent: {}
+[0.163124] (avoa) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.168595] (avoa) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.199839] (-) TimerEvent: {}
+[0.212002] (avoa) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.215980] (avoa) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.216839] (avoa) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.217405] (avoa) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.219626] (avoa) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.269342] (avoa) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.273680] (avoa) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.273776] (avoa) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.273964] (avoa) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.276887] (avoa) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.300034] (-) TimerEvent: {}
+[0.369331] (avoa) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[0.400247] (-) TimerEvent: {}
+[0.441038] (avoa) StdoutLine: {'line': b'-- Found rclcpp: 16.0.9 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.479148] (avoa) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.482422] (avoa) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.489125] (avoa) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.500376] (-) TimerEvent: {}
+[0.500836] (avoa) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.514317] (avoa) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.562784] (avoa) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.566332] (avoa) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.600570] (-) TimerEvent: {}
+[0.638347] (avoa) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[0.656158] (avoa) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[0.683783] (avoa) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.692548] (avoa) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.700736] (-) TimerEvent: {}
+[0.740696] (avoa) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.741034] (avoa) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.786913] (avoa) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.787701] (avoa) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.800923] (-) TimerEvent: {}
+[0.883792] (avoa) StdoutLine: {'line': b'-- Found visualization_msgs: 4.2.4 (/opt/ros/humble/share/visualization_msgs/cmake)\n'}
+[0.901346] (-) TimerEvent: {}
+[1.002011] (-) TimerEvent: {}
+[1.050250] (avoa) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)\n'}
+[1.057090] (avoa) StdoutLine: {'line': b'-- Found nav_msgs: 4.2.4 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[1.102122] (-) TimerEvent: {}
+[1.107967] (avoa) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.7 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[1.202228] (-) TimerEvent: {}
+[1.302508] (-) TimerEvent: {}
+[1.402746] (-) TimerEvent: {}
+[1.502974] (-) TimerEvent: {}
+[1.516619] (avoa) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[1.603130] (-) TimerEvent: {}
+[1.703643] (-) TimerEvent: {}
+[1.777051] (avoa) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.803840] (-) TimerEvent: {}
+[1.875686] (avoa) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.896724] (avoa) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") \n'}
+[1.898751] (avoa) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[1.903943] (-) TimerEvent: {}
+[1.919550] (avoa) StdoutLine: {'line': b'-- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") \n'}
+[1.919702] (avoa) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[1.919766] (avoa) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10\n'}
+[1.919825] (avoa) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so\n'}
+[1.933122] (avoa) StdoutLine: {'line': b'-- Found PythonExtra: .so  \n'}
+[1.971900] (avoa) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[1.980238] (avoa) StdoutLine: {'line': b'-- Configuring done\n'}
+[2.004162] (-) TimerEvent: {}
+[2.007821] (avoa) StdoutLine: {'line': b'-- Generating done\n'}
+[2.009727] (avoa) StdoutLine: {'line': b'-- Build files have been written to: /home/xizesse/ros2_ws/src/avoa/build/avoa\n'}
+[2.017881] (avoa) CommandEnded: {'returncode': 0}
+[2.018874] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'build'}
+[2.018905] (avoa) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/xizesse/ros2_ws/src/avoa/build/avoa', '--', '-j20', '-l20'], 'cwd': '/home/xizesse/ros2_ws/src/avoa/build/avoa', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'xizesse'), ('LC_TIME', 'pt_PT.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/xizesse/ros2_ws/install/avoa/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/xizesse'), ('OLDPWD', '/home/xizesse/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'pt_PT.UTF-8'), ('MANAGERPID', '1822'), ('LC_CTYPE', 'pt_PT.UTF-8'), ('SYSTEMD_EXEC_PID', '2603'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '4808'), ('COLCON_PREFIX_PATH', '/home/xizesse/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'xizesse'), ('JOURNAL_STREAM', '8:43490'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'xizesse'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/home/xizesse/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/xizesse:@/tmp/.ICE-unix/2285,unix/xizesse:/tmp/.ICE-unix/2285'), ('INVOCATION_ID', '73af8a5d9afd4eb0b24e209db657f8e7'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'pt_PT.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'pt_PT.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'pt_PT.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:9e4a7ec0-5668-4c4d-a741-0ccaa03ff6d2'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'pt_PT.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'pt_PT.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/xizesse/ros2_ws/src/avoa/build/avoa'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/xizesse/ros2_ws/install/avoa/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'pt_PT.UTF-8'), ('LC_PAPER', 'pt_PT.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble')]), 'shell': False}
+[2.044773] (avoa) StdoutLine: {'line': b'[  2%] \x1b[34m\x1b[1mGenerating C code for ROS interfaces\x1b[0m\n'}
+[2.050401] (avoa) StdoutLine: {'line': b'[  5%] \x1b[34m\x1b[1mGenerating C++ code for ROS interfaces\x1b[0m\n'}
+[2.054443] (avoa) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_copy_avoa\n'}
+[2.104340] (-) TimerEvent: {}
+[2.197927] (avoa) StdoutLine: {'line': b'running egg_info\n'}
+[2.198675] (avoa) StdoutLine: {'line': b'creating avoa.egg-info\n'}
+[2.198866] (avoa) StdoutLine: {'line': b'writing avoa.egg-info/PKG-INFO\n'}
+[2.199020] (avoa) StdoutLine: {'line': b'writing dependency_links to avoa.egg-info/dependency_links.txt\n'}
+[2.199143] (avoa) StdoutLine: {'line': b'writing top-level names to avoa.egg-info/top_level.txt\n'}
+[2.199331] (avoa) StdoutLine: {'line': b"writing manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[2.201571] (avoa) StdoutLine: {'line': b"reading manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[2.202022] (avoa) StdoutLine: {'line': b"writing manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[2.204410] (-) TimerEvent: {}
+[2.224268] (avoa) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_build_avoa_egg\n'}
+[2.252894] (avoa) StdoutLine: {'line': b'[  5%] Built target avoa__cpp\n'}
+[2.253876] (avoa) StdoutLine: {'line': b'[  7%] \x1b[32mBuilding C object CMakeFiles/avoa__rosidl_generator_c.dir/rosidl_generator_c/avoa/msg/detail/element_characteristics_stamped__functions.c.o\x1b[0m\n'}
+[2.259584] (avoa) StdoutLine: {'line': b'[ 15%] \x1b[34m\x1b[1mGenerating C++ type support for eProsima Fast-RTPS\x1b[0m\n'}
+[2.259807] (avoa) StdoutLine: {'line': b'[ 15%] \x1b[34m\x1b[1mGenerating C++ type support dispatch for ROS interfaces\x1b[0m\n'}
+[2.259874] (avoa) StdoutLine: {'line': b'[ 15%] \x1b[34m\x1b[1mGenerating C++ introspection for ROS interfaces\x1b[0m\n'}
+[2.303910] (avoa) StdoutLine: {'line': b'[ 17%] \x1b[32m\x1b[1mLinking C shared library libavoa__rosidl_generator_c.so\x1b[0m\n'}
+[2.304476] (-) TimerEvent: {}
+[2.331735] (avoa) StdoutLine: {'line': b'[ 17%] Built target avoa__rosidl_generator_c\n'}
+[2.338869] (avoa) StdoutLine: {'line': b'[ 23%] \x1b[34m\x1b[1mGenerating C introspection for ROS interfaces\x1b[0m\n'}
+[2.339112] (avoa) StdoutLine: {'line': b'[ 23%] \x1b[34m\x1b[1mGenerating C type support for eProsima Fast-RTPS\x1b[0m\n'}
+[2.341443] (avoa) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C type support dispatch for ROS interfaces\x1b[0m\n'}
+[2.404579] (-) TimerEvent: {}
+[2.454355] (avoa) StdoutLine: {'line': b'[ 28%] \x1b[32mBuilding CXX object CMakeFiles/avoa__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/avoa/msg/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[2.474534] (avoa) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object CMakeFiles/avoa__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/avoa/msg/detail/dds_fastrtps/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[2.475827] (avoa) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/avoa__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/avoa/msg/detail/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[2.504671] (-) TimerEvent: {}
+[2.532274] (avoa) StdoutLine: {'line': b'[ 35%] \x1b[32mBuilding CXX object CMakeFiles/avoa__rosidl_typesupport_c.dir/rosidl_typesupport_c/avoa/msg/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[2.548161] (avoa) StdoutLine: {'line': b'[ 38%] \x1b[32mBuilding CXX object CMakeFiles/avoa__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/avoa/msg/detail/element_characteristics_stamped__type_support_c.cpp.o\x1b[0m\n'}
+[2.556829] (avoa) StdoutLine: {'line': b'[ 41%] \x1b[32m\x1b[1mLinking CXX shared library libavoa__rosidl_typesupport_c.so\x1b[0m\n'}
+[2.569528] (avoa) StdoutLine: {'line': b'[ 43%] \x1b[32mBuilding C object CMakeFiles/avoa__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/avoa/msg/detail/element_characteristics_stamped__type_support.c.o\x1b[0m\n'}
+[2.587010] (avoa) StdoutLine: {'line': b'[ 43%] Built target avoa__rosidl_typesupport_c\n'}
+[2.600488] (avoa) StdoutLine: {'line': b'[ 46%] \x1b[32m\x1b[1mLinking C shared library libavoa__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[2.604774] (-) TimerEvent: {}
+[2.622768] (avoa) StdoutLine: {'line': b'[ 46%] Built target avoa__rosidl_typesupport_introspection_c\n'}
+[2.646930] (avoa) StdoutLine: {'line': b'[ 48%] \x1b[32m\x1b[1mLinking CXX shared library libavoa__rosidl_typesupport_cpp.so\x1b[0m\n'}
+[2.673430] (avoa) StdoutLine: {'line': b'[ 48%] Built target avoa__rosidl_typesupport_cpp\n'}
+[2.688257] (avoa) StdoutLine: {'line': b'[ 56%] \x1b[32mBuilding CXX object CMakeFiles/rviz_marker.dir/src/rviz_marker.cpp.o\x1b[0m\n'}
+[2.688452] (avoa) StdoutLine: {'line': b'[ 56%] \x1b[32mBuilding CXX object CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o\x1b[0m\n'}
+[2.688524] (avoa) StdoutLine: {'line': b'[ 56%] \x1b[32mBuilding CXX object CMakeFiles/point_cloud_publisher.dir/src/point_cloud_publisher.cpp.o\x1b[0m\n'}
+[2.691112] (avoa) StdoutLine: {'line': b'[ 58%] \x1b[32mBuilding CXX object CMakeFiles/obstacle_publisher.dir/src/obstacle_publisher.cpp.o\x1b[0m\n'}
+[2.704907] (-) TimerEvent: {}
+[2.723177] (avoa) StdoutLine: {'line': b'[ 61%] \x1b[32m\x1b[1mLinking CXX shared library libavoa__rosidl_typesupport_fastrtps_cpp.so\x1b[0m\n'}
+[2.731425] (avoa) StdoutLine: {'line': b'[ 64%] \x1b[32m\x1b[1mLinking CXX shared library libavoa__rosidl_typesupport_introspection_cpp.so\x1b[0m\n'}
+[2.745140] (avoa) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX shared library libavoa__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[2.788265] (avoa) StdoutLine: {'line': b'[ 66%] Built target avoa__rosidl_typesupport_fastrtps_cpp\n'}
+[2.788482] (avoa) StdoutLine: {'line': b'[ 66%] Built target avoa__rosidl_typesupport_introspection_cpp\n'}
+[2.805035] (-) TimerEvent: {}
+[2.809967] (avoa) StdoutLine: {'line': b'[ 66%] Built target avoa__rosidl_typesupport_fastrtps_c\n'}
+[2.823965] (avoa) StdoutLine: {'line': b'[ 66%] Built target avoa\n'}
+[2.837327] (avoa) StdoutLine: {'line': b'[ 69%] \x1b[34m\x1b[1mGenerating Python code for ROS interfaces\x1b[0m\n'}
+[2.890681] (avoa) StderrLine: {'line': b'\x1b[01m\x1b[K/home/xizesse/ros2_ws/src/avoa/src/velocity_publisher.cpp:14:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Ktf2_geometry_msgs/tf2_geometry_msgs.hpp: No such file or directory\n'}
+[2.890842] (avoa) StderrLine: {'line': b'   14 | #include \x1b[01;31m\x1b[K"tf2_geometry_msgs/tf2_geometry_msgs.hpp"\x1b[m\x1b[K\n'}
+[2.890890] (avoa) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.890921] (avoa) StderrLine: {'line': b'compilation terminated.\n'}
+[2.892498] (avoa) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/velocity_publisher.dir/build.make:76: CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o] Error 1\n'}
+[2.892633] (avoa) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:653: CMakeFiles/velocity_publisher.dir/all] Error 2\n'}
+[2.892687] (avoa) StderrLine: {'line': b'gmake[1]: *** Waiting for unfinished jobs....\n'}
+[2.905106] (-) TimerEvent: {}
+[3.005353] (-) TimerEvent: {}
+[3.105669] (-) TimerEvent: {}
+[3.122411] (avoa) StdoutLine: {'line': b'[ 69%] Built target avoa__py\n'}
+[3.205804] (-) TimerEvent: {}
+[3.306139] (-) TimerEvent: {}
+[3.406408] (-) TimerEvent: {}
+[3.506685] (-) TimerEvent: {}
+[3.606995] (-) TimerEvent: {}
+[3.707308] (-) TimerEvent: {}
+[3.807640] (-) TimerEvent: {}
+[3.907975] (-) TimerEvent: {}
+[4.008448] (-) TimerEvent: {}
+[4.108834] (-) TimerEvent: {}
+[4.209212] (-) TimerEvent: {}
+[4.309584] (-) TimerEvent: {}
+[4.409978] (-) TimerEvent: {}
+[4.510279] (-) TimerEvent: {}
+[4.610617] (-) TimerEvent: {}
+[4.711022] (-) TimerEvent: {}
+[4.811401] (-) TimerEvent: {}
+[4.911622] (-) TimerEvent: {}
+[5.011937] (-) TimerEvent: {}
+[5.112324] (-) TimerEvent: {}
+[5.212709] (-) TimerEvent: {}
+[5.313087] (-) TimerEvent: {}
+[5.413501] (-) TimerEvent: {}
+[5.420402] (avoa) StdoutLine: {'line': b'[ 71%] \x1b[32m\x1b[1mLinking CXX executable obstacle_publisher\x1b[0m\n'}
+[5.493592] (avoa) StdoutLine: {'line': b'[ 74%] \x1b[32m\x1b[1mLinking CXX executable point_cloud_publisher\x1b[0m\n'}
+[5.513641] (-) TimerEvent: {}
+[5.587878] (avoa) StdoutLine: {'line': b'[ 74%] Built target obstacle_publisher\n'}
+[5.613812] (-) TimerEvent: {}
+[5.637350] (avoa) StdoutLine: {'line': b'[ 74%] Built target point_cloud_publisher\n'}
+[5.714006] (-) TimerEvent: {}
+[5.814386] (-) TimerEvent: {}
+[5.914743] (-) TimerEvent: {}
+[6.015127] (-) TimerEvent: {}
+[6.115471] (-) TimerEvent: {}
+[6.215811] (-) TimerEvent: {}
+[6.316154] (-) TimerEvent: {}
+[6.416415] (-) TimerEvent: {}
+[6.516818] (-) TimerEvent: {}
+[6.617190] (-) TimerEvent: {}
+[6.717583] (-) TimerEvent: {}
+[6.817817] (-) TimerEvent: {}
+[6.918149] (-) TimerEvent: {}
+[7.018413] (-) TimerEvent: {}
+[7.118766] (-) TimerEvent: {}
+[7.218996] (-) TimerEvent: {}
+[7.319368] (-) TimerEvent: {}
+[7.419751] (-) TimerEvent: {}
+[7.520056] (-) TimerEvent: {}
+[7.620324] (-) TimerEvent: {}
+[7.720784] (-) TimerEvent: {}
+[7.821329] (-) TimerEvent: {}
+[7.921547] (-) TimerEvent: {}
+[8.021869] (-) TimerEvent: {}
+[8.122242] (-) TimerEvent: {}
+[8.222579] (-) TimerEvent: {}
+[8.322828] (-) TimerEvent: {}
+[8.423437] (-) TimerEvent: {}
+[8.524236] (-) TimerEvent: {}
+[8.624568] (-) TimerEvent: {}
+[8.724853] (-) TimerEvent: {}
+[8.825185] (-) TimerEvent: {}
+[8.925541] (-) TimerEvent: {}
+[9.025984] (-) TimerEvent: {}
+[9.126404] (-) TimerEvent: {}
+[9.226747] (-) TimerEvent: {}
+[9.327086] (-) TimerEvent: {}
+[9.427536] (-) TimerEvent: {}
+[9.527787] (-) TimerEvent: {}
+[9.628101] (-) TimerEvent: {}
+[9.728433] (-) TimerEvent: {}
+[9.828917] (-) TimerEvent: {}
+[9.929492] (-) TimerEvent: {}
+[10.029923] (-) TimerEvent: {}
+[10.130360] (-) TimerEvent: {}
+[10.230684] (-) TimerEvent: {}
+[10.331095] (-) TimerEvent: {}
+[10.431701] (-) TimerEvent: {}
+[10.468622] (avoa) StdoutLine: {'line': b'[ 76%] \x1b[32m\x1b[1mLinking CXX executable rviz_marker\x1b[0m\n'}
+[10.531833] (-) TimerEvent: {}
+[10.632227] (-) TimerEvent: {}
+[10.732815] (-) TimerEvent: {}
+[10.833231] (-) TimerEvent: {}
+[10.933840] (-) TimerEvent: {}
+[11.034189] (-) TimerEvent: {}
+[11.134848] (-) TimerEvent: {}
+[11.158751] (avoa) StdoutLine: {'line': b'[ 76%] Built target rviz_marker\n'}
+[11.160009] (avoa) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[11.162133] (avoa) CommandEnded: {'returncode': 2}
+[11.230537] (avoa) JobEnded: {'identifier': 'avoa', 'rc': 2}
+[11.234937] (-) TimerEvent: {}
+[11.240983] (-) EventReactorShutdown: {}

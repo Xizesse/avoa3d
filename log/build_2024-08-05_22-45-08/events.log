@@ -1,0 +1,260 @@
+[0.000000] (-) TimerEvent: {}
+[0.000205] (avoa) JobQueued: {'identifier': 'avoa', 'dependencies': OrderedDict()}
+[0.000351] (avoa) JobStarted: {'identifier': 'avoa'}
+[0.005789] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'cmake'}
+[0.006163] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'build'}
+[0.006586] (avoa) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/xizesse/ros2_ws/src/avoa/build/avoa', '--', '-j20', '-l20'], 'cwd': '/home/xizesse/ros2_ws/src/avoa/build/avoa', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'xizesse'), ('LC_TIME', 'pt_PT.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/xizesse/ros2_ws/install/avoa/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/xizesse'), ('OLDPWD', '/home/xizesse/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'pt_PT.UTF-8'), ('MANAGERPID', '1822'), ('LC_CTYPE', 'pt_PT.UTF-8'), ('SYSTEMD_EXEC_PID', '2603'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '4808'), ('COLCON_PREFIX_PATH', '/home/xizesse/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'xizesse'), ('JOURNAL_STREAM', '8:43490'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'xizesse'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/home/xizesse/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/xizesse:@/tmp/.ICE-unix/2285,unix/xizesse:/tmp/.ICE-unix/2285'), ('INVOCATION_ID', '73af8a5d9afd4eb0b24e209db657f8e7'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'pt_PT.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'pt_PT.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'pt_PT.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:9e4a7ec0-5668-4c4d-a741-0ccaa03ff6d2'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'pt_PT.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'pt_PT.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/xizesse/ros2_ws/src/avoa/build/avoa'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/xizesse/ros2_ws/install/avoa/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'pt_PT.UTF-8'), ('LC_PAPER', 'pt_PT.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble')]), 'shell': False}
+[0.053139] (avoa) StdoutLine: {'line': b'[  5%] Built target avoa__cpp\n'}
+[0.053548] (avoa) StdoutLine: {'line': b'[ 10%] Built target avoa__rosidl_generator_c\n'}
+[0.063740] (avoa) StdoutLine: {'line': b'[ 10%] Built target ament_cmake_python_copy_avoa\n'}
+[0.078063] (avoa) StdoutLine: {'line': b'[ 48%] Built target avoa__rosidl_typesupport_cpp\n'}
+[0.078567] (avoa) StdoutLine: {'line': b'[ 48%] Built target avoa__rosidl_typesupport_c\n'}
+[0.078720] (avoa) StdoutLine: {'line': b'[ 48%] Built target avoa__rosidl_typesupport_introspection_c\n'}
+[0.078778] (avoa) StdoutLine: {'line': b'[ 48%] Built target avoa__rosidl_typesupport_introspection_cpp\n'}
+[0.078851] (avoa) StdoutLine: {'line': b'[ 48%] Built target avoa__rosidl_typesupport_fastrtps_cpp\n'}
+[0.088989] (avoa) StdoutLine: {'line': b'[ 56%] Built target avoa__rosidl_typesupport_fastrtps_c\n'}
+[0.089603] (avoa) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target velocity_publisher\x1b[0m\n'}
+[0.100067] (-) TimerEvent: {}
+[0.103777] (avoa) StdoutLine: {'line': b'[ 71%] Built target rviz_marker\n'}
+[0.103949] (avoa) StdoutLine: {'line': b'[ 71%] Built target obstacle_publisher\n'}
+[0.104009] (avoa) StdoutLine: {'line': b'[ 71%] Built target point_cloud_publisher\n'}
+[0.110214] (avoa) StdoutLine: {'line': b'[ 74%] \x1b[32mBuilding CXX object CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o\x1b[0m\n'}
+[0.113133] (avoa) StdoutLine: {'line': b'[ 74%] Built target avoa\n'}
+[0.135757] (avoa) StdoutLine: {'line': b'[ 76%] Built target avoa__py\n'}
+[0.160924] (avoa) StdoutLine: {'line': b'[ 82%] Built target avoa__rosidl_generator_py\n'}
+[0.184153] (avoa) StdoutLine: {'line': b'[ 97%] Built target avoa__rosidl_typesupport_c__pyext\n'}
+[0.184514] (avoa) StdoutLine: {'line': b'[ 97%] Built target avoa__rosidl_typesupport_fastrtps_c__pyext\n'}
+[0.184600] (avoa) StdoutLine: {'line': b'[ 97%] Built target avoa__rosidl_typesupport_introspection_c__pyext\n'}
+[0.200123] (-) TimerEvent: {}
+[0.284939] (avoa) StdoutLine: {'line': b'running egg_info\n'}
+[0.285780] (avoa) StdoutLine: {'line': b'writing avoa.egg-info/PKG-INFO\n'}
+[0.285963] (avoa) StdoutLine: {'line': b'writing dependency_links to avoa.egg-info/dependency_links.txt\n'}
+[0.286085] (avoa) StdoutLine: {'line': b'writing top-level names to avoa.egg-info/top_level.txt\n'}
+[0.288369] (avoa) StdoutLine: {'line': b"reading manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[0.288805] (avoa) StdoutLine: {'line': b"writing manifest file 'avoa.egg-info/SOURCES.txt'\n"}
+[0.300321] (-) TimerEvent: {}
+[0.318601] (avoa) StdoutLine: {'line': b'[ 97%] Built target ament_cmake_python_build_avoa_egg\n'}
+[0.400538] (-) TimerEvent: {}
+[0.501078] (-) TimerEvent: {}
+[0.601547] (-) TimerEvent: {}
+[0.701895] (-) TimerEvent: {}
+[0.802154] (-) TimerEvent: {}
+[0.902457] (-) TimerEvent: {}
+[1.002991] (-) TimerEvent: {}
+[1.103542] (-) TimerEvent: {}
+[1.203934] (-) TimerEvent: {}
+[1.304547] (-) TimerEvent: {}
+[1.404823] (-) TimerEvent: {}
+[1.505307] (-) TimerEvent: {}
+[1.605626] (-) TimerEvent: {}
+[1.706326] (-) TimerEvent: {}
+[1.806641] (-) TimerEvent: {}
+[1.907066] (-) TimerEvent: {}
+[2.007402] (-) TimerEvent: {}
+[2.107903] (-) TimerEvent: {}
+[2.208341] (-) TimerEvent: {}
+[2.308852] (-) TimerEvent: {}
+[2.409255] (-) TimerEvent: {}
+[2.509691] (-) TimerEvent: {}
+[2.610363] (-) TimerEvent: {}
+[2.710752] (-) TimerEvent: {}
+[2.811398] (-) TimerEvent: {}
+[2.911708] (-) TimerEvent: {}
+[3.012063] (-) TimerEvent: {}
+[3.112394] (-) TimerEvent: {}
+[3.212745] (-) TimerEvent: {}
+[3.313043] (-) TimerEvent: {}
+[3.413316] (-) TimerEvent: {}
+[3.513897] (-) TimerEvent: {}
+[3.614691] (-) TimerEvent: {}
+[3.715062] (-) TimerEvent: {}
+[3.815691] (-) TimerEvent: {}
+[3.916253] (-) TimerEvent: {}
+[4.016606] (-) TimerEvent: {}
+[4.117059] (-) TimerEvent: {}
+[4.217506] (-) TimerEvent: {}
+[4.318135] (-) TimerEvent: {}
+[4.418749] (-) TimerEvent: {}
+[4.519187] (-) TimerEvent: {}
+[4.619869] (-) TimerEvent: {}
+[4.720333] (-) TimerEvent: {}
+[4.820746] (-) TimerEvent: {}
+[4.921235] (-) TimerEvent: {}
+[5.022182] (-) TimerEvent: {}
+[5.123493] (-) TimerEvent: {}
+[5.224118] (-) TimerEvent: {}
+[5.324568] (-) TimerEvent: {}
+[5.424964] (-) TimerEvent: {}
+[5.525544] (-) TimerEvent: {}
+[5.625821] (-) TimerEvent: {}
+[5.726184] (-) TimerEvent: {}
+[5.826441] (-) TimerEvent: {}
+[5.926720] (-) TimerEvent: {}
+[6.027000] (-) TimerEvent: {}
+[6.127342] (-) TimerEvent: {}
+[6.228032] (-) TimerEvent: {}
+[6.328316] (-) TimerEvent: {}
+[6.428659] (-) TimerEvent: {}
+[6.529021] (-) TimerEvent: {}
+[6.629499] (-) TimerEvent: {}
+[6.729891] (-) TimerEvent: {}
+[6.830177] (-) TimerEvent: {}
+[6.930485] (-) TimerEvent: {}
+[7.030930] (-) TimerEvent: {}
+[7.131264] (-) TimerEvent: {}
+[7.231595] (-) TimerEvent: {}
+[7.332218] (-) TimerEvent: {}
+[7.420381] (avoa) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable velocity_publisher\x1b[0m\n'}
+[7.432483] (-) TimerEvent: {}
+[7.532864] (-) TimerEvent: {}
+[7.633340] (-) TimerEvent: {}
+[7.734102] (-) TimerEvent: {}
+[7.803027] (avoa) StdoutLine: {'line': b'[100%] Built target velocity_publisher\n'}
+[7.812534] (avoa) CommandEnded: {'returncode': 0}
+[7.834176] (-) TimerEvent: {}
+[7.862631] (avoa) JobProgress: {'identifier': 'avoa', 'progress': 'install'}
+[7.871270] (avoa) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/xizesse/ros2_ws/src/avoa/build/avoa'], 'cwd': '/home/xizesse/ros2_ws/src/avoa/build/avoa', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'xizesse'), ('LC_TIME', 'pt_PT.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/xizesse/ros2_ws/install/avoa/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/xizesse'), ('OLDPWD', '/home/xizesse/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'pt_PT.UTF-8'), ('MANAGERPID', '1822'), ('LC_CTYPE', 'pt_PT.UTF-8'), ('SYSTEMD_EXEC_PID', '2603'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '4808'), ('COLCON_PREFIX_PATH', '/home/xizesse/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'xizesse'), ('JOURNAL_STREAM', '8:43490'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'xizesse'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/home/xizesse/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/xizesse:@/tmp/.ICE-unix/2285,unix/xizesse:/tmp/.ICE-unix/2285'), ('INVOCATION_ID', '73af8a5d9afd4eb0b24e209db657f8e7'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'pt_PT.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'pt_PT.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'pt_PT.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:9e4a7ec0-5668-4c4d-a741-0ccaa03ff6d2'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'pt_PT.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'pt_PT.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/xizesse/ros2_ws/src/avoa/build/avoa'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/xizesse/ros2_ws/install/avoa/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'pt_PT.UTF-8'), ('LC_PAPER', 'pt_PT.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/xizesse/ros2_ws/install/avoa:/opt/ros/humble')]), 'shell': False}
+[7.879308] (avoa) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[7.879477] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/rosidl_interfaces/avoa\n'}
+[7.879529] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa\n'}
+[7.879572] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg\n'}
+[7.879611] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail\n'}
+[7.879650] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__functions.h\n'}
+[7.879690] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__struct.h\n'}
+[7.879728] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__type_support.h\n'}
+[7.879775] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__functions.c\n'}
+[7.879813] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_generator_c__visibility_control.h\n'}
+[7.879875] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/element_characteristics_stamped.h\n'}
+[7.879999] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/library_path.sh\n'}
+[7.880051] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/library_path.dsv\n'}
+[7.880135] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_c.so\n'}
+[7.880278] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_c.so" to ""\n'}
+[7.880353] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa\n'}
+[7.880395] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg\n'}
+[7.880427] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail\n'}
+[7.880459] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_c.h\n'}
+[7.880490] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[7.880538] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_c.so\n'}
+[7.880586] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[7.880644] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa\n'}
+[7.880686] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg\n'}
+[7.880719] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/element_characteristics_stamped.hpp\n'}
+[7.880749] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail\n'}
+[7.880808] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__struct.hpp\n'}
+[7.880839] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__traits.hpp\n'}
+[7.880869] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__builder.hpp\n'}
+[7.881026] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa\n'}
+[7.881085] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg\n'}
+[7.881125] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail\n'}
+[7.881163] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[7.881191] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/dds_fastrtps\n'}
+[7.881223] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[7.881266] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_cpp.so\n'}
+[7.881386] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[7.881435] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa\n'}
+[7.881496] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg\n'}
+[7.881526] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[7.881558] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail\n'}
+[7.881587] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_c.h\n'}
+[7.881645] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__type_support.c\n'}
+[7.881675] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_c.so\n'}
+[7.881729] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_c.so" to ""\n'}
+[7.881775] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_c.so\n'}
+[7.881872] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_c.so" to ""\n'}
+[7.881918] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa\n'}
+[7.881970] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg\n'}
+[7.882001] (avoa) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail\n'}
+[7.882031] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_cpp.hpp\n'}
+[7.882085] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__type_support.cpp\n'}
+[7.882113] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_cpp.so\n'}
+[7.882195] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[7.882235] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_cpp.so\n'}
+[7.882350] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_cpp.so" to ""\n'}
+[7.882396] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/pythonpath.sh\n'}
+[7.882442] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/pythonpath.dsv\n'}
+[7.882487] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info\n'}
+[7.882533] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/dependency_links.txt\n'}
+[7.882579] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/top_level.txt\n'}
+[7.882622] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/PKG-INFO\n'}
+[7.882664] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/SOURCES.txt\n'}
+[7.882706] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa\n'}
+[7.882754] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/libavoa__rosidl_generator_py.so\n'}
+[7.882879] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/__init__.py\n'}
+[7.882998] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/_avoa_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[7.883067] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[7.883107] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/_avoa_s.ep.rosidl_typesupport_c.c\n'}
+[7.883142] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/_avoa_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[7.883174] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[7.883224] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg\n'}
+[7.883283] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/__init__.py\n'}
+[7.883314] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/_element_characteristics_stamped_s.c\n'}
+[7.883344] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/_element_characteristics_stamped.py\n'}
+[7.883374] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[7.913323] (avoa) StdoutLine: {'line': b"Listing '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa'...\n"}
+[7.913537] (avoa) StdoutLine: {'line': b"Compiling '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/__init__.py'...\n"}
+[7.913612] (avoa) StdoutLine: {'line': b"Listing '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg'...\n"}
+[7.913700] (avoa) StdoutLine: {'line': b"Compiling '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/__init__.py'...\n"}
+[7.913806] (avoa) StdoutLine: {'line': b"Compiling '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/_element_characteristics_stamped.py'...\n"}
+[7.917073] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[7.917172] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""\n'}
+[7.917253] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[7.917378] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""\n'}
+[7.917457] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[7.917578] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""\n'}
+[7.917618] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_py.so\n'}
+[7.917771] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_py.so" to ""\n'}
+[7.917835] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/msg/ElementCharacteristicsStamped.idl\n'}
+[7.917906] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/msg/ElementCharacteristicsStamped.msg\n'}
+[7.917986] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/rviz_marker\n'}
+[7.925021] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/rviz_marker" to ""\n'}
+[7.925581] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/point_cloud_publisher\n'}
+[7.926460] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/point_cloud_publisher" to ""\n'}
+[7.926630] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/velocity_publisher\n'}
+[7.930501] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/velocity_publisher" to ""\n'}
+[7.930700] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/obstacle_publisher\n'}
+[7.931815] (avoa) StdoutLine: {'line': b'-- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/obstacle_publisher" to ""\n'}
+[7.931889] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa//launch\n'}
+[7.931923] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa//launch/bridge_launch.xml\n'}
+[7.931960] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/package_run_dependencies/avoa\n'}
+[7.932039] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/parent_prefix_path/avoa\n'}
+[7.932101] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/ament_prefix_path.sh\n'}
+[7.932166] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/ament_prefix_path.dsv\n'}
+[7.932215] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/path.sh\n'}
+[7.932273] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/path.dsv\n'}
+[7.932328] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.bash\n'}
+[7.932375] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.sh\n'}
+[7.932426] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.zsh\n'}
+[7.932472] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.dsv\n'}
+[7.932519] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/package.dsv\n'}
+[7.932593] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/packages/avoa\n'}
+[7.932661] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_cExport.cmake\n'}
+[7.932717] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_cExport-noconfig.cmake\n'}
+[7.932776] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[7.932835] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[7.932916] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_cppExport.cmake\n'}
+[7.933018] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[7.933091] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[7.933151] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cExport.cmake\n'}
+[7.933207] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[7.933280] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cExport.cmake\n'}
+[7.933373] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[7.933436] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[7.933486] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[7.933692] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cppExport.cmake\n'}
+[7.933731] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[7.933792] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_pyExport.cmake\n'}
+[7.933845] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_pyExport-noconfig.cmake\n'}
+[7.933899] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/rosidl_cmake-extras.cmake\n'}
+[7.933958] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[7.934000] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[7.934066] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[7.934137] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[7.934184] (-) TimerEvent: {}
+[7.934324] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[7.934408] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[7.934447] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoaConfig.cmake\n'}
+[7.934481] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoaConfig-version.cmake\n'}
+[7.934515] (avoa) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/package.xml\n'}
+[7.936778] (avoa) CommandEnded: {'returncode': 0}
+[8.003111] (avoa) JobEnded: {'identifier': 'avoa', 'rc': 0}
+[8.003591] (-) EventReactorShutdown: {}

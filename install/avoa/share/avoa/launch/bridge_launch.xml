@@ -1,0 +1,19 @@
+<launch>
+    <!-- Declare launch arguments -->
+    <arg name="name" default="ros_gz_bridge"/>
+    <arg name="config_file" default="config/bridge_config.yaml"/>
+    <arg name="namespace" default=""/>
+    <arg name="log_level" default="info"/>
+
+    <!-- Launch the ros_gz_bridge node -->
+    <node
+        pkg="ros_gz_bridge"
+        exec="parameter_bridge"
+        name="$(var name)"
+        namespace="$(var namespace)"
+        output="screen"
+        args="--ros-args --log-level $(var log_level)">
+        <param name="use_sim_time" value="true"/>
+        <param name="config_file" value="$(env HOME)/ros2_ws/src/avoa/config/bridge_config.yaml"/>
+    </node>
+</launch>

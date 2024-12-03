@@ -1,0 +1,168 @@
+// generated from rosidl_generator_cpp/resource/idl__builder.hpp.em
+// with input from avoa:msg/ElementCharacteristicsStamped.idl
+// generated code does not contain a copyright notice
+
+#ifndef AVOA__MSG__DETAIL__ELEMENT_CHARACTERISTICS_STAMPED__BUILDER_HPP_
+#define AVOA__MSG__DETAIL__ELEMENT_CHARACTERISTICS_STAMPED__BUILDER_HPP_
+
+#include <algorithm>
+#include <utility>
+
+#include "avoa/msg/detail/element_characteristics_stamped__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
+
+namespace avoa
+{
+
+namespace msg
+{
+
+namespace builder
+{
+
+class Init_ElementCharacteristicsStamped_protective_zone
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_protective_zone(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  ::avoa::msg::ElementCharacteristicsStamped protective_zone(::avoa::msg::ElementCharacteristicsStamped::_protective_zone_type arg)
+  {
+    msg_.protective_zone = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_size
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_size(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  Init_ElementCharacteristicsStamped_protective_zone size(::avoa::msg::ElementCharacteristicsStamped::_size_type arg)
+  {
+    msg_.size = std::move(arg);
+    return Init_ElementCharacteristicsStamped_protective_zone(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_velocity
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_velocity(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  Init_ElementCharacteristicsStamped_size velocity(::avoa::msg::ElementCharacteristicsStamped::_velocity_type arg)
+  {
+    msg_.velocity = std::move(arg);
+    return Init_ElementCharacteristicsStamped_size(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_pose
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_pose(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  Init_ElementCharacteristicsStamped_velocity pose(::avoa::msg::ElementCharacteristicsStamped::_pose_type arg)
+  {
+    msg_.pose = std::move(arg);
+    return Init_ElementCharacteristicsStamped_velocity(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_dynamic
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_dynamic(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  Init_ElementCharacteristicsStamped_pose dynamic(::avoa::msg::ElementCharacteristicsStamped::_dynamic_type arg)
+  {
+    msg_.dynamic = std::move(arg);
+    return Init_ElementCharacteristicsStamped_pose(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_type
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_type(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  Init_ElementCharacteristicsStamped_dynamic type(::avoa::msg::ElementCharacteristicsStamped::_type_type arg)
+  {
+    msg_.type = std::move(arg);
+    return Init_ElementCharacteristicsStamped_dynamic(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_id
+{
+public:
+  explicit Init_ElementCharacteristicsStamped_id(::avoa::msg::ElementCharacteristicsStamped & msg)
+  : msg_(msg)
+  {}
+  Init_ElementCharacteristicsStamped_type id(::avoa::msg::ElementCharacteristicsStamped::_id_type arg)
+  {
+    msg_.id = std::move(arg);
+    return Init_ElementCharacteristicsStamped_type(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+class Init_ElementCharacteristicsStamped_header
+{
+public:
+  Init_ElementCharacteristicsStamped_header()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_ElementCharacteristicsStamped_id header(::avoa::msg::ElementCharacteristicsStamped::_header_type arg)
+  {
+    msg_.header = std::move(arg);
+    return Init_ElementCharacteristicsStamped_id(msg_);
+  }
+
+private:
+  ::avoa::msg::ElementCharacteristicsStamped msg_;
+};
+
+}  // namespace builder
+
+}  // namespace msg
+
+template<typename MessageType>
+auto build();
+
+template<>
+inline
+auto build<::avoa::msg::ElementCharacteristicsStamped>()
+{
+  return avoa::msg::builder::Init_ElementCharacteristicsStamped_header();
+}
+
+}  // namespace avoa
+
+#endif  // AVOA__MSG__DETAIL__ELEMENT_CHARACTERISTICS_STAMPED__BUILDER_HPP_

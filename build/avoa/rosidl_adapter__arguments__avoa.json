@@ -1,0 +1,6 @@
+{
+  "package_name": "avoa",
+  "non_idl_tuples": [
+    "/home/xizesse/ros2_ws/src/avoa:msg/ElementCharacteristicsStamped.msg"
+  ]
+}

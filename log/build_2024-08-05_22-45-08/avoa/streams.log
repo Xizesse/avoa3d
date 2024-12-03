@@ -1,0 +1,173 @@
+[0.008s] Invoking command in '/home/xizesse/ros2_ws/src/avoa/build/avoa': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/xizesse/ros2_ws/src/avoa/build/avoa -- -j20 -l20
+[0.053s] [  5%] Built target avoa__cpp
+[0.053s] [ 10%] Built target avoa__rosidl_generator_c
+[0.064s] [ 10%] Built target ament_cmake_python_copy_avoa
+[0.078s] [ 48%] Built target avoa__rosidl_typesupport_cpp
+[0.078s] [ 48%] Built target avoa__rosidl_typesupport_c
+[0.078s] [ 48%] Built target avoa__rosidl_typesupport_introspection_c
+[0.078s] [ 48%] Built target avoa__rosidl_typesupport_introspection_cpp
+[0.078s] [ 48%] Built target avoa__rosidl_typesupport_fastrtps_cpp
+[0.089s] [ 56%] Built target avoa__rosidl_typesupport_fastrtps_c
+[0.089s] [35m[1mConsolidate compiler generated dependencies of target velocity_publisher[0m
+[0.103s] [ 71%] Built target rviz_marker
+[0.104s] [ 71%] Built target obstacle_publisher
+[0.104s] [ 71%] Built target point_cloud_publisher
+[0.110s] [ 74%] [32mBuilding CXX object CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o[0m
+[0.113s] [ 74%] Built target avoa
+[0.136s] [ 76%] Built target avoa__py
+[0.161s] [ 82%] Built target avoa__rosidl_generator_py
+[0.184s] [ 97%] Built target avoa__rosidl_typesupport_c__pyext
+[0.184s] [ 97%] Built target avoa__rosidl_typesupport_fastrtps_c__pyext
+[0.184s] [ 97%] Built target avoa__rosidl_typesupport_introspection_c__pyext
+[0.285s] running egg_info
+[0.285s] writing avoa.egg-info/PKG-INFO
+[0.286s] writing dependency_links to avoa.egg-info/dependency_links.txt
+[0.286s] writing top-level names to avoa.egg-info/top_level.txt
+[0.288s] reading manifest file 'avoa.egg-info/SOURCES.txt'
+[0.288s] writing manifest file 'avoa.egg-info/SOURCES.txt'
+[0.318s] [ 97%] Built target ament_cmake_python_build_avoa_egg
+[7.420s] [100%] [32m[1mLinking CXX executable velocity_publisher[0m
+[7.803s] [100%] Built target velocity_publisher
+[7.812s] Invoked command in '/home/xizesse/ros2_ws/src/avoa/build/avoa' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/xizesse/ros2_ws/src/avoa/build/avoa -- -j20 -l20
+[7.872s] Invoking command in '/home/xizesse/ros2_ws/src/avoa/build/avoa': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/xizesse/ros2_ws/src/avoa/build/avoa
+[7.879s] -- Install configuration: ""
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/rosidl_interfaces/avoa
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__functions.h
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__struct.h
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__type_support.h
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__functions.c
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_generator_c__visibility_control.h
+[7.879s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/element_characteristics_stamped.h
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/library_path.sh
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/library_path.dsv
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_c.so
+[7.880s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_c.so" to ""
+[7.880s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa
+[7.880s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg
+[7.880s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_c.h
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_c.so
+[7.880s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_c.so" to ""
+[7.880s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa
+[7.880s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/element_characteristics_stamped.hpp
+[7.880s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__struct.hpp
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__traits.hpp
+[7.880s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__builder.hpp
+[7.881s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa
+[7.881s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg
+[7.881s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_cpp.hpp
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/dds_fastrtps
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_cpp.so
+[7.881s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_fastrtps_cpp.so" to ""
+[7.881s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa
+[7.881s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[7.881s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_c.h
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__type_support.c
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_c.so
+[7.881s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_c.so" to ""
+[7.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_c.so
+[7.881s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_c.so" to ""
+[7.882s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa
+[7.882s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg
+[7.882s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_cpp.hpp
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/include/avoa/avoa/msg/detail/element_characteristics_stamped__type_support.cpp
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_cpp.so
+[7.882s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_introspection_cpp.so" to ""
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_cpp.so
+[7.882s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_typesupport_cpp.so" to ""
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/pythonpath.sh
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/pythonpath.dsv
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/dependency_links.txt
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/top_level.txt
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/PKG-INFO
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa-0.1.0-py3.10.egg-info/SOURCES.txt
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa
+[7.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/libavoa__rosidl_generator_py.so
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/__init__.py
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/_avoa_s.ep.rosidl_typesupport_introspection_c.c
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/_avoa_s.ep.rosidl_typesupport_c.c
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/_avoa_s.ep.rosidl_typesupport_fastrtps_c.c
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/__init__.py
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/_element_characteristics_stamped_s.c
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/_element_characteristics_stamped.py
+[7.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[7.913s] Listing '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa'...
+[7.913s] Compiling '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/__init__.py'...
+[7.913s] Listing '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg'...
+[7.913s] Compiling '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/__init__.py'...
+[7.913s] Compiling '/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/msg/_element_characteristics_stamped.py'...
+[7.917s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[7.917s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[7.917s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[7.917s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[7.917s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[7.917s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/local/lib/python3.10/dist-packages/avoa/avoa_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[7.917s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_py.so
+[7.917s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/libavoa__rosidl_generator_py.so" to ""
+[7.917s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/msg/ElementCharacteristicsStamped.idl
+[7.918s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/msg/ElementCharacteristicsStamped.msg
+[7.918s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/rviz_marker
+[7.925s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/rviz_marker" to ""
+[7.925s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/point_cloud_publisher
+[7.926s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/point_cloud_publisher" to ""
+[7.926s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/velocity_publisher
+[7.930s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/velocity_publisher" to ""
+[7.930s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/obstacle_publisher
+[7.931s] -- Set runtime path of "/home/xizesse/ros2_ws/src/avoa/install/avoa/lib/avoa/obstacle_publisher" to ""
+[7.931s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa//launch
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa//launch/bridge_launch.xml
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/package_run_dependencies/avoa
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/parent_prefix_path/avoa
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/ament_prefix_path.sh
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/ament_prefix_path.dsv
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/path.sh
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/environment/path.dsv
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.bash
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.sh
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.zsh
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/local_setup.dsv
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/package.dsv
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/ament_index/resource_index/packages/avoa
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_cExport.cmake
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_cExport-noconfig.cmake
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cExport.cmake
+[7.932s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_cppExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cppExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cExport-noconfig.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cppExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cppExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoa__rosidl_typesupport_cppExport-noconfig.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_pyExport.cmake
+[7.933s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/export_avoa__rosidl_generator_pyExport-noconfig.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/rosidl_cmake-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_dependencies-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_include_directories-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_libraries-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/ament_cmake_export_targets-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoaConfig.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/cmake/avoaConfig-version.cmake
+[7.934s] -- Installing: /home/xizesse/ros2_ws/src/avoa/install/avoa/share/avoa/package.xml
+[7.937s] Invoked command in '/home/xizesse/ros2_ws/src/avoa/build/avoa' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/xizesse/ros2_ws/src/avoa/build/avoa

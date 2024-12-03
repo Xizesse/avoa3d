@@ -1,0 +1,31 @@
+[ 10%] Built target avoa__cpp
+[ 10%] Built target avoa__rosidl_generator_c
+[ 10%] Built target ament_cmake_python_copy_avoa
+[ 56%] Built target avoa__rosidl_typesupport_cpp
+[ 56%] Built target avoa__rosidl_typesupport_fastrtps_cpp
+[ 56%] Built target avoa__rosidl_typesupport_introspection_cpp
+[ 56%] Built target avoa__rosidl_typesupport_introspection_c
+[ 56%] Built target avoa__rosidl_typesupport_fastrtps_c
+[ 56%] Built target avoa__rosidl_typesupport_c
+[35m[1mConsolidate compiler generated dependencies of target velocity_publisher[0m
+[ 56%] Built target avoa
+[ 66%] Built target obstacle_publisher
+[ 66%] Built target rviz_marker
+[ 71%] Built target point_cloud_publisher
+[ 74%] [32mBuilding CXX object CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o[0m
+[ 76%] Built target avoa__py
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_generator_py[0m
+[ 82%] Built target avoa__rosidl_generator_py
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_introspection_c__pyext[0m
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_fastrtps_c__pyext[0m
+[35m[1mConsolidate compiler generated dependencies of target avoa__rosidl_typesupport_c__pyext[0m
+[ 97%] Built target avoa__rosidl_typesupport_c__pyext
+[ 97%] Built target avoa__rosidl_typesupport_fastrtps_c__pyext
+[ 97%] Built target avoa__rosidl_typesupport_introspection_c__pyext
+running egg_info
+writing avoa.egg-info/PKG-INFO
+writing dependency_links to avoa.egg-info/dependency_links.txt
+writing top-level names to avoa.egg-info/top_level.txt
+reading manifest file 'avoa.egg-info/SOURCES.txt'
+writing manifest file 'avoa.egg-info/SOURCES.txt'
+[ 97%] Built target ament_cmake_python_build_avoa_egg
