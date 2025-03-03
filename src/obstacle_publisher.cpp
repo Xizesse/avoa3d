@@ -10,7 +10,7 @@ ros2 run avoa velocity_publisher
 #include "rclcpp/rclcpp.hpp"
 //#include "geometry_msgs/msg/twist.hpp"
 
-#include "avoa/msg/element_characteristics_stamped.hpp"
+#include "avoa3d/msg/element_characteristics_stamped.hpp"
 //#include "avoa/msg/elementcharacteristicsarray.hpp"
 
 
@@ -25,7 +25,7 @@ public:
   {
     // Create a publisher for the custom message
     //publisher_ = this->create_publisher<avoa::msg::ElementCharacteristicsArray>("/obstacleArray", 10);
-    publisher_ = this->create_publisher<avoa::msg::ElementCharacteristicsStamped>("/obstacleStamped", 10);
+    publisher_ = this->create_publisher<avoa3d::msg::ElementCharacteristicsStamped>("/obstacleStamped", 10);
     
     // Create a timer that calls timer_callback every 100 milliseconds
     timer_ = this->create_wall_timer(
@@ -37,7 +37,7 @@ private:
   void timer_callback()
   {
     //~auto message = avoa::msg::ElementCharacteristicsArray();
-    auto message = avoa::msg::ElementCharacteristicsStamped();
+    auto message = avoa3d::msg::ElementCharacteristicsStamped();
     // TODO : Preencher a mensagem
     auto current_time = this->get_clock()->now();
     message.header.stamp = current_time;
@@ -61,7 +61,7 @@ private:
     publisher_->publish(message);
   }
 
-  rclcpp::Publisher<avoa::msg::ElementCharacteristicsStamped>::SharedPtr publisher_;
+  rclcpp::Publisher<avoa3d::msg::ElementCharacteristicsStamped>::SharedPtr publisher_;
   
   rclcpp::TimerBase::SharedPtr timer_;
   

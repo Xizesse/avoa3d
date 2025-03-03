@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(avoa)
+project(avoa3d)
 
 # Find dependencies
 find_package(ament_cmake REQUIRED)

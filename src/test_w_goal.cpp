@@ -55,7 +55,13 @@ private:
     double error_y = goal_y_ - current_y_;
     double error_z = goal_z_ - current_z_;
 
-    double Kp = 0.5;
+    //skip if error distance less than a value 
+    if ((error_x*error_x + error_y*error_y + error_z*error_z) < 0.1)
+    {
+      return;
+    }
+    double Kp = 0.05;
+    
     msg.linear.x = Kp * error_x;
     msg.linear.y = Kp * error_y;
     msg.linear.z = Kp * error_z;

@@ -14,6 +14,6 @@
         output="screen"
         args="--ros-args --log-level $(var log_level)">
         <param name="use_sim_time" value="true"/>
-        <param name="config_file" value="$(env HOME)/ros2_ws/src/avoa/config/bridge_config.yaml"/>
+        <param name="config_file" value="$(env HOME)/ros_ws/src/avoa3d/config/bridge_config.yaml"/>
     </node>
 </launch>
