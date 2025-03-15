@@ -24,6 +24,9 @@
 
   
   
+  <depend>custom_msgs</depend>
+  <depend>rviz_visual_tools</depend>
+
 
   <!-- Exec dependencies -->
   <exec_depend>rclcpp</exec_depend>

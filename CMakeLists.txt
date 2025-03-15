@@ -12,10 +12,17 @@ find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(nav_msgs REQUIRED) 
 find_package(tf2_ros REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(custom_msgs REQUIRED)
+find_package(rviz_visual_tools REQUIRED)
+
+
+
 
 # Generate custom messages
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ElementCharacteristicsStamped.msg"
+  "msg/ElementCharacteristicsArray.msg"
   LIBRARY_NAME ${PROJECT_NAME}
   DEPENDENCIES std_msgs geometry_msgs builtin_interfaces
 )
@@ -24,6 +31,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 include_directories(
   include
   ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
+  ${custom_msgs_INCLUDE_DIRS}
 )
 
 # Get the typesupport target
@@ -31,8 +39,8 @@ rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typ
 
 # Create executables
 add_executable(rviz_marker src/rviz_marker.cpp)
-add_executable(point_cloud_publisher src/point_cloud_publisher.cpp)
-add_executable(velocity_publisher src/velocity_publisher.cpp)
+add_executable(avoa3dnode src/avoa3dnode.cpp
+                          src/sample_evaluator.cpp)
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)
 
@@ -44,19 +52,13 @@ ament_target_dependencies(rviz_marker
   std_msgs
   nav_msgs
   tf2_ros
+  tf2_eigen
+  custom_msgs
+
 )
 
-ament_target_dependencies(point_cloud_publisher
-  rclcpp
-  sensor_msgs
-)
 
-ament_target_dependencies(velocity_publisher
-  rclcpp
-  geometry_msgs
-  nav_msgs
-  tf2_ros
-)
+
 
 ament_target_dependencies(test_w_goal
   rclcpp
@@ -69,22 +71,30 @@ ament_target_dependencies(obstacle_publisher
   rclcpp
   std_msgs
   geometry_msgs
+  nav_msgs
+  custom_msgs
+)
+
+ament_target_dependencies(avoa3dnode
+  rclcpp
+  std_msgs
+  geometry_msgs
+  nav_msgs
+  custom_msgs
 )
 
 # Link the typesupport target to the executables
-target_link_libraries(rviz_marker ${cpp_typesupport_target})
-target_link_libraries(point_cloud_publisher ${cpp_typesupport_target})
-target_link_libraries(velocity_publisher ${cpp_typesupport_target})
+target_link_libraries(rviz_marker ${cpp_typesupport_target} rviz_visual_tools::rviz_visual_tools)
 target_link_libraries(obstacle_publisher ${cpp_typesupport_target})
 target_link_libraries(test_w_goal ${cpp_typesupport_target})
+target_link_libraries(avoa3dnode ${cpp_typesupport_target})
 
 # Install executables
 install(TARGETS
   rviz_marker
-  point_cloud_publisher
-  velocity_publisher
   test_w_goal
   obstacle_publisher
+  avoa3dnode
   DESTINATION lib/${PROJECT_NAME})
 
 # Enable testing
@@ -96,6 +106,7 @@ endif()
 # Install launch files.
 install(DIRECTORY
   launch
+  config
   DESTINATION share/${PROJECT_NAME}/
 )
 

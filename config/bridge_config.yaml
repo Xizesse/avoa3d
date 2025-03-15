@@ -1,4 +1,4 @@
-#Nao usar, já tem no launch file
+#//Nao usar, já tem no launch file
 #//ros2 run ros_gz_bridge parameter_bridge -p avoa/config/bridge_config.yaml
 #//ros2 run ros_gz_bridge parameter_bridge /model/agente/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist
 #//ros2 launch ros_gz_bridge ros_gz_bridge.launch.py name:=ros_gz_bridge config_file:=avoa/config/bridge_config.yaml
@@ -23,4 +23,12 @@
   gz_type_name: "gz.msgs.Odometry"
   lazy: true
   direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/goal/odometry"
+  gz_topic_name: "/model/goal/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
 
