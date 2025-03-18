@@ -1,0 +1,21 @@
+avoa3dnode:
+  ros__parameters:
+    a_x_max: 0.5
+    a_y_max: 0.5 
+    a_z_max: 0.5
+
+    v_x_max: 10.0
+    v_y_max: 5.0 
+    v_z_max: 5.0
+  
+
+    vehicle_radius: 1
+
+    delta_t: 3.0
+    
+    num_samples: 200
+    
+    heading_weight: 0.5
+    magnitude_error_weight: 0.5
+    
+  

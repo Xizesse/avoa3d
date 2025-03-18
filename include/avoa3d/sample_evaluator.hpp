@@ -20,14 +20,14 @@ public:
     // Main evaluation function (same signature as your original)
     void evaluateSamples(
         std::vector<VelocitySample>& samples, 
-        const custom_msgs::msg::ElementCharacteristicsArray& obstacles
+        const custom_msgs::msg::ElementCharacteristicsArray& obstacles,
+        double delta_t
     );
     
     // Find the best sample
     VelocitySample findBestSample(const std::vector<VelocitySample>& samples);
     
 private:
-    // Check if a sample is collision-free with respect to a single obstacle
     bool checkCollision(
         const VelocitySample& sample,
         const custom_msgs::msg::ElementCharacteristicsStamped& obstacle

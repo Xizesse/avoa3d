@@ -1,0 +1,185 @@
+[0.039s] Invoking command in '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros_ws/src/avoa3d/build/avoa3d -- -j20 -l20
+[0.224s] [  1%] Built target avoa3d__rosidl_generator_type_description
+[0.271s] [  1%] Built target ament_cmake_python_copy_avoa3d
+[0.317s] [  5%] Built target avoa3d__cpp
+[0.318s] [ 18%] Built target avoa3d__rosidl_generator_c
+[0.414s] [ 26%] Built target avoa3d__rosidl_typesupport_c
+[0.415s] [ 33%] Built target avoa3d__rosidl_typesupport_fastrtps_c
+[0.418s] [ 41%] Built target avoa3d__rosidl_typesupport_introspection_c
+[0.421s] [ 49%] Built target avoa3d__rosidl_typesupport_introspection_cpp
+[0.422s] [ 56%] Built target avoa3d__rosidl_typesupport_cpp
+[0.423s] [ 64%] Built target avoa3d__rosidl_typesupport_fastrtps_cpp
+[0.501s] [ 64%] Built target avoa3d
+[0.525s] [ 67%] Built target test_w_goal
+[0.553s] [ 71%] Built target obstacle_publisher
+[0.568s] [ 75%] Built target rviz_marker
+[0.570s] [ 81%] Built target avoa3dnode
+[0.578s] [ 83%] Built target avoa3d__py
+[0.660s] [ 88%] Built target avoa3d__rosidl_generator_py
+[0.744s] [ 92%] Built target avoa3d_s__rosidl_typesupport_introspection_c
+[0.749s] [100%] Built target avoa3d_s__rosidl_typesupport_c
+[0.749s] [100%] Built target avoa3d_s__rosidl_typesupport_fastrtps_c
+[1.006s] running egg_info
+[1.065s] writing avoa3d.egg-info/PKG-INFO
+[1.066s] writing dependency_links to avoa3d.egg-info/dependency_links.txt
+[1.067s] writing top-level names to avoa3d.egg-info/top_level.txt
+[1.219s] reading manifest file 'avoa3d.egg-info/SOURCES.txt'
+[1.221s] writing manifest file 'avoa3d.egg-info/SOURCES.txt'
+[1.309s] [100%] Built target ament_cmake_python_build_avoa3d_egg
+[1.364s] Invoked command in '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros_ws/src/avoa3d/build/avoa3d -- -j20 -l20
+[1.395s] Invoking command in '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/xizesse/ros_ws/src/avoa3d/build/avoa3d
+[1.436s] -- Install configuration: ""
+[1.437s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/rosidl_interfaces/avoa3d
+[1.437s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsStamped.json
+[1.438s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsArray.json
+[1.439s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d
+[1.439s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg
+[1.439s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_generator_c__visibility_control.h
+[1.439s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_stamped.h
+[1.440s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail
+[1.440s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__description.c
+[1.440s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.c
+[1.440s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__functions.c
+[1.440s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.c
+[1.440s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__functions.h
+[1.441s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.h
+[1.442s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__description.c
+[1.443s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__struct.h
+[1.443s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__struct.h
+[1.444s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__functions.h
+[1.446s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__functions.c
+[1.446s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.h
+[1.447s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_array.h
+[1.448s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/library_path.sh
+[1.449s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/library_path.dsv
+[1.450s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_generator_c.so
+[1.450s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d
+[1.451s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg
+[1.451s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[1.451s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail
+[1.451s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_fastrtps_c.h
+[1.452s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_c.h
+[1.452s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_fastrtps_c.so
+[1.452s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d
+[1.452s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg
+[1.453s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_stamped.hpp
+[1.453s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_array.hpp
+[1.453s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_generator_cpp__visibility_control.hpp
+[1.453s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail
+[1.454s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__struct.hpp
+[1.454s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__traits.hpp
+[1.454s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.hpp
+[1.454s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__builder.hpp
+[1.455s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__builder.hpp
+[1.455s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__traits.hpp
+[1.455s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.hpp
+[1.456s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__struct.hpp
+[1.456s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d
+[1.456s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg
+[1.456s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[1.457s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail
+[1.457s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_cpp.hpp
+[1.457s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/dds_fastrtps
+[1.457s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_fastrtps_cpp.hpp
+[1.458s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_fastrtps_cpp.so
+[1.458s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d
+[1.458s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg
+[1.458s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[1.459s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail
+[1.459s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_introspection_c.h
+[1.459s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.c
+[1.459s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.c
+[1.460s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_c.h
+[1.460s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_introspection_c.so
+[1.460s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_c.so
+[1.460s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d
+[1.460s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg
+[1.461s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail
+[1.461s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_cpp.hpp
+[1.461s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_introspection_cpp.hpp
+[1.461s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.cpp
+[1.462s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.cpp
+[1.462s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_introspection_cpp.so
+[1.462s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_cpp.so
+[1.462s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/pythonpath.sh
+[1.462s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/pythonpath.dsv
+[1.463s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info
+[1.463s] -- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/PKG-INFO
+[1.463s] -- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/top_level.txt
+[1.463s] -- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/SOURCES.txt
+[1.463s] -- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/dependency_links.txt
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/_avoa3d_s.ep.rosidl_typesupport_fastrtps_c.c
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/__init__.py
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_c.so
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/_avoa3d_s.ep.rosidl_typesupport_c.c
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so
+[1.464s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/_avoa3d_s.ep.rosidl_typesupport_introspection_c.c
+[1.465s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so
+[1.465s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg
+[1.465s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/__init__.py
+[1.465s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_array_s.c
+[1.465s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_stamped_s.c
+[1.465s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_array.py
+[1.466s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_stamped.py
+[1.561s] Listing '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d'...
+[1.561s] Listing '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg'...
+[1.573s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so
+[1.574s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so
+[1.574s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_c.so
+[1.575s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_generator_py.so
+[1.575s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsStamped.idl
+[1.575s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsArray.idl
+[1.576s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsStamped.msg
+[1.576s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsArray.msg
+[1.576s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/rviz_marker
+[1.577s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/test_w_goal
+[1.577s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/obstacle_publisher
+[1.577s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/avoa3dnode
+[1.577s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch
+[1.578s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch/single_dynamic1.xml
+[1.578s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch/single_static.xml
+[1.578s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch/bridge_launch.xml
+[1.579s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//config
+[1.579s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//config/motion_params.yaml
+[1.579s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//config/bridge_config.yaml
+[1.579s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/package_run_dependencies/avoa3d
+[1.579s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/parent_prefix_path/avoa3d
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/ament_prefix_path.sh
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/ament_prefix_path.dsv
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/path.sh
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/path.dsv
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.bash
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.sh
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.zsh
+[1.580s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.dsv
+[1.581s] -- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/package.dsv
+[1.581s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/packages/avoa3d
+[1.581s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_cExport.cmake
+[1.582s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_cExport-noconfig.cmake
+[1.582s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cExport.cmake
+[1.582s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[1.582s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_cppExport.cmake
+[1.582s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cppExport.cmake
+[1.582s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cExport.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cExport.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cExport-noconfig.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cppExport.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[1.583s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cppExport.cmake
+[1.584s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cppExport-noconfig.cmake
+[1.584s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_pyExport.cmake
+[1.584s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_pyExport-noconfig.cmake
+[1.584s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/rosidl_cmake-extras.cmake
+[1.584s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.584s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.585s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_libraries-extras.cmake
+[1.585s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_targets-extras.cmake
+[1.585s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[1.585s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[1.586s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3dConfig.cmake
+[1.586s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3dConfig-version.cmake
+[1.586s] -- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/package.xml
+[1.588s] Invoked command in '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/xizesse/ros_ws/src/avoa3d/build/avoa3d

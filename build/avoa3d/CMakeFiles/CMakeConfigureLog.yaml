@@ -527,3 +527,247 @@ events:
       
       
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindX11.cmake:682 (check_library_exists)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendor-extras.cmake:122 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendorConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/rviz_commonConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/rviz_visual_toolsConfig.cmake:41 (include)"
+      - "CMakeLists.txt:17 (find_package)"
+    checks:
+      - "Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so"
+    directories:
+      source: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O"
+      binary: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/ros/jazzy/share/tinyxml2_vendor/cmake/Modules;/opt/ros/jazzy/share/eigen3_cmake_module/cmake/Modules;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules"
+    buildResult:
+      variable: "X11_LIB_X11_SOLO"
+      cached: true
+      stdout: |
+        Change Dir: '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_553d8/fast
+        gmake[1]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O'
+        /usr/bin/gmake  -f CMakeFiles/cmTC_553d8.dir/build.make CMakeFiles/cmTC_553d8.dir/build
+        gmake[2]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O'
+        Building C object CMakeFiles/cmTC_553d8.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay -o CMakeFiles/cmTC_553d8.dir/CheckFunctionExists.c.o -c /home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O/CheckFunctionExists.c
+        Linking C executable cmTC_553d8
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_553d8.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay CMakeFiles/cmTC_553d8.dir/CheckFunctionExists.c.o -o cmTC_553d8  /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libXext.so 
+        gmake[2]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O'
+        gmake[1]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-YW074O'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindX11.cmake:697 (check_function_exists)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendor-extras.cmake:122 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendorConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/rviz_commonConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/rviz_visual_toolsConfig.cmake:41 (include)"
+      - "CMakeLists.txt:17 (find_package)"
+    checks:
+      - "Looking for gethostbyname"
+    directories:
+      source: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N"
+      binary: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/ros/jazzy/share/tinyxml2_vendor/cmake/Modules;/opt/ros/jazzy/share/eigen3_cmake_module/cmake/Modules;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_GETHOSTBYNAME"
+      cached: true
+      stdout: |
+        Change Dir: '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9eece/fast
+        gmake[1]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N'
+        /usr/bin/gmake  -f CMakeFiles/cmTC_9eece.dir/build.make CMakeFiles/cmTC_9eece.dir/build
+        gmake[2]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N'
+        Building C object CMakeFiles/cmTC_9eece.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname -o CMakeFiles/cmTC_9eece.dir/CheckFunctionExists.c.o -c /home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N/CheckFunctionExists.c
+        Linking C executable cmTC_9eece
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9eece.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname CMakeFiles/cmTC_9eece.dir/CheckFunctionExists.c.o -o cmTC_9eece 
+        gmake[2]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N'
+        gmake[1]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-SSBV2N'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindX11.cmake:711 (check_function_exists)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendor-extras.cmake:122 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendorConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/rviz_commonConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/rviz_visual_toolsConfig.cmake:41 (include)"
+      - "CMakeLists.txt:17 (find_package)"
+    checks:
+      - "Looking for connect"
+    directories:
+      source: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN"
+      binary: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/ros/jazzy/share/tinyxml2_vendor/cmake/Modules;/opt/ros/jazzy/share/eigen3_cmake_module/cmake/Modules;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_CONNECT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_51aa5/fast
+        gmake[1]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN'
+        /usr/bin/gmake  -f CMakeFiles/cmTC_51aa5.dir/build.make CMakeFiles/cmTC_51aa5.dir/build
+        gmake[2]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN'
+        Building C object CMakeFiles/cmTC_51aa5.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect -o CMakeFiles/cmTC_51aa5.dir/CheckFunctionExists.c.o -c /home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN/CheckFunctionExists.c
+        Linking C executable cmTC_51aa5
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51aa5.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect CMakeFiles/cmTC_51aa5.dir/CheckFunctionExists.c.o -o cmTC_51aa5 
+        gmake[2]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN'
+        gmake[1]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-wu9YRN'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindX11.cmake:720 (check_function_exists)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendor-extras.cmake:122 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendorConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/rviz_commonConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/rviz_visual_toolsConfig.cmake:41 (include)"
+      - "CMakeLists.txt:17 (find_package)"
+    checks:
+      - "Looking for remove"
+    directories:
+      source: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d"
+      binary: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/ros/jazzy/share/tinyxml2_vendor/cmake/Modules;/opt/ros/jazzy/share/eigen3_cmake_module/cmake/Modules;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_REMOVE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cebe9/fast
+        gmake[1]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d'
+        /usr/bin/gmake  -f CMakeFiles/cmTC_cebe9.dir/build.make CMakeFiles/cmTC_cebe9.dir/build
+        gmake[2]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d'
+        Building C object CMakeFiles/cmTC_cebe9.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove -o CMakeFiles/cmTC_cebe9.dir/CheckFunctionExists.c.o -c /home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d/CheckFunctionExists.c
+        Linking C executable cmTC_cebe9
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cebe9.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove CMakeFiles/cmTC_cebe9.dir/CheckFunctionExists.c.o -o cmTC_cebe9 
+        gmake[2]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d'
+        gmake[1]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-jIMj8d'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindX11.cmake:729 (check_function_exists)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendor-extras.cmake:122 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendorConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/rviz_commonConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/rviz_visual_toolsConfig.cmake:41 (include)"
+      - "CMakeLists.txt:17 (find_package)"
+    checks:
+      - "Looking for shmat"
+    directories:
+      source: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU"
+      binary: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/ros/jazzy/share/tinyxml2_vendor/cmake/Modules;/opt/ros/jazzy/share/eigen3_cmake_module/cmake/Modules;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_SHMAT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7ec47/fast
+        gmake[1]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU'
+        /usr/bin/gmake  -f CMakeFiles/cmTC_7ec47.dir/build.make CMakeFiles/cmTC_7ec47.dir/build
+        gmake[2]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU'
+        Building C object CMakeFiles/cmTC_7ec47.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat -o CMakeFiles/cmTC_7ec47.dir/CheckFunctionExists.c.o -c /home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU/CheckFunctionExists.c
+        Linking C executable cmTC_7ec47
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ec47.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat CMakeFiles/cmTC_7ec47.dir/CheckFunctionExists.c.o -o cmTC_7ec47 
+        gmake[2]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU'
+        gmake[1]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-zBXApU'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindX11.cmake:739 (check_library_exists)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendor-extras.cmake:122 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/rviz_ogre_vendorConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_common/cmake/rviz_commonConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/rviz_visual_tools/cmake/rviz_visual_toolsConfig.cmake:41 (include)"
+      - "CMakeLists.txt:17 (find_package)"
+    checks:
+      - "Looking for IceConnectionNumber in ICE"
+    directories:
+      source: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R"
+      binary: "/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/opt/ros/jazzy/share/tinyxml2_vendor/cmake/Modules;/opt/ros/jazzy/share/eigen3_cmake_module/cmake/Modules;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_LIB_ICE_HAS_ICECONNECTIONNUMBER"
+      cached: true
+      stdout: |
+        Change Dir: '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_02fc1/fast
+        gmake[1]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R'
+        /usr/bin/gmake  -f CMakeFiles/cmTC_02fc1.dir/build.make CMakeFiles/cmTC_02fc1.dir/build
+        gmake[2]: Entering directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R'
+        Building C object CMakeFiles/cmTC_02fc1.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -o CMakeFiles/cmTC_02fc1.dir/CheckFunctionExists.c.o -c /home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R/CheckFunctionExists.c
+        Linking C executable cmTC_02fc1
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_02fc1.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber CMakeFiles/cmTC_02fc1.dir/CheckFunctionExists.c.o -o cmTC_02fc1  -lICE 
+        gmake[2]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R'
+        gmake[1]: Leaving directory '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d/CMakeFiles/CMakeScratch/TryCompile-4K1x8R'
+        
+      exitCode: 0
+...

@@ -10,6 +10,8 @@ struct VelocitySample {
     double vz;
     double cost;
     
+    VelocitySample() : vx(0.0), vy(0.0), vz(0.0), cost(999) {}
+    
     VelocitySample(double _vx, double _vy, double _vz) 
         : vx(_vx), vy(_vy), vz(_vz), cost(999) {}
 };

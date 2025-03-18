@@ -88,8 +88,6 @@ private:
       msg.linear.x = (error_x / distance) * constant_speed_;
       msg.linear.y = (error_y / distance) * constant_speed_;
       msg.linear.z = (error_z / distance) * constant_speed_;
-      //msg.linear.z = 0;
-   
     }
 
     publisher_->publish(msg);

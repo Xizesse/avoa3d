@@ -13,6 +13,7 @@
 #include "custom_msgs/msg/element_characteristics_array.hpp"
 #include "avoa3d/velocity_sample.hpp"
 #include "avoa3d/sample_evaluator.hpp"
+#include "avoa3d/sample_visualizer.hpp"
 
 
 using namespace std::chrono_literals;
@@ -27,10 +28,11 @@ public:
         declare_parameters();
         
         sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(this->get_logger(), vehicle_radius_);
+        sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this, delta_t_);
+
 
         //! PUBLISHERS
         cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/cmd_vel", 10);
-        samples_cloud_publisher_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("/avoa/velocity_samples", 10);
         
         //! SUBSCRIBERS
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
@@ -58,23 +60,25 @@ public:
     }
 
 private:
-    //Evaluator Class
-    std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;
+    
+    std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;//! Evaluator
+    std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;//! Visualizer
+    std::vector<VelocitySample> samples;
+    VelocitySample best_sample;
 
-
-    // Parameter declaration
+    // TODO Parameter declaration (Hardcoded rn)
     void declare_parameters()
     {
         // Maximum accelerations
         a_x_max_ = 0.5;
         a_y_max_ = 0.5;
-        a_z_max_ = 0.2;
+        a_z_max_ = 0.5;
         
         // Maximum velocities
-        v_x_max_ = 5.0;
-        v_y_max_ = 5.0;
-        v_z_max_ = 0.01;
-        
+        v_x_max_ = 0.5;
+        v_y_max_ = 0.5;
+        v_z_max_ = 0.0;
+    
         // Time step
         delta_t_ = 5.0;
         
@@ -118,12 +122,12 @@ private:
     void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
     {
         latest_agent_odometry_ = *msg;
+        sample_visualizer_->setAgentOdometry(*msg);
         RCLCPP_DEBUG(this->get_logger(), "Updated agent odometry");
     }
 
     void obstacles_callback(const custom_msgs::msg::ElementCharacteristicsArray::SharedPtr msg)
     {
-        // Store the obstacles for later use
         latest_obstacles_ = *msg;
         RCLCPP_DEBUG(this->get_logger(), "Updated obstacles");
     }
@@ -134,11 +138,11 @@ private:
             return;
         }
         
-        std::vector<VelocitySample> samples = generate_velocity_samples();
+        samples = generate_velocity_samples();
         
-        sample_evaluator_->evaluateSamples(samples, latest_obstacles_);
+        sample_evaluator_->evaluateSamples(samples, latest_obstacles_, delta_t_);
         
-        VelocitySample best_sample = sample_evaluator_->findBestSample(samples);
+        best_sample = sample_evaluator_->findBestSample(samples);
         
         geometry_msgs::msg::Twist cmd_vel;
         cmd_vel.linear.x = best_sample.vx;
@@ -149,9 +153,8 @@ private:
         cmd_vel.angular.z = 0.0;
         
         cmd_vel_publisher_->publish(cmd_vel);
-        //RCLCPP_INFO(this->get_logger(), "Published velocity: linear=(%.2f, %.2f, %.2f)", cmd_vel.linear.x, cmd_vel.linear.y, cmd_vel.linear.z);
         
-        publish_samples_as_pointcloud(samples, best_sample);
+        sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
     }
     
     bool has_received_all_data()
@@ -180,7 +183,7 @@ private:
     {
         std::vector<VelocitySample> samples;
         std::random_device rd;
-        // Mersenne Twister pseudo-random generator - high quality random number generation
+        // random number generation
         std::mt19937 gen(rd());
         
         // Calculate velocity limits based on current velocity and acceleration constraints
@@ -194,8 +197,7 @@ private:
         
         double min_vz = std::max(latest_velocity_.linear.z - a_z_max_ * delta_t_, -v_z_max_);
         double max_vz = std::min(latest_velocity_.linear.z + a_z_max_ * delta_t_, v_z_max_);
-        
-
+    
         // Create distributions based on the calculated bounds
         std::uniform_real_distribution<> dist_vx(min_vx, max_vx);
         std::uniform_real_distribution<> dist_vy(min_vy, max_vy);
@@ -210,7 +212,7 @@ private:
             samples.push_back(VelocitySample(vx, vy, vz));
         }
         
-        // Always include the current velocity as a sample
+        // Always include the current velocity as a sample,//TODO but chek if min and max values are okay
         samples.push_back(VelocitySample(
             latest_velocity_.linear.x,
             latest_velocity_.linear.y,
@@ -230,26 +232,8 @@ private:
 
         if (desired_velocity_reachable) {
             samples.push_back(VelocitySample(desired_vx, desired_vy, desired_vz));
-        } else if (std::abs(desired_vx) > 0.001 || std::abs(desired_vy) > 0.001 || std::abs(desired_vz) > 0.001) {
-            // If desired velocity is not directly reachable, try to include a velocity in that direction
-            // but limited by acceleration constraints
-            double magnitude = std::sqrt(desired_vx*desired_vx + desired_vy*desired_vy + desired_vz*desired_vz);
-            
-            // Normalize direction
-            double dir_x = desired_vx / magnitude;
-            double dir_y = desired_vy / magnitude;
-            double dir_z = desired_vz / magnitude;
-            
-            // Calculate maximum step in the desired direction
-            double max_step_x = std::min(latest_velocity_.linear.x + a_x_max_ * delta_t_ * dir_x, v_x_max_);
-            double max_step_y = std::min(latest_velocity_.linear.y + a_y_max_ * delta_t_ * dir_y, v_y_max_);
-            double max_step_z = std::min(latest_velocity_.linear.z + a_z_max_ * delta_t_ * dir_z, v_z_max_);
-            
-            samples.push_back(VelocitySample(max_step_x, max_step_y, max_step_z));
         }
         
-        RCLCPP_INFO(this->get_logger(), "Generated %ld velocity samples between [%.2f, %.2f], [%.2f, %.2f], [%.2f, %.2f]", 
-                    samples.size(), min_vx, max_vx, min_vy, max_vy, min_vz, max_vz);
         return samples;
     }
     
@@ -263,74 +247,7 @@ private:
         
         return *min_element;
     }
-    
-    // Visualize samples as a point cloud
-    void publish_samples_as_pointcloud(const std::vector<VelocitySample>& samples, const VelocitySample& best_sample)
-    {
 
-        double min_x = std::numeric_limits<double>::max();
-        double max_x = std::numeric_limits<double>::lowest();
-        double min_y = std::numeric_limits<double>::max();
-        double max_y = std::numeric_limits<double>::lowest();
-
-        // Create point cloud message
-        sensor_msgs::msg::PointCloud2 cloud_msg;
-        
-        // Setup point cloud fields
-        sensor_msgs::PointCloud2Modifier modifier(cloud_msg);
-        modifier.setPointCloud2Fields(5,
-            "x", 1, sensor_msgs::msg::PointField::FLOAT32,
-            "y", 1, sensor_msgs::msg::PointField::FLOAT32,
-            "z", 1, sensor_msgs::msg::PointField::FLOAT32,
-            "cost", 1, sensor_msgs::msg::PointField::FLOAT32,
-            "is_best", 1, sensor_msgs::msg::PointField::UINT8);
-        
-        // Set point cloud metadata
-        cloud_msg.header.frame_id = "map";
-        cloud_msg.header.stamp = this->now();
-        
-        // Allocate point cloud
-        modifier.resize(samples.size());
-        
-        // Create iterators
-        sensor_msgs::PointCloud2Iterator<float> iter_x(cloud_msg, "x");
-        sensor_msgs::PointCloud2Iterator<float> iter_y(cloud_msg, "y");
-        sensor_msgs::PointCloud2Iterator<float> iter_z(cloud_msg, "z");
-        sensor_msgs::PointCloud2Iterator<float> iter_cost(cloud_msg, "cost");
-        sensor_msgs::PointCloud2Iterator<uint8_t> iter_is_best(cloud_msg, "is_best");
-        
-        // Add points to point cloud
-        for (const auto& sample : samples) {
-            // Position is shifted by current agent position to place cloud at agent
-            //print iter = poision.x + sample_vx * delta_t
-                //latest_agent_odometry_.pose.pose.position.x , sample.vx , delta_t_, latest_agent_odometry_.pose.pose.position.x + sample.vx * delta_t_);    
-
-            *iter_x = latest_agent_odometry_.pose.pose.position.x + sample.vx * delta_t_;
-            *iter_y = latest_agent_odometry_.pose.pose.position.y + sample.vy * delta_t_;
-            *iter_z = latest_agent_odometry_.pose.pose.position.z + sample.vz * delta_t_;
-            *iter_cost = sample.cost;
-            
-            // Mark the best sample
-            *iter_is_best = (sample.vx == best_sample.vx && 
-                           sample.vy == best_sample.vy && 
-                           sample.vz == best_sample.vz) ? 1 : 0;
-            
-            double pos_x = latest_agent_odometry_.pose.pose.position.x + sample.vx * delta_t_;
-            double pos_y = latest_agent_odometry_.pose.pose.position.y + sample.vy * delta_t_;
-            min_x = std::min(min_x, pos_x);
-            max_x = std::max(max_x, pos_x);
-            min_y = std::min(min_y, pos_y);
-            max_y = std::max(max_y, pos_y);
-
-            ++iter_x;
-            ++iter_y;
-            ++iter_z;
-            ++iter_cost;
-            ++iter_is_best;
-        }
-        
-        samples_cloud_publisher_->publish(cloud_msg);
-    }
     
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;

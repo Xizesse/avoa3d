@@ -13,11 +13,9 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(nav_msgs REQUIRED) 
 find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)  # Added for PoseStamped transforms
 find_package(custom_msgs REQUIRED)
 find_package(rviz_visual_tools REQUIRED)
-
-
-
 
 # Generate custom messages
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -40,7 +38,9 @@ rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typ
 # Create executables
 add_executable(rviz_marker src/rviz_marker.cpp)
 add_executable(avoa3dnode src/avoa3dnode.cpp
-                          src/sample_evaluator.cpp)
+                          src/sample_evaluator.cpp
+                          src/sample_visualizer.cpp
+                          )
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)
 
@@ -54,11 +54,7 @@ ament_target_dependencies(rviz_marker
   tf2_ros
   tf2_eigen
   custom_msgs
-
 )
-
-
-
 
 ament_target_dependencies(test_w_goal
   rclcpp
@@ -73,6 +69,8 @@ ament_target_dependencies(obstacle_publisher
   geometry_msgs
   nav_msgs
   custom_msgs
+  tf2_ros              # Added for tf2 transforms
+  tf2_geometry_msgs    # Added for PoseStamped transforms
 )
 
 ament_target_dependencies(avoa3dnode

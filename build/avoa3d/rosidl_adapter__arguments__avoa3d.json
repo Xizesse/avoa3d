@@ -1,0 +1,7 @@
+{
+  "package_name": "avoa3d",
+  "non_idl_tuples": [
+    "/home/xizesse/ros_ws/src/avoa3d:msg/ElementCharacteristicsStamped.msg",
+    "/home/xizesse/ros_ws/src/avoa3d:msg/ElementCharacteristicsArray.msg"
+  ]
+}
