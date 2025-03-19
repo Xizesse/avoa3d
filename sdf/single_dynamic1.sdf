@@ -126,9 +126,9 @@
                 </visual>
                 <collision name='collision'>
                     <geometry>
-                        <sphere>
-                            <radius>0.5</radius> <!-- Changed from 'size' to 'radius' -->
-                        </sphere>
+                        <box>
+                            <size>1.0 1.0 1.0</size>
+                        </box>
                     </geometry>
                 </collision>
                 <enable_gravity>false</enable_gravity> <!--!AAAAAAAAAAA -->
@@ -186,7 +186,7 @@
             <collision name='collision'>
                 <geometry>
                     <sphere>
-                        <size>1.0 1.0 1.0</size>
+                        <radius>0.5</radius>
                     </sphere>
                 </geometry>
             </collision>    

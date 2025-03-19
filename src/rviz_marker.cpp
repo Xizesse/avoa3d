@@ -15,6 +15,9 @@
 #include <rviz_visual_tools/rviz_visual_tools.hpp>
 #include <Eigen/Geometry>
 
+#include "custom_msgs/msg/element_characteristics_stamped.hpp"
+#include "custom_msgs/msg/element_characteristics_array.hpp"
+
   #include <tf2/LinearMath/Quaternion.h>
   #include <tf2/LinearMath/Vector3.h>
 
@@ -34,7 +37,7 @@ public:
   : Node("marker_publisher"), count_(0)
   {
     tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
-    visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>("map", "/visualization_marker", this); 
+    visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>("agent", "/visualization_marker", this); 
     visual_tools_->loadMarkerPub();
     visual_tools_->enableBatchPublishing();
     
@@ -58,6 +61,8 @@ public:
       "/model/obstacle/odometry", 10, std::bind(&MarkerPublisher::obstacle_odometry_callback, this, std::placeholders::_1)); 
     goal_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "/model/goal/odometry", 10, std::bind(&MarkerPublisher::goal_odometry_callback, this, std::placeholders::_1));
+    element_tracking_subscriber_ = this->create_subscription<custom_msgs::msg::ElementCharacteristicsArray>(
+      "/element_tracking/elements", 10, std::bind(&MarkerPublisher::element_tracking_callback, this, std::placeholders::_1));
     
     timer_ = this->create_wall_timer(100ms, std::bind(&MarkerPublisher::timer_callback, this));
   }
@@ -91,19 +96,23 @@ private:
   
   void publish_obstacle()
   {
-    //! OBSTACLE MARKER
+    //! OBSTACLE MARKER (in the agent frame)
+
+    for (auto& obstacle : obstacles_.elements) {
+
+
     auto obstacle_marker_msg = visualization_msgs::msg::Marker();
-    obstacle_marker_msg.header.frame_id = "map"; 
+    obstacle_marker_msg.header.frame_id = "agent"; 
     obstacle_marker_msg.header.stamp = this->now();
     obstacle_marker_msg.ns = "basic_shapes";
     obstacle_marker_msg.id = 0;
     obstacle_marker_msg.type = visualization_msgs::msg::Marker::SPHERE;
     obstacle_marker_msg.action = visualization_msgs::msg::Marker::ADD;
 
-    obstacle_marker_msg.pose.position.x = obstacle_odometry_.pose.pose.position.x;
-    obstacle_marker_msg.pose.position.y = obstacle_odometry_.pose.pose.position.y;
-    obstacle_marker_msg.pose.position.z = obstacle_odometry_.pose.pose.position.z;
-    obstacle_marker_msg.pose.orientation = obstacle_odometry_.pose.pose.orientation;
+    obstacle_marker_msg.pose.position.x = obstacle.pose.position.x;
+    obstacle_marker_msg.pose.position.y = obstacle.pose.position.y;
+    obstacle_marker_msg.pose.position.z = obstacle.pose.position.z;
+    obstacle_marker_msg.pose.orientation = obstacle.pose.orientation;
     obstacle_marker_msg.scale.x = 1.0;
     obstacle_marker_msg.scale.y = 1.0;
     obstacle_marker_msg.scale.z = 1.0;
@@ -114,6 +123,8 @@ private:
     obstacle_marker_msg.lifetime = rclcpp::Duration(std::chrono::nanoseconds(static_cast<int64_t>(1))); 
 
     obstacle_publisher_->publish(obstacle_marker_msg);
+
+    }
   }
 
   void publish_goal()
@@ -166,77 +177,41 @@ private:
   }
   
   void publishVelocityObstacleCone()
+
   {
       visual_tools_->deleteAllMarkers();
       
       // Get positions
       Eigen::Vector3d agent_position(
-          agent_odometry_.pose.pose.position.x,
-          agent_odometry_.pose.pose.position.y,
-          agent_odometry_.pose.pose.position.z
+          0.0,
+          0.0,
+          0.0
       );
       
-      Eigen::Vector3d obstacle_position(
-          obstacle_odometry_.pose.pose.position.x,
-          obstacle_odometry_.pose.pose.position.y,
-          obstacle_odometry_.pose.pose.position.z
-      );
-      
-      // Agent -> Obstacle 
-      Eigen::Vector3d direction = obstacle_position - agent_position;
-      double distance = direction.norm();
-      
-      // Skip if the obstacle is too close or too far
-      if (distance < 0.1 || distance > 100.0) {
-          visual_tools_->trigger();
-          return;
-      }
-      
-      direction.normalize();
-      
-      double obstacle_radius = 0.5; 
-      
-      double cone_angle =  std::atan(distance / obstacle_radius) * distance ;
+      double delta_t_ = 5;
+      for (auto& obstacle : obstacles_.elements) { //already in agent coordinate frame
+            Eigen::Vector3d obstacle_position(
+                  obstacle.pose.position.x,
+                  obstacle.pose.position.y,
+                  obstacle.pose.position.z
+              );
+            
+            agent_position.x() += obstacle.velocity.x * delta_t_;
+            agent_position.y() += obstacle.velocity.y * delta_t_;
+            agent_position.z() += obstacle.velocity.z * delta_t_;
 
+            obstacle_position.x() += obstacle.velocity.x * delta_t_;
+            obstacle_position.y() += obstacle.velocity.y * delta_t_;
+            obstacle_position.z() += obstacle.velocity.z * delta_t_;
       
-      geometry_msgs::msg::Pose cone_pose;
-      cone_pose.position.x = agent_position.x();
-      cone_pose.position.y = agent_position.y();
-      cone_pose.position.z = agent_position.z();
-  
-      // Rotate the default X-axis (1,0,0) to align with the direction vector
-      tf2::Vector3 x_axis(1.0, 0.0, 0.0); // Original X-axis
-      tf2::Vector3 target_dir(direction.x(), direction.y(), direction.z()); // Desired direction
-  
-      // Compute rotation axis (cross product)
-      tf2::Vector3 rotation_axis = x_axis.cross(target_dir);
-      double rotation_angle = std::acos(x_axis.dot(target_dir)); // Angle between vectors
-  
-      tf2::Quaternion quat;
-      if (rotation_axis.length2() > 1e-6) { // Avoid division by zero
-          rotation_axis.normalize();
-          quat.setRotation(rotation_axis, rotation_angle);
-      } else {
-          quat.setValue(0, 0, 0, 1); // No rotation needed
-      }
-  
-      cone_pose.orientation.x = quat.x();
-      cone_pose.orientation.y = quat.y();
-      cone_pose.orientation.z = quat.z();
-      cone_pose.orientation.w = quat.w();
+            
+            //visual_tools_->publishCone(cone_pose, cone_angle, rviz_visual_tools::TRANSLUCENT, distance);
+            visual_tools_->publishLine(agent_position, obstacle_position, rviz_visual_tools::RED, rviz_visual_tools::LARGE);
+
+            }
+          visual_tools_->trigger();
       
-      // The cone length should be the distance to the obstacle
       
-      // Publish the cone
-      visual_tools_->publishCone(cone_pose, cone_angle, rviz_visual_tools::TRANSLUCENT, distance);
-      
-      // Publish a line from agent to obstacle for reference
-      visual_tools_->publishLine(agent_position, obstacle_position, rviz_visual_tools::RED, rviz_visual_tools::LARGE);
-      
-      // Trigger batch publishing
-      visual_tools_->trigger();
-      
-      //RCLCPP_INFO(this->get_logger(), "Publishing velocity obstacle cone with distance %.2f", distance);
   }
   
   //! Callbacks
@@ -290,6 +265,11 @@ private:
     obstacle_odometry_ = *msg;
   }
 
+  void element_tracking_callback(const custom_msgs::msg::ElementCharacteristicsArray::SharedPtr msg)
+  {
+    obstacles_ = *msg;
+  }
+
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr agent_publisher_;
   rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr goal_publisher_;
@@ -302,12 +282,14 @@ private:
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr obstacle_odometry_subscriber_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr goal_odometry_subscriber_;
+  rclcpp::Subscription<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr element_tracking_subscriber_;
   
   geometry_msgs::msg::Twist velocity_cmd_;
   geometry_msgs::msg::Twist velocity_desired_;
   nav_msgs::msg::Odometry agent_odometry_;
   nav_msgs::msg::Odometry obstacle_odometry_;
   nav_msgs::msg::Odometry goal_odometry_;
+  custom_msgs::msg::ElementCharacteristicsArray obstacles_;
   size_t count_;
 
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;  

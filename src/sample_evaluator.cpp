@@ -49,7 +49,6 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
         
         for (const auto& obstacle : obstacles.elements) {
 
-            
             translated_sample.vx = sample.vx - obstacle.velocity.x * delta_t_;
             translated_sample.vy = sample.vy - obstacle.velocity.y * delta_t_;
             translated_sample.vz = sample.vz - obstacle.velocity.z * delta_t_;
@@ -64,7 +63,10 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 obstacle.size.x / 2.0,
                 obstacle.size.y / 2.0,
                 obstacle.size.z / 2.0
-            }) + vehicle_radius_ + obstacle.protective_zone;
+            }) + vehicle_radius_ + obstacle.protective_zone; 
+
+            obstacle_radius /= 2.0;  // Use half the size as radius
+
             
             // Distance from agent to obstacle (agent is at origin in agent frame)
             double distance = std::sqrt(

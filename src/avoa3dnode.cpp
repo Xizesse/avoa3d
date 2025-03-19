@@ -135,9 +135,10 @@ private:
     void timer_callback()
     {
         if (!has_received_all_data()) {
+
             return;
         }
-        
+
         samples = generate_velocity_samples();
         
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_, delta_t_);

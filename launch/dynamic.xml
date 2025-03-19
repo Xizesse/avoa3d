@@ -6,11 +6,13 @@
     <arg name="log_level" default="info"/>
     <arg name="cfg_file" default="$(find-pkg-share mvoa)/config/mvoa.yaml"/>
 
-    <arg name="scenario" default="1" description="Scenario number: 1=side, 2=away, 4=towards etc."/>
+    <arg name="scenario" default="1" description="Scenario number: 1=side, 2=away, 3=towards, 4=get out etc."/>
 
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic1.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;1&quot;')"/>
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic2.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;2&quot;')"/>
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic3.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;3&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic4.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;4&quot;')"/>
+
 
 
 

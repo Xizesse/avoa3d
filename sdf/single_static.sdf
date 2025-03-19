@@ -124,9 +124,9 @@
             </visual>
             <collision name='collision'>
                 <geometry>
-                    <sphere>
+                    <box>
                         <size>1.0 1.0 1.0</size>
-                    </sphere>
+                    </box>
                 </geometry>
             </collision>    
 
@@ -170,7 +170,7 @@
             <visual name='visual'>
                 <geometry>
                     <sphere>
-                        <size>1.0 1.0 1.0</size>
+                        <radius>0.5</radius>
                     </sphere>
                 </geometry>
                 <material>
@@ -179,13 +179,13 @@
                     <specular>1.0 0.0 0.0 1</specular>
                 </material>
             </visual>
-            <!--collision name='collision'>
+            <collision name='collision'>
                 <geometry>
                     <sphere>
-                        <size>1.0 1.0 1.0</size>
+                        <radius>0.5</radius>
                     </sphere>
                 </geometry>
-            </collision-->    
+            </collision>    
 
             </link>
             <plugin
