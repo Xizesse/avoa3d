@@ -162,7 +162,7 @@
         <!-- !OBSTACULO ESTATICO SIMPLES-->
         <model name='obstacle' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.1 0 0 0 0 0</pose>
+            <pose relative_to='world'>6.6 0 0 0 0 0</pose>
             <link name='obstacle'>
             <pose relative_to='__model__'>0.5 0 0.4 0 0 0</pose>
 
@@ -204,7 +204,7 @@
         <!-- !GOAL-->
         <model name='goal' canonical_link='goal'>
             <static>true</static>
-            <pose relative_to='world'>10 0 0 0 0 0</pose>
+            <pose relative_to='world'>5 0 0 0 0 0</pose>
             <link name='goal'>
                 <pose relative_to='__model__'>0.5 0 0.4 0 0 0</pose>
 

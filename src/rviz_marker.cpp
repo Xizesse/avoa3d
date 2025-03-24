@@ -188,7 +188,7 @@ private:
           0.0
       );
       
-      double delta_t_ = 5;
+      double delta_t_ = 1;
       for (auto& obstacle : obstacles_.elements) { //already in agent coordinate frame
             Eigen::Vector3d obstacle_position(
                   obstacle.pose.position.x,

@@ -8,11 +8,18 @@
 
     <arg name="scenario" default="1" description="Scenario number: 1=side, 2=away, 3=towards, 4=get out etc."/>
 
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_static.sdf"   if="$(eval '&quot;$(var scenario)&quot; == &quot;static&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_static2.sdf"   if="$(eval '&quot;$(var scenario)&quot; == &quot;static2&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_static3.sdf"   if="$(eval '&quot;$(var scenario)&quot; == &quot;static3&quot;')"/>
+
+
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic1.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;1&quot;')"/>
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic2.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;2&quot;')"/>
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic3.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;3&quot;')"/>
     <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic4.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;4&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic5.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;5&quot;')"/>
 
+    
 
 
 

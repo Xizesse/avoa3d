@@ -8,21 +8,24 @@
 
     <world name="3d_world">
 
-        <physics name="1ms" type="ignored">
+        <physics name="1ms" type="ode">
             <max_step_size>0.001</max_step_size>
             <real_time_factor>1.0</real_time_factor>
+            <real_time_update_rate>1000.0</real_time_update_rate>
         </physics>
+        <gravity>0 0 0</gravity> <!--!AAAAAAAAAAA -->
+
         <plugin
-            filename="libignition-gazebo-physics-system.so"
-            name="ignition::gazebo::systems::Physics">
+            filename="gz-sim-physics-system"
+            name="gz::sim::v8::systems::Physics">
         </plugin>
         <plugin
             filename="libignition-gazebo-user-commands-system.so"
             name="ignition::gazebo::systems::UserCommands">
         </plugin>
         <plugin
-            filename="libignition-gazebo-scene-broadcaster-system.so"
-            name="ignition::gazebo::systems::SceneBroadcaster">
+            filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster">
         </plugin>
 
         <model name="world_frame">
@@ -95,41 +98,40 @@
 
         <!--!AGENTE -->
         <model name='agente' canonical_link='chassis'>
-            <pose relative_to='world'>-5.0 0 0 0 0 0</pose>
-            <gravity>false</gravity>
+            <pose relative_to='world'>-0.1 0 0.5 0 0 0</pose> <!-- Raised z-position -->
             <link name='chassis'>
-            <pose relative_to='__model__'>0.5 0 0.4 0 0 0</pose>
-            <inertial> <!--inertial properties of the link mass, inertia matix-->
-                <mass>1.14395</mass>
-                <inertia>
-                    <ixx>0.095329</ixx>
-                    <ixy>0</ixy>
-                    <ixz>0</ixz>
-                    <iyy>0.381317</iyy>
-                    <iyz>0</iyz>
-                    <izz>0.476646</izz>
-                </inertia>
-            </inertial>
-            <visual name='visual'>
-                <geometry>
-                    <box>
-                        <size>1.0 1.0 1.0</size>
-                    </box>
-                </geometry>
-                <material>
-                    <ambient>0.0 0.0 1.0 1</ambient>
-                    <diffuse>0.0 0.0 1.0 1</diffuse>
-                    <specular>0.0 0.0 1.0 1</specular>
-                </material>
-            </visual>
-            <collision name='collision'>
-                <geometry>
-                    <box>
-                        <size>1.0 1.0 1.0</size>
-                    </box>
-                </geometry>
-            </collision>    
-
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <inertial>
+                    <mass>1.14395</mass>
+                    <inertia>
+                        <ixx>0.095329</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.381317</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.476646</izz>
+                    </inertia>
+                </inertial>
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 1.0</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse>
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 1.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity> <!--!AAAAAAAAAAA -->
             </link>
             <!-- plugin to publish-->
              <plugin
@@ -142,14 +144,14 @@
                 name="ignition::gazebo::systems::OdometryPublisher">
                 <dimensions>3</dimensions>
             </plugin>
-            <!-- plugin to control the velocity of the robot-->
+
             <plugin
                 filename="ignition-gazebo-velocity-control-system"
                 name="ignition::gazebo::systems::VelocityControl">
                 <initial_linear>0.0 0 0</initial_linear>
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
-            <!-- plugin to publish the pose of the robot (for the transforms)-->
+            
             <plugin
                 filename="libignition-gazebo-pose-publisher-system.so"
                 name="ignition::gazebo::systems::PosePublisher">
@@ -157,20 +159,21 @@
                 <frame_id>agente</frame_id>  <!-- The frame you want to publish -->
                 <update_rate>30</update_rate> <!-- Rate at which to publish the pose -->
             </plugin>
+
         </model>
 
-        <!-- !OBSTACULO ESTATICO SIMPLES-->
+        <!-- !OBSTACULO DYNAMICO tpwards agente-->
         <model name='obstacle' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>5.1 0 0 0 0 0</pose>
+            <static>false</static>
+            <pose relative_to='world'>5 0 0 0 0 0</pose>
             <link name='obstacle'>
-            <pose relative_to='__model__'>0.5 0 0.4 0 0 0</pose>
+            <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
 
             
             <visual name='visual'>
                 <geometry>
                     <sphere>
-                        <radius>0.5</radius>
+                        <radius>0.5</radius> 
                     </sphere>
                 </geometry>
                 <material>
@@ -191,7 +194,7 @@
             <plugin
                 filename="ignition-gazebo-velocity-control-system"
                 name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
+                <initial_linear> -0.5 0.0 0.0</initial_linear>
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             <plugin
@@ -204,9 +207,9 @@
         <!-- !GOAL-->
         <model name='goal' canonical_link='goal'>
             <static>true</static>
-            <pose relative_to='world'>10 0 0 0 0 0</pose>
+            <pose relative_to='world'>0 0 0.5 0.0 0 0</pose>
             <link name='goal'>
-                <pose relative_to='__model__'>0.5 0 0.4 0 0 0</pose>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
 
                 <visual name='visual'>
                     <geometry>

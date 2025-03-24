@@ -9,11 +9,12 @@ struct VelocitySample {
     double vy;
     double vz;
     double cost;
-    
-    VelocitySample() : vx(0.0), vy(0.0), vz(0.0), cost(999) {}
+    double danger;
+
+    VelocitySample() : vx(0.0), vy(0.0), vz(0.0), cost(999), danger(0) {}
     
     VelocitySample(double _vx, double _vy, double _vz) 
-        : vx(_vx), vy(_vy), vz(_vz), cost(999) {}
+        : vx(_vx), vy(_vy), vz(_vz), cost(999), danger(0) {}
 };
 
 } 

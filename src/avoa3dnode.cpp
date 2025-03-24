@@ -70,23 +70,23 @@ private:
     void declare_parameters()
     {
         // Maximum accelerations
-        a_x_max_ = 0.5;
-        a_y_max_ = 0.5;
-        a_z_max_ = 0.5;
+        a_x_max_ = 3.0;
+        a_y_max_ = 3.0;
+        a_z_max_ = 3.0;
         
         // Maximum velocities
-        v_x_max_ = 0.5;
-        v_y_max_ = 0.5;
+        v_x_max_ = 1.0;
+        v_y_max_ = 1.0;
         v_z_max_ = 0.0;
     
         // Time step
-        delta_t_ = 5.0;
+        delta_t_ = 1.0;
         
         // Vehicle radius
         vehicle_radius_ = 0.5;
 
         // Sampling parameters
-        num_samples_ = 2000;
+        num_samples_ = 5000;
         
         // Optional weights
         double heading_weight = 0.7;
@@ -146,9 +146,13 @@ private:
         best_sample = sample_evaluator_->findBestSample(samples);
         
         geometry_msgs::msg::Twist cmd_vel;
-        cmd_vel.linear.x = best_sample.vx;
+        //!BASIC FILTERING 0.8 current + 0.2 new
+        cmd_vel.linear.x = 0.8*latest_velocity_.linear.x + 0.2*best_sample.vx + 0.0*latest_desired_velocity_.linear.x;
+        cmd_vel.linear.y = 0.8*latest_velocity_.linear.y + 0.2*best_sample.vy + 0.0*latest_desired_velocity_.linear.y;
+        cmd_vel.linear.z = 0.8*latest_velocity_.linear.z + 0.2*best_sample.vz + 0.0*latest_desired_velocity_.linear.z;
+        /* cmd_vel.linear.x = best_sample.vx;
         cmd_vel.linear.y = best_sample.vy;
-        cmd_vel.linear.z = best_sample.vz;
+        cmd_vel.linear.z = best_sample.vz; */
         cmd_vel.angular.x = 0.0;
         cmd_vel.angular.y = 0.0;
         cmd_vel.angular.z = 0.0;
@@ -220,34 +224,16 @@ private:
             latest_velocity_.linear.z
         ));
         
-        // If the desired velocity is within the reachable range, include it
+        // Always include the desired velocity as a sample 
         double desired_vx = latest_desired_velocity_.linear.x;
         double desired_vy = latest_desired_velocity_.linear.y;
         double desired_vz = latest_desired_velocity_.linear.z;
         
-        bool desired_velocity_reachable = 
-            (std::abs(desired_vx) > 0.001 || std::abs(desired_vy) > 0.001 || std::abs(desired_vz) > 0.001) &&
-            (desired_vx >= min_vx && desired_vx <= max_vx) &&
-            (desired_vy >= min_vy && desired_vy <= max_vy) &&
-            (desired_vz >= min_vz && desired_vz <= max_vz);
-
-        if (desired_velocity_reachable) {
-            samples.push_back(VelocitySample(desired_vx, desired_vy, desired_vz));
-        }
+        samples.push_back(VelocitySample(desired_vx, desired_vy, desired_vz));
         
         return samples;
     }
     
-
-    VelocitySample find_best_sample(const std::vector<VelocitySample>& samples)
-    {
-        auto min_element = std::min_element(
-            samples.begin(), samples.end(),
-            [](const VelocitySample& a, const VelocitySample& b) { return a.cost < b.cost; }
-        );
-        
-        return *min_element;
-    }
 
     
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;

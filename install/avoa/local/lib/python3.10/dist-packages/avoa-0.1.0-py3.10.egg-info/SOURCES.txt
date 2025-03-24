@@ -1,8 +1,0 @@
-setup.py
-avoa/__init__.py
-avoa.egg-info/PKG-INFO
-avoa.egg-info/SOURCES.txt
-avoa.egg-info/dependency_links.txt
-avoa.egg-info/top_level.txt
-avoa/msg/__init__.py
-avoa/msg/_element_characteristics_stamped.py

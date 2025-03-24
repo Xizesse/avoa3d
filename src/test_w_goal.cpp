@@ -48,7 +48,7 @@ private:
   double current_y_ = 0.0;
   double current_z_ = 0.0;
   
-  const double constant_speed_ = 0.5; //! fixed speed
+  const double constant_speed_ = 1.0; //! fixed speed
   
   void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {

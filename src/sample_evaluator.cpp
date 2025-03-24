@@ -22,113 +22,114 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
     double desired_vy = latest_desired_velocity_.linear.y;
     double desired_vz = latest_desired_velocity_.linear.z;
     
-    double desired_magnitude = std::sqrt(
-        desired_vx * desired_vx + 
-        desired_vy * desired_vy + 
-        desired_vz * desired_vz
-    );
+    double desired_magnitude = std::sqrt(desired_vx * desired_vx + desired_vy * desired_vy + desired_vz * desired_vz);
     
-    // Normalize the desired velocity vector (if non-zero)
     if (desired_magnitude > 0.001) {
         desired_vx /= desired_magnitude;
         desired_vy /= desired_magnitude;
         desired_vz /= desired_magnitude;
-
     }
     
-    // Vector to keep track of valid (collision-free) samples
     std::vector<VelocitySample> valid_samples;
-    // SIngleTranslated sample
     VelocitySample translated_sample;
     
-    // Process each sample
+    // Safety cost parameters
+    const double safety_threshold = 3.0;   // Maximum distance to apply safety cost
+    const double max_safety_cost = 1.0;    // Maximum safety cost when on cone boundary
+    
     for (auto& sample : samples) {
-        // Check if this velocity would lead to a collision with any obstacle
         bool collision_free = true;
-        
-        
+        sample.cost = 0.0;
+        sample.danger = 0.0;
+
         for (const auto& obstacle : obstacles.elements) {
 
-            translated_sample.vx = sample.vx - obstacle.velocity.x * delta_t_;
-            translated_sample.vy = sample.vy - obstacle.velocity.y * delta_t_;
-            translated_sample.vz = sample.vz - obstacle.velocity.z * delta_t_;
+            //std::cout << "\nStarting New Sample" << std::endl;
+            translated_sample.vx = sample.vx - obstacle.velocity.x ;
+            translated_sample.vy = sample.vy - obstacle.velocity.y ;
+            translated_sample.vz = sample.vz - obstacle.velocity.z ;
 
-            // Get obstacle position (already in agent frame)
+            //std::cout << "Translated Sample Coordinates" << std::endl;
+            //std::cout << "Translated Sample vx: " << translated_sample.vx << std::endl;
+            //std::cout << "Translated Sample vy: " << translated_sample.vy << std::endl;
+            //std::cout << "Translated Sample vz: " << translated_sample.vz << std::endl;
+            
             double obstacle_x = obstacle.pose.position.x;
             double obstacle_y = obstacle.pose.position.y;
             double obstacle_z = obstacle.pose.position.z;
+            //std::cout << "Obstacle x: " << obstacle_x << std::endl;
+            //std::cout << "Obstacle y: " << obstacle_y << std::endl;
+            //std::cout << "Obstacle z: " << obstacle_z << std::endl;
+    
 
-            // Effective radius (including protective zone)
-            double obstacle_radius = std::max({
-                obstacle.size.x / 2.0,
-                obstacle.size.y / 2.0,
-                obstacle.size.z / 2.0
-            }) + vehicle_radius_ + obstacle.protective_zone; 
 
-            obstacle_radius /= 2.0;  // Use half the size as radius
+            // get obstacle radius
+            double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
+                                    + vehicle_radius_ * 1.5 + obstacle.protective_zone; 
 
-            
-            // Distance from agent to obstacle (agent is at origin in agent frame)
-            double distance = std::sqrt(
+            //std::cout << "Obstacle radius: " << obstacle_radius << std::endl;
+
+            //get obstacle distance
+            double obstacle_distance = std::sqrt(
                 obstacle_x * obstacle_x +
                 obstacle_y * obstacle_y +
                 obstacle_z * obstacle_z
             );
-            
-            // Vector pointing to obstacle (normalized)
-            double to_obstacle_x = obstacle_x;
-            double to_obstacle_y = obstacle_y;
-            double to_obstacle_z = obstacle_z;
-            
-            // Normalize the vector to obstacle
-            if (distance > 0.001) {
-                to_obstacle_x /= distance;
-                to_obstacle_y /= distance;
-                to_obstacle_z /= distance;
-            } else {
-                // We're practically inside the obstacle, all velocities lead to collision
-                collision_free = false;
-                break;
-            }
-            
-            // Projection of velocity onto the direction to obstacle
-            double velocity_projection = translated_sample.vx * to_obstacle_x + 
-                                        translated_sample.vy * to_obstacle_y + 
-                                        translated_sample.vz * to_obstacle_z;
-            
-            // If moving away from obstacle, no collision
-            if (velocity_projection <= 0) {
-                continue;
-            }
-            
-            // Calculate the magnitude of the sample velocity
-            double sample_magnitude = std::sqrt(
-                translated_sample.vx * translated_sample.vx + 
-                translated_sample.vy * translated_sample.vy + 
+
+            //std::cout << "Obstacle distance: " << obstacle_distance << std::endl;
+
+            //TGet Sample Distance
+            double sample_distance = std::sqrt(
+                translated_sample.vx * translated_sample.vx +
+                translated_sample.vy * translated_sample.vy +
                 translated_sample.vz * translated_sample.vz
             );
+
+            //std::cout << "Sample Coordinates" << std::endl;
+
+            //std::cout << "Sample distance: " << sample_distance << std::endl;
+            // Get Cone Angle
+            double cone_angle = std::asin(obstacle_radius / obstacle_distance);
+
+            //std::cout << "Cone angle: " << cone_angle << std::endl;
+    
             
-            // Avoid division by zero
-            if (sample_magnitude < 0.001) {
-                continue;  // Zero velocity won't cause a collision
+            //Get the projection of the translated sample on the obstacle axis
+            double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
+
+            //std::cout << "Projection size: " << projection << std::endl;
+
+            if (projection < 0) {
+                // The obstacle is behind the sample, no need to check
+                continue;
             }
+
+            // Calculate the expected radius in the cone :
+            double expected_radius = projection * std::tan(cone_angle);
+
+            //std::cout << "Expected radius: " << expected_radius << std::endl;
+
+            // Calculate the actual distance to the axis (use the angle between the translated sample and the obstacle, and the distance to the sample
+            double actual_radius = std::sqrt(sample_distance * sample_distance - projection * projection);
+
+            //std::cout << "Actual radius: " << actual_radius << std::endl;
             
-            // Calculate the perpendicular component (closest approach vector)
-            double perp_x = to_obstacle_x - (velocity_projection / sample_magnitude) * (translated_sample.vx / sample_magnitude);
-            double perp_y = to_obstacle_y - (velocity_projection / sample_magnitude) * (translated_sample.vy / sample_magnitude);
-            double perp_z = to_obstacle_z - (velocity_projection / sample_magnitude) * (translated_sample.vz / sample_magnitude);
-            
-            double closest_approach_distance = std::sqrt(
-                perp_x * perp_x +
-                perp_y * perp_y +
-                perp_z * perp_z
-            ) * distance;
-            
-            // Check if this velocity is inside the collision cone
-            if (closest_approach_distance < obstacle_radius) {
+            if (actual_radius < expected_radius) {
+                // Collision detected
                 collision_free = false;
                 break;
             }
+            double radius_treshold = 2.0;
+
+            if (actual_radius - expected_radius > radius_treshold) {
+                // The sample is far from the obstacle, dw
+                continue;
+            }
+            // Calculate the safety cost
+            sample.danger += (2.0 - (actual_radius - expected_radius))*0.5;
+
+
+    
         }
         
         // If this velocity doesn't lead to collision, keep it and evaluate cost
@@ -140,45 +141,56 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 sample.vz * sample.vz
             );
             
-            // 1. Direction error (heading alignment with desired velocity)
+            // TODO 1. Direction error (heading alignment with desired velocity)
             double direction_error = 0.0;
-            if (true) {  // TODO Avoid division by zero for normalization
+
+            if (sample_magnitude > 0.001) {  // Avoid division by zero for normalization
                 // Normalize the sample velocity
                 double sample_nx = sample.vx / sample_magnitude;
                 double sample_ny = sample.vy / sample_magnitude;
                 double sample_nz = sample.vz / sample_magnitude;
                 
-                // Dot product gives cosine of angle between vectors
-                double dot_product = sample_nx * desired_vx + sample_ny * desired_vy + sample_nz * desired_vz;
+                double dot_product = (sample_nx * desired_vx + sample_ny * desired_vy + sample_nz * desired_vz );
                 
-                // Constrain dot product to [-1, 1] range to avoid numerical issues
-                dot_product = std::max(-1.0, std::min(1.0, dot_product));
+                dot_product = std::max(-1.0, std::min(1.0, dot_product));//clamp to [-1,1]
                 
-                // Convert to angle error (0 means perfect alignment, π means opposite direction)
-                direction_error = std::acos(dot_product);
+                direction_error = std::acos(dot_product)/M_PI;  // Normalize to [0,1]
+
+
             } else {
-                // If sample velocity is zero but desired is not, this is a mismatch
-                direction_error = M_PI;  // Maximum direction error
+                direction_error = 0;  // No direction error if sample velocity is zero
             }
             
-            // 2. Magnitude error (difference between magnitudes)
+            // TODO 2. Magnitude error (difference between magnitudes)
             double magnitude_error = std::abs(sample_magnitude - desired_magnitude);
             
-            // 3. Combine errors - weight direction error more heavily (70%) than magnitude error (30%)
+            // 3. Combine errors 
             // Normalize magnitude error by dividing by desired magnitude (if non-zero)
             double normalized_magnitude_error = (desired_magnitude > 0.001) ? 
                 magnitude_error / desired_magnitude : magnitude_error;
-                
-            sample.cost = 0.7 * direction_error + 0.3 * normalized_magnitude_error;
             
-            valid_samples.push_back(sample);
+            std::atan2(sample.vy,sample.vx);
+
+            // Combine goal-directed cost with safety cost
+            double goal_cost = 0.9 * direction_error + 0.1* normalized_magnitude_error;
+            
+            sample.cost = 0.8 * goal_cost + 0.1 * sample.danger ; 
+            
+            if (sample.vy <= 0.0 )
+            {
+                sample.cost -= 0.1*sample.vy/sample_magnitude;
+            }
+             
+            valid_samples.push_back(sample); 
         }
     }
     
+    RCLCPP_INFO(logger_, "Valid Samples: %ld", valid_samples.size());
+    
     // Check if we have any valid samples
     if (valid_samples.empty()) {
-        RCLCPP_WARN(logger_, "All velocity samples would lead to collision: Das ist nicht gut");
-        
+        // No valid samples found, keep the original samples
+        RCLCPP_WARN(logger_, "No collision-free velocity samples found");
     } else {
         // Replace the original samples with only the valid ones
         samples = valid_samples;

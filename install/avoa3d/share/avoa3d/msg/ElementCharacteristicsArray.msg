@@ -1,1 +1,0 @@
-ElementCharacteristicsStamped[] elements

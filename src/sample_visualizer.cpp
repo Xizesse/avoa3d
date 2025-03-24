@@ -38,7 +38,7 @@ void SampleVisualizer::publishSamplesAsPointcloud(
         "y", 1, sensor_msgs::msg::PointField::FLOAT32,
         "z", 1, sensor_msgs::msg::PointField::FLOAT32,
         "cost", 1, sensor_msgs::msg::PointField::FLOAT32,
-        "is_best", 1, sensor_msgs::msg::PointField::UINT8);
+        "danger", 1, sensor_msgs::msg::PointField::FLOAT32);
     
     // Set point cloud metadata
     cloud_msg.header.frame_id = "agent";
@@ -52,22 +52,20 @@ void SampleVisualizer::publishSamplesAsPointcloud(
     sensor_msgs::PointCloud2Iterator<float> iter_y(cloud_msg, "y");
     sensor_msgs::PointCloud2Iterator<float> iter_z(cloud_msg, "z");
     sensor_msgs::PointCloud2Iterator<float> iter_cost(cloud_msg, "cost");
-    sensor_msgs::PointCloud2Iterator<uint8_t> iter_is_best(cloud_msg, "is_best");
+    sensor_msgs::PointCloud2Iterator<float> iter_danger(cloud_msg, "danger");
+
     
     // Add points to point cloud
     for (const auto& sample : samples) {
-        *iter_x = sample.vx * delta_t_;
-        *iter_y =  sample.vy * delta_t_;
-        *iter_z = sample.vz * delta_t_;
+        *iter_x = sample.vx ;
+        *iter_y =  sample.vy ;
+        *iter_z = sample.vz ;
         *iter_cost = sample.cost;
+        *iter_danger = sample.danger;
         
-        // Mark the best sample
-        *iter_is_best = (sample.vx == best_sample.vx && 
-                        sample.vy == best_sample.vy && 
-                        sample.vz == best_sample.vz) ? 1 : 0;
         
-        double pos_x = sample.vx * delta_t_;
-        double pos_y = sample.vy * delta_t_;
+        double pos_x = sample.vx ;
+        double pos_y = sample.vy ;
         min_x = std::min(min_x, pos_x);
         max_x = std::max(max_x, pos_x);
         min_y = std::min(min_y, pos_y);
@@ -77,7 +75,7 @@ void SampleVisualizer::publishSamplesAsPointcloud(
         ++iter_y;
         ++iter_z;
         ++iter_cost;
-        ++iter_is_best;
+        ++iter_danger;
     }
     
     samples_cloud_publisher_->publish(cloud_msg);
