@@ -1,0 +1,547 @@
+[0.000000] (-) TimerEvent: {}
+[0.000307] (avoa3d) JobQueued: {'identifier': 'avoa3d', 'dependencies': OrderedDict()}
+[0.000701] (avoa3d) JobStarted: {'identifier': 'avoa3d'}
+[0.006598] (avoa3d) JobProgress: {'identifier': 'avoa3d', 'progress': 'cmake'}
+[0.006860] (avoa3d) Command: {'cmd': ['/usr/bin/cmake', '/home/xizesse/ros_ws/src/avoa3d', '-DCMAKE_INSTALL_PREFIX=/home/xizesse/ros_ws/src/avoa3d/install/avoa3d'], 'cwd': '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'XDG_ACTIVATION_TOKEN': 'gnome-shell/Terminator/3608-2-xizesse_TIME26960266', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'xizesse', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/xizesse/ros_ws/install/ros_gz_sim/lib:/home/xizesse/ros_ws/install/ros_gz_bridge/lib:/home/xizesse/ros_ws/install/ros_gz_interfaces/lib:/home/xizesse/ros_ws/install/avoa3d/lib:/home/xizesse/ros_ws/install/custom_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/xizesse', 'OLDPWD': '/home/xizesse/ros_ws', 'DESKTOP_SESSION': 'ubuntu', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '3123', 'SYSTEMD_EXEC_PID': '3608', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '87979', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/xizesse/ros_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'xizesse', 'JOURNAL_STREAM': '9:33916', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'xizesse', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/xizesse:@/tmp/.ICE-unix/3563,unix/xizesse:/tmp/.ICE-unix/3563', 'INVOCATION_ID': '1c33556cf9264c19881f6d2539065d55', 'XDG_MENU_PREFIX': 'gnome-', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '27', 'AMENT_PREFIX_PATH': '/home/xizesse/ros_ws/install/test_ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz:/home/xizesse/ros_ws/install/ros_gz_sim_demos:/home/xizesse/ros_ws/install/ros_gz_sim:/home/xizesse/ros_ws/install/ros_gz_image:/home/xizesse/ros_ws/install/ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz_interfaces:/home/xizesse/ros_ws/install/mvoa:/home/xizesse/ros_ws/install/avoa3d:/home/xizesse/ros_ws/install/custom_msgs:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:cf966f16-8b8d-4dc1-96f0-71071dca2dbe', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/home/xizesse/ros_ws/install/ros_gz_sim_demos/share', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/xizesse/ros_ws/install/ros_gz_sim/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/ros_gz_bridge/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/ros_gz_interfaces/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/avoa3d/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/custom_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/xizesse/ros_ws/install/test_ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz:/home/xizesse/ros_ws/install/ros_gz_sim_demos:/home/xizesse/ros_ws/install/ros_gz_sim:/home/xizesse/ros_ws/install/ros_gz_image:/home/xizesse/ros_ws/install/ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz_interfaces:/home/xizesse/ros_ws/install/mvoa:/home/xizesse/ros_ws/install/avoa3d:/home/xizesse/ros_ws/install/custom_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[0.100045] (-) TimerEvent: {}
+[0.132246] (avoa3d) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.3.0\n'}
+[0.196213] (avoa3d) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.3.0\n'}
+[0.200154] (-) TimerEvent: {}
+[0.221241] (avoa3d) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.300301] (-) TimerEvent: {}
+[0.330690] (avoa3d) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.338826] (avoa3d) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.339182] (avoa3d) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.339810] (avoa3d) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.351523] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.400387] (-) TimerEvent: {}
+[0.443253] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.449150] (avoa3d) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.449308] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.449610] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.499431] (avoa3d) StdoutLine: {'line': b'-- Found ament_cmake: 2.5.3 (/opt/ros/jazzy/share/ament_cmake/cmake)\n'}
+[0.500485] (-) TimerEvent: {}
+[0.600887] (-) TimerEvent: {}
+[0.657057] (avoa3d) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter \n'}
+[0.700977] (-) TimerEvent: {}
+[0.773269] (avoa3d) StdoutLine: {'line': b'-- Found rclcpp: 28.1.6 (/opt/ros/jazzy/share/rclcpp/cmake)\n'}
+[0.801175] (-) TimerEvent: {}
+[0.846211] (avoa3d) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)\n'}
+[0.885395] (avoa3d) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)\n'}
+[0.901351] (-) TimerEvent: {}
+[0.925611] (avoa3d) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.951755] (avoa3d) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.001500] (-) TimerEvent: {}
+[1.052690] (avoa3d) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.1 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)\n'}
+[1.056947] (avoa3d) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.4.1 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.101644] (-) TimerEvent: {}
+[1.187482] (avoa3d) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  \n'}
+[1.201800] (-) TimerEvent: {}
+[1.208867] (avoa3d) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") \n'}
+[1.236095] (avoa3d) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.301961] (-) TimerEvent: {}
+[1.316432] (avoa3d) StdoutLine: {'line': b'-- Found std_msgs: 5.3.5 (/opt/ros/jazzy/share/std_msgs/cmake)\n'}
+[1.332171] (avoa3d) StdoutLine: {'line': b'-- Found visualization_msgs: 5.3.5 (/opt/ros/jazzy/share/visualization_msgs/cmake)\n'}
+[1.393634] (avoa3d) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)\n'}
+[1.402027] (-) TimerEvent: {}
+[1.412828] (avoa3d) StdoutLine: {'line': b'-- Found rosidl_adapter: 4.6.5 (/opt/ros/jazzy/share/rosidl_adapter/cmake)\n'}
+[1.417763] (avoa3d) StdoutLine: {'line': b'-- Found nav_msgs: 5.3.5 (/opt/ros/jazzy/share/nav_msgs/cmake)\n'}
+[1.445922] (avoa3d) StdoutLine: {'line': b'-- Found tf2_ros: 0.36.8 (/opt/ros/jazzy/share/tf2_ros/cmake)\n'}
+[1.502482] (-) TimerEvent: {}
+[1.574142] (avoa3d) StdoutLine: {'line': b'-- Found tf2_eigen: 0.36.8 (/opt/ros/jazzy/share/tf2_eigen/cmake)\n'}
+[1.585572] (avoa3d) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.36.8 (/opt/ros/jazzy/share/tf2_geometry_msgs/cmake)\n'}
+[1.598679] (avoa3d) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)\n'}
+[1.600467] (avoa3d) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[1.601197] (avoa3d) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[1.602513] (-) TimerEvent: {}
+[1.603610] (avoa3d) StdoutLine: {'line': b'-- Found custom_msgs: 0.0.0 (/home/xizesse/ros_ws/install/custom_msgs/share/custom_msgs/cmake)\n'}
+[1.629106] (avoa3d) StdoutLine: {'line': b'-- Found rviz_visual_tools: 4.1.4 (/opt/ros/jazzy/share/rviz_visual_tools/cmake)\n'}
+[1.702721] (-) TimerEvent: {}
+[1.740724] (avoa3d) StdoutLine: {'line': b"-- Setting OGRE_DIR to: '/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/../../../opt/rviz_ogre_vendor/lib/OGRE/cmake'\n"}
+[1.742025] (avoa3d) StdoutLine: {'line': b'-- Found OGRE\n'}
+[1.742111] (avoa3d) StdoutLine: {'line': b'--   static     : OFF\n'}
+[1.742150] (avoa3d) StdoutLine: {'line': b'--   components : MeshLodGenerator;Overlay;Paging;Property;RTShaderSystem;Terrain;Volume\n'}
+[1.742186] (avoa3d) StdoutLine: {'line': b'--   plugins    : Plugin_BSPSceneManager;Plugin_OctreeSceneManager;Plugin_PCZSceneManager;Plugin_ParticleFX;RenderSystem_GL;RenderSystem_GL3Plus;Codec_STBI\n'}
+[1.742222] (avoa3d) StdoutLine: {'line': b'--   media      : /opt/ros/jazzy/opt/rviz_ogre_vendor/share/OGRE/Media\n'}
+[1.742260] (avoa3d) StdoutLine: {'line': b'-- OGRE_LIBRARIES: OgreMeshLodGenerator;OgreOverlay;OgrePaging;OgreProperty;OgreRTShaderSystem;OgreTerrain;OgreVolume;OgreMain\n'}
+[1.742293] (avoa3d) StdoutLine: {'line': b'-- OGRE_LIBRARY_DIRS: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib\n'}
+[1.742325] (avoa3d) StdoutLine: {'line': b'-- OGRE_PLUGINS: Plugin_BSPSceneManager;Plugin_OctreeSceneManager;Plugin_PCZSceneManager;Plugin_ParticleFX;RenderSystem_GL;RenderSystem_GL3Plus;Codec_STBI\n'}
+[1.742356] (avoa3d) StdoutLine: {'line': b'-- OGRE_PLUGIN_DIR: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/OGRE\n'}
+[1.742533] (avoa3d) StdoutLine: {'line': b'-- rviz_ogre_vendor::OgreOverlay for IMPORTED_LOCATION_RELEASE: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreOverlay.so\n'}
+[1.742626] (avoa3d) StdoutLine: {'line': b'-- rviz_ogre_vendor::OgreOverlay for IMPORTED_LOCATION_DEBUG: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreOverlay.so\n'}
+[1.742665] (avoa3d) StdoutLine: {'line': b'-- rviz_ogre_vendor::OgreMain for IMPORTED_LOCATION_RELEASE: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreMain.so\n'}
+[1.742698] (avoa3d) StdoutLine: {'line': b'-- rviz_ogre_vendor::OgreMain for IMPORTED_LOCATION_DEBUG: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreMain.so\n'}
+[1.777297] (avoa3d) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.3")  \n'}
+[1.789984] (avoa3d) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   \n'}
+[1.802920] (-) TimerEvent: {}
+[1.903143] (-) TimerEvent: {}
+[1.946575] (avoa3d) StdoutLine: {'line': b'-- Found X11: /usr/include   \n'}
+[1.947452] (avoa3d) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so\n'}
+[2.003359] (-) TimerEvent: {}
+[2.045764] (avoa3d) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found\n'}
+[2.045972] (avoa3d) StdoutLine: {'line': b'-- Looking for gethostbyname\n'}
+[2.103458] (-) TimerEvent: {}
+[2.117343] (avoa3d) StdoutLine: {'line': b'-- Looking for gethostbyname - found\n'}
+[2.117570] (avoa3d) StdoutLine: {'line': b'-- Looking for connect\n'}
+[2.196826] (avoa3d) StdoutLine: {'line': b'-- Looking for connect - found\n'}
+[2.196996] (avoa3d) StdoutLine: {'line': b'-- Looking for remove\n'}
+[2.203576] (-) TimerEvent: {}
+[2.283659] (avoa3d) StdoutLine: {'line': b'-- Looking for remove - found\n'}
+[2.283808] (avoa3d) StdoutLine: {'line': b'-- Looking for shmat\n'}
+[2.303778] (-) TimerEvent: {}
+[2.373535] (avoa3d) StdoutLine: {'line': b'-- Looking for shmat - found\n'}
+[2.373666] (avoa3d) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE\n'}
+[2.404016] (-) TimerEvent: {}
+[2.462574] (avoa3d) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE - found\n'}
+[2.495311] (avoa3d) StdoutLine: {'line': b"-- Setting yaml-cpp_DIR to: '/opt/ros/jazzy/share/yaml_cpp_vendor/cmake/../../../opt/yaml_cpp_vendor/share/cmake/yaml-cpp'\n"}
+[2.504192] (-) TimerEvent: {}
+[2.604400] (-) TimerEvent: {}
+[2.704618] (-) TimerEvent: {}
+[2.804931] (-) TimerEvent: {}
+[2.905140] (-) TimerEvent: {}
+[3.005532] (-) TimerEvent: {}
+[3.105776] (-) TimerEvent: {}
+[3.146393] (avoa3d) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)\n'}
+[3.205960] (-) TimerEvent: {}
+[3.306274] (-) TimerEvent: {}
+[3.406591] (-) TimerEvent: {}
+[3.506886] (-) TimerEvent: {}
+[3.607199] (-) TimerEvent: {}
+[3.707754] (-) TimerEvent: {}
+[3.808005] (-) TimerEvent: {}
+[3.862247] (avoa3d) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[3.908089] (-) TimerEvent: {}
+[4.008396] (-) TimerEvent: {}
+[4.108621] (-) TimerEvent: {}
+[4.142672] (avoa3d) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[4.149124] (avoa3d) StdoutLine: {'line': b'-- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)\n'}
+[4.208809] (-) TimerEvent: {}
+[4.263909] (avoa3d) StdoutLine: {'line': b'-- Found PythonExtra: /usr/bin/python3  \n'}
+[4.309000] (-) TimerEvent: {}
+[4.409181] (-) TimerEvent: {}
+[4.509460] (-) TimerEvent: {}
+[4.609744] (-) TimerEvent: {}
+[4.629753] (avoa3d) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed \n'}
+[4.689357] (avoa3d) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.17.1 (/opt/ros/jazzy/share/ament_lint_auto/cmake)\n'}
+[4.696328] (avoa3d) StdoutLine: {'line': b'-- Configuring done (4.7s)\n'}
+[4.709950] (-) TimerEvent: {}
+[4.751183] (avoa3d) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[4.765777] (avoa3d) StdoutLine: {'line': b'-- Build files have been written to: /home/xizesse/ros_ws/src/avoa3d/build/avoa3d\n'}
+[4.778856] (avoa3d) CommandEnded: {'returncode': 0}
+[4.779815] (avoa3d) JobProgress: {'identifier': 'avoa3d', 'progress': 'build'}
+[4.779829] (avoa3d) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', '--', '-j20', '-l20'], 'cwd': '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'XDG_ACTIVATION_TOKEN': 'gnome-shell/Terminator/3608-2-xizesse_TIME26960266', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'xizesse', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/xizesse/ros_ws/install/ros_gz_sim/lib:/home/xizesse/ros_ws/install/ros_gz_bridge/lib:/home/xizesse/ros_ws/install/ros_gz_interfaces/lib:/home/xizesse/ros_ws/install/avoa3d/lib:/home/xizesse/ros_ws/install/custom_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/xizesse', 'OLDPWD': '/home/xizesse/ros_ws', 'DESKTOP_SESSION': 'ubuntu', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '3123', 'SYSTEMD_EXEC_PID': '3608', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '87979', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/xizesse/ros_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'xizesse', 'JOURNAL_STREAM': '9:33916', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'xizesse', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/xizesse:@/tmp/.ICE-unix/3563,unix/xizesse:/tmp/.ICE-unix/3563', 'INVOCATION_ID': '1c33556cf9264c19881f6d2539065d55', 'XDG_MENU_PREFIX': 'gnome-', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '27', 'AMENT_PREFIX_PATH': '/home/xizesse/ros_ws/install/test_ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz:/home/xizesse/ros_ws/install/ros_gz_sim_demos:/home/xizesse/ros_ws/install/ros_gz_sim:/home/xizesse/ros_ws/install/ros_gz_image:/home/xizesse/ros_ws/install/ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz_interfaces:/home/xizesse/ros_ws/install/mvoa:/home/xizesse/ros_ws/install/avoa3d:/home/xizesse/ros_ws/install/custom_msgs:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:cf966f16-8b8d-4dc1-96f0-71071dca2dbe', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/home/xizesse/ros_ws/install/ros_gz_sim_demos/share', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/xizesse/ros_ws/install/ros_gz_sim/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/ros_gz_bridge/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/ros_gz_interfaces/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/avoa3d/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/custom_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/xizesse/ros_ws/install/test_ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz:/home/xizesse/ros_ws/install/ros_gz_sim_demos:/home/xizesse/ros_ws/install/ros_gz_sim:/home/xizesse/ros_ws/install/ros_gz_image:/home/xizesse/ros_ws/install/ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz_interfaces:/home/xizesse/ros_ws/install/mvoa:/home/xizesse/ros_ws/install/avoa3d:/home/xizesse/ros_ws/install/custom_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[4.810158] (-) TimerEvent: {}
+[4.841914] (avoa3d) StdoutLine: {'line': b'[  1%] \x1b[34m\x1b[1mGenerating type hashes for ROS interfaces\x1b[0m\n'}
+[4.849474] (avoa3d) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_copy_avoa3d\n'}
+[4.910318] (-) TimerEvent: {}
+[5.010820] (-) TimerEvent: {}
+[5.047709] (avoa3d) StdoutLine: {'line': b'running egg_info\n'}
+[5.048092] (avoa3d) StdoutLine: {'line': b'creating avoa3d.egg-info\n'}
+[5.059201] (avoa3d) StdoutLine: {'line': b'writing avoa3d.egg-info/PKG-INFO\n'}
+[5.059400] (avoa3d) StdoutLine: {'line': b'writing dependency_links to avoa3d.egg-info/dependency_links.txt\n'}
+[5.059545] (avoa3d) StdoutLine: {'line': b'writing top-level names to avoa3d.egg-info/top_level.txt\n'}
+[5.059637] (avoa3d) StdoutLine: {'line': b"writing manifest file 'avoa3d.egg-info/SOURCES.txt'\n"}
+[5.072556] (avoa3d) StdoutLine: {'line': b'[  1%] Built target avoa3d__rosidl_generator_type_description\n'}
+[5.083279] (avoa3d) StdoutLine: {'line': b'[  3%] \x1b[34m\x1b[1mGenerating C code for ROS interfaces\x1b[0m\n'}
+[5.090973] (avoa3d) StdoutLine: {'line': b"reading manifest file 'avoa3d.egg-info/SOURCES.txt'\n"}
+[5.091204] (avoa3d) StdoutLine: {'line': b"writing manifest file 'avoa3d.egg-info/SOURCES.txt'\n"}
+[5.094885] (avoa3d) StdoutLine: {'line': b'[  5%] \x1b[34m\x1b[1mGenerating C++ code for ROS interfaces\x1b[0m\n'}
+[5.110971] (-) TimerEvent: {}
+[5.113330] (avoa3d) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_build_avoa3d_egg\n'}
+[5.211128] (-) TimerEvent: {}
+[5.311514] (-) TimerEvent: {}
+[5.321829] (avoa3d) StdoutLine: {'line': b'[  5%] Built target avoa3d__cpp\n'}
+[5.360361] (avoa3d) StdoutLine: {'line': b'[  9%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_array__functions.c.o\x1b[0m\n'}
+[5.360739] (avoa3d) StdoutLine: {'line': b'[  9%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_array__type_support.c.o\x1b[0m\n'}
+[5.360954] (avoa3d) StdoutLine: {'line': b'[ 11%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_stamped__functions.c.o\x1b[0m\n'}
+[5.361670] (avoa3d) StdoutLine: {'line': b'[ 12%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_stamped__type_support.c.o\x1b[0m\n'}
+[5.362086] (avoa3d) StdoutLine: {'line': b'[ 14%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_stamped__description.c.o\x1b[0m\n'}
+[5.362468] (avoa3d) StdoutLine: {'line': b'[ 16%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_array__description.c.o\x1b[0m\n'}
+[5.408971] (avoa3d) StdoutLine: {'line': b'[ 18%] \x1b[32m\x1b[1mLinking C shared library libavoa3d__rosidl_generator_c.so\x1b[0m\n'}
+[5.411634] (-) TimerEvent: {}
+[5.454346] (avoa3d) StdoutLine: {'line': b'[ 18%] Built target avoa3d__rosidl_generator_c\n'}
+[5.464153] (avoa3d) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C introspection for ROS interfaces\x1b[0m\n'}
+[5.464394] (avoa3d) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C++ type support dispatch for ROS interfaces\x1b[0m\n'}
+[5.464487] (avoa3d) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C++ introspection for ROS interfaces\x1b[0m\n'}
+[5.464568] (avoa3d) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C++ type support for eProsima Fast-RTPS\x1b[0m\n'}
+[5.465761] (avoa3d) StdoutLine: {'line': b'[ 27%] \x1b[34m\x1b[1mGenerating C type support dispatch for ROS interfaces\x1b[0m\n'}
+[5.466183] (avoa3d) StdoutLine: {'line': b'[ 29%] \x1b[34m\x1b[1mGenerating C type support for eProsima Fast-RTPS\x1b[0m\n'}
+[5.511749] (-) TimerEvent: {}
+[5.611966] (-) TimerEvent: {}
+[5.712257] (-) TimerEvent: {}
+[5.715068] (avoa3d) StdoutLine: {'line': b'[ 31%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/avoa3d/msg/element_characteristics_array__type_support.cpp.o\x1b[0m\n'}
+[5.718212] (avoa3d) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/avoa3d/msg/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[5.733524] (avoa3d) StdoutLine: {'line': b'[ 38%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_c.dir/rosidl_typesupport_c/avoa3d/msg/element_characteristics_array__type_support.cpp.o\x1b[0m\n'}
+[5.733828] (avoa3d) StdoutLine: {'line': b'[ 40%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_c.dir/rosidl_typesupport_c/avoa3d/msg/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[5.733995] (avoa3d) StdoutLine: {'line': b'[ 40%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/avoa3d/msg/detail/element_characteristics_array__type_support.cpp.o\x1b[0m\n'}
+[5.734094] (avoa3d) StdoutLine: {'line': b'[ 40%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/avoa3d/msg/detail/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[5.740303] (avoa3d) StdoutLine: {'line': b'[ 42%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/avoa3d/msg/detail/element_characteristics_stamped__type_support.c.o\x1b[0m\n'}
+[5.741431] (avoa3d) StdoutLine: {'line': b'[ 44%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/avoa3d/msg/detail/element_characteristics_array__type_support.c.o\x1b[0m\n'}
+[5.755018] (avoa3d) StdoutLine: {'line': b'[ 46%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/avoa3d/msg/detail/element_characteristics_stamped__type_support_c.cpp.o\x1b[0m\n'}
+[5.757412] (avoa3d) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/avoa3d/msg/detail/element_characteristics_array__type_support_c.cpp.o\x1b[0m\n'}
+[5.757750] (avoa3d) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/avoa3d/msg/detail/dds_fastrtps/element_characteristics_stamped__type_support.cpp.o\x1b[0m\n'}
+[5.760535] (avoa3d) StdoutLine: {'line': b'[ 51%] \x1b[32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/avoa3d/msg/detail/dds_fastrtps/element_characteristics_array__type_support.cpp.o\x1b[0m\n'}
+[5.793717] (avoa3d) StdoutLine: {'line': b'[ 53%] \x1b[32m\x1b[1mLinking C shared library libavoa3d__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[5.793935] (avoa3d) StdoutLine: {'line': b'[ 55%] \x1b[32m\x1b[1mLinking CXX shared library libavoa3d__rosidl_typesupport_c.so\x1b[0m\n'}
+[5.812376] (-) TimerEvent: {}
+[5.846683] (avoa3d) StdoutLine: {'line': b'[ 55%] Built target avoa3d__rosidl_typesupport_introspection_c\n'}
+[5.866087] (avoa3d) StdoutLine: {'line': b'[ 55%] Built target avoa3d__rosidl_typesupport_c\n'}
+[5.912517] (-) TimerEvent: {}
+[6.005935] (avoa3d) StdoutLine: {'line': b'[ 57%] \x1b[32m\x1b[1mLinking CXX shared library libavoa3d__rosidl_typesupport_cpp.so\x1b[0m\n'}
+[6.012938] (-) TimerEvent: {}
+[6.061684] (avoa3d) StdoutLine: {'line': b'[ 57%] Built target avoa3d__rosidl_typesupport_cpp\n'}
+[6.084808] (avoa3d) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding CXX object CMakeFiles/test_w_goal.dir/src/test_w_goal.cpp.o\x1b[0m\n'}
+[6.085286] (avoa3d) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/sample_evaluator.cpp.o\x1b[0m\n'}
+[6.085407] (avoa3d) StdoutLine: {'line': b'[ 62%] \x1b[32mBuilding CXX object CMakeFiles/obstacle_publisher.dir/src/obstacle_publisher.cpp.o\x1b[0m\n'}
+[6.086832] (avoa3d) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/rviz_marker.dir/src/rviz_marker.cpp.o\x1b[0m\n'}
+[6.087094] (avoa3d) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/avoa3dnode.cpp.o\x1b[0m\n'}
+[6.087209] (avoa3d) StdoutLine: {'line': b'[ 68%] \x1b[32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/sample_visualizer.cpp.o\x1b[0m\n'}
+[6.113339] (-) TimerEvent: {}
+[6.192933] (avoa3d) StdoutLine: {'line': b'[ 70%] \x1b[32m\x1b[1mLinking CXX shared library libavoa3d__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[6.203925] (avoa3d) StdoutLine: {'line': b'[ 72%] \x1b[32m\x1b[1mLinking CXX shared library libavoa3d__rosidl_typesupport_introspection_cpp.so\x1b[0m\n'}
+[6.213386] (-) TimerEvent: {}
+[6.279288] (avoa3d) StdoutLine: {'line': b'[ 72%] Built target avoa3d__rosidl_typesupport_fastrtps_c\n'}
+[6.313497] (-) TimerEvent: {}
+[6.313801] (avoa3d) StdoutLine: {'line': b'[ 72%] Built target avoa3d__rosidl_typesupport_introspection_cpp\n'}
+[6.400632] (avoa3d) StdoutLine: {'line': b'[ 74%] \x1b[32m\x1b[1mLinking CXX shared library libavoa3d__rosidl_typesupport_fastrtps_cpp.so\x1b[0m\n'}
+[6.413630] (-) TimerEvent: {}
+[6.503628] (avoa3d) StdoutLine: {'line': b'[ 74%] Built target avoa3d__rosidl_typesupport_fastrtps_cpp\n'}
+[6.513758] (-) TimerEvent: {}
+[6.538834] (avoa3d) StdoutLine: {'line': b'[ 74%] Built target avoa3d\n'}
+[6.570576] (avoa3d) StdoutLine: {'line': b'[ 75%] \x1b[34m\x1b[1mGenerating Python code for ROS interfaces\x1b[0m\n'}
+[6.613921] (-) TimerEvent: {}
+[6.714375] (-) TimerEvent: {}
+[6.814957] (-) TimerEvent: {}
+[6.915828] (-) TimerEvent: {}
+[7.016680] (-) TimerEvent: {}
+[7.114921] (avoa3d) StdoutLine: {'line': b'[ 75%] Built target avoa3d__py\n'}
+[7.116763] (-) TimerEvent: {}
+[7.157789] (avoa3d) StdoutLine: {'line': b'[ 79%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_py.dir/rosidl_generator_py/avoa3d/msg/_element_characteristics_stamped_s.c.o\x1b[0m\n'}
+[7.158078] (avoa3d) StdoutLine: {'line': b'[ 79%] \x1b[32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_py.dir/rosidl_generator_py/avoa3d/msg/_element_characteristics_array_s.c.o\x1b[0m\n'}
+[7.216935] (-) TimerEvent: {}
+[7.317357] (-) TimerEvent: {}
+[7.375089] (avoa3d) StdoutLine: {'line': b'[ 81%] \x1b[32m\x1b[1mLinking C shared library libavoa3d__rosidl_generator_py.so\x1b[0m\n'}
+[7.417514] (-) TimerEvent: {}
+[7.433261] (avoa3d) StdoutLine: {'line': b'[ 81%] Built target avoa3d__rosidl_generator_py\n'}
+[7.495208] (avoa3d) StdoutLine: {'line': b'[ 85%] \x1b[32mBuilding C object CMakeFiles/avoa3d_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/avoa3d/_avoa3d_s.ep.rosidl_typesupport_fastrtps_c.c.o\x1b[0m\n'}
+[7.495689] (avoa3d) StdoutLine: {'line': b'[ 85%] \x1b[32mBuilding C object CMakeFiles/avoa3d_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/avoa3d/_avoa3d_s.ep.rosidl_typesupport_introspection_c.c.o\x1b[0m\n'}
+[7.511251] (avoa3d) StdoutLine: {'line': b'[ 87%] \x1b[32mBuilding C object CMakeFiles/avoa3d_s__rosidl_typesupport_c.dir/rosidl_generator_py/avoa3d/_avoa3d_s.ep.rosidl_typesupport_c.c.o\x1b[0m\n'}
+[7.517804] (-) TimerEvent: {}
+[7.618285] (-) TimerEvent: {}
+[7.625345] (avoa3d) StdoutLine: {'line': b'[ 88%] \x1b[32m\x1b[1mLinking C shared module rosidl_generator_py/avoa3d/avoa3d_s__rosidl_typesupport_c.so\x1b[0m\n'}
+[7.639366] (avoa3d) StdoutLine: {'line': b'[ 90%] \x1b[32m\x1b[1mLinking C shared module rosidl_generator_py/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[7.650141] (avoa3d) StdoutLine: {'line': b'[ 92%] \x1b[32m\x1b[1mLinking C shared module rosidl_generator_py/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[7.676959] (avoa3d) StdoutLine: {'line': b'[ 92%] Built target avoa3d_s__rosidl_typesupport_c\n'}
+[7.691534] (avoa3d) StdoutLine: {'line': b'[ 92%] Built target avoa3d_s__rosidl_typesupport_introspection_c\n'}
+[7.696165] (avoa3d) StdoutLine: {'line': b'[ 92%] Built target avoa3d_s__rosidl_typesupport_fastrtps_c\n'}
+[7.718403] (-) TimerEvent: {}
+[7.818961] (-) TimerEvent: {}
+[7.919792] (-) TimerEvent: {}
+[8.020261] (-) TimerEvent: {}
+[8.120640] (-) TimerEvent: {}
+[8.221205] (-) TimerEvent: {}
+[8.321771] (-) TimerEvent: {}
+[8.422174] (-) TimerEvent: {}
+[8.522785] (-) TimerEvent: {}
+[8.623865] (-) TimerEvent: {}
+[8.724348] (-) TimerEvent: {}
+[8.824824] (-) TimerEvent: {}
+[8.925371] (-) TimerEvent: {}
+[9.026050] (-) TimerEvent: {}
+[9.126957] (-) TimerEvent: {}
+[9.227761] (-) TimerEvent: {}
+[9.328128] (-) TimerEvent: {}
+[9.428543] (-) TimerEvent: {}
+[9.528919] (-) TimerEvent: {}
+[9.629356] (-) TimerEvent: {}
+[9.729991] (-) TimerEvent: {}
+[9.830592] (-) TimerEvent: {}
+[9.931408] (-) TimerEvent: {}
+[10.031800] (-) TimerEvent: {}
+[10.132176] (-) TimerEvent: {}
+[10.232543] (-) TimerEvent: {}
+[10.333126] (-) TimerEvent: {}
+[10.433812] (-) TimerEvent: {}
+[10.534478] (-) TimerEvent: {}
+[10.634831] (-) TimerEvent: {}
+[10.735202] (-) TimerEvent: {}
+[10.835689] (-) TimerEvent: {}
+[10.936375] (-) TimerEvent: {}
+[11.037168] (-) TimerEvent: {}
+[11.137626] (-) TimerEvent: {}
+[11.238058] (-) TimerEvent: {}
+[11.338495] (-) TimerEvent: {}
+[11.438824] (-) TimerEvent: {}
+[11.539139] (-) TimerEvent: {}
+[11.639423] (-) TimerEvent: {}
+[11.739856] (-) TimerEvent: {}
+[11.840399] (-) TimerEvent: {}
+[11.941157] (-) TimerEvent: {}
+[12.041418] (-) TimerEvent: {}
+[12.141806] (-) TimerEvent: {}
+[12.242297] (-) TimerEvent: {}
+[12.342639] (-) TimerEvent: {}
+[12.442981] (-) TimerEvent: {}
+[12.543351] (-) TimerEvent: {}
+[12.643700] (-) TimerEvent: {}
+[12.744002] (-) TimerEvent: {}
+[12.844314] (-) TimerEvent: {}
+[12.944856] (-) TimerEvent: {}
+[13.045279] (-) TimerEvent: {}
+[13.145612] (-) TimerEvent: {}
+[13.246142] (-) TimerEvent: {}
+[13.346717] (-) TimerEvent: {}
+[13.447440] (-) TimerEvent: {}
+[13.547792] (-) TimerEvent: {}
+[13.648126] (-) TimerEvent: {}
+[13.745792] (avoa3d) StdoutLine: {'line': b'[ 94%] \x1b[32m\x1b[1mLinking CXX executable test_w_goal\x1b[0m\n'}
+[13.748216] (-) TimerEvent: {}
+[13.848453] (-) TimerEvent: {}
+[13.948991] (-) TimerEvent: {}
+[14.049672] (-) TimerEvent: {}
+[14.150343] (-) TimerEvent: {}
+[14.162564] (avoa3d) StdoutLine: {'line': b'[ 94%] Built target test_w_goal\n'}
+[14.250473] (-) TimerEvent: {}
+[14.350780] (-) TimerEvent: {}
+[14.451160] (-) TimerEvent: {}
+[14.551656] (-) TimerEvent: {}
+[14.607721] (avoa3d) StdoutLine: {'line': b'[ 96%] \x1b[32m\x1b[1mLinking CXX executable obstacle_publisher\x1b[0m\n'}
+[14.652030] (-) TimerEvent: {}
+[14.752825] (-) TimerEvent: {}
+[14.853587] (-) TimerEvent: {}
+[14.954224] (-) TimerEvent: {}
+[15.008703] (avoa3d) StdoutLine: {'line': b'[ 96%] Built target obstacle_publisher\n'}
+[15.054475] (-) TimerEvent: {}
+[15.154892] (-) TimerEvent: {}
+[15.255398] (-) TimerEvent: {}
+[15.355689] (-) TimerEvent: {}
+[15.455999] (-) TimerEvent: {}
+[15.556257] (-) TimerEvent: {}
+[15.656577] (-) TimerEvent: {}
+[15.756937] (-) TimerEvent: {}
+[15.857152] (-) TimerEvent: {}
+[15.957481] (-) TimerEvent: {}
+[16.057813] (-) TimerEvent: {}
+[16.158486] (-) TimerEvent: {}
+[16.259040] (-) TimerEvent: {}
+[16.359355] (-) TimerEvent: {}
+[16.459597] (-) TimerEvent: {}
+[16.559858] (-) TimerEvent: {}
+[16.660078] (-) TimerEvent: {}
+[16.760416] (-) TimerEvent: {}
+[16.860814] (-) TimerEvent: {}
+[16.961706] (-) TimerEvent: {}
+[17.061985] (-) TimerEvent: {}
+[17.162254] (-) TimerEvent: {}
+[17.228105] (avoa3d) StdoutLine: {'line': b'[ 98%] \x1b[32m\x1b[1mLinking CXX executable avoa3dnode\x1b[0m\n'}
+[17.262472] (-) TimerEvent: {}
+[17.362783] (-) TimerEvent: {}
+[17.463016] (-) TimerEvent: {}
+[17.563272] (-) TimerEvent: {}
+[17.663650] (-) TimerEvent: {}
+[17.704232] (avoa3d) StdoutLine: {'line': b'[ 98%] Built target avoa3dnode\n'}
+[17.763753] (-) TimerEvent: {}
+[17.864085] (-) TimerEvent: {}
+[17.964424] (-) TimerEvent: {}
+[18.064689] (-) TimerEvent: {}
+[18.165000] (-) TimerEvent: {}
+[18.265238] (-) TimerEvent: {}
+[18.365734] (-) TimerEvent: {}
+[18.466485] (-) TimerEvent: {}
+[18.566719] (-) TimerEvent: {}
+[18.667049] (-) TimerEvent: {}
+[18.767368] (-) TimerEvent: {}
+[18.867656] (-) TimerEvent: {}
+[18.968229] (-) TimerEvent: {}
+[19.068569] (-) TimerEvent: {}
+[19.169523] (-) TimerEvent: {}
+[19.269795] (-) TimerEvent: {}
+[19.370150] (-) TimerEvent: {}
+[19.428211] (avoa3d) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable rviz_marker\x1b[0m\n'}
+[19.470375] (-) TimerEvent: {}
+[19.570753] (-) TimerEvent: {}
+[19.671089] (-) TimerEvent: {}
+[19.771436] (-) TimerEvent: {}
+[19.871953] (-) TimerEvent: {}
+[19.972353] (-) TimerEvent: {}
+[20.022032] (avoa3d) StdoutLine: {'line': b'[100%] Built target rviz_marker\n'}
+[20.039018] (avoa3d) CommandEnded: {'returncode': 0}
+[20.039709] (avoa3d) JobProgress: {'identifier': 'avoa3d', 'progress': 'install'}
+[20.048249] (avoa3d) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d'], 'cwd': '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'XDG_ACTIVATION_TOKEN': 'gnome-shell/Terminator/3608-2-xizesse_TIME26960266', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'xizesse', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/xizesse/ros_ws/install/ros_gz_sim/lib:/home/xizesse/ros_ws/install/ros_gz_bridge/lib:/home/xizesse/ros_ws/install/ros_gz_interfaces/lib:/home/xizesse/ros_ws/install/avoa3d/lib:/home/xizesse/ros_ws/install/custom_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/xizesse', 'OLDPWD': '/home/xizesse/ros_ws', 'DESKTOP_SESSION': 'ubuntu', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '3123', 'SYSTEMD_EXEC_PID': '3608', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '87979', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/xizesse/ros_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'xizesse', 'JOURNAL_STREAM': '9:33916', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'xizesse', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/xizesse:@/tmp/.ICE-unix/3563,unix/xizesse:/tmp/.ICE-unix/3563', 'INVOCATION_ID': '1c33556cf9264c19881f6d2539065d55', 'XDG_MENU_PREFIX': 'gnome-', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '27', 'AMENT_PREFIX_PATH': '/home/xizesse/ros_ws/install/test_ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz:/home/xizesse/ros_ws/install/ros_gz_sim_demos:/home/xizesse/ros_ws/install/ros_gz_sim:/home/xizesse/ros_ws/install/ros_gz_image:/home/xizesse/ros_ws/install/ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz_interfaces:/home/xizesse/ros_ws/install/mvoa:/home/xizesse/ros_ws/install/avoa3d:/home/xizesse/ros_ws/install/custom_msgs:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:cf966f16-8b8d-4dc1-96f0-71071dca2dbe', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/home/xizesse/ros_ws/install/ros_gz_sim_demos/share', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/xizesse/ros_ws/install/ros_gz_sim/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/ros_gz_bridge/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/ros_gz_interfaces/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/avoa3d/lib/python3.12/site-packages:/home/xizesse/ros_ws/install/custom_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/xizesse/ros_ws/install/test_ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz:/home/xizesse/ros_ws/install/ros_gz_sim_demos:/home/xizesse/ros_ws/install/ros_gz_sim:/home/xizesse/ros_ws/install/ros_gz_image:/home/xizesse/ros_ws/install/ros_gz_bridge:/home/xizesse/ros_ws/install/ros_gz_interfaces:/home/xizesse/ros_ws/install/mvoa:/home/xizesse/ros_ws/install/avoa3d:/home/xizesse/ros_ws/install/custom_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[20.058611] (avoa3d) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[20.059284] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/rosidl_interfaces/avoa3d\n'}
+[20.060171] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsStamped.json\n'}
+[20.060504] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsArray.json\n'}
+[20.060611] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d\n'}
+[20.060675] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg\n'}
+[20.060749] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_generator_c__visibility_control.h\n'}
+[20.060810] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_stamped.h\n'}
+[20.060927] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail\n'}
+[20.060987] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__description.c\n'}
+[20.061045] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.c\n'}
+[20.061101] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__functions.c\n'}
+[20.061152] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.c\n'}
+[20.061201] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__functions.h\n'}
+[20.061266] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.h\n'}
+[20.061357] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__description.c\n'}
+[20.061408] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__struct.h\n'}
+[20.061457] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__struct.h\n'}
+[20.061507] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__functions.h\n'}
+[20.061557] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__functions.c\n'}
+[20.061606] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.h\n'}
+[20.061655] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_array.h\n'}
+[20.061718] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/library_path.sh\n'}
+[20.061784] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/library_path.dsv\n'}
+[20.061876] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_generator_c.so\n'}
+[20.062565] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_generator_c.so" to ""\n'}
+[20.062615] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d\n'}
+[20.062663] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg\n'}
+[20.062740] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[20.062817] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail\n'}
+[20.062867] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_fastrtps_c.h\n'}
+[20.062911] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_c.h\n'}
+[20.062953] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_fastrtps_c.so\n'}
+[20.063065] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[20.063111] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d\n'}
+[20.063184] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg\n'}
+[20.063227] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_stamped.hpp\n'}
+[20.063271] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/element_characteristics_array.hpp\n'}
+[20.063314] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[20.063371] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail\n'}
+[20.063439] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__struct.hpp\n'}
+[20.063483] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__traits.hpp\n'}
+[20.063526] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.hpp\n'}
+[20.063569] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__builder.hpp\n'}
+[20.063611] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__builder.hpp\n'}
+[20.063676] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__traits.hpp\n'}
+[20.063723] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.hpp\n'}
+[20.063766] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__struct.hpp\n'}
+[20.063808] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d\n'}
+[20.063855] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg\n'}
+[20.063912] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[20.063979] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail\n'}
+[20.064016] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[20.064053] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/dds_fastrtps\n'}
+[20.064088] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[20.064123] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_fastrtps_cpp.so\n'}
+[20.064181] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[20.064222] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d\n'}
+[20.064260] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg\n'}
+[20.064321] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[20.064364] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail\n'}
+[20.064403] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_introspection_c.h\n'}
+[20.064442] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.c\n'}
+[20.064497] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.c\n'}
+[20.064536] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_c.h\n'}
+[20.064574] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_introspection_c.so\n'}
+[20.064640] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_introspection_c.so" to ""\n'}
+[20.064688] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_c.so\n'}
+[20.064809] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_c.so" to ""\n'}
+[20.064870] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d\n'}
+[20.064911] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg\n'}
+[20.064966] (avoa3d) StdoutLine: {'line': b'-- Up-to-date: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail\n'}
+[20.065004] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_cpp.hpp\n'}
+[20.065043] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__rosidl_typesupport_introspection_cpp.hpp\n'}
+[20.065087] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_array__type_support.cpp\n'}
+[20.065120] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/include/avoa3d/avoa3d/msg/detail/element_characteristics_stamped__type_support.cpp\n'}
+[20.065159] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_introspection_cpp.so\n'}
+[20.065276] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[20.065319] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_cpp.so\n'}
+[20.065425] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_typesupport_cpp.so" to ""\n'}
+[20.065466] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/pythonpath.sh\n'}
+[20.065508] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/pythonpath.dsv\n'}
+[20.065548] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info\n'}
+[20.065590] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/PKG-INFO\n'}
+[20.065631] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/top_level.txt\n'}
+[20.065674] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/SOURCES.txt\n'}
+[20.065717] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d-0.1.0-py3.12.egg-info/dependency_links.txt\n'}
+[20.065759] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d\n'}
+[20.065800] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/_avoa3d_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[20.065845] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/__init__.py\n'}
+[20.065890] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_c.so\n'}
+[20.065937] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/_avoa3d_s.ep.rosidl_typesupport_c.c\n'}
+[20.065972] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so\n'}
+[20.066014] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/_avoa3d_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[20.066056] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so\n'}
+[20.066098] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg\n'}
+[20.066144] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/__init__.py\n'}
+[20.066177] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_array_s.c\n'}
+[20.066222] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_stamped_s.c\n'}
+[20.066261] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_array.py\n'}
+[20.066291] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_stamped.py\n'}
+[20.072447] (-) TimerEvent: {}
+[20.109003] (avoa3d) StdoutLine: {'line': b"Listing '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d'...\n"}
+[20.109122] (avoa3d) StdoutLine: {'line': b"Compiling '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/__init__.py'...\n"}
+[20.109159] (avoa3d) StdoutLine: {'line': b"Listing '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg'...\n"}
+[20.109193] (avoa3d) StdoutLine: {'line': b"Compiling '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/__init__.py'...\n"}
+[20.109224] (avoa3d) StdoutLine: {'line': b"Compiling '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_array.py'...\n"}
+[20.109255] (avoa3d) StdoutLine: {'line': b"Compiling '/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/msg/_element_characteristics_stamped.py'...\n"}
+[20.112863] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so\n'}
+[20.112947] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[20.113080] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so\n'}
+[20.113154] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so" to ""\n'}
+[20.113286] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_c.so\n'}
+[20.113357] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/python3.12/site-packages/avoa3d/avoa3d_s__rosidl_typesupport_c.so" to ""\n'}
+[20.113401] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_generator_py.so\n'}
+[20.113545] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/libavoa3d__rosidl_generator_py.so" to ""\n'}
+[20.113623] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsStamped.idl\n'}
+[20.113664] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsArray.idl\n'}
+[20.113700] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsStamped.msg\n'}
+[20.113735] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/msg/ElementCharacteristicsArray.msg\n'}
+[20.113783] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/rviz_marker\n'}
+[20.121575] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/rviz_marker" to ""\n'}
+[20.121725] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/test_w_goal\n'}
+[20.127614] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/test_w_goal" to ""\n'}
+[20.127919] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/obstacle_publisher\n'}
+[20.131428] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/obstacle_publisher" to ""\n'}
+[20.131596] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/avoa3dnode\n'}
+[20.139374] (avoa3d) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/xizesse/ros_ws/src/avoa3d/install/avoa3d/lib/avoa3d/avoa3dnode" to ""\n'}
+[20.139531] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch\n'}
+[20.147247] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch/single_static.xml\n'}
+[20.147333] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch/dynamic.xml\n'}
+[20.147402] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//launch/bridge_launch.xml\n'}
+[20.148641] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//config\n'}
+[20.148790] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//config/motion_params.yaml\n'}
+[20.148988] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d//config/bridge_config.yaml\n'}
+[20.149164] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/package_run_dependencies/avoa3d\n'}
+[20.149261] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/parent_prefix_path/avoa3d\n'}
+[20.149450] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/ament_prefix_path.sh\n'}
+[20.149564] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/ament_prefix_path.dsv\n'}
+[20.149662] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/path.sh\n'}
+[20.149859] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/environment/path.dsv\n'}
+[20.150028] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.bash\n'}
+[20.150105] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.sh\n'}
+[20.150175] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.zsh\n'}
+[20.150244] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/local_setup.dsv\n'}
+[20.150334] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/package.dsv\n'}
+[20.150404] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/ament_index/resource_index/packages/avoa3d\n'}
+[20.150472] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_cExport.cmake\n'}
+[20.150540] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_cExport-noconfig.cmake\n'}
+[20.150606] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[20.150691] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[20.150758] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_cppExport.cmake\n'}
+[20.150825] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[20.150915] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[20.150985] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cExport.cmake\n'}
+[20.151051] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[20.151117] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cExport.cmake\n'}
+[20.151183] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[20.151250] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[20.151321] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[20.151388] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cppExport.cmake\n'}
+[20.151478] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3d__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[20.151541] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_pyExport.cmake\n'}
+[20.151603] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/export_avoa3d__rosidl_generator_pyExport-noconfig.cmake\n'}
+[20.151667] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/rosidl_cmake-extras.cmake\n'}
+[20.151731] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[20.151794] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[20.151864] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[20.151931] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[20.151994] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[20.152056] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[20.152119] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3dConfig.cmake\n'}
+[20.152182] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/cmake/avoa3dConfig-version.cmake\n'}
+[20.152252] (avoa3d) StdoutLine: {'line': b'-- Installing: /home/xizesse/ros_ws/src/avoa3d/install/avoa3d/share/avoa3d/package.xml\n'}
+[20.154734] (avoa3d) CommandEnded: {'returncode': 0}
+[20.171353] (avoa3d) JobEnded: {'identifier': 'avoa3d', 'rc': 0}
+[20.171682] (-) EventReactorShutdown: {}

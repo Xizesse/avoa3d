@@ -1,0 +1,73 @@
+<launch>
+    <!-- Declare launch arguments -->
+    <arg name="name" default="ros_gz_bridge"/>
+    <arg name="config_file" default="config/bridge_config.yaml"/>
+    <arg name="namespace" default=""/>
+    <arg name="log_level" default="info"/>
+    <arg name="cfg_file" default="$(find-pkg-share mvoa)/config/mvoa.yaml"/>
+
+    <arg name="scenario" default="1" description="Scenario number: 1=side, 2=away, 3=towards, 4=get out etc."/>
+
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_static.sdf"   if="$(eval '&quot;$(var scenario)&quot; == &quot;static&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_static2.sdf"   if="$(eval '&quot;$(var scenario)&quot; == &quot;static2&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_static3.sdf"   if="$(eval '&quot;$(var scenario)&quot; == &quot;static3&quot;')"/>
+
+
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic1.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;1&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic2.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;2&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic3.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;3&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic4.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;4&quot;')"/>
+    <let name="sdf_file" value="$(env HOME)/ros_ws/src/avoa3d/sdf/single_dynamic5.sdf" if="$(eval '&quot;$(var scenario)&quot; == &quot;5&quot;')"/>
+
+    
+
+
+
+    <!-- Launch Gazebo simulation -->
+    <executable cmd="gz sim 4 -r $(var sdf_file)" output="screen"/>
+    <!--executable cmd="gz sim -v 4 -r $(env HOME)/ros_ws/src/avoa3d/sdf/single_static.sdf" output="screen"/-->
+
+
+    <!-- Launch the ros_gz_bridge node -->
+    <node
+        pkg="ros_gz_bridge"
+        exec="parameter_bridge"
+        name="$(var name)"
+        namespace="$(var namespace)"
+        output="screen"
+        args="--ros-args --log-level $(var log_level)">
+        <param name="use_sim_time" value="true"/>
+        <param name="config_file" value="$(env HOME)/ros_ws/src/avoa3d/config/bridge_config.yaml"/>
+    </node>
+
+    <!-- Launch avoa3d nodes -->
+    <node
+        pkg="avoa3d"
+        exec="obstacle_publisher"
+        name="obstacle_publisher"
+        output="screen">
+        <param name="use_sim_time" value="true"/>
+    </node>
+
+    <node
+        pkg="avoa3d"
+        exec="rviz_marker"
+        name="rviz_marker"
+        output="screen">
+        <param name="use_sim_time" value="true"/>
+    </node>
+
+    <node
+        pkg="avoa3d"
+        exec="pure_pursuit"
+        name="pure_pursuit"
+        output="screen">
+        <param name="use_sim_time" value="true"/>
+    </node>
+
+    <node pkg="avoa3d" exec="avoa3dnode" name="avoa3dnode" output="screen">
+        <param name="use_sim_time" value="true"/>
+        <param from="$(find-pkg-share avoa3d)/config/motion_params.yaml"/>
+    </node>
+    
+</launch>

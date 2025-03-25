@@ -65,7 +65,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
             // get obstacle radius
             double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
-                                    + vehicle_radius_ * 1.5 + obstacle.protective_zone; 
+                                    + vehicle_radius_ * 1.8 + obstacle.protective_zone; 
 
             //std::cout << "Obstacle radius: " << obstacle_radius << std::endl;
 
@@ -174,7 +174,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             // Combine goal-directed cost with safety cost
             double goal_cost = 0.9 * direction_error + 0.1* normalized_magnitude_error;
             
-            sample.cost = 0.8 * goal_cost + 0.1 * sample.danger ; 
+            sample.cost = 0.8 * goal_cost + 0.0 * sample.danger ; 
             
             if (sample.vy <= 0.0 )
             {

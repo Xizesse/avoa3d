@@ -86,7 +86,7 @@ private:
         vehicle_radius_ = 0.5;
 
         // Sampling parameters
-        num_samples_ = 5000;
+        num_samples_ = 10000;
         
         // Optional weights
         double heading_weight = 0.7;
@@ -147,12 +147,14 @@ private:
         
         geometry_msgs::msg::Twist cmd_vel;
         //!BASIC FILTERING 0.8 current + 0.2 new
-        cmd_vel.linear.x = 0.8*latest_velocity_.linear.x + 0.2*best_sample.vx + 0.0*latest_desired_velocity_.linear.x;
-        cmd_vel.linear.y = 0.8*latest_velocity_.linear.y + 0.2*best_sample.vy + 0.0*latest_desired_velocity_.linear.y;
-        cmd_vel.linear.z = 0.8*latest_velocity_.linear.z + 0.2*best_sample.vz + 0.0*latest_desired_velocity_.linear.z;
-        /* cmd_vel.linear.x = best_sample.vx;
+        cmd_vel.linear.x = //0.8*latest_velocity_.linear.x + 0.2*best_sample.vx + 0.0*latest_desired_velocity_.linear.x;
+        cmd_vel.linear.y = //0.8*latest_velocity_.linear.y + 0.2*best_sample.vy + 0.0*latest_desired_velocity_.linear.y;
+        cmd_vel.linear.z = //0.8*latest_velocity_.linear.z + 0.2*best_sample.vz + 0.0*latest_desired_velocity_.linear.z;
+
+        cmd_vel.linear.x = best_sample.vx;
         cmd_vel.linear.y = best_sample.vy;
-        cmd_vel.linear.z = best_sample.vz; */
+        cmd_vel.linear.z = best_sample.vz; 
+
         cmd_vel.angular.x = 0.0;
         cmd_vel.angular.y = 0.0;
         cmd_vel.angular.z = 0.0;
@@ -194,6 +196,7 @@ private:
         // Calculate velocity limits based on current velocity and acceleration constraints
         // Lower bounds: current velocity - max acceleration * delta_t (but not below -v_max)
         // Upper bounds: current velocity + max acceleration * delta_t (but not above v_max)
+
         double min_vx = std::max(latest_velocity_.linear.x - a_x_max_ * delta_t_, -v_x_max_);
         double max_vx = std::min(latest_velocity_.linear.x + a_x_max_ * delta_t_, v_x_max_);
         
@@ -218,23 +221,30 @@ private:
         }
         
         // Always include the current velocity as a sample,//TODO but chek if min and max values are okay
-        samples.push_back(VelocitySample(
-            latest_velocity_.linear.x,
-            latest_velocity_.linear.y,
-            latest_velocity_.linear.z
-        ));
+        if (latest_velocity_.linear.x >= min_vx && latest_velocity_.linear.x <= max_vx &&
+            latest_velocity_.linear.y >= min_vy && latest_velocity_.linear.y <= max_vy &&
+            latest_velocity_.linear.z >= min_vz && latest_velocity_.linear.z <= max_vz) {
+            samples.push_back(VelocitySample(
+                latest_velocity_.linear.x,
+                latest_velocity_.linear.y,
+                latest_velocity_.linear.z
+            ));
+        }
+        
         
         // Always include the desired velocity as a sample 
-        double desired_vx = latest_desired_velocity_.linear.x;
-        double desired_vy = latest_desired_velocity_.linear.y;
-        double desired_vz = latest_desired_velocity_.linear.z;
-        
-        samples.push_back(VelocitySample(desired_vx, desired_vy, desired_vz));
+        if (latest_desired_velocity_.linear.x >= min_vx && latest_desired_velocity_.linear.x <= max_vx &&
+            latest_desired_velocity_.linear.y >= min_vy && latest_desired_velocity_.linear.y <= max_vy &&
+            latest_desired_velocity_.linear.z >= min_vz && latest_desired_velocity_.linear.z <= max_vz) {
+            samples.push_back(VelocitySample(
+                latest_desired_velocity_.linear.x,
+                latest_desired_velocity_.linear.y,
+                latest_desired_velocity_.linear.z
+            ));
+        }
         
         return samples;
     }
-    
-
     
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;

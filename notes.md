@@ -1,5 +1,6 @@
 ############################
 #TO-DO
+- Re-evaluate feasibility
 - Cylindrical coordinates
 - Normalizar custos
 - Parametros direitos para as classes
