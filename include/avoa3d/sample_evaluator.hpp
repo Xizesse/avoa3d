@@ -20,8 +20,7 @@ public:
     // Main evaluation function (same signature as your original)
     void evaluateSamples(
         std::vector<VelocitySample>& samples, 
-        const custom_msgs::msg::ElementCharacteristicsArray& obstacles,
-        double delta_t
+        const custom_msgs::msg::ElementCharacteristicsArray& obstacles
     );
     
     // Find the best sample

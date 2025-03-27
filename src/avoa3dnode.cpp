@@ -14,6 +14,7 @@
 #include "avoa3d/velocity_sample.hpp"
 #include "avoa3d/sample_evaluator.hpp"
 #include "avoa3d/sample_visualizer.hpp"
+#include "avoa3d/sample_generator.hpp"
 
 
 using namespace std::chrono_literals;
@@ -27,8 +28,9 @@ public:
     {
         declare_parameters();
         
+        sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(this->get_logger());
         sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(this->get_logger(), vehicle_radius_);
-        sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this, delta_t_);
+        sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
 
         //! PUBLISHERS
@@ -51,16 +53,11 @@ public:
             std::chrono::milliseconds(static_cast<int>(100)), 
             std::bind(&AVOA::timer_callback, this));
             
-        RCLCPP_INFO(this->get_logger(), "AVOA node initialized with parameters:");
-        RCLCPP_INFO(this->get_logger(), "  v_x_max: %.2f", v_x_max_);
-        RCLCPP_INFO(this->get_logger(), "  v_y_max: %.2f", v_y_max_);
-        RCLCPP_INFO(this->get_logger(), "  v_z_max: %.2f", v_z_max_);
-        RCLCPP_INFO(this->get_logger(), "  delta_t: %.4f", delta_t_);
-        RCLCPP_INFO(this->get_logger(), "  num_samples: %d", num_samples_);
     }
 
 private:
     
+    std::unique_ptr<avoa3d::HolonomicSampleGenerator> sample_generator_;//! Generator
     std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;//! Evaluator
     std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;//! Visualizer
     std::vector<VelocitySample> samples;
@@ -68,41 +65,12 @@ private:
 
     // TODO Parameter declaration (Hardcoded rn)
     void declare_parameters()
-    {
-        // Maximum accelerations
-        a_x_max_ = 3.0;
-        a_y_max_ = 3.0;
-        a_z_max_ = 3.0;
-        
-        // Maximum velocities
-        v_x_max_ = 1.0;
-        v_y_max_ = 1.0;
-        v_z_max_ = 0.0;
-    
-        // Time step
-        delta_t_ = 1.0;
-        
+    {   
         // Vehicle radius
         vehicle_radius_ = 0.5;
-
-        // Sampling parameters
-        num_samples_ = 10000;
         
-        // Optional weights
-        double heading_weight = 0.7;
-        double magnitude_error_weight = 0.3;
-        double safety_weight = 0.5;
-        
-        RCLCPP_INFO(this->get_logger(), "Using hardcoded parameters:");
-        RCLCPP_INFO(this->get_logger(), "  a_x_max: %.2f", a_x_max_);
-        RCLCPP_INFO(this->get_logger(), "  a_y_max: %.2f", a_y_max_);
-        RCLCPP_INFO(this->get_logger(), "  a_z_max: %.2f", a_z_max_);
-        RCLCPP_INFO(this->get_logger(), "  v_x_max: %.2f", v_x_max_);
-        RCLCPP_INFO(this->get_logger(), "  v_y_max: %.2f", v_y_max_);
-        RCLCPP_INFO(this->get_logger(), "  v_z_max: %.2f", v_z_max_);
-        RCLCPP_INFO(this->get_logger(), "  delta_t: %.2f", delta_t_);
+        RCLCPP_INFO(this->get_logger(), "AVOA Using hardcoded parameters:");
         RCLCPP_INFO(this->get_logger(), "  vehicle_radius: %.2f", vehicle_radius_);
-        RCLCPP_INFO(this->get_logger(), "  num_samples: %d", num_samples_);
     }
     
     //! Callback functions
@@ -139,9 +107,9 @@ private:
             return;
         }
 
-        samples = generate_velocity_samples();
+        samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
         
-        sample_evaluator_->evaluateSamples(samples, latest_obstacles_, delta_t_);
+        sample_evaluator_->evaluateSamples(samples, latest_obstacles_);
         
         best_sample = sample_evaluator_->findBestSample(samples);
         
@@ -186,7 +154,7 @@ private:
         return have_agent_data && have_desired_velocity;
     }
     
-    std::vector<VelocitySample> generate_velocity_samples()
+    /* std::vector<VelocitySample> generate_velocity_samples()
     {
         std::vector<VelocitySample> samples;
         std::random_device rd;
@@ -244,7 +212,7 @@ private:
         }
         
         return samples;
-    }
+    } */
     
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;
@@ -261,14 +229,6 @@ private:
     custom_msgs::msg::ElementCharacteristicsArray latest_obstacles_{};
     
     // Parameters
-    double a_x_max_;
-    double a_y_max_;
-    double a_z_max_;
-    double v_x_max_;
-    double v_y_max_;
-    double v_z_max_;
-    double delta_t_;
-    int num_samples_;
     double vehicle_radius_;
 };
 

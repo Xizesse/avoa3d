@@ -1,5 +1,8 @@
 ############################
 #TO-DO
+- Refactor Generator
+- Holonomic generator working
+- Diff Drive Generator
 - Re-evaluate feasibility
 - Cylindrical coordinates
 - Normalizar custos

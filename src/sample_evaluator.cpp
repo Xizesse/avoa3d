@@ -16,7 +16,7 @@ void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desire
     latest_desired_velocity_ = desired_velocity;
 }
 
-void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const custom_msgs::msg::ElementCharacteristicsArray& obstacles, double delta_t_)
+void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const custom_msgs::msg::ElementCharacteristicsArray& obstacles )
 {
     double desired_vx = latest_desired_velocity_.linear.x;
     double desired_vy = latest_desired_velocity_.linear.y;

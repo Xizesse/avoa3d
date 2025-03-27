@@ -40,6 +40,7 @@ add_executable(rviz_marker src/rviz_marker.cpp)
 add_executable(avoa3dnode src/avoa3dnode.cpp
                           src/sample_evaluator.cpp
                           src/sample_visualizer.cpp
+                          src/sample_generator.cpp
                           )
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)

@@ -5,9 +5,8 @@
 
 namespace avoa3d {
 
-SampleVisualizer::SampleVisualizer(rclcpp::Node* node, double delta_t)
-    : node_(node),
-      delta_t_(delta_t)
+SampleVisualizer::SampleVisualizer(rclcpp::Node* node)
+    : node_(node)
 {
     // Create publisher
     samples_cloud_publisher_ = node_->create_publisher<sensor_msgs::msg::PointCloud2>(

@@ -11,7 +11,7 @@ namespace avoa3d {
 
 class SampleVisualizer {
 public:
-    SampleVisualizer(rclcpp::Node* node, double delta_t);
+    SampleVisualizer(rclcpp::Node* node);
     
     void setAgentOdometry(const nav_msgs::msg::Odometry& odometry);
     
@@ -24,7 +24,6 @@ private:
     rclcpp::Node* node_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;
     nav_msgs::msg::Odometry latest_agent_odometry_{};
-    double delta_t_;
 };
 
 } // namespace avoa3d
