@@ -98,4 +98,80 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
         return samples;
     }
 
+//! Diff Drive Sample Generator
+
+DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger)
+    : logger_(logger),  
+      random_engine_(std::random_device()())
+{
+    //! Hardcode all motion parameters here
+   
+   // Maximum velocities
+   v_linear_max_ = 1.0;
+   w_angular_max_ = 1.0;
+
+   // Time step
+   delta_t_ = 1.0;
+   
+   // Sampling parameters
+   num_samples_ = 10000;
+}
+
+
+std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
+    const geometry_msgs::msg::Twist& current_velocity,
+    const geometry_msgs::msg::Twist& desired_velocity)
+    {
+        std::vector<VelocitySample> samples;
+        std::random_device rd;
+        // random number generation
+        std::mt19937 gen(rd());
+        
+        // Calculate velocity limits based on current velocity and acceleration constraints
+        // Lower bounds: current velocity - max acceleration * delta_t (but not below -v_max)
+        // Upper bounds: current velocity + max acceleration * delta_t (but not above v_max)
+
+        //TODO calculate the bounds 
+        
+        std::uniform_real_distribution<> dist_v(-v_linear_max_, v_linear_max_);
+        std::uniform_real_distribution<> dist_vw(-w_angular_max_, w_angular_max_);
+        
+        // TODO Generate random samples
+        for (int i = 0; i < num_samples_; ++i) {
+            double v = dist_v(gen);
+            double w = dist_vw(gen);
+            //TODO convert to vx, vy, vz
+            double vx = v * std::cos(w);
+            double vy = v * std::sin(w);
+            double vz = 0.0;
+
+            samples.push_back(VelocitySample(vx, vy, vz));
+        }
+        
+        // TODO Always include the current velocity as a sample,//TODO but chek if min and max values are okay
+        double current_v = std::sqrt(current_velocity.linear.x * current_velocity.linear.x + current_velocity.linear.y * current_velocity.linear.y);
+        double current_w = std::atan2(current_velocity.linear.y, current_velocity.linear.x);
+        if (current_v >= -v_linear_max_ && current_v <= v_linear_max_ &&
+            current_w >= -w_angular_max_ && current_w <= w_angular_max_) {
+            samples.push_back(VelocitySample(
+                current_velocity.linear.x,
+                current_velocity.linear.y,
+                current_velocity.linear.z
+            ));
+        }        
+        // TODO Always include the desired velocity as a sample 
+        double desired_v = std::sqrt(desired_velocity.linear.x * desired_velocity.linear.x + desired_velocity.linear.y * desired_velocity.linear.y);
+        double desired_w = std::atan2(desired_velocity.linear.y, desired_velocity.linear.x);
+        if (desired_v >= -v_linear_max_ && desired_v <= v_linear_max_ &&
+            desired_w >= -w_angular_max_ && desired_w <= w_angular_max_) {
+            samples.push_back(VelocitySample(
+                desired_velocity.linear.x,
+                desired_velocity.linear.y,
+                desired_velocity.linear.z
+            ));
+        }
+        
+        return samples;
+    }
+
 } // namespace avoa3d

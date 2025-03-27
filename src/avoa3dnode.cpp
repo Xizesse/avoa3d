@@ -28,7 +28,7 @@ public:
     {
         declare_parameters();
         
-        sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(this->get_logger());
+        sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(this->get_logger());
         sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(this->get_logger(), vehicle_radius_);
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
@@ -57,7 +57,7 @@ public:
 
 private:
     
-    std::unique_ptr<avoa3d::HolonomicSampleGenerator> sample_generator_;//! Generator
+    std::unique_ptr<avoa3d::DiffDriveSampleGenerator> sample_generator_;//! Generator
     std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;//! Evaluator
     std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;//! Visualizer
     std::vector<VelocitySample> samples;
@@ -154,65 +154,6 @@ private:
         return have_agent_data && have_desired_velocity;
     }
     
-    /* std::vector<VelocitySample> generate_velocity_samples()
-    {
-        std::vector<VelocitySample> samples;
-        std::random_device rd;
-        // random number generation
-        std::mt19937 gen(rd());
-        
-        // Calculate velocity limits based on current velocity and acceleration constraints
-        // Lower bounds: current velocity - max acceleration * delta_t (but not below -v_max)
-        // Upper bounds: current velocity + max acceleration * delta_t (but not above v_max)
-
-        double min_vx = std::max(latest_velocity_.linear.x - a_x_max_ * delta_t_, -v_x_max_);
-        double max_vx = std::min(latest_velocity_.linear.x + a_x_max_ * delta_t_, v_x_max_);
-        
-        double min_vy = std::max(latest_velocity_.linear.y - a_y_max_ * delta_t_, -v_y_max_);
-        double max_vy = std::min(latest_velocity_.linear.y + a_y_max_ * delta_t_, v_y_max_);
-        
-        double min_vz = std::max(latest_velocity_.linear.z - a_z_max_ * delta_t_, -v_z_max_);
-        double max_vz = std::min(latest_velocity_.linear.z + a_z_max_ * delta_t_, v_z_max_);
-    
-        // Create distributions based on the calculated bounds
-        std::uniform_real_distribution<> dist_vx(min_vx, max_vx);
-        std::uniform_real_distribution<> dist_vy(min_vy, max_vy);
-        std::uniform_real_distribution<> dist_vz(min_vz, max_vz);
-        
-        // Generate random samples
-        for (int i = 0; i < num_samples_; ++i) {
-            double vx = dist_vx(gen);
-            double vy = dist_vy(gen);
-            double vz = dist_vz(gen);
-            
-            samples.push_back(VelocitySample(vx, vy, vz));
-        }
-        
-        // Always include the current velocity as a sample,//TODO but chek if min and max values are okay
-        if (latest_velocity_.linear.x >= min_vx && latest_velocity_.linear.x <= max_vx &&
-            latest_velocity_.linear.y >= min_vy && latest_velocity_.linear.y <= max_vy &&
-            latest_velocity_.linear.z >= min_vz && latest_velocity_.linear.z <= max_vz) {
-            samples.push_back(VelocitySample(
-                latest_velocity_.linear.x,
-                latest_velocity_.linear.y,
-                latest_velocity_.linear.z
-            ));
-        }
-        
-        
-        // Always include the desired velocity as a sample 
-        if (latest_desired_velocity_.linear.x >= min_vx && latest_desired_velocity_.linear.x <= max_vx &&
-            latest_desired_velocity_.linear.y >= min_vy && latest_desired_velocity_.linear.y <= max_vy &&
-            latest_desired_velocity_.linear.z >= min_vz && latest_desired_velocity_.linear.z <= max_vz) {
-            samples.push_back(VelocitySample(
-                latest_desired_velocity_.linear.x,
-                latest_desired_velocity_.linear.y,
-                latest_desired_velocity_.linear.z
-            ));
-        }
-        
-        return samples;
-    } */
     
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;

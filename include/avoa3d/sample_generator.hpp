@@ -19,6 +19,13 @@ public:
     virtual std::vector<VelocitySample> generateSamples(
         const geometry_msgs::msg::Twist& current_velocity,
         const geometry_msgs::msg::Twist& desired_velocity) = 0;
+        /* 
+         Create bounds
+         Generate Random Samples
+         Translate to Velocity Space
+         Include current velocity as a sample
+         Include desired velocity as a sample
+        */
 };
 
 // !Holonomic sample generator implementation
@@ -48,7 +55,26 @@ private:
     int num_samples_;
 };
 
-
+// !Diff Drive Sample Generator
+class DiffDriveSampleGenerator : public SampleGenerator
+{
+public:
+    DiffDriveSampleGenerator(const rclcpp::Logger& logger);
+    
+    std::vector<VelocitySample> generateSamples(
+        const geometry_msgs::msg::Twist& current_velocity,
+        const geometry_msgs::msg::Twist& desired_velocity) override;
+         
+private:
+    rclcpp::Logger logger_;
+    std::mt19937 random_engine_;
+    
+    // Motion parameters
+    double v_linear_max_;
+    double w_angular_max_;
+    double delta_t_;
+    int num_samples_;
+};
 
 } // namespace avoa3d
 
