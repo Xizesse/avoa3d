@@ -50,7 +50,7 @@ public:
             "/element_tracking/elements", 10, std::bind(&AVOA::obstacles_callback, this, std::placeholders::_1));
 
         timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(static_cast<int>(100)), 
+            std::chrono::milliseconds(static_cast<int>(200)), 
             std::bind(&AVOA::timer_callback, this));
             
     }
@@ -62,6 +62,7 @@ private:
     std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;//! Visualizer
     std::vector<VelocitySample> samples;
     VelocitySample best_sample;
+    geometry_msgs::msg::Twist best_twist;
 
     // TODO Parameter declaration (Hardcoded rn)
     void declare_parameters()
@@ -113,20 +114,35 @@ private:
         
         best_sample = sample_evaluator_->findBestSample(samples);
         
+        best_twist = sample_generator_->translateToTwist(best_sample);
+
         geometry_msgs::msg::Twist cmd_vel;
-        //!BASIC FILTERING 0.8 current + 0.2 new
-        cmd_vel.linear.x = //0.8*latest_velocity_.linear.x + 0.2*best_sample.vx + 0.0*latest_desired_velocity_.linear.x;
-        cmd_vel.linear.y = //0.8*latest_velocity_.linear.y + 0.2*best_sample.vy + 0.0*latest_desired_velocity_.linear.y;
-        cmd_vel.linear.z = //0.8*latest_velocity_.linear.z + 0.2*best_sample.vz + 0.0*latest_desired_velocity_.linear.z;
+        //!BASIC FILTERING 0.8 current + 0.2 new   
+        //cmd_vel.linear.x = //0.8*latest_velocity_.linear.x + 0.2*best_sample.vx + 0.0*latest_desired_velocity_.linear.x;
+        //cmd_vel.linear.y = //0.8*latest_velocity_.linear.y + 0.2*best_sample.vy + 0.0*latest_desired_velocity_.linear.y;
+        //cmd_vel.linear.z = //0.8*latest_velocity_.linear.z + 0.2*best_sample.vz + 0.0*latest_desired_velocity_.linear.z;
 
-        cmd_vel.linear.x = best_sample.vx;
+        cmd_vel.linear.x = 0.2*best_twist.linear.x + 0.8*latest_velocity_.linear.x;
+        cmd_vel.linear.y = 0.2*best_twist.linear.y + 0.8*latest_velocity_.linear.y;
+        cmd_vel.linear.z = 0.2*best_twist.linear.z + 0.8*latest_velocity_.linear.z;
+
+        cmd_vel.angular.x = 0.2*best_twist.angular.x + 0.8*latest_velocity_.angular.x;
+        cmd_vel.angular.y = 0.2*best_twist.angular.y + 0.8*latest_velocity_.angular.y;
+        cmd_vel.angular.z = 0.2*best_twist.angular.z + 0.8*latest_velocity_.angular.z;
+
+        
+        RCLCPP_INFO(this->get_logger(), "Best Sample: vx: %.2f, vy: %.2f, vz: %.2f, cost: %.2f, danger: %.2f", 
+            best_sample.vx, best_sample.vy, best_sample.vz, best_sample.cost, best_sample.danger);
+        RCLCPP_INFO(this->get_logger(), "Best Twist: vx: %.2f, vy: %.2f, vz: %.2f, ax: %.2f, ay: %.2f, az: %.2f", 
+            best_twist.linear.x, best_twist.linear.y, best_twist.linear.z, best_twist.angular.x, best_twist.angular.y, best_twist.angular.z);
+
+        /* cmd_vel.linear.x = best_sample.vx;
         cmd_vel.linear.y = best_sample.vy;
-        cmd_vel.linear.z = best_sample.vz; 
-
+        cmd_vel.linear.z = best_sample.vz;
         cmd_vel.angular.x = 0.0;
         cmd_vel.angular.y = 0.0;
-        cmd_vel.angular.z = 0.0;
-        
+        cmd_vel.angular.z = 0.0; */
+
         cmd_vel_publisher_->publish(cmd_vel);
         
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);

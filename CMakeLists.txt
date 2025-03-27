@@ -62,6 +62,8 @@ ament_target_dependencies(test_w_goal
   geometry_msgs
   nav_msgs
   tf2_ros
+  tf2_eigen
+  tf2_geometry_msgs
 )
 
 ament_target_dependencies(obstacle_publisher

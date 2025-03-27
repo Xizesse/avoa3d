@@ -65,6 +65,8 @@ public:
         const geometry_msgs::msg::Twist& current_velocity,
         const geometry_msgs::msg::Twist& desired_velocity) override;
          
+    geometry_msgs::msg::Twist translateToTwist(const VelocitySample& sample);
+
 private:
     rclcpp::Logger logger_;
     std::mt19937 random_engine_;

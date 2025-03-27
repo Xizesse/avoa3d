@@ -172,9 +172,9 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             std::atan2(sample.vy,sample.vx);
 
             // Combine goal-directed cost with safety cost
-            double goal_cost = 0.9 * direction_error + 0.1* normalized_magnitude_error;
+            double goal_cost = 0.5 * direction_error + 0.5* normalized_magnitude_error;
             
-            sample.cost = 0.8 * goal_cost + 0.0 * sample.danger ; 
+            sample.cost = 1.0 * goal_cost + 0.0 * sample.danger ; 
             
             if (sample.vy <= 0.0 )
             {
@@ -185,7 +185,6 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
         }
     }
     
-    RCLCPP_INFO(logger_, "Valid Samples: %ld", valid_samples.size());
     
     // Check if we have any valid samples
     if (valid_samples.empty()) {

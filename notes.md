@@ -1,8 +1,12 @@
 ############################
 #TO-DO
+- Change velocity to agent coordinates
 - Refactor Generator
 - Holonomic generator working
 - Diff Drive Generator
+- Translate to Twist
+-
+
 - Re-evaluate feasibility
 - Cylindrical coordinates
 - Normalizar custos

@@ -148,7 +148,7 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
             samples.push_back(VelocitySample(vx, vy, vz));
         }
         
-        // TODO Always include the current velocity as a sample,//TODO but chek if min and max values are okay
+/*         // TODO Always include the current velocity as a sample,//TODO but chek if min and max values are okay
         double current_v = std::sqrt(current_velocity.linear.x * current_velocity.linear.x + current_velocity.linear.y * current_velocity.linear.y);
         double current_w = std::atan2(current_velocity.linear.y, current_velocity.linear.x);
         if (current_v >= -v_linear_max_ && current_v <= v_linear_max_ &&
@@ -170,8 +170,19 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
                 desired_velocity.linear.z
             ));
         }
-        
+         */
         return samples;
     }
 
-} // namespace avoa3d
+    geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const VelocitySample& sample)
+    {
+        geometry_msgs::msg::Twist twist;
+        twist.linear.x = sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
+        twist.angular.z = std::atan2(sample.vy, sample.vx);
+        return twist;
+
+    }
+
+}
+
+// namespace avoa3d
