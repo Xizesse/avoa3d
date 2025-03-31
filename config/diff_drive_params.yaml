@@ -1,0 +1,25 @@
+
+avoa3dnode:
+  ros__parameters:
+    # Kinematic mode
+    kinematic_mode: "diff_drive"
+
+    heading_weight: 0.5
+    abs_weight: 0.5
+    danger_weight: 0.5
+    
+    # Vehicle parameters
+    vehicle_radius: 0.5
+    
+    # Differential drive parameters
+    # Maximum linear velocity
+    v_linear_max: 1.2
+    
+    # Maximum angular velocity
+    w_angular_max: 1.0
+    
+    # Time step
+    delta_t: 1.0
+    
+    # Sampling parameters
+    num_samples: 690

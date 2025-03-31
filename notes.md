@@ -1,26 +1,29 @@
 ############################
 #TO-DO
-- Change velocity to agent coordinates
-- Refactor Generator
-- Holonomic generator working
-- Diff Drive Generator
-- Translate to Twist
+- Parametros em YAML
 -
-
-- Re-evaluate feasibility
+#Improve
+- Parametros direitos para as classes
 - Cylindrical coordinates
 - Normalizar custos
-- Parametros direitos para as classes
-- Parametros no YAML
+- Cleanup generator
 - Cleanup evaluator
-- Study Diff Drive Approach
+- Cleanup main code
+- 
 - Fix the Danger cones
-- Danger Channel
 
 -Improve comments and notetaking
 
 #############################
 #DONE
+- Holonomic generator working
+- Translate to Twist
+- Diff Drive Generator
+- Danger Channel
+- Refactor Generator
+- Study Diff Drive Approach
+- Re-evaluate feasibility
+- Change velocity to agent coordinates
 - Velocidades demasiado rapidas a dar update : algum tipo de smoothing
 - Calcular as tangentes corretamente
 

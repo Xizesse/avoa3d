@@ -111,11 +111,18 @@ private:
     //double distance = std::sqrt(error_x * error_x + error_y * error_y + error_z * error_z);
     double distance=std::sqrt(error_x * error_x + error_y*error_y);
 
-    if (distance < 0.1) 
+    if (distance < 0.5) 
     {
       msg.linear.x = 0.0;
       msg.linear.y = 0.0;
       msg.linear.z = 0.0;
+    }
+
+    else if (distance < 3.0)
+    {
+      msg.linear.x = (error_x)/3.0 * constant_speed_ ;
+      msg.linear.y = (error_y)/3.0 * constant_speed_ ;
+      msg.linear.z = (error_z)/3.0 * constant_speed_ ;
     }
 
     else
