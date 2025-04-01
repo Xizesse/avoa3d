@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <cmath>
 
+
 namespace avoa3d {
 
 SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius)
     : logger_(logger),
       vehicle_radius_(vehicle_radius)
-{
-}
+{}
 
 void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desired_velocity)
 {

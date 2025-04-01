@@ -9,72 +9,31 @@ HolonomicSampleGenerator::HolonomicSampleGenerator(const rclcpp::Logger& logger)
     : logger_(logger),  
       random_engine_(std::random_device()())
 {
-   // Set default values for motion parameters
-   a_x_max_ = 3.0;
-   a_y_max_ = 3.0;
-   a_z_max_ = 3.0;
-   
-   // Maximum velocities
-   v_x_max_ = 1.0;
-   v_y_max_ = 1.0;
-   v_z_max_ = 1.0;
-
-   delta_t_ = 1.0;
-   
-   num_samples_ = 10000;
-
+    RCLCPP_INFO(logger_, "Initializing holonomic sample generator with default parameters");
+    // Default parameters already initialized in MotionParameters struct
 }
 
 HolonomicSampleGenerator::HolonomicSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node)
     : logger_(logger),  
       random_engine_(std::random_device()())
 {
-   // Set default values first
-   a_x_max_ = 3.0;
-   a_y_max_ = 3.0;
-   a_z_max_ = 3.0;
-   
-   v_x_max_ = 1.0;
-   v_y_max_ = 1.0;
-   v_z_max_ = 1.0;
-
-   delta_t_ = 1.0;
-   
-   num_samples_ = 10000;
-   
-   // Then load parameters if node is provided
-   if (node != nullptr) {
-       loadParams(node);
-   } else {
-       RCLCPP_WARN(logger_, "No node provided for parameter loading, using default parameters");
-   }
+    RCLCPP_INFO(logger_, "Initializing holonomic sample generator");
+    // Parameters will be set by the AVOA node
 }
 
-void HolonomicSampleGenerator::loadParams(const rclcpp::Node* node)
+void HolonomicSampleGenerator::setMotionParameters(const MotionParameters& params)
 {
-    RCLCPP_INFO(logger_, "Loading holonomic parameters from node");
+    params_ = params;
     
-    // Get parameters with defaults
-    a_x_max_ = node->get_parameter_or("a_x_max", a_x_max_);
-    a_y_max_ = node->get_parameter_or("a_y_max", a_y_max_);
-    a_z_max_ = node->get_parameter_or("a_z_max", a_z_max_);
-    
-    v_x_max_ = node->get_parameter_or("v_x_max", v_x_max_);
-    v_y_max_ = node->get_parameter_or("v_y_max", v_y_max_);
-    v_z_max_ = node->get_parameter_or("v_z_max", v_z_max_);
-    
-    delta_t_ = node->get_parameter_or("delta_t", delta_t_);
-    num_samples_ = node->get_parameter_or("num_samples", num_samples_);
-    
-    RCLCPP_INFO(logger_, "Loaded holonomic parameters:");
-    RCLCPP_INFO(logger_, "  a_x_max: %.2f", a_x_max_);
-    RCLCPP_INFO(logger_, "  a_y_max: %.2f", a_y_max_);
-    RCLCPP_INFO(logger_, "  a_z_max: %.2f", a_z_max_);
-    RCLCPP_INFO(logger_, "  v_x_max: %.2f", v_x_max_);
-    RCLCPP_INFO(logger_, "  v_y_max: %.2f", v_y_max_);
-    RCLCPP_INFO(logger_, "  v_z_max: %.2f", v_z_max_);
-    RCLCPP_INFO(logger_, "  delta_t: %.2f", delta_t_);
-    RCLCPP_INFO(logger_, "  num_samples: %d", num_samples_);
+    RCLCPP_INFO(logger_, "Set holonomic parameters:");
+    RCLCPP_INFO(logger_, "  a_x_max: %.2f", params_.a_x_max);
+    RCLCPP_INFO(logger_, "  a_y_max: %.2f", params_.a_y_max);
+    RCLCPP_INFO(logger_, "  a_z_max: %.2f", params_.a_z_max);
+    RCLCPP_INFO(logger_, "  v_x_max: %.2f", params_.v_x_max);
+    RCLCPP_INFO(logger_, "  v_y_max: %.2f", params_.v_y_max);
+    RCLCPP_INFO(logger_, "  v_z_max: %.2f", params_.v_z_max);
+    RCLCPP_INFO(logger_, "  delta_t: %.2f", params_.delta_t);
+    RCLCPP_INFO(logger_, "  num_samples: %d", params_.num_samples);
 }
 
 std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
@@ -90,14 +49,14 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
         // Lower bounds: current velocity - max acceleration * delta_t (but not below -v_max)
         // Upper bounds: current velocity + max acceleration * delta_t (but not above v_max)
 
-        double min_vx = std::max(current_velocity.linear.x - a_x_max_ * delta_t_, -v_x_max_);
-        double max_vx = std::min(current_velocity.linear.x + a_x_max_ * delta_t_, v_x_max_);
+        double min_vx = std::max(current_velocity.linear.x - params_.a_x_max * params_.delta_t, -params_.v_x_max);
+        double max_vx = std::min(current_velocity.linear.x + params_.a_x_max * params_.delta_t, params_.v_x_max);
         
-        double min_vy = std::max(current_velocity.linear.y - a_y_max_ * delta_t_, -v_y_max_);
-        double max_vy = std::min(current_velocity.linear.y + a_y_max_ * delta_t_, v_y_max_);
+        double min_vy = std::max(current_velocity.linear.y - params_.a_y_max * params_.delta_t, -params_.v_y_max);
+        double max_vy = std::min(current_velocity.linear.y + params_.a_y_max * params_.delta_t, params_.v_y_max);
         
-        double min_vz = std::max(current_velocity.linear.z - a_z_max_ * delta_t_, -v_z_max_);
-        double max_vz = std::min(current_velocity.linear.z + a_z_max_ * delta_t_, v_z_max_);
+        double min_vz = std::max(current_velocity.linear.z - params_.a_z_max * params_.delta_t, -params_.v_z_max);
+        double max_vz = std::min(current_velocity.linear.z + params_.a_z_max * params_.delta_t, params_.v_z_max);
     
         // Create distributions based on the calculated bounds
         std::uniform_real_distribution<> dist_vx(min_vx, max_vx);
@@ -105,7 +64,7 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
         std::uniform_real_distribution<> dist_vz(min_vz, max_vz);
         
         // Generate random samples
-        for (int i = 0; i < num_samples_; ++i) {
+        for (int i = 0; i < params_.num_samples; ++i) {
             double vx = dist_vx(gen);
             double vy = dist_vy(gen);
             double vz = dist_vz(gen);
@@ -113,7 +72,7 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
             samples.push_back(VelocitySample(vx, vy, vz));
         }
         
-        // Always include the current velocity as a sample,//TODO but chek if min and max values are okay
+        // Always include the current velocity as a sample
         if (current_velocity.linear.x >= min_vx && current_velocity.linear.x <= max_vx &&
             current_velocity.linear.y >= min_vy && current_velocity.linear.y <= max_vy &&
             current_velocity.linear.z >= min_vz && current_velocity.linear.z <= max_vz) {
@@ -138,6 +97,7 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
         
         return samples;
     }
+
 geometry_msgs::msg::Twist HolonomicSampleGenerator::translateToTwist(const VelocitySample& sample)
 {
     //return as is
@@ -157,49 +117,27 @@ DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger)
     : logger_(logger),  
       random_engine_(std::random_device()())
 {
-   // Set default values
-   v_linear_max_ = 1.2;
-   w_angular_max_ = 1.0;
-   delta_t_ = 1.0;
-   num_samples_ = 10000;
-   
-   RCLCPP_INFO(logger_, "Initializing diff drive generator with default parameters");
+    RCLCPP_INFO(logger_, "Initializing diff drive generator with default parameters");
+    // Default parameters already initialized in MotionParameters struct
 }
 
-// Constructor with parameter loading from ROS node
 DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node)
     : logger_(logger),  
       random_engine_(std::random_device()())
 {
-   // Set default values first
-   v_linear_max_ = 1.2;
-   w_angular_max_ = 1.0;
-   delta_t_ = 1.0;
-   num_samples_ = 10000;
-   
-   // Then load parameters if node is provided
-   if (node != nullptr) {
-       loadParams(node);
-   } else {
-       RCLCPP_WARN(logger_, "No node provided for parameter loading, using default parameters");
-   }
+    RCLCPP_INFO(logger_, "Initializing diff drive generator");
+    // Parameters will be set by the AVOA node
 }
 
-void DiffDriveSampleGenerator::loadParams(const rclcpp::Node* node)
+void DiffDriveSampleGenerator::setMotionParameters(const MotionParameters& params)
 {
-    RCLCPP_INFO(logger_, "Loading diff drive parameters from node");
+    params_ = params;
     
-    // Get parameters with defaults
-    v_linear_max_ = node->get_parameter_or("v_linear_max", v_linear_max_);
-    w_angular_max_ = node->get_parameter_or("w_angular_max", w_angular_max_);
-    delta_t_ = node->get_parameter_or("delta_t", delta_t_);
-    num_samples_ = node->get_parameter_or("num_samples", num_samples_);
-    
-    RCLCPP_INFO(logger_, "Loaded diff drive parameters:");
-    RCLCPP_INFO(logger_, "  v_linear_max: %.2f", v_linear_max_);
-    RCLCPP_INFO(logger_, "  w_angular_max: %.2f", w_angular_max_);
-    RCLCPP_INFO(logger_, "  delta_t: %.2f", delta_t_);
-    RCLCPP_INFO(logger_, "  num_samples: %d", num_samples_);
+    RCLCPP_INFO(logger_, "Set diff drive parameters:");
+    RCLCPP_INFO(logger_, "  v_x_max (linear): %.2f", params_.v_x_max);
+    RCLCPP_INFO(logger_, "  w_yaw_max (angular): %.2f", params_.w_yaw_max);
+    RCLCPP_INFO(logger_, "  delta_t: %.2f", params_.delta_t);
+    RCLCPP_INFO(logger_, "  num_samples: %d", params_.num_samples);
 }
 
 std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
@@ -211,11 +149,11 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     // random number generation
     std::mt19937 gen(rd());
     
-    std::uniform_real_distribution<> dist_v(-v_linear_max_, v_linear_max_);
-    std::uniform_real_distribution<> dist_w(-w_angular_max_, w_angular_max_);
+    std::uniform_real_distribution<> dist_v(-params_.v_x_max, params_.v_x_max);
+    std::uniform_real_distribution<> dist_w(-params_.w_yaw_max, params_.w_yaw_max);
     
     // Generate random samples
-    for (int i = 0; i < num_samples_; ++i) {
+    for (int i = 0; i < params_.num_samples; ++i) {
         double v = dist_v(gen);
         double w = dist_w(gen);
         
@@ -226,8 +164,6 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
         
         samples.push_back(VelocitySample(vx, vy, vz));
     }
-    
-    // Could add current and desired velocity here if needed
     
     return samples;
 }

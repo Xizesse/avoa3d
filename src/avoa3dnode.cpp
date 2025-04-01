@@ -15,29 +15,25 @@
 #include "avoa3d/sample_evaluator.hpp"
 #include "avoa3d/sample_visualizer.hpp"
 #include "avoa3d/sample_generator.hpp"
-
+#include "avoa3d/motion_params.hpp"
 
 using namespace std::chrono_literals;
 using avoa3d::VelocitySample;
-
+using avoa3d::MotionParameters;
 
 class AVOA : public rclcpp::Node
 {
 public:
     AVOA() : Node("avoa3dnode", rclcpp::NodeOptions())
-    //AVOA() : Node("avoa3dnode", rclcpp::NodeOptions().allow_undeclared_parameters(true).automatically_declare_parameters_from_overrides(true))
-    
     {
-        kinematic_mode = this->declare_parameter<std::string>("kinematic_mode", "unknown");
-
-        RCLCPP_INFO(this->get_logger(), "Initializing AVOA node with kinematic mode: %s", kinematic_mode.c_str());
-
-
-        //sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(this->get_logger());
-        //sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(this->get_logger());
+        // Declare and load all parameters
+        loadParameters();
         
-        //! Change generator according to kinematic mode
-        if (kinematic_mode == "diff_drive") {
+        RCLCPP_INFO(this->get_logger(), "Initializing AVOA node with kinematic mode: %s", motion_params_.kinematic_mode.c_str());
+        RCLCPP_INFO(this->get_logger(), "Vehicle radius: %.2f", motion_params_.vehicle_radius);
+
+        // Initialize the appropriate sample generator
+        if (motion_params_.kinematic_mode == "diff_drive") {
             RCLCPP_INFO(this->get_logger(), "Using differential drive sample generator");
             sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(
                 this->get_logger(), this);
@@ -47,15 +43,18 @@ public:
             sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(
                 this->get_logger(), this);
         }
+        
+        // Set parameters in the sample generator
+        sample_generator_->setMotionParameters(motion_params_);
 
-        sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(this->get_logger(), vehicle_radius_);
+        // Initialize evaluator and visualizer
+        sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(
+            this->get_logger(), motion_params_.vehicle_radius);
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
-
-        //! PUBLISHERS
+        // Publishers and subscribers
         cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/cmd_vel", 10);
         
-        //! SUBSCRIBERS
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
             "/model/agente/desired_vel", 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
             
@@ -71,21 +70,40 @@ public:
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(static_cast<int>(200)), 
             std::bind(&AVOA::timer_callback, this));
-            
     }
 
 private:
+    // Load all parameters from ROS Parameter Server
+    void loadParameters() {
+        // AVOA Parameters
+        motion_params_.kinematic_mode = this->declare_parameter<std::string>("kinematic_mode", "holonomic");
+        motion_params_.vehicle_radius = this->declare_parameter<double>("vehicle_radius", 0.5);
+        motion_params_.heading_weight = this->declare_parameter<double>("heading_weight", 0.5);
+        motion_params_.abs_weight = this->declare_parameter<double>("abs_weight", 0.5);
+        motion_params_.danger_weight = this->declare_parameter<double>("danger_weight", 0.5);
+        
+        // Motion Parameters
+        motion_params_.a_x_max = this->declare_parameter<double>("a_x_max", 3.0);
+        motion_params_.a_y_max = this->declare_parameter<double>("a_y_max", 3.0);
+        motion_params_.a_z_max = this->declare_parameter<double>("a_z_max", 3.0);
+        
+        motion_params_.a_roll_max = this->declare_parameter<double>("a_roll_max", 0.0);
+        motion_params_.a_pitch_max = this->declare_parameter<double>("a_pitch_max", 0.0);
+        motion_params_.a_yaw_max = this->declare_parameter<double>("a_yaw_max", 0.0);
+        
+        motion_params_.v_x_max = this->declare_parameter<double>("v_x_max", 1.0);
+        motion_params_.v_y_max = this->declare_parameter<double>("v_y_max", 1.0);
+        motion_params_.v_z_max = this->declare_parameter<double>("v_z_max", 0.0);
+        
+        motion_params_.w_roll_max = this->declare_parameter<double>("w_roll_max", 0.0);
+        motion_params_.w_pitch_max = this->declare_parameter<double>("w_pitch_max", 0.0);
+        motion_params_.w_yaw_max = this->declare_parameter<double>("w_yaw_max", 0.0);
+        
+        motion_params_.delta_t = this->declare_parameter<double>("delta_t", 1.0);
+        motion_params_.num_samples = this->declare_parameter<int>("num_samples", 10000);
+    }
     
-    //std::unique_ptr<avoa3d::DiffDriveSampleGenerator> sample_generator_;
-    std::unique_ptr<avoa3d::SampleGenerator> sample_generator_;//! Generator (virtual)
-    std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;//! Evaluator
-    std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;//! Visualizer
-    std::vector<VelocitySample> samples;
-    VelocitySample best_sample;
-    geometry_msgs::msg::Twist best_twist;
-
-
-    //! Callback functions
+    // Callback functions
     void desired_velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
     {
         latest_desired_velocity_ = *msg;
@@ -116,11 +134,12 @@ private:
     {
         geometry_msgs::msg::Twist cmd_vel;
         if (!has_received_all_data()) {
-
             return;
         }
 
-        if(latest_desired_velocity_.linear.x == 0.0 && latest_desired_velocity_.linear.y == 0.0 && latest_desired_velocity_.linear.z == 0.0)
+        if(latest_desired_velocity_.linear.x == 0.0 && 
+           latest_desired_velocity_.linear.y == 0.0 && 
+           latest_desired_velocity_.linear.z == 0.0)
         {
             cmd_vel.linear.x = 0.0; cmd_vel.linear.y = 0.0; cmd_vel.linear.z = 0.0;
             cmd_vel.angular.x = 0.0; cmd_vel.angular.y = 0.0; cmd_vel.angular.z = 0.0;
@@ -129,22 +148,11 @@ private:
         }
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
-
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_);
-        
         best_sample = sample_evaluator_->findBestSample(samples);
-        
         best_twist = sample_generator_->translateToTwist(best_sample);
 
-        //!BASIC FILTERING 0.8 current + 0.2 new   
-        //cmd_vel.linear.x = 0.8*latest_velocity_.linear.x + 0.2*best_sample.vx + 0.0*latest_desired_velocity_.linear.x;
-        //cmd_vel.linear.y = 0.8*latest_velocity_.linear.y + 0.2*best_sample.vy + 0.0*latest_desired_velocity_.linear.y;
-        //cmd_vel.linear.z = 0.8*latest_velocity_.linear.z + 0.2*best_sample.vz + 0.0*latest_desired_velocity_.linear.z;
-
-        //cmd_vel.angular.x = 0.0;
-        //cmd_vel.angular.y = 0.0;
-        //cmd_vel.angular.z = 0.0;
-
+        // Apply filtering (weighted average with current velocity)
         cmd_vel.linear.x = 0.5*best_twist.linear.x + 0.5*latest_velocity_.linear.x;
         cmd_vel.linear.y = 0.5*best_twist.linear.y + 0.5*latest_velocity_.linear.y;
         cmd_vel.linear.z = 0.5*best_twist.linear.z + 0.5*latest_velocity_.linear.z;
@@ -153,21 +161,7 @@ private:
         cmd_vel.angular.y = 0.5*best_twist.angular.y + 0.5*latest_velocity_.angular.y;
         cmd_vel.angular.z = 0.5*best_twist.angular.z + 0.5*latest_velocity_.angular.z;
 
-        
-        /* RCLCPP_INFO(this->get_logger(), "Best Sample: vx: %.2f, vy: %.2f, vz: %.2f, cost: %.2f, danger: %.2f", 
-            best_sample.vx, best_sample.vy, best_sample.vz, best_sample.cost, best_sample.danger);
-        RCLCPP_INFO(this->get_logger(), "Best Twist: vx: %.2f, vy: %.2f, vz: %.2f, ax: %.2f, ay: %.2f, az: %.2f", 
-            best_twist.linear.x, best_twist.linear.y, best_twist.linear.z, best_twist.angular.x, best_twist.angular.y, best_twist.angular.z);
- */
-        /* cmd_vel.linear.x = best_sample.vx;
-        cmd_vel.linear.y = best_sample.vy;
-        cmd_vel.linear.z = best_sample.vz;
-        cmd_vel.angular.x = 0.0;
-        cmd_vel.angular.y = 0.0;
-        cmd_vel.angular.z = 0.0; */
-
         cmd_vel_publisher_->publish(cmd_vel);
-        
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
     }
     
@@ -179,7 +173,6 @@ private:
         
         if (!have_agent_data && latest_agent_odometry_.header.stamp.sec != 0) {
             have_agent_data = true;
-            //RCLCPP_INFO(this->get_logger(), "Received initial agent odometry data");
         }
         
         if (!have_desired_velocity && 
@@ -187,13 +180,21 @@ private:
             std::abs(latest_desired_velocity_.linear.y) > 0.001 || 
             std::abs(latest_desired_velocity_.linear.z) > 0.001)) {
             have_desired_velocity = true;
-            //RCLCPP_INFO(this->get_logger(), "Received initial desired velocity data");
         }
         
         return have_agent_data && have_desired_velocity;
     }
     
-    
+    // State variables and components
+    MotionParameters motion_params_;
+    std::unique_ptr<avoa3d::SampleGenerator> sample_generator_;
+    std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;
+    std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;
+    std::vector<VelocitySample> samples;
+    VelocitySample best_sample;
+    geometry_msgs::msg::Twist best_twist;
+
+    // Publishers and subscribers
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr desired_velocity_subscriber_;
@@ -202,15 +203,11 @@ private:
     rclcpp::Subscription<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr obstacles_subscriber_;
     rclcpp::TimerBase::SharedPtr timer_;
     
-    // State variables
+    // Message storage
     geometry_msgs::msg::Twist latest_desired_velocity_{};
     geometry_msgs::msg::Twist latest_velocity_{};
     nav_msgs::msg::Odometry latest_agent_odometry_{};
     custom_msgs::msg::ElementCharacteristicsArray latest_obstacles_{};
-    
-    // Parameters
-    std::string kinematic_mode;
-    double vehicle_radius_;
 };
 
 int main(int argc, char * argv[])
