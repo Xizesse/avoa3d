@@ -6,10 +6,19 @@
 
 namespace avoa3d {
 
-SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius)
+SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius, 
+                                 double heading_weight, double danger_weight, double abs_weight)
     : logger_(logger),
-      vehicle_radius_(vehicle_radius)
-{}
+      vehicle_radius_(vehicle_radius),
+        heading_weight_(heading_weight),
+        danger_weight_(danger_weight),
+        abs_weight_(abs_weight)
+{
+    RCLCPP_INFO(logger_, "Initializing SampleEvaluator with vehicle radius: %.2f", vehicle_radius_);
+    RCLCPP_INFO(logger_, "Heading weight: %.2f", heading_weight_);
+    RCLCPP_INFO(logger_, "Danger weight: %.2f", danger_weight_);
+    RCLCPP_INFO(logger_, "Abs weight: %.2f", abs_weight_);
+}
 
 void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desired_velocity)
 {
@@ -85,24 +94,10 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 translated_sample.vz * translated_sample.vz
             );
 
-            //std::cout << "Sample Coordinates" << std::endl;
-
-            //std::cout << "Sample distance: " << sample_distance << std::endl;
-            // Get Cone Angle
             double cone_angle = std::asin(obstacle_radius / obstacle_distance);
-
-            //std::cout << "Cone angle: " << cone_angle << std::endl;
-    
             
             //Get the projection of the translated sample on the obstacle axis
             double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
-
-            //std::cout << "Projection size: " << projection << std::endl;
-
-            if (projection < 0) {
-                // The obstacle is behind the sample, no need to check
-                continue;
-            }
 
             // Calculate the expected radius in the cone :
             double expected_radius = projection * std::tan(cone_angle);
@@ -114,23 +109,63 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
             //std::cout << "Actual radius: " << actual_radius << std::endl;
             
-            if (actual_radius < expected_radius) {
-                // Collision detected
-                collision_free = false;
-                break;
+            double radius_treshold = 1.0;
+
+
+
+            float time_to_collision_treshold = 10.0;
+            float time_to_collision = (obstacle_distance - obstacle_radius) / sample_distance;
+            
+            if (actual_radius < expected_radius) { //if Collision Cone
+                // Collision detected -> Break to Remove
+                
+                /*//! Time Horizon Constraint
+                If the time for collision is greater than X seconds, we dont remove the sample
+                sample distance = magnitude velocity
+                obstacle_distance - obstacle_radius = distance for collision
+                defined time
+                check if the time for collision is greater than the treshold 
+                */
+                
+                if (time_to_collision < time_to_collision_treshold)
+                {
+                    collision_free = false;
+                    break;
+                }
+                else {
+                    
+                }
+            } 
+            if (projection > 0 && actual_radius - expected_radius < radius_treshold ) {
+                if((time_to_collision < time_to_collision_treshold)) // above this treshold
+                {
+                    sample.danger += ( radius_treshold - (actual_radius - expected_radius)) / radius_treshold;
+                }
+                else
+                {   
+                    float truncated_min_distance = (obstacle_distance - obstacle_radius) / time_to_collision_treshold;
+                    float truncated_center_x = (obstacle_x/obstacle_distance)* truncated_min_distance;
+                    float truncated_center_y = (obstacle_y/obstacle_distance)* truncated_min_distance;
+                    float truncated_center_z = (obstacle_z/obstacle_distance)* truncated_min_distance;
+                
+                    float distance_to_truncated_center = std::sqrt(
+                        (truncated_center_x - translated_sample.vx) * (truncated_center_x - translated_sample.vx) +
+                        (truncated_center_y - translated_sample.vy) * (truncated_center_y - translated_sample.vy) +
+                        (truncated_center_z - translated_sample.vz) * (truncated_center_z - translated_sample.vz)
+                    );
+                    double truncated_expected_radius =  radius_treshold + (truncated_min_distance/obstacle_distance)*obstacle_radius;
+
+                    if (distance_to_truncated_center < truncated_expected_radius )
+                    {
+                        sample.danger += (truncated_expected_radius - distance_to_truncated_center) / truncated_expected_radius;
+                    }
+         
+                }
+                
             }
-            double radius_treshold = 2.0;
-
-            if (actual_radius - expected_radius > radius_treshold) {
-                // The sample is far from the obstacle, dw
-                continue;
-            }
-            // Calculate the safety cost
-            sample.danger += (2.0 - (actual_radius - expected_radius))*0.5;
-
-
+            
     
-        }
+        }   
         
         // If this velocity doesn't lead to collision, keep it and evaluate cost
         if (collision_free) {
@@ -172,9 +207,9 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             std::atan2(sample.vy,sample.vx);
 
             // Combine goal-directed cost with safety cost
-            double goal_cost = 0.5 * direction_error + 0.5* normalized_magnitude_error;
+            double goal_cost = heading_weight_ * direction_error + abs_weight_ * normalized_magnitude_error;
             
-            sample.cost = 1.0 * goal_cost + 0.0 * sample.danger ; 
+            sample.cost = (1-danger_weight_) * goal_cost + danger_weight_ * sample.danger;
             
             if (sample.vy <= 0.0 )
             {

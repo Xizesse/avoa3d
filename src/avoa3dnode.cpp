@@ -49,7 +49,8 @@ public:
 
         // Initialize evaluator and visualizer
         sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(
-            this->get_logger(), motion_params_.vehicle_radius);
+            this->get_logger(), motion_params_.vehicle_radius, motion_params_.heading_weight,
+            motion_params_.danger_weight, motion_params_.abs_weight);
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
         // Publishers and subscribers
@@ -66,6 +67,9 @@ public:
         
         obstacles_subscriber_ = this->create_subscription<custom_msgs::msg::ElementCharacteristicsArray>(
             "/element_tracking/elements", 10, std::bind(&AVOA::obstacles_callback, this, std::placeholders::_1));
+
+        goal_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
+            "/model/goal/odometry", 10, std::bind(&AVOA::goal_callback, this, std::placeholders::_1));
 
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(static_cast<int>(200)), 
@@ -101,6 +105,7 @@ private:
         
         motion_params_.delta_t = this->declare_parameter<double>("delta_t", 1.0);
         motion_params_.num_samples = this->declare_parameter<int>("num_samples", 10000);
+        motion_params_.filtering_obstacles = this->declare_parameter<bool>("filtering_obstacles", false);
     }
     
     // Callback functions
@@ -110,7 +115,13 @@ private:
         sample_evaluator_->setDesiredVelocity(*msg);
         RCLCPP_DEBUG(this->get_logger(), "Updated agent desired velocity");
     }
-    
+
+    void goal_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
+    {
+        latest_goal_odometry_ = *msg;
+        RCLCPP_DEBUG(this->get_logger(), "Updated goal odometry");
+    }
+
     void velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
     {
         latest_velocity_ = *msg;
@@ -137,7 +148,8 @@ private:
             return;
         }
 
-        if(latest_desired_velocity_.linear.x == 0.0 && 
+        /*
+         if(latest_desired_velocity_.linear.x == 0.0 && 
            latest_desired_velocity_.linear.y == 0.0 && 
            latest_desired_velocity_.linear.z == 0.0)
         {
@@ -145,7 +157,37 @@ private:
             cmd_vel.angular.x = 0.0; cmd_vel.angular.y = 0.0; cmd_vel.angular.z = 0.0;
             cmd_vel_publisher_->publish(cmd_vel);
             return;
-        }
+        } */
+        
+       /*
+       calc goal distance
+        create a new obstacle array message
+        for each obstacle in the old obstacle array
+        check distance
+        if distance to the goal is greater than distance to the obstacles
+        add then to the new messas
+        */
+        
+        if (motion_params_.filtering_obstacles)
+        {
+            float distance_to_goal = std::sqrt(
+                std::pow(latest_goal_odometry_.pose.pose.position.x - latest_agent_odometry_.pose.pose.position.x, 2) +
+                std::pow(latest_goal_odometry_.pose.pose.position.y - latest_agent_odometry_.pose.pose.position.y, 2) +
+                std::pow(latest_goal_odometry_.pose.pose.position.z - latest_agent_odometry_.pose.pose.position.z, 2)
+            );
+            custom_msgs::msg::ElementCharacteristicsArray filtered_obstacles;
+            for (const auto& obstacle : latest_obstacles_.elements) {
+                float distance_to_obstacle = std::sqrt(
+                    std::pow(obstacle.pose.position.x - latest_agent_odometry_.pose.pose.position.x, 2) +
+                    std::pow(obstacle.pose.position.y - latest_agent_odometry_.pose.pose.position.y, 2) +
+                    std::pow(obstacle.pose.position.z - latest_agent_odometry_.pose.pose.position.z, 2)
+                );
+                if (distance_to_goal + 2 > distance_to_obstacle ) {
+                    filtered_obstacles.elements.push_back(obstacle);
+                }
+            }
+            latest_obstacles_ = filtered_obstacles;
+        }   
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_);
@@ -153,9 +195,9 @@ private:
         best_twist = sample_generator_->translateToTwist(best_sample);
 
         // Apply filtering (weighted average with current velocity)
-        cmd_vel.linear.x = 0.5*best_twist.linear.x + 0.5*latest_velocity_.linear.x;
-        cmd_vel.linear.y = 0.5*best_twist.linear.y + 0.5*latest_velocity_.linear.y;
-        cmd_vel.linear.z = 0.5*best_twist.linear.z + 0.5*latest_velocity_.linear.z;
+        cmd_vel.linear.x = 0.3*best_twist.linear.x + 0.7*latest_velocity_.linear.x;
+        cmd_vel.linear.y = 0.3*best_twist.linear.y + 0.7*latest_velocity_.linear.y;
+        cmd_vel.linear.z = 0.3*best_twist.linear.z + 0.7*latest_velocity_.linear.z;
 
         cmd_vel.angular.x = 0.5*best_twist.angular.x + 0.5*latest_velocity_.angular.x;
         cmd_vel.angular.y = 0.5*best_twist.angular.y + 0.5*latest_velocity_.angular.y;
@@ -201,9 +243,13 @@ private:
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr velocity_subscriber_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
     rclcpp::Subscription<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr obstacles_subscriber_;
+    //goal odometry
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr goal_odometry_subscriber_;
     rclcpp::TimerBase::SharedPtr timer_;
     
+
     // Message storage
+    nav_msgs::msg::Odometry latest_goal_odometry_{};
     geometry_msgs::msg::Twist latest_desired_velocity_{};
     geometry_msgs::msg::Twist latest_velocity_{};
     nav_msgs::msg::Odometry latest_agent_odometry_{};

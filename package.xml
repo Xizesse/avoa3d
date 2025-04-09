@@ -38,6 +38,8 @@
   <exec_depend>builtin_interfaces</exec_depend>
   <exec_depend>nav_msgs</exec_depend> 
   <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>turtlebot3_gazebo</exec_depend>
+
 
 
   <!-- Member of groups -->

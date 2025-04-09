@@ -12,7 +12,8 @@ namespace avoa3d {
 
 class SampleEvaluator {
 public:
-    SampleEvaluator(rclcpp::Logger logger, double vehicle_radius);
+    SampleEvaluator(rclcpp::Logger logger, double vehicle_radius, 
+                    double heading_weight, double danger_weight, double abs_weight);
     
     // Set the desired velocity
     void setDesiredVelocity(const geometry_msgs::msg::Twist& desired_velocity);
@@ -49,6 +50,11 @@ private:
     
     // Vehicle configuration
     double vehicle_radius_;
+    
+    //Weights
+    double heading_weight_ = 0.0;
+    double danger_weight_ = 0.0;
+    double abs_weight_ = 0.0;
 };
 
 } // namespace avoa3d

@@ -144,7 +144,7 @@ private:
         goal_agent_y_ * goal_agent_y_ + 
         goal_agent_z_ * goal_agent_z_;
       
-      if (distance_squared < 0.1) 
+      if (distance_squared < 1) 
       {
         // Close to goal, stop
         msg.linear.x = 0.0;

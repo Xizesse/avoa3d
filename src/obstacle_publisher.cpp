@@ -54,7 +54,6 @@ private:
 
   void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
-    // Latest agent odometry
     agent_odometry_ = *msg;
   }
 

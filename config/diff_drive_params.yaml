@@ -1,20 +1,24 @@
 avoa3dnode:
   ros__parameters:
     # Kinematic mode
+    # Options: "diff_drive", "holonomic", more can be added
     kinematic_mode: "diff_drive"
 
+    # Weight
     heading_weight: 0.5
     abs_weight: 0.5
-    danger_weight: 0.5
+    danger_weight: 0.1
     
     # Vehicle parameters
-    vehicle_radius: 0.5
+    vehicle_radius: 1.0
 
     # Time step
     delta_t: 1.0
     
     # Sampling parameters
-    num_samples: 10000
+    num_samples: 5000
+
+    filtering_obstacles: true
     
     # 6DOF parameters
     # Maximum accelerations
@@ -28,7 +32,7 @@ avoa3dnode:
     a_yaw_max: 0.0
 
     # Maximum linear velocities
-    v_x_max: 1.2
+    v_x_max: 1.305
     v_y_max: 0.0
     v_z_max: 0.0
 
@@ -36,5 +40,3 @@ avoa3dnode:
     w_roll_max: 0.0
     w_pitch_max: 0.0
     w_yaw_max: 1.2
-
-

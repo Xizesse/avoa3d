@@ -1,0 +1,38 @@
+[01m[K/home/xizesse/ros_ws/src/avoa3d/src/sample_evaluator.cpp:9:1:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(rclcpp::Logger, double, double, double, double)[m[K’
+    9 | [01;31m[KSampleEvaluator[m[K::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius,
+      | [01;31m[K^~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/xizesse/ros_ws/src/avoa3d/src/sample_evaluator.cpp:2[m[K:
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[Kcandidates are: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(avoa3d::SampleEvaluator&&)[m[K’
+   13 | class [01;36m[KSampleEvaluator[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K                ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(const avoa3d::SampleEvaluator&)[m[K’
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:15:5:[m[K [01;36m[Knote: [m[K                ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(rclcpp::Logger, double)[m[K’
+   15 |     [01;36m[KSampleEvaluator[m[K(rclcpp::Logger logger, double vehicle_radius);
+      |     [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass avoa3d::SampleEvaluator[m[K’ defined here
+   13 | class [01;36m[KSampleEvaluator[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/avoa3dnode.dir/build.make:90: CMakeFiles/avoa3dnode.dir/src/sample_evaluator.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+In file included from [01m[K/usr/include/c++/13/memory:78[m[K,
+                 from [01m[K/home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp:2[m[K:
+/usr/include/c++/13/bits/unique_ptr.h: In instantiation of ‘[01m[Kstd::__detail::__unique_ptr_t<_Tp> std::[01;32m[Kmake_unique[m[K(_Args&& ...) [35m[K[with _Tp = avoa3d::SampleEvaluator; _Args = {rclcpp::Logger, double&, double&, double&, double&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<avoa3d::SampleEvaluator>][m[K[m[K’:
+[01m[K/home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp:51:70:[m[K   required from here
+[01m[K/usr/include/c++/13/bits/unique_ptr.h:1070:30:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kavoa3d::SampleEvaluator::SampleEvaluator(rclcpp::Logger, double&, double&, double&, double&)[m[K’
+ 1070 |     { return unique_ptr<_Tp>([01;31m[Knew _Tp(std::forward<_Args>(__args)...)[m[K); }
+      |                              [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp:15[m[K:
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:15:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(rclcpp::Logger, double)[m[K’
+   15 |     [01;36m[KSampleEvaluator[m[K(rclcpp::Logger logger, double vehicle_radius);
+      |     [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:15:5:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 5 provided
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(const avoa3d::SampleEvaluator&)[m[K’
+   13 | class [01;36m[KSampleEvaluator[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 5 provided
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(avoa3d::SampleEvaluator&&)[m[K’
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 5 provided
+gmake[2]: *** [CMakeFiles/avoa3dnode.dir/build.make:76: CMakeFiles/avoa3dnode.dir/src/avoa3dnode.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:659: CMakeFiles/avoa3dnode.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2

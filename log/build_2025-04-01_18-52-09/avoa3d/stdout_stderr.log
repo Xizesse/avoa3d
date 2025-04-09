@@ -1,0 +1,197 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.3 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Found rclcpp: 28.1.6 (/opt/ros/jazzy/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.1 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.1 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found std_msgs: 5.3.5 (/opt/ros/jazzy/share/std_msgs/cmake)
+-- Found visualization_msgs: 5.3.5 (/opt/ros/jazzy/share/visualization_msgs/cmake)
+-- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+-- Found rosidl_adapter: 4.6.5 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+-- Found nav_msgs: 5.3.5 (/opt/ros/jazzy/share/nav_msgs/cmake)
+-- Found tf2_ros: 0.36.8 (/opt/ros/jazzy/share/tf2_ros/cmake)
+-- Found tf2_eigen: 0.36.8 (/opt/ros/jazzy/share/tf2_eigen/cmake)
+-- Found tf2_geometry_msgs: 0.36.8 (/opt/ros/jazzy/share/tf2_geometry_msgs/cmake)
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0") 
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found custom_msgs: 0.0.0 (/home/xizesse/ros_ws/install/custom_msgs/share/custom_msgs/cmake)
+-- Found rviz_visual_tools: 4.1.4 (/opt/ros/jazzy/share/rviz_visual_tools/cmake)
+-- Setting OGRE_DIR to: '/opt/ros/jazzy/share/rviz_ogre_vendor/cmake/../../../opt/rviz_ogre_vendor/lib/OGRE/cmake'
+-- Found OGRE
+--   static     : OFF
+--   components : MeshLodGenerator;Overlay;Paging;Property;RTShaderSystem;Terrain;Volume
+--   plugins    : Plugin_BSPSceneManager;Plugin_OctreeSceneManager;Plugin_PCZSceneManager;Plugin_ParticleFX;RenderSystem_GL;RenderSystem_GL3Plus;Codec_STBI
+--   media      : /opt/ros/jazzy/opt/rviz_ogre_vendor/share/OGRE/Media
+-- OGRE_LIBRARIES: OgreMeshLodGenerator;OgreOverlay;OgrePaging;OgreProperty;OgreRTShaderSystem;OgreTerrain;OgreVolume;OgreMain
+-- OGRE_LIBRARY_DIRS: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib
+-- OGRE_PLUGINS: Plugin_BSPSceneManager;Plugin_OctreeSceneManager;Plugin_PCZSceneManager;Plugin_ParticleFX;RenderSystem_GL;RenderSystem_GL3Plus;Codec_STBI
+-- OGRE_PLUGIN_DIR: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/OGRE
+-- rviz_ogre_vendor::OgreOverlay for IMPORTED_LOCATION_RELEASE: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreOverlay.so
+-- rviz_ogre_vendor::OgreOverlay for IMPORTED_LOCATION_DEBUG: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreOverlay.so
+-- rviz_ogre_vendor::OgreMain for IMPORTED_LOCATION_RELEASE: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreMain.so
+-- rviz_ogre_vendor::OgreMain for IMPORTED_LOCATION_DEBUG: /opt/ros/jazzy/opt/rviz_ogre_vendor/lib/libOgreMain.so
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.3")  
+-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   
+-- Found X11: /usr/include   
+-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so
+-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Looking for IceConnectionNumber in ICE
+-- Looking for IceConnectionNumber in ICE - found
+-- Setting yaml-cpp_DIR to: '/opt/ros/jazzy/share/yaml_cpp_vendor/cmake/../../../opt/yaml_cpp_vendor/share/cmake/yaml-cpp'
+-- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+-- Found PythonExtra: /usr/bin/python3  
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+-- Found ament_lint_auto: 0.17.1 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+-- Configuring done (15.8s)
+-- Generating done (0.1s)
+-- Build files have been written to: /home/xizesse/ros_ws/src/avoa3d/build/avoa3d
+[  1%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[  1%] Built target ament_cmake_python_copy_avoa3d
+running egg_info
+creating avoa3d.egg-info
+writing avoa3d.egg-info/PKG-INFO
+writing dependency_links to avoa3d.egg-info/dependency_links.txt
+writing top-level names to avoa3d.egg-info/top_level.txt
+writing manifest file 'avoa3d.egg-info/SOURCES.txt'
+[  1%] Built target avoa3d__rosidl_generator_type_description
+reading manifest file 'avoa3d.egg-info/SOURCES.txt'
+writing manifest file 'avoa3d.egg-info/SOURCES.txt'
+[  3%] [34m[1mGenerating C code for ROS interfaces[0m
+[  5%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[  5%] Built target ament_cmake_python_build_avoa3d_egg
+[  5%] Built target avoa3d__cpp
+[  7%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_stamped__functions.c.o[0m
+[ 10%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_stamped__type_support.c.o[0m
+[ 10%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_array__type_support.c.o[0m
+[ 12%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_array__description.c.o[0m
+[ 14%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_stamped__description.c.o[0m
+[ 16%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_c.dir/rosidl_generator_c/avoa3d/msg/detail/element_characteristics_array__functions.c.o[0m
+[ 18%] [32m[1mLinking C shared library libavoa3d__rosidl_generator_c.so[0m
+[ 18%] Built target avoa3d__rosidl_generator_c
+[ 20%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[ 21%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[ 23%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[ 27%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[ 27%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[ 29%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[ 32%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_c.dir/rosidl_typesupport_c/avoa3d/msg/element_characteristics_array__type_support.cpp.o[0m
+[ 32%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_c.dir/rosidl_typesupport_c/avoa3d/msg/element_characteristics_stamped__type_support.cpp.o[0m
+[ 34%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/avoa3d/msg/element_characteristics_stamped__type_support.cpp.o[0m
+[ 36%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/avoa3d/msg/element_characteristics_array__type_support.cpp.o[0m
+[ 38%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/avoa3d/msg/detail/element_characteristics_stamped__type_support.cpp.o[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/avoa3d/msg/detail/element_characteristics_array__type_support.cpp.o[0m
+[ 41%] [32m[1mLinking CXX shared library libavoa3d__rosidl_typesupport_c.so[0m
+[ 41%] Built target avoa3d__rosidl_typesupport_c
+[ 43%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/avoa3d/msg/detail/element_characteristics_stamped__type_support.c.o[0m
+[ 45%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/avoa3d/msg/detail/dds_fastrtps/element_characteristics_stamped__type_support.cpp.o[0m
+[ 47%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/avoa3d/msg/detail/dds_fastrtps/element_characteristics_array__type_support.cpp.o[0m
+[ 49%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/avoa3d/msg/detail/element_characteristics_array__type_support.c.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/avoa3d/msg/detail/element_characteristics_array__type_support_c.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/avoa3d__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/avoa3d/msg/detail/element_characteristics_stamped__type_support_c.cpp.o[0m
+[ 54%] [32m[1mLinking C shared library libavoa3d__rosidl_typesupport_introspection_c.so[0m
+[ 54%] Built target avoa3d__rosidl_typesupport_introspection_c
+[ 56%] [32m[1mLinking CXX shared library libavoa3d__rosidl_typesupport_introspection_cpp.so[0m
+[ 58%] [32m[1mLinking CXX shared library libavoa3d__rosidl_typesupport_cpp.so[0m
+[ 58%] Built target avoa3d__rosidl_typesupport_cpp
+[ 60%] [32mBuilding CXX object CMakeFiles/test_w_goal.dir/src/test_w_goal.cpp.o[0m
+[ 61%] [32mBuilding CXX object CMakeFiles/rviz_marker.dir/src/rviz_marker.cpp.o[0m
+[ 63%] [32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/avoa3dnode.cpp.o[0m
+[ 65%] [32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/sample_generator.cpp.o[0m
+[ 67%] [32mBuilding CXX object CMakeFiles/obstacle_publisher.dir/src/obstacle_publisher.cpp.o[0m
+[ 70%] [32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/sample_evaluator.cpp.o[0m
+[ 70%] [32mBuilding CXX object CMakeFiles/avoa3dnode.dir/src/sample_visualizer.cpp.o[0m
+[ 70%] Built target avoa3d__rosidl_typesupport_introspection_cpp
+[ 72%] [32m[1mLinking CXX shared library libavoa3d__rosidl_typesupport_fastrtps_c.so[0m
+[ 72%] Built target avoa3d__rosidl_typesupport_fastrtps_c
+[ 74%] [32m[1mLinking CXX shared library libavoa3d__rosidl_typesupport_fastrtps_cpp.so[0m
+[ 74%] Built target avoa3d__rosidl_typesupport_fastrtps_cpp
+[ 74%] Built target avoa3d
+[ 76%] [34m[1mGenerating Python code for ROS interfaces[0m
+[ 76%] Built target avoa3d__py
+[ 78%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_py.dir/rosidl_generator_py/avoa3d/msg/_element_characteristics_stamped_s.c.o[0m
+[ 80%] [32mBuilding C object CMakeFiles/avoa3d__rosidl_generator_py.dir/rosidl_generator_py/avoa3d/msg/_element_characteristics_array_s.c.o[0m
+[ 81%] [32m[1mLinking C shared library libavoa3d__rosidl_generator_py.so[0m
+[ 81%] Built target avoa3d__rosidl_generator_py
+[ 83%] [32mBuilding C object CMakeFiles/avoa3d_s__rosidl_typesupport_c.dir/rosidl_generator_py/avoa3d/_avoa3d_s.ep.rosidl_typesupport_c.c.o[0m
+[ 87%] [32mBuilding C object CMakeFiles/avoa3d_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/avoa3d/_avoa3d_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[ 87%] [32mBuilding C object CMakeFiles/avoa3d_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/avoa3d/_avoa3d_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[ 89%] [32m[1mLinking C shared module rosidl_generator_py/avoa3d/avoa3d_s__rosidl_typesupport_c.so[0m
+[ 90%] [32m[1mLinking C shared module rosidl_generator_py/avoa3d/avoa3d_s__rosidl_typesupport_introspection_c.so[0m
+[ 92%] [32m[1mLinking C shared module rosidl_generator_py/avoa3d/avoa3d_s__rosidl_typesupport_fastrtps_c.so[0m
+[ 92%] Built target avoa3d_s__rosidl_typesupport_c
+[ 92%] Built target avoa3d_s__rosidl_typesupport_introspection_c
+[ 92%] Built target avoa3d_s__rosidl_typesupport_fastrtps_c
+[01m[K/home/xizesse/ros_ws/src/avoa3d/src/sample_evaluator.cpp:9:1:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(rclcpp::Logger, double, double, double, double)[m[K’
+    9 | [01;31m[KSampleEvaluator[m[K::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius,
+      | [01;31m[K^~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/xizesse/ros_ws/src/avoa3d/src/sample_evaluator.cpp:2[m[K:
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[Kcandidates are: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(avoa3d::SampleEvaluator&&)[m[K’
+   13 | class [01;36m[KSampleEvaluator[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K                ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(const avoa3d::SampleEvaluator&)[m[K’
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:15:5:[m[K [01;36m[Knote: [m[K                ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(rclcpp::Logger, double)[m[K’
+   15 |     [01;36m[KSampleEvaluator[m[K(rclcpp::Logger logger, double vehicle_radius);
+      |     [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass avoa3d::SampleEvaluator[m[K’ defined here
+   13 | class [01;36m[KSampleEvaluator[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/avoa3dnode.dir/build.make:90: CMakeFiles/avoa3dnode.dir/src/sample_evaluator.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+In file included from [01m[K/usr/include/c++/13/memory:78[m[K,
+                 from [01m[K/home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp:2[m[K:
+/usr/include/c++/13/bits/unique_ptr.h: In instantiation of ‘[01m[Kstd::__detail::__unique_ptr_t<_Tp> std::[01;32m[Kmake_unique[m[K(_Args&& ...) [35m[K[with _Tp = avoa3d::SampleEvaluator; _Args = {rclcpp::Logger, double&, double&, double&, double&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<avoa3d::SampleEvaluator>][m[K[m[K’:
+[01m[K/home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp:51:70:[m[K   required from here
+[01m[K/usr/include/c++/13/bits/unique_ptr.h:1070:30:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kavoa3d::SampleEvaluator::SampleEvaluator(rclcpp::Logger, double&, double&, double&, double&)[m[K’
+ 1070 |     { return unique_ptr<_Tp>([01;31m[Knew _Tp(std::forward<_Args>(__args)...)[m[K); }
+      |                              [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp:15[m[K:
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:15:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(rclcpp::Logger, double)[m[K’
+   15 |     [01;36m[KSampleEvaluator[m[K(rclcpp::Logger logger, double vehicle_radius);
+      |     [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:15:5:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 5 provided
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(const avoa3d::SampleEvaluator&)[m[K’
+   13 | class [01;36m[KSampleEvaluator[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 5 provided
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kavoa3d::SampleEvaluator::[01;32m[KSampleEvaluator[m[K(avoa3d::SampleEvaluator&&)[m[K’
+[01m[K/home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp:13:7:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 5 provided
+gmake[2]: *** [CMakeFiles/avoa3dnode.dir/build.make:76: CMakeFiles/avoa3dnode.dir/src/avoa3dnode.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:659: CMakeFiles/avoa3dnode.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+[ 94%] [32m[1mLinking CXX executable test_w_goal[0m
+[ 96%] [32m[1mLinking CXX executable obstacle_publisher[0m
+[ 96%] Built target test_w_goal
+[ 96%] Built target obstacle_publisher
+[ 98%] [32m[1mLinking CXX executable rviz_marker[0m
+[ 98%] Built target rviz_marker
+gmake: *** [Makefile:146: all] Error 2
