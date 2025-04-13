@@ -36,7 +36,6 @@ public:
   MarkerPublisher()
   : Node("marker_publisher"), count_(0)
   {
-    tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
     visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>("agent", "/visualization_marker", this); 
     visual_tools_->loadMarkerPub();
     visual_tools_->enableBatchPublishing();
@@ -240,19 +239,6 @@ private:
   void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
     agent_odometry_ = *msg;
-    geometry_msgs::msg::TransformStamped transform_stamped;
-
-    transform_stamped.header.stamp = this->get_clock()->now();
-    transform_stamped.header.frame_id = "map";  // Parent frame
-    transform_stamped.child_frame_id = "agent";  // Child frame
-
-    transform_stamped.transform.translation.x = agent_odometry_.pose.pose.position.x;
-    transform_stamped.transform.translation.y = agent_odometry_.pose.pose.position.y;
-    transform_stamped.transform.translation.z = agent_odometry_.pose.pose.position.z;
-
-    transform_stamped.transform.rotation = agent_odometry_.pose.pose.orientation;
-
-    tf_broadcaster_->sendTransform(transform_stamped);
   } 
 
   void goal_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
@@ -292,7 +278,6 @@ private:
   custom_msgs::msg::ElementCharacteristicsArray obstacles_;
   size_t count_;
 
-  std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;  
 };
 
 int main(int argc, char * argv[])

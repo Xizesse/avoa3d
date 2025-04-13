@@ -135,13 +135,12 @@ def generate_launch_description():
     )
 
     tf_publisher = Node(
-            package='avoa3d',
-            executable='tf_publisher',
-            name='tf_publisher',
-            output='screen',
-            emulate_tty=True
+        package='avoa3d',
+        executable='tf_publisher',
+        name='tf_publisher',
+        output='screen'
     )
-
+    
 
     return LaunchDescription([
         # Declare arguments
@@ -152,11 +151,15 @@ def generate_launch_description():
         scenario_arg,
 
         # Processes & nodes
+
+        #tfs
+        tf_publisher,
+        
         gazebo_process,
         bridge_node,
         obstacle_publisher_node,
         rviz_marker_node,
         test_w_goal_node,
-        avoa3d_node,
-        tf_publisher
+        avoa3d_node
+
     ])

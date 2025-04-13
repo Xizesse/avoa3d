@@ -44,6 +44,8 @@ add_executable(avoa3dnode src/avoa3dnode.cpp
                           )
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)
+add_executable(tf_publisher src/tf_publisher.cpp)
+
 
 # Link dependencies to executables
 ament_target_dependencies(rviz_marker
@@ -84,11 +86,21 @@ ament_target_dependencies(avoa3dnode
   custom_msgs
 )
 
+ament_target_dependencies(tf_publisher
+  rclcpp
+  nav_msgs
+  tf2
+  tf2_ros
+  geometry_msgs
+)
+
 # Link the typesupport target to the executables
 target_link_libraries(rviz_marker ${cpp_typesupport_target} rviz_visual_tools::rviz_visual_tools)
 target_link_libraries(obstacle_publisher ${cpp_typesupport_target})
 target_link_libraries(test_w_goal ${cpp_typesupport_target})
 target_link_libraries(avoa3dnode ${cpp_typesupport_target})
+target_link_libraries(tf_publisher ${cpp_typesupport_target})
+
 
 # Install executables
 install(TARGETS
@@ -96,6 +108,7 @@ install(TARGETS
   test_w_goal
   obstacle_publisher
   avoa3dnode
+  tf_publisher
   DESTINATION lib/${PROJECT_NAME})
 
 # Enable testing
