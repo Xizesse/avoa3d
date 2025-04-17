@@ -16,6 +16,8 @@ find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)  # Added for PoseStamped transforms
 find_package(custom_msgs REQUIRED)
 find_package(rviz_visual_tools REQUIRED)
+find_package(nest_interfaces REQUIRED) # FOR nest messages
+
 
 # Generate custom messages
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -45,6 +47,7 @@ add_executable(avoa3dnode src/avoa3dnode.cpp
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)
 add_executable(tf_publisher src/tf_publisher.cpp)
+add_executable(thruster_controller src/thruster_controller.cpp)
 
 
 # Link dependencies to executables
@@ -56,6 +59,14 @@ ament_target_dependencies(rviz_marker
   nav_msgs
   tf2_ros
   tf2_eigen
+  custom_msgs
+)
+
+ament_target_dependencies(thruster_controller
+  rclcpp
+  std_msgs
+  geometry_msgs
+  nav_msgs
   custom_msgs
 )
 
@@ -94,12 +105,22 @@ ament_target_dependencies(tf_publisher
   geometry_msgs
 )
 
+ament_target_dependencies(thruster_controller
+  rclcpp
+  std_msgs
+  geometry_msgs
+  nav_msgs
+  custom_msgs
+  nest_interfaces  
+)
+
 # Link the typesupport target to the executables
 target_link_libraries(rviz_marker ${cpp_typesupport_target} rviz_visual_tools::rviz_visual_tools)
 target_link_libraries(obstacle_publisher ${cpp_typesupport_target})
 target_link_libraries(test_w_goal ${cpp_typesupport_target})
 target_link_libraries(avoa3dnode ${cpp_typesupport_target})
 target_link_libraries(tf_publisher ${cpp_typesupport_target})
+target_link_libraries(thruster_controller ${cpp_typesupport_target})
 
 
 # Install executables
@@ -109,6 +130,7 @@ install(TARGETS
   obstacle_publisher
   avoa3dnode
   tf_publisher
+  thruster_controller
   DESTINATION lib/${PROJECT_NAME})
 
 # Enable testing

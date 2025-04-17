@@ -1,7 +1,7 @@
 avoa3dnode:
   ros__parameters:
     # AVOA PARAMS
-    kinematic_mode : "AAAAAA"
+    kinematic_mode : "holonomic"
 
     #Goal weights 
     heading_weight: 0.90
@@ -21,7 +21,7 @@ avoa3dnode:
     # 6DOF parameters
     # Maximum accelerations
     a_x_max: 5.0
-    a_y_max: 2.0
+    a_y_max: 5.0
     a_z_max: 0.0
     
     # Maximum angular accelerations
@@ -31,7 +31,7 @@ avoa3dnode:
 
     # Maximum linear velocities
     v_x_max: 5.0
-    v_y_max: 1.0
+    v_y_max: 0.1
     v_z_max: 0.0
 
     # Maximum angular velocities
