@@ -29,11 +29,6 @@ def generate_launch_description():
         'log_level',
         default_value='info'
     )
-    scenario_arg = DeclareLaunchArgument(
-        'scenario',
-        default_value='1',
-        description='Scenario number: s=static, d=dynamic.'
-    )
 
     # Create LaunchConfigurations to reference the user’s CLI/arg values
     name = LaunchConfiguration('name')
@@ -44,7 +39,7 @@ def generate_launch_description():
     # Build path to your ros_gz_bridge config in ~/ros_ws/src/avoa3d/config
     home_path = os.environ.get('HOME', '/tmp')
     bridge_config = os.path.join(
-        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'bridge_config.yaml'
+        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'nest_bridge_config.yaml'
     )
 
     # ros_gz_bridge node
@@ -109,7 +104,8 @@ def generate_launch_description():
             executable='tf_publisher',
             name='tf_publisher',
             output='screen',
-            emulate_tty=True
+            emulate_tty=True,
+            parameters=[{'use_sim_time': True}]
     )
 
 
@@ -119,13 +115,12 @@ def generate_launch_description():
         config_file_arg,
         namespace_arg,
         log_level_arg,
-        scenario_arg,
 
         # Processes & nodes
         bridge_node,
-        obstacle_publisher_node,
-        rviz_marker_node,
+        #obstacle_publisher_node,
+        #rviz_marker_node,
         test_w_goal_node,
         avoa3d_node,
-        tf_publisher
+        #tf_publisher
     ])

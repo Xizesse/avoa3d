@@ -26,6 +26,16 @@ class AVOA : public rclcpp::Node
 public:
     AVOA() : Node("avoa3dnode", rclcpp::NodeOptions())
     {
+        // Declare frame ID parameters with defaults
+        this->declare_parameter<std::string>("fixed_frame", "map");
+        this->declare_parameter<std::string>("agent_frame", "agent");
+        
+        fixed_frame_ = this->get_parameter("fixed_frame").as_string();
+        agent_frame_ = this->get_parameter("agent_frame").as_string();
+        
+        RCLCPP_INFO(this->get_logger(), "Using frames: fixed=%s, agent=%s", 
+                    fixed_frame_.c_str(), agent_frame_.c_str());
+
         // Declare and load all parameters
         loadParameters();
         
@@ -60,14 +70,19 @@ public:
             "/model/agente/desired_vel", 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
             
         velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
-            "/model/agente/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
-            
+           "/model/agente/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
+        //velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
+        //    "/nest/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));    
+        
         agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
             "/model/agente/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
-        
+        //agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
+            //"/nest/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
+
         obstacles_subscriber_ = this->create_subscription<custom_msgs::msg::ElementCharacteristicsArray>(
             "/element_tracking/elements", 10, std::bind(&AVOA::obstacles_callback, this, std::placeholders::_1));
 
+        //!Not being used rn
         goal_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
             "/model/goal/odometry", 10, std::bind(&AVOA::goal_callback, this, std::placeholders::_1));
 
@@ -77,6 +92,9 @@ public:
     }
 
 private:
+    std::string fixed_frame_;
+    std::string agent_frame_;
+
     // Load all parameters from ROS Parameter Server
     void loadParameters() {
         // AVOA Parameters

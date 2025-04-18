@@ -16,14 +16,15 @@ public:
     thrust_publisher_ = this->create_publisher<nest_interfaces::msg::ThrustCommand>(
       "/nest/thrusters/thrust_cmd", 10);
     
-    // Create a publisher for the desired velocity (for visualization)
-    desired_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
-      "/nest/desired_velocity", 10);
-    
     // Subscribe to odometry for current velocity
     odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "/nest/odometry", 10, 
       std::bind(&ThrustCommandPublisher::odom_callback, this, std::placeholders::_1));
+    
+    // Subscribe to desired velocity instead of simulating it
+    desired_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
+      "/nest/cmd_vel", 10,  // Changed topic name to /nest/cmd_vel
+      std::bind(&ThrustCommandPublisher::desired_vel_callback, this, std::placeholders::_1));
     
     // Create a timer to publish messages at 10Hz
     timer_ = this->create_wall_timer(
@@ -31,7 +32,7 @@ public:
     
     // Initialize PID gains
     kp_linear_ = 500.0;  // Proportional gain for linear velocity
-    ki_linear_ = 5.0;   // Integral gain for linear velocity
+    ki_linear_ = 5.0;    // Integral gain for linear velocity
     kd_linear_ = 10.0;   // Derivative gain for linear velocity
     
     // Initialize error tracking for PID
@@ -41,7 +42,7 @@ public:
     // Control loop time step
     dt_ = 0.1; // 10Hz = 0.1s
     
-    // Initialize desired velocity (sinusoidal in Y-direction)
+    // Initialize desired velocity
     desired_vel_y_ = 0.0;
     
     RCLCPP_INFO(this->get_logger(), "Velocity Controller started");
@@ -60,6 +61,21 @@ private:
     current_ang_vel_z_ = msg->twist.twist.angular.z;
     
     have_odom_ = true;
+  }
+  
+  // New callback for desired velocity subscription
+  void desired_vel_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
+  {
+    // Store desired velocity from subscription
+    desired_vel_x_ = msg->linear.x;
+    desired_vel_y_ = msg->linear.y;
+    desired_vel_z_ = msg->linear.z;
+    
+    desired_ang_vel_x_ = msg->angular.x;
+    desired_ang_vel_y_ = msg->angular.y;
+    desired_ang_vel_z_ = msg->angular.z;
+    
+    have_desired_vel_ = true;
   }
   
   double compute_pid_control(double setpoint, double current_value, 
@@ -95,35 +111,17 @@ private:
     // Create a new ThrustCommand message
     auto thrust_msg = nest_interfaces::msg::ThrustCommand();
     
-    // Get current time for desired velocity pattern
-    auto now = this->now();
-    double time_now = now.seconds();
-    
-    // Set desired velocity - sinusoidal pattern in Y
-    desired_vel_y_ = 3 * std::cos(time_now/4);  // Slower, gentler oscillation
-    if (desired_vel_y_ < 0.0) {
-      desired_vel_y_ = -3;  // Prevent negative desired velocity
-    }
-    else if (desired_vel_y_ > 0.0) {
-      desired_vel_y_ = 3.0;  // Prevent exceeding max desired velocity
-    }
-    
-    // Create and publish desired velocity message
-    auto desired_vel_msg = geometry_msgs::msg::Twist();
-    desired_vel_msg.linear.x = 0.0;
-    desired_vel_msg.linear.y = desired_vel_y_;
-    desired_vel_msg.linear.z = 0.0;
-    desired_vel_msg.angular.x = 0.0;
-    desired_vel_msg.angular.y = 0.0;
-    desired_vel_msg.angular.z = 0.0;
-    
-    // Publish desired velocity for visualization
-    desired_vel_publisher_->publish(desired_vel_msg);
-    
     // Skip control computation if no odometry data yet
     if (!have_odom_) {
       RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 1000, 
                            "No odometry data received yet");
+      return;
+    }
+    
+    // Skip control computation if no desired velocity data yet
+    if (!have_desired_vel_) {
+      RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 1000, 
+                           "No desired velocity received yet");
       return;
     }
     
@@ -148,10 +146,10 @@ private:
 
   // Publishers
   rclcpp::Publisher<nest_interfaces::msg::ThrustCommand>::SharedPtr thrust_publisher_;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr desired_vel_publisher_;
   
   // Subscribers
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr desired_vel_sub_;
   
   // Timer
   rclcpp::TimerBase::SharedPtr timer_;
@@ -166,7 +164,7 @@ private:
   double prev_error_y_;
   double integral_y_;
   
-  // Velocity tracking
+  // Current velocity tracking
   double current_vel_x_ = 0.0;
   double current_vel_y_ = 0.0;
   double current_vel_z_ = 0.0;
@@ -174,11 +172,17 @@ private:
   double current_ang_vel_y_ = 0.0;
   double current_ang_vel_z_ = 0.0;
   
-  // Desired velocity
-  double desired_vel_y_;
+  // Desired velocity from subscription
+  double desired_vel_x_ = 0.0;
+  double desired_vel_y_ = 0.0;
+  double desired_vel_z_ = 0.0;
+  double desired_ang_vel_x_ = 0.0;
+  double desired_ang_vel_y_ = 0.0;
+  double desired_ang_vel_z_ = 0.0;
   
   // State flags
   bool have_odom_ = false;
+  bool have_desired_vel_ = false;
 };
 
 int main(int argc, char * argv[])

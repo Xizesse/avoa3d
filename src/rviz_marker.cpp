@@ -18,8 +18,8 @@
 #include "custom_msgs/msg/element_characteristics_stamped.hpp"
 #include "custom_msgs/msg/element_characteristics_array.hpp"
 
-  #include <tf2/LinearMath/Quaternion.h>
-  #include <tf2/LinearMath/Vector3.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Vector3.h>
 
 
 //######################################
@@ -36,7 +36,17 @@ public:
   MarkerPublisher()
   : Node("marker_publisher"), count_(0)
   {
-    visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>("agent", "/visualization_marker", this); 
+    // Declare and get frame ID parameters with defaults
+    this->declare_parameter<std::string>("fixed_frame", "map");
+    this->declare_parameter<std::string>("agent_frame", "agent");
+    
+    fixed_frame_ = this->get_parameter("fixed_frame").as_string();
+    agent_frame_ = this->get_parameter("agent_frame").as_string();
+    
+    RCLCPP_INFO(this->get_logger(), "Using frames: fixed=%s, agent=%s", 
+                fixed_frame_.c_str(), agent_frame_.c_str());
+    
+    visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>(agent_frame_, "/visualization_marker", this); 
     visual_tools_->loadMarkerPub();
     visual_tools_->enableBatchPublishing();
     
@@ -67,11 +77,14 @@ public:
   }
 
 private:
+  std::string fixed_frame_;
+  std::string agent_frame_;
+
   void publish_agent()
   {
     //! AGENT MARKER
     auto agent_marker_msg = visualization_msgs::msg::Marker();
-    agent_marker_msg.header.frame_id = "map";
+    agent_marker_msg.header.frame_id = fixed_frame_;  // Use parameter instead of hardcoded "map"
     agent_marker_msg.header.stamp = this->now();
     agent_marker_msg.ns = "basic_shapes";
     agent_marker_msg.id = 0;
@@ -98,31 +111,28 @@ private:
     //! OBSTACLE MARKER (in the agent frame)
 
     for (auto& obstacle : obstacles_.elements) {
+      auto obstacle_marker_msg = visualization_msgs::msg::Marker();
+      obstacle_marker_msg.header.frame_id = agent_frame_;  // Use parameter instead of hardcoded "agent"
+      obstacle_marker_msg.header.stamp = this->now();
+      obstacle_marker_msg.ns = "basic_shapes";
+      obstacle_marker_msg.id = 0;
+      obstacle_marker_msg.type = visualization_msgs::msg::Marker::SPHERE;
+      obstacle_marker_msg.action = visualization_msgs::msg::Marker::ADD;
 
+      obstacle_marker_msg.pose.position.x = obstacle.pose.position.x;
+      obstacle_marker_msg.pose.position.y = obstacle.pose.position.y;
+      obstacle_marker_msg.pose.position.z = obstacle.pose.position.z;
+      obstacle_marker_msg.pose.orientation = obstacle.pose.orientation;
+      obstacle_marker_msg.scale.x = 1.0;
+      obstacle_marker_msg.scale.y = 1.0;
+      obstacle_marker_msg.scale.z = 1.0;
+      obstacle_marker_msg.color.r = 0.0f;
+      obstacle_marker_msg.color.g = 1.0f;
+      obstacle_marker_msg.color.b = 0.0f;
+      obstacle_marker_msg.color.a = 0.9;
+      obstacle_marker_msg.lifetime = rclcpp::Duration(std::chrono::nanoseconds(static_cast<int64_t>(1))); 
 
-    auto obstacle_marker_msg = visualization_msgs::msg::Marker();
-    obstacle_marker_msg.header.frame_id = "agent"; 
-    obstacle_marker_msg.header.stamp = this->now();
-    obstacle_marker_msg.ns = "basic_shapes";
-    obstacle_marker_msg.id = 0;
-    obstacle_marker_msg.type = visualization_msgs::msg::Marker::SPHERE;
-    obstacle_marker_msg.action = visualization_msgs::msg::Marker::ADD;
-
-    obstacle_marker_msg.pose.position.x = obstacle.pose.position.x;
-    obstacle_marker_msg.pose.position.y = obstacle.pose.position.y;
-    obstacle_marker_msg.pose.position.z = obstacle.pose.position.z;
-    obstacle_marker_msg.pose.orientation = obstacle.pose.orientation;
-    obstacle_marker_msg.scale.x = 1.0;
-    obstacle_marker_msg.scale.y = 1.0;
-    obstacle_marker_msg.scale.z = 1.0;
-    obstacle_marker_msg.color.r = 0.0f;
-    obstacle_marker_msg.color.g = 1.0f;
-    obstacle_marker_msg.color.b = 0.0f;
-    obstacle_marker_msg.color.a = 0.9;
-    obstacle_marker_msg.lifetime = rclcpp::Duration(std::chrono::nanoseconds(static_cast<int64_t>(1))); 
-
-    obstacle_publisher_->publish(obstacle_marker_msg);
-
+      obstacle_publisher_->publish(obstacle_marker_msg);
     }
   }
 
@@ -130,7 +140,7 @@ private:
   {
     //! GOAL MARKER
     auto goal_marker_msg = visualization_msgs::msg::Marker();
-    goal_marker_msg.header.frame_id = "map";
+    goal_marker_msg.header.frame_id = fixed_frame_;  // Use parameter instead of hardcoded "map"
     goal_marker_msg.header.stamp = this->now();
     goal_marker_msg.ns = "basic_shapes";
     goal_marker_msg.id = 0;
@@ -158,7 +168,7 @@ private:
     // Convert Twist to TwistStamped for command velocity
     auto twist_stamped_msg = geometry_msgs::msg::TwistStamped();
     twist_stamped_msg.header.stamp = this->now();
-    twist_stamped_msg.header.frame_id = "agent"; // Use agent frame for velocity
+    twist_stamped_msg.header.frame_id = agent_frame_;  // Use parameter instead of hardcoded "agent"
     twist_stamped_msg.twist = velocity_cmd_;
     
     velocity_cmd_publisher_->publish(twist_stamped_msg);
@@ -169,14 +179,13 @@ private:
     // Convert Twist to TwistStamped for desired velocity
     auto twist_stamped_msg = geometry_msgs::msg::TwistStamped();
     twist_stamped_msg.header.stamp = this->now();
-    twist_stamped_msg.header.frame_id = "agent"; // Use agent frame for velocity
+    twist_stamped_msg.header.frame_id = agent_frame_;  // Use parameter instead of hardcoded "agent"
     twist_stamped_msg.twist = velocity_desired_;
     
     velocity_desired_publisher_->publish(twist_stamped_msg);
   }
   
   void publishVelocityObstacleCone()
-
   {
       visual_tools_->deleteAllMarkers();
       
@@ -203,14 +212,10 @@ private:
             obstacle_position.y() += obstacle.velocity.y * delta_t_;
             obstacle_position.z() += obstacle.velocity.z * delta_t_;
       
-            
             //visual_tools_->publishCone(cone_pose, cone_angle, rviz_visual_tools::TRANSLUCENT, distance);
             visual_tools_->publishLine(agent_position, obstacle_position, rviz_visual_tools::RED, rviz_visual_tools::LARGE);
-
-            }
-          visual_tools_->trigger();
-      
-      
+      }
+      visual_tools_->trigger();
   }
   
   //! Callbacks
@@ -223,7 +228,6 @@ private:
     publish_velocity_cmd();
     publish_velocity_desired();
     publishVelocityObstacleCone();
-    
   }
 
   void velocity_cmd_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
@@ -277,7 +281,6 @@ private:
   nav_msgs::msg::Odometry goal_odometry_;
   custom_msgs::msg::ElementCharacteristicsArray obstacles_;
   size_t count_;
-
 };
 
 int main(int argc, char * argv[])

@@ -3,6 +3,7 @@
 #//ros2 run ros_gz_bridge parameter_bridge /model/agente/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist
 #//ros2 launch ros_gz_bridge ros_gz_bridge.launch.py name:=ros_gz_bridge config_file:=avoa/config/bridge_config.yaml
 
+#cmd_vel wont go to ROS directly now
 - ros_topic_name: "/model/agente/cmd_vel"
   gz_topic_name: "/model/agente/cmd_vel"
   ros_type_name: "geometry_msgs/msg/Twist"

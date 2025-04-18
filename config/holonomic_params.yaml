@@ -31,7 +31,7 @@ avoa3dnode:
 
     # Maximum linear velocities
     v_x_max: 5.0
-    v_y_max: 0.1
+    v_y_max: 2.0
     v_z_max: 0.0
 
     # Maximum angular velocities

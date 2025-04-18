@@ -8,6 +8,19 @@ namespace avoa3d {
 SampleVisualizer::SampleVisualizer(rclcpp::Node* node)
     : node_(node)
 {
+    // Get frame parameters from the node
+    std::string agent_frame = node_->get_parameter("agent_frame").as_string();
+    
+    // If parameter doesn't exist, use "agent" as default
+    if (agent_frame.empty()) {
+        agent_frame = "agent";
+        RCLCPP_WARN(node_->get_logger(), "Using default agent frame: %s", agent_frame.c_str());
+    } else {
+        RCLCPP_INFO(node_->get_logger(), "Using agent frame: %s", agent_frame.c_str());
+    }
+    
+    agent_frame_ = agent_frame;
+    
     // Create publisher
     samples_cloud_publisher_ = node_->create_publisher<sensor_msgs::msg::PointCloud2>(
         "/avoa/velocity_samples", 10);
@@ -40,7 +53,7 @@ void SampleVisualizer::publishSamplesAsPointcloud(
         "danger", 1, sensor_msgs::msg::PointField::FLOAT32);
     
     // Set point cloud metadata
-    cloud_msg.header.frame_id = "agent";
+    cloud_msg.header.frame_id = agent_frame_;  // Use parameter instead of hardcoded "agent"
     cloud_msg.header.stamp = node_->now();
     
     // Allocate point cloud

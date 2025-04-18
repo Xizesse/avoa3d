@@ -1,8 +1,3 @@
-/*
-###
-ros2 run avoa3d obstacle_publisher
-###
-*/
 #include <chrono>
 #include <cmath>
 #include "rclcpp/rclcpp.hpp"
@@ -23,6 +18,15 @@ public:
   ObstaclePublisher()
   : Node("obstacle_publisher"), start_time_(this->get_clock()->now())
   {
+    // Declare and get frame ID parameters with defaults
+    this->declare_parameter<std::string>("fixed_frame", "map");
+    this->declare_parameter<std::string>("agent_frame", "agent");
+    
+    fixed_frame_ = this->get_parameter("fixed_frame").as_string();
+    agent_frame_ = this->get_parameter("agent_frame").as_string();
+    
+    RCLCPP_INFO(this->get_logger(), "Using frames: fixed=%s, agent=%s", 
+                fixed_frame_.c_str(), agent_frame_.c_str());
 
     tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
     tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
@@ -43,8 +47,8 @@ public:
   }
 
 private:
-
- 
+  std::string fixed_frame_;
+  std::string agent_frame_;
 
   void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
@@ -74,26 +78,22 @@ private:
   //!TRANSFROM COORDINATES
   // Create a PointStamped for the obstacle position in world frame
   geometry_msgs::msg::PointStamped obstacle_world;
-  obstacle_world.header.frame_id = "map";  
+  obstacle_world.header.frame_id = fixed_frame_;  // Use parameter instead of hardcoded "map"
   obstacle_world.header.stamp = this->get_clock()->now();
   obstacle_world.point.x = latest_odom_.pose.pose.position.x;
   obstacle_world.point.y = latest_odom_.pose.pose.position.y;
   obstacle_world.point.z = latest_odom_.pose.pose.position.z;  
 
-  std::string agent_frame = "agent";  // Use the actual frame name from your TF tree
-
   bool transform_success = false;
   try {
     geometry_msgs::msg::PointStamped obstacle_agent_frame;
-    obstacle_agent_frame = tf_buffer_->transform(obstacle_world, agent_frame);
+    obstacle_agent_frame = tf_buffer_->transform(obstacle_world, agent_frame_);  // Use parameter
     
     // Now obstacle_agent_frame.point has the coordinates in the agent's frame
     obstacle_agent_x = obstacle_agent_frame.point.x;
     obstacle_agent_y = obstacle_agent_frame.point.y;
     obstacle_agent_z = obstacle_agent_frame.point.z;
     
-    //RCLCPP_INFO(this->get_logger(), "Obstacle in agent frame: [%f, %f, %f]",
-                //obstacle_agent_x, obstacle_agent_y, obstacle_agent_z);
     transform_success = true;
   }
   catch (const tf2::TransformException & ex) {
@@ -102,7 +102,7 @@ private:
   //!TRANSFROM COORDINATES
 
   element.header.stamp = current_time;
-  element.header.frame_id = agent_frame; 
+  element.header.frame_id = agent_frame_;  // Use parameter
   element.id = 1;
   element.type = 1;
   element.dynamic = false;
@@ -122,7 +122,7 @@ private:
   
   // Convert VElocity Here
   geometry_msgs::msg::Vector3Stamped vel_world;
-  vel_world.header.frame_id = "map";
+  vel_world.header.frame_id = fixed_frame_;  // Use parameter
   vel_world.header.stamp = current_time;
 
   vel_world.vector = latest_odom_.twist.twist.linear;
@@ -130,7 +130,7 @@ private:
   try {
     // Transform the velocity vector to the agent's frame
     geometry_msgs::msg::Vector3Stamped vel_agent;
-    vel_agent = tf_buffer_->transform(vel_world, agent_frame);
+    vel_agent = tf_buffer_->transform(vel_world, agent_frame_);  // Use parameter
     
     // Set the obstacle's velocity in the agent's frame
     element.velocity.x = vel_agent.vector.x;

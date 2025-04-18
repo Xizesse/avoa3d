@@ -24,6 +24,7 @@ private:
     rclcpp::Node* node_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;
     nav_msgs::msg::Odometry latest_agent_odometry_{};
+    std::string agent_frame_;
 };
 
 } // namespace avoa3d

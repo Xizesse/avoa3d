@@ -34,13 +34,27 @@ def generate_launch_description():
         default_value='1',
         description='Scenario number: s=static, d=dynamic.'
     )
+    
+    # New TF frame arguments
+    fixed_frame_arg = DeclareLaunchArgument(
+        'fixed_frame',
+        default_value='map',
+        description='Fixed/world reference frame'
+    )
+    agent_frame_arg = DeclareLaunchArgument(
+        'agent_frame',
+        default_value='agent',
+        description='Agent reference frame'
+    )
 
-    # Create LaunchConfigurations to reference the user’s CLI/arg values
+    # Create LaunchConfigurations to reference the user's CLI/arg values
     name = LaunchConfiguration('name')
     config_file = LaunchConfiguration('config_file')
     namespace = LaunchConfiguration('namespace')
     log_level = LaunchConfiguration('log_level')
     scenario = LaunchConfiguration('scenario')
+    fixed_frame = LaunchConfiguration('fixed_frame')
+    agent_frame = LaunchConfiguration('agent_frame')
 
     # Function to pick an SDF file based on scenario
     def get_sdf_file(context):
@@ -84,7 +98,7 @@ def generate_launch_description():
         name=name,
         namespace=namespace,
         output='screen',
-        # Log level from user’s arg
+        # Log level from user's arg
         arguments=['--ros-args', '--log-level', log_level],
         parameters=[
             {'use_sim_time': True},
@@ -98,7 +112,11 @@ def generate_launch_description():
         executable='obstacle_publisher',
         name='obstacle_publisher',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame}
+        ]
     )
 
     # rviz_marker
@@ -107,7 +125,11 @@ def generate_launch_description():
         executable='rviz_marker',
         name='rviz_marker',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame}
+        ]
     )
 
     # test_w_goal
@@ -116,7 +138,11 @@ def generate_launch_description():
         executable='test_w_goal',
         name='test_w_goal',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame}
+        ]
     )
 
     # Load your holonomic_params.yaml for the avoa3dnode
@@ -130,6 +156,8 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
             motion_params,
         ]
     )
@@ -139,7 +167,11 @@ def generate_launch_description():
             executable='tf_publisher',
             name='tf_publisher',
             output='screen',
-            emulate_tty=True
+            emulate_tty=True,
+            parameters=[
+                {'fixed_frame': fixed_frame},
+                {'agent_frame': agent_frame}
+            ]
     )
 
 
@@ -150,6 +182,8 @@ def generate_launch_description():
         namespace_arg,
         log_level_arg,
         scenario_arg,
+        fixed_frame_arg,
+        agent_frame_arg,
 
         # Processes & nodes
         gazebo_process,
