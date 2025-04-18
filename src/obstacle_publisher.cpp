@@ -38,9 +38,6 @@ public:
     obstacle_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "/model/obstacle/odometry", 10,
       std::bind(&ObstaclePublisher::odometry_callback, this, std::placeholders::_1));
-    agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/model/agente/odometry", 10,
-      std::bind(&ObstaclePublisher::agent_odometry_callback, this, std::placeholders::_1));
     // Timer that calls timer_callback every 100 milliseconds
     timer_ = this->create_wall_timer(
       100ms, std::bind(&ObstaclePublisher::timer_callback, this));
@@ -54,11 +51,6 @@ private:
   {
     // Latest Odom
     latest_odom_ = *msg;  
-  }
-
-  void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
-  {
-    agent_odometry_ = *msg;
   }
 
   void timer_callback()
@@ -161,8 +153,6 @@ private:
 
   rclcpp::Publisher<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr publisher_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr obstacle_odometry_subscriber_;
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
-  nav_msgs::msg::Odometry agent_odometry_;
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Time start_time_;
   nav_msgs::msg::Odometry latest_odom_;
