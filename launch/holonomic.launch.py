@@ -46,6 +46,12 @@ def generate_launch_description():
         default_value='agent',
         description='Agent reference frame'
     )
+    # Goal topic argument
+    goal_topic_arg = DeclareLaunchArgument(
+        'goal_topic',
+        default_value='/goal_pose',
+        description='RViz2 goal pose topic'
+    )
 
     # Create LaunchConfigurations to reference the user's CLI/arg values
     name = LaunchConfiguration('name')
@@ -55,6 +61,7 @@ def generate_launch_description():
     scenario = LaunchConfiguration('scenario')
     fixed_frame = LaunchConfiguration('fixed_frame')
     agent_frame = LaunchConfiguration('agent_frame')
+    goal_topic = LaunchConfiguration('goal_topic')
 
     # Function to pick an SDF file based on scenario
     def get_sdf_file(context):
@@ -141,7 +148,8 @@ def generate_launch_description():
         parameters=[
             {'use_sim_time': True},
             {'fixed_frame': fixed_frame},
-            {'agent_frame': agent_frame}
+            {'agent_frame': agent_frame},
+            {'goal_topic': goal_topic}
         ]
     )
 
@@ -184,6 +192,7 @@ def generate_launch_description():
         scenario_arg,
         fixed_frame_arg,
         agent_frame_arg,
+        goal_topic_arg,
 
         # Processes & nodes
         gazebo_process,
