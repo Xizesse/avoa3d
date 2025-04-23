@@ -23,7 +23,7 @@ public:
     
     // Subscribe to desired velocity instead of simulating it
     desired_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
-      "/nest/cmd_vel", 10,  // Changed topic name to /nest/cmd_vel
+      "avoa/cmd_vel", 10,  // Changed topic name to /nest/cmd_vel
       std::bind(&ThrustCommandPublisher::desired_vel_callback, this, std::placeholders::_1));
     
     // Create a timer to publish messages at 10Hz
@@ -31,18 +31,21 @@ public:
       100ms, std::bind(&ThrustCommandPublisher::publish_command, this));
     
     // Initialize PID gains
-    kp_linear_ = 500.0;  // Proportional gain for linear velocity
+    kp_linear_ = 100.0;  // Proportional gain for linear velocity
     ki_linear_ = 5.0;    // Integral gain for linear velocity
     kd_linear_ = 10.0;   // Derivative gain for linear velocity
     
     // Initialize error tracking for PID
+    prev_error_x_ = 0.0;  // Add error tracking for x
     prev_error_y_ = 0.0;
+    integral_x_ = 0.0;    // Add integral tracking for x
     integral_y_ = 0.0;
     
     // Control loop time step
     dt_ = 0.1; // 10Hz = 0.1s
     
     // Initialize desired velocity
+    desired_vel_x_ = 0.0;
     desired_vel_y_ = 0.0;
     
     RCLCPP_INFO(this->get_logger(), "Velocity Controller started");
@@ -90,7 +93,7 @@ private:
     // Integral term (with anti-windup)
     integral += error * dt_;
     // Limit integral term to prevent windup
-    double max_integral = 100.0;
+    double max_integral = 50.0;
     if (integral > max_integral) integral = max_integral;
     if (integral < -max_integral) integral = -max_integral;
     double i_term = ki_linear_ * integral;
@@ -125,11 +128,11 @@ private:
       return;
     }
     
-    // Compute control outputs using PID
+    // Compute control outputs using PID for both x and y
+    thrust_msg.fx = compute_pid_control(desired_vel_x_, current_vel_x_, prev_error_x_, integral_x_);
     thrust_msg.fy = compute_pid_control(desired_vel_y_, current_vel_y_, prev_error_y_, integral_y_);
     
     // Set other thrust commands to zero (for now)
-    thrust_msg.fx = 0.0;
     thrust_msg.fz = 0.0;
     thrust_msg.mx = 0.0;
     thrust_msg.my = 0.0;
@@ -139,6 +142,9 @@ private:
     thrust_publisher_->publish(thrust_msg);
     
     // Log debug information
+    RCLCPP_INFO(this->get_logger(),
+      "Desired vel_x: %.2f, Current vel_x: %.2f, Thrust_x: %.2f",
+      desired_vel_x_, current_vel_x_, thrust_msg.fx);
     RCLCPP_INFO(this->get_logger(),
       "Desired vel_y: %.2f, Current vel_y: %.2f, Thrust_y: %.2f",
       desired_vel_y_, current_vel_y_, thrust_msg.fy);
@@ -161,7 +167,9 @@ private:
   double dt_;
   
   // PID error tracking
+  double prev_error_x_;  // Add error tracking for x
   double prev_error_y_;
+  double integral_x_;    // Add integral tracking for x
   double integral_y_;
   
   // Current velocity tracking

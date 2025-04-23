@@ -16,7 +16,8 @@ class ObstaclePublisher : public rclcpp::Node
 {
 public:
   ObstaclePublisher()
-  : Node("obstacle_publisher"), start_time_(this->get_clock()->now())
+  : Node("obstacle_publisher"), start_time_(this->get_clock()->now()),
+    have_obstacle_(false)  // Initialize to false until we receive obstacle data
   {
     // Declare and get frame ID parameters with defaults
     this->declare_parameter<std::string>("fixed_frame", "map");
@@ -38,115 +39,157 @@ public:
     obstacle_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "/model/obstacle/odometry", 10,
       std::bind(&ObstaclePublisher::odometry_callback, this, std::placeholders::_1));
+    
     // Timer that calls timer_callback every 100 milliseconds
     timer_ = this->create_wall_timer(
       100ms, std::bind(&ObstaclePublisher::timer_callback, this));
+      
+    RCLCPP_INFO(this->get_logger(), "Waiting for obstacle data...");
   }
 
 private:
   std::string fixed_frame_;
   std::string agent_frame_;
+  bool have_obstacle_ = false;  // Flag to track if we have received obstacle data
 
   void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
-    // Latest Odom
-    latest_odom_ = *msg;  
+    latest_odom_ = *msg;
+    have_obstacle_ = true;  // Set to true when we receive obstacle data
   }
 
   void timer_callback()
-{
-  // Create an array message to hold the elements
-  auto array_message = custom_msgs::msg::ElementCharacteristicsArray();
-  
-  // Create a single element message
-  auto element = custom_msgs::msg::ElementCharacteristicsStamped();
-  auto current_time = this->get_clock()->now();
-  
-  // Default values in case transform fails
-  double obstacle_agent_x = latest_odom_.pose.pose.position.x;
-  double obstacle_agent_y = latest_odom_.pose.pose.position.y;
-  double obstacle_agent_z = latest_odom_.pose.pose.position.z;
-  
-  //!TRANSFROM COORDINATES
-  // Create a PointStamped for the obstacle position in world frame
-  geometry_msgs::msg::PointStamped obstacle_world;
-  obstacle_world.header.frame_id = fixed_frame_;  // Use parameter instead of hardcoded "map"
-  obstacle_world.header.stamp = this->get_clock()->now();
-  obstacle_world.point.x = latest_odom_.pose.pose.position.x;
-  obstacle_world.point.y = latest_odom_.pose.pose.position.y;
-  obstacle_world.point.z = latest_odom_.pose.pose.position.z;  
+  {
+    // If we haven't received obstacle data yet, don't publish anything
+    if (!have_obstacle_) {
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
+                          "Waiting for obstacle data...");
+      return;
+    }
+    
+    // Create an array message to hold the elements
+    auto array_message = custom_msgs::msg::ElementCharacteristicsArray();
+    
+    // Create a single element message
+    auto element = custom_msgs::msg::ElementCharacteristicsStamped();
+    auto current_time = this->get_clock()->now();
+    
+    // Create a PointStamped for the obstacle position in world frame
+    geometry_msgs::msg::PointStamped obstacle_world;
+    obstacle_world.header.frame_id = fixed_frame_;
+    obstacle_world.header.stamp = current_time;
+    obstacle_world.point.x = latest_odom_.pose.pose.position.x;
+    obstacle_world.point.y = latest_odom_.pose.pose.position.y;
+    obstacle_world.point.z = latest_odom_.pose.pose.position.z;
 
-  bool transform_success = false;
-  try {
     geometry_msgs::msg::PointStamped obstacle_agent_frame;
-    obstacle_agent_frame = tf_buffer_->transform(obstacle_world, agent_frame_);  // Use parameter
-    
-    // Now obstacle_agent_frame.point has the coordinates in the agent's frame
-    obstacle_agent_x = obstacle_agent_frame.point.x;
-    obstacle_agent_y = obstacle_agent_frame.point.y;
-    obstacle_agent_z = obstacle_agent_frame.point.z;
-    
-    transform_success = true;
-  }
-  catch (const tf2::TransformException & ex) {
-    RCLCPP_ERROR(this->get_logger(), "Transform failed: %s", ex.what());
-  }
-  //!TRANSFROM COORDINATES
 
-  element.header.stamp = current_time;
-  element.header.frame_id = agent_frame_;  // Use parameter
-  element.id = 1;
-  element.type = 1;
-  element.dynamic = false;
-  
-  // Use transformed coordinates or fallback to original
-  element.pose.position.x = obstacle_agent_x;
-  element.pose.position.y = obstacle_agent_y;
-  element.pose.position.z = obstacle_agent_z;
-  
-  if (!transform_success) {
-    RCLCPP_WARN(this->get_logger(), "Using untransformed coordinates");
+    try {
+      rclcpp::Time now = this->get_clock()->now();
+      
+      // First, get the transform from world to agent frame
+      geometry_msgs::msg::TransformStamped transform;
+      transform = tf_buffer_->lookupTransform(
+          agent_frame_,                   // target frame
+          obstacle_world.header.frame_id,  // source frame
+          now,                            // time
+          50ms);    // timeout of 50ms 
+      
+      // Apply the transform to the obstacle point
+      tf2::doTransform(obstacle_world, obstacle_agent_frame, transform);
+      
+      // Now obstacle_agent_frame.point has the coordinates in the agent's frame
+      element.header.stamp = current_time;
+      element.header.frame_id = agent_frame_;
+      element.id = 1;
+      element.type = 1;
+      element.dynamic = false;
+      
+      // Use the transformed coordinates
+      element.pose.position.x = obstacle_agent_frame.point.x;
+      element.pose.position.y = obstacle_agent_frame.point.y;
+      element.pose.position.z = obstacle_agent_frame.point.z;
+      
+      // Transform the orientation
+      geometry_msgs::msg::QuaternionStamped orientation_world;
+      orientation_world.header.frame_id = fixed_frame_;
+      orientation_world.header.stamp = current_time;
+      orientation_world.quaternion = latest_odom_.pose.pose.orientation;
+      
+      geometry_msgs::msg::QuaternionStamped orientation_agent;
+      try {
+        tf2::doTransform(orientation_world, orientation_agent, transform);
+        element.pose.orientation = orientation_agent.quaternion;
+      } catch (const tf2::TransformException & ex) {
+        RCLCPP_WARN(this->get_logger(), "Orientation transform failed: %s", ex.what());
+        // Fallback to original orientation
+        element.pose.orientation = latest_odom_.pose.pose.orientation;
+      }
+      
+      // Transform the velocity vector
+      geometry_msgs::msg::Vector3Stamped vel_world;
+      vel_world.header.frame_id = fixed_frame_;
+      vel_world.header.stamp = current_time;
+      vel_world.vector = latest_odom_.twist.twist.linear;
+      
+      geometry_msgs::msg::Vector3Stamped vel_agent;
+      try {
+        tf2::doTransform(vel_world, vel_agent, transform);
+        // Set the obstacle's velocity in the agent's frame
+        element.velocity.x = vel_agent.vector.x;
+        element.velocity.y = vel_agent.vector.y;
+        element.velocity.z = vel_agent.vector.z;
+      } catch (const tf2::TransformException & ex) {
+        RCLCPP_WARN(this->get_logger(), "Velocity transform failed: %s", ex.what());
+        // Fallback to zeros
+        element.velocity.x = 0.0;
+        element.velocity.y = 0.0;
+        element.velocity.z = 0.0;
+      }
+      
+      // Set the size and protective zone
+      element.size.x = 1.0;
+      element.size.y = 1.0;
+      element.size.z = 1.0;
+      element.protective_zone = 0.0;
+      
+      array_message.elements.push_back(element);
+      publisher_->publish(array_message);
+      
+    } catch (const tf2::TransformException &ex) {
+      RCLCPP_ERROR(this->get_logger(), "Failed to transform obstacle to agent frame: %s", ex.what());
+      // If the transform fails, don't publish anything or use fallback values if needed
+      
+      // Alternative: Use untransformed values as fallback
+      element.header.stamp = current_time;
+      element.header.frame_id = fixed_frame_;
+      element.id = 1;
+      element.type = 1;
+      element.dynamic = false;
+      
+      // Use original coordinates
+      element.pose.position.x = latest_odom_.pose.pose.position.x;
+      element.pose.position.y = latest_odom_.pose.pose.position.y;
+      element.pose.position.z = latest_odom_.pose.pose.position.z;
+      element.pose.orientation = latest_odom_.pose.pose.orientation;
+      
+      // Use original velocity
+      element.velocity.x = latest_odom_.twist.twist.linear.x;
+      element.velocity.y = latest_odom_.twist.twist.linear.y;
+      element.velocity.z = latest_odom_.twist.twist.linear.z;
+      
+      // Set the size and protective zone
+      element.size.x = 1.0;
+      element.size.y = 1.0;
+      element.size.z = 1.0;
+      element.protective_zone = 0.0;
+      
+      RCLCPP_WARN(this->get_logger(), "Using untransformed coordinates as fallback");
+      
+      array_message.elements.push_back(element);
+      publisher_->publish(array_message);
+    }
   }
-  
-  // You may also need to transform the orientation
-  // This is a simplified approach - just using the original orientation
-  element.pose.orientation = latest_odom_.pose.pose.orientation;
-  
-  // Convert VElocity Here
-  geometry_msgs::msg::Vector3Stamped vel_world;
-  vel_world.header.frame_id = fixed_frame_;  // Use parameter
-  vel_world.header.stamp = current_time;
-
-  vel_world.vector = latest_odom_.twist.twist.linear;
-
-  try {
-    // Transform the velocity vector to the agent's frame
-    geometry_msgs::msg::Vector3Stamped vel_agent;
-    vel_agent = tf_buffer_->transform(vel_world, agent_frame_);  // Use parameter
-    
-    // Set the obstacle's velocity in the agent's frame
-    element.velocity.x = vel_agent.vector.x;
-    element.velocity.y = vel_agent.vector.y;
-    element.velocity.z = vel_agent.vector.z;
-  }
-  catch (const tf2::TransformException & ex) {
-    RCLCPP_WARN(this->get_logger(), "Velocity transform failed: %s", ex.what());
-    // Fallback to zeros
-    element.velocity.x = 0.0;
-    element.velocity.y = 0.0;
-    element.velocity.z = 0.0;
-  }
-
-
-  element.size.x = 1.0;
-  element.size.y = 1.0;
-  element.size.z = 1.0;
-  element.protective_zone = 0.0;  // Adding a small protective zone
-  
-  array_message.elements.push_back(element);
-  
-  publisher_->publish(array_message);
-}
 
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;

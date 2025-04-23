@@ -64,18 +64,18 @@ public:
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
         // Publishers and subscribers
-        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/cmd_vel", 10);
+        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/avoa/cmd_vel", 10);
         
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
             "/model/agente/desired_vel", 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
             
         velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
-           "/model/agente/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
+           "/avoa/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
         //velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
         //    "/nest/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));    
         
         agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "/model/agente/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
+            "/nest/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
         //agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
             //"/nest/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
 

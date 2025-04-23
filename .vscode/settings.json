@@ -71,6 +71,11 @@
         "span": "cpp",
         "variant": "cpp",
         "core": "cpp",
-        "hash_map": "cpp"
+        "hash_map": "cpp",
+        "strstream": "cpp",
+        "cfenv": "cpp",
+        "source_location": "cpp",
+        "shared_mutex": "cpp",
+        "stdfloat": "cpp"
     }
 }

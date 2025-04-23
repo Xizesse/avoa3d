@@ -88,7 +88,7 @@ private:
   double current_y_ = 0.0;
   double current_z_ = 0.0;
   
-  const double constant_speed_ = 1.5; //! fixed speed
+  const double constant_speed_ = 1.0; //! fixed speed
   
   void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
@@ -136,13 +136,19 @@ private:
     geometry_msgs::msg::PointStamped goal_in_agent;
 
     try {
-      // First transform to fixed frame if needed
-      if (goal_in_world.header.frame_id != fixed_frame_) {
-        goal_in_world = tf_buffer_->transform(goal_in_world, fixed_frame_);
-      }
+      rclcpp::Time now = this->get_clock()->now();
       
-      // Then transform to agent frame
-      goal_in_agent = tf_buffer_->transform(goal_in_world, agent_frame_);
+      // First, get the transform from world to agent frame
+      geometry_msgs::msg::TransformStamped transform;
+      transform = tf_buffer_->lookupTransform(
+          agent_frame_,                   // target frame
+          goal_in_world.header.frame_id,  // source frame
+          now,                            // time
+          50ms);    // timeout of 50ms 
+      
+      // Apply the transform to the goal point
+      tf2::doTransform(goal_in_world, goal_in_agent, transform);
+      
     } catch (const tf2::TransformException &ex) {
       RCLCPP_ERROR(this->get_logger(), "Failed to transform goal to agent frame: %s", ex.what());
       // If the transform fails, publish zero velocity

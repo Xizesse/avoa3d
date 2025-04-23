@@ -43,8 +43,8 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
     VelocitySample translated_sample;
     
     // Safety cost parameters
-    const double safety_threshold = 3.0;   // Maximum distance to apply safety cost
-    const double max_safety_cost = 1.0;    // Maximum safety cost when on cone boundary
+    const double safety_threshold = 0.5;   // Maximum distance to apply safety cost
+    const double max_safety_cost = 0.5;    // Maximum safety cost when on cone boundary
     
     for (auto& sample : samples) {
         bool collision_free = true;

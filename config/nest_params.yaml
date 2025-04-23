@@ -1,0 +1,40 @@
+avoa3dnode:
+  ros__parameters:
+    # AVOA PARAMS
+    kinematic_mode : "holonomic"
+
+    #Goal weights 
+    heading_weight: 0.70
+    abs_weight: 0.3
+    #Danger weight. Goal weight will be * (1 - danger_weight)
+    danger_weight: 0.0
+
+    # Vehicle parameters
+    vehicle_radius: 2.8
+
+    # Time step
+    delta_t: 2.0
+    
+    # Sampling parameters
+    num_samples: 5000
+    
+    # 6DOF parameters
+    # Maximum accelerations
+    a_x_max: 5.0
+    a_y_max: 5.0
+    a_z_max: 0.0
+    
+    # Maximum angular accelerations
+    a_roll_max: 0.0
+    a_pitch_max: 0.0
+    a_yaw_max: 0.0
+
+    # Maximum linear velocities
+    v_x_max: 2.0
+    v_y_max: 2.0
+    v_z_max: 0.0
+
+    # Maximum angular velocities
+    w_roll_max: 0.0
+    w_pitch_max: 0.0
+    w_yaw_max: 0.0

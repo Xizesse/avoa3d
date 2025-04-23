@@ -29,12 +29,68 @@ def generate_launch_description():
         'log_level',
         default_value='info'
     )
+    scenario_arg = DeclareLaunchArgument(
+        'scenario',
+        default_value='1',
+        description='Scenario number: s=static, d=dynamic.'
+    )
+    
+    # New TF frame arguments
+    fixed_frame_arg = DeclareLaunchArgument(
+        'fixed_frame',
+        default_value='world',
+        description='Fixed/world reference frame'
+    )
+    agent_frame_arg = DeclareLaunchArgument(
+        'agent_frame',
+        default_value='base_link',
+        description='Agent reference frame'
+    )
+    # Goal topic argument
+    goal_topic_arg = DeclareLaunchArgument(
+        'goal_topic',
+        default_value='/goal_pose',
+        description='RViz2 goal pose topic'
+    )
 
-    # Create LaunchConfigurations to reference the user’s CLI/arg values
+    # Create LaunchConfigurations to reference the user's CLI/arg values
     name = LaunchConfiguration('name')
     config_file = LaunchConfiguration('config_file')
     namespace = LaunchConfiguration('namespace')
     log_level = LaunchConfiguration('log_level')
+    scenario = LaunchConfiguration('scenario')
+    fixed_frame = LaunchConfiguration('fixed_frame')
+    agent_frame = LaunchConfiguration('agent_frame')
+    goal_topic = LaunchConfiguration('goal_topic')
+
+    # Function to pick an SDF file based on scenario
+    def get_sdf_file(context):
+        scenario_value = context.launch_configurations['scenario']
+        home = os.environ.get('HOME', '/tmp')  # or fallback
+        sdf_base = os.path.join(home, 'ros_ws', 'src', 'avoa3d', 'sdf')
+
+        scenario_map = {
+            's0': 'single_static1.sdf',
+            's1': 'single_static2.sdf',
+            's2': 'single_static3.sdf',
+            'd0': 'single_dynamic1.sdf',
+            'd1': 'single_dynamic2.sdf',
+            'd2': 'single_dynamic3.sdf',
+            'd3': 'single_dynamic4.sdf',
+            'd4': 'single_dynamic5.sdf',
+        }
+        chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')
+        sdf_file = os.path.join(sdf_base, chosen_sdf)
+
+        return [
+            ExecuteProcess(
+                cmd=['gz', 'sim', '4', '-r', sdf_file],
+                output='screen'
+            )
+        ]
+
+    # Use OpaqueFunction so we can dynamically pick the SDF file at runtime
+    gazebo_process = OpaqueFunction(function=get_sdf_file)
 
     # Build path to your ros_gz_bridge config in ~/ros_ws/src/avoa3d/config
     home_path = os.environ.get('HOME', '/tmp')
@@ -49,10 +105,10 @@ def generate_launch_description():
         name=name,
         namespace=namespace,
         output='screen',
-        # Log level from user’s arg
+        # Log level from user's arg
         arguments=['--ros-args', '--log-level', log_level],
         parameters=[
-            {'use_sim_time': True},
+            {'use_sim_time': False},
             {'config_file': bridge_config}
         ]
     )
@@ -63,7 +119,11 @@ def generate_launch_description():
         executable='obstacle_publisher',
         name='obstacle_publisher',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': False},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame}
+        ]
     )
 
     # rviz_marker
@@ -72,7 +132,11 @@ def generate_launch_description():
         executable='rviz_marker',
         name='rviz_marker',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': False},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame}
+        ]
     )
 
     # test_w_goal
@@ -81,12 +145,17 @@ def generate_launch_description():
         executable='test_w_goal',
         name='test_w_goal',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': False},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            {'goal_topic': goal_topic}
+        ]
     )
 
     # Load your holonomic_params.yaml for the avoa3dnode
     pkg_share = get_package_share_directory('avoa3d')
-    motion_params = os.path.join(pkg_share, 'config', 'holonomic_params.yaml')
+    motion_params = os.path.join(pkg_share, 'config', 'nest_params.yaml')
 
     avoa3d_node = Node(
         package='avoa3d',
@@ -94,7 +163,9 @@ def generate_launch_description():
         name='avoa3dnode',
         output='screen',
         parameters=[
-            {'use_sim_time': True},
+            {'use_sim_time': False},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
             motion_params,
         ]
     )
@@ -105,9 +176,20 @@ def generate_launch_description():
             name='tf_publisher',
             output='screen',
             emulate_tty=True,
-            parameters=[{'use_sim_time': True}]
+            parameters=[
+                {'fixed_frame': fixed_frame},
+                {'agent_frame': agent_frame}
+            ]
     )
 
+    thruster_controller = Node(
+            package='avoa3d',
+            executable='thruster_controller',
+            name='thruster_controller',
+            output='screen',
+            emulate_tty=True,
+
+    )
 
     return LaunchDescription([
         # Declare arguments
@@ -115,12 +197,18 @@ def generate_launch_description():
         config_file_arg,
         namespace_arg,
         log_level_arg,
+        scenario_arg,
+        fixed_frame_arg,
+        agent_frame_arg,
+        goal_topic_arg,
 
         # Processes & nodes
+        #gazebo_process,
         bridge_node,
-        #obstacle_publisher_node,
-        #rviz_marker_node,
+        obstacle_publisher_node,
+        rviz_marker_node,
         test_w_goal_node,
         avoa3d_node,
         #tf_publisher
+        thruster_controller
     ])

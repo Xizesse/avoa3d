@@ -185,39 +185,7 @@ private:
     velocity_desired_publisher_->publish(twist_stamped_msg);
   }
   
-  void publishVelocityObstacleCone()
-  {
-      visual_tools_->deleteAllMarkers();
-      
-      // Get positions
-      Eigen::Vector3d agent_position(
-          0.0,
-          0.0,
-          0.0
-      );
-      
-      double delta_t_ = 1;
-      for (auto& obstacle : obstacles_.elements) { //already in agent coordinate frame
-            Eigen::Vector3d obstacle_position(
-                  obstacle.pose.position.x,
-                  obstacle.pose.position.y,
-                  obstacle.pose.position.z
-              );
-            
-            agent_position.x() += obstacle.velocity.x * delta_t_;
-            agent_position.y() += obstacle.velocity.y * delta_t_;
-            agent_position.z() += obstacle.velocity.z * delta_t_;
 
-            obstacle_position.x() += obstacle.velocity.x * delta_t_;
-            obstacle_position.y() += obstacle.velocity.y * delta_t_;
-            obstacle_position.z() += obstacle.velocity.z * delta_t_;
-      
-            //visual_tools_->publishCone(cone_pose, cone_angle, rviz_visual_tools::TRANSLUCENT, distance);
-            visual_tools_->publishLine(agent_position, obstacle_position, rviz_visual_tools::RED, rviz_visual_tools::LARGE);
-      }
-      visual_tools_->trigger();
-  }
-  
   //! Callbacks
 
   void timer_callback()
@@ -227,7 +195,6 @@ private:
     publish_goal();
     publish_velocity_cmd();
     publish_velocity_desired();
-    publishVelocityObstacleCone();
   }
 
   void velocity_cmd_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
