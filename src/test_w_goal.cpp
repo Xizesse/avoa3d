@@ -173,12 +173,12 @@ private:
       msg.linear.z = 0.0;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "Goal reached!");
     }
-    else if (distance < 3.0)
+    else if (distance < 10.0)
     {
       // Slow down when close to goal
-      msg.linear.x = (error_x)/3.0 * constant_speed_;
-      msg.linear.y = (error_y)/3.0 * constant_speed_;
-      msg.linear.z = (error_z)/3.0 * constant_speed_;
+      msg.linear.x = (error_x)/10.0 * constant_speed_;
+      msg.linear.y = (error_y)/10.0 * constant_speed_;
+      msg.linear.z = (error_z)/10.0 * constant_speed_;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
                           "Approaching goal, distance: %.2f", distance);
     }

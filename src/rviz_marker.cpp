@@ -84,7 +84,7 @@ private:
   {
     //! AGENT MARKER
     auto agent_marker_msg = visualization_msgs::msg::Marker();
-    agent_marker_msg.header.frame_id = fixed_frame_;  // Use parameter instead of hardcoded "map"
+    agent_marker_msg.header.frame_id = agent_frame_;  // Use parameter instead of hardcoded "agent"
     agent_marker_msg.header.stamp = this->now();
     agent_marker_msg.ns = "basic_shapes";
     agent_marker_msg.id = 0;
@@ -94,8 +94,8 @@ private:
     agent_marker_msg.pose.position.y = agent_odometry_.pose.pose.position.y;
     agent_marker_msg.pose.position.z = agent_odometry_.pose.pose.position.z;
     agent_marker_msg.pose.orientation = agent_odometry_.pose.pose.orientation;
-    agent_marker_msg.scale.x = 1.0;
-    agent_marker_msg.scale.y = 1.0;
+    agent_marker_msg.scale.x = 3.0;
+    agent_marker_msg.scale.y = 2.5;
     agent_marker_msg.scale.z = 1.0;
     agent_marker_msg.color.r = 1.0f;
     agent_marker_msg.color.g = 0.0f;
@@ -123,9 +123,9 @@ private:
       obstacle_marker_msg.pose.position.y = obstacle.pose.position.y;
       obstacle_marker_msg.pose.position.z = obstacle.pose.position.z;
       obstacle_marker_msg.pose.orientation = obstacle.pose.orientation;
-      obstacle_marker_msg.scale.x = 1.0;
-      obstacle_marker_msg.scale.y = 1.0;
-      obstacle_marker_msg.scale.z = 1.0;
+      obstacle_marker_msg.scale.x = 2.0;
+      obstacle_marker_msg.scale.y = 2.0;
+      obstacle_marker_msg.scale.z = 2.0;
       obstacle_marker_msg.color.r = 0.0f;
       obstacle_marker_msg.color.g = 1.0f;
       obstacle_marker_msg.color.b = 0.0f;

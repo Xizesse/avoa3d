@@ -12,6 +12,38 @@ class ThrustCommandPublisher : public rclcpp::Node
 public:
   ThrustCommandPublisher() : Node("thruster_controller")
   {
+    // Declare parameters with default values for linear motion
+    this->declare_parameter("kp_linear", 120.0);
+    this->declare_parameter("ki_linear", 1.5);
+    this->declare_parameter("kd_linear", 0.0);
+    
+    // New parameters for angular motion (yaw control)
+    this->declare_parameter("kp_angular", 50.0);
+    this->declare_parameter("ki_angular", 0.0);
+    this->declare_parameter("kd_angular", 0.0);
+    
+    // Other parameters
+    this->declare_parameter("dt", 0.1);
+    this->declare_parameter("input_filter", 0.3);
+    this->declare_parameter("max_integral_linear", 1000.0);
+    this->declare_parameter("max_integral_angular", 100.0);
+    
+    // Get parameter values
+    kp_linear_ = this->get_parameter("kp_linear").as_double();
+    ki_linear_ = this->get_parameter("ki_linear").as_double();
+    kd_linear_ = this->get_parameter("kd_linear").as_double();
+    
+    // Get angular control parameters
+    kp_angular_ = this->get_parameter("kp_angular").as_double();
+    ki_angular_ = this->get_parameter("ki_angular").as_double();
+    kd_angular_ = this->get_parameter("kd_angular").as_double();
+    
+    // Get other parameters
+    dt_ = this->get_parameter("dt").as_double();
+    input_filter_ = this->get_parameter("input_filter").as_double();
+    max_integral_linear_ = this->get_parameter("max_integral_linear").as_double();
+    max_integral_angular_ = this->get_parameter("max_integral_angular").as_double();
+    
     // Create a publisher for the ThrustCommand message
     thrust_publisher_ = this->create_publisher<nest_interfaces::msg::ThrustCommand>(
       "/nest/thrusters/thrust_cmd", 10);
@@ -23,84 +55,124 @@ public:
     
     // Subscribe to desired velocity instead of simulating it
     desired_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
-      "avoa/cmd_vel", 10,  // Changed topic name to /nest/cmd_vel
+      "avoa/cmd_vel", 10, 
       std::bind(&ThrustCommandPublisher::desired_vel_callback, this, std::placeholders::_1));
     
-    // Create a timer to publish messages at 10Hz
+    // Create a timer to publish messages at 10Hz (or as specified by the dt parameter)
     timer_ = this->create_wall_timer(
-      100ms, std::bind(&ThrustCommandPublisher::publish_command, this));
-    
-    // Initialize PID gains
-    kp_linear_ = 100.0;  // Proportional gain for linear velocity
-    ki_linear_ = 5.0;    // Integral gain for linear velocity
-    kd_linear_ = 10.0;   // Derivative gain for linear velocity
+      std::chrono::milliseconds(static_cast<int>(dt_ * 1000)), 
+      std::bind(&ThrustCommandPublisher::publish_command, this));
     
     // Initialize error tracking for PID
-    prev_error_x_ = 0.0;  // Add error tracking for x
+    prev_error_x_ = 0.0;
     prev_error_y_ = 0.0;
-    integral_x_ = 0.0;    // Add integral tracking for x
+    prev_error_yaw_ = 0.0;  // For yaw control
+    integral_x_ = 0.0;
     integral_y_ = 0.0;
+    integral_yaw_ = 0.0;    // For yaw control
     
-    // Control loop time step
-    dt_ = 0.1; // 10Hz = 0.1s
-    
-    // Initialize desired velocity
-    desired_vel_x_ = 0.0;
-    desired_vel_y_ = 0.0;
-    
-    RCLCPP_INFO(this->get_logger(), "Velocity Controller started");
+    // Log the parameters that were loaded
+    RCLCPP_INFO(this->get_logger(), "Velocity Controller started with parameters:");
+    RCLCPP_INFO(this->get_logger(), "  Linear control: kp=%.2f, ki=%.2f, kd=%.2f", 
+                kp_linear_, ki_linear_, kd_linear_);
+    RCLCPP_INFO(this->get_logger(), "  Angular control: kp=%.2f, ki=%.2f, kd=%.2f", 
+                kp_angular_, ki_angular_, kd_angular_);
+    RCLCPP_INFO(this->get_logger(), "  dt: %.2f, input_filter: %.2f", dt_, input_filter_);
+    RCLCPP_INFO(this->get_logger(), "  max_integral_linear: %.2f, max_integral_angular: %.2f", 
+                max_integral_linear_, max_integral_angular_);
   }
 
 private:
   void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
     // Store current velocity
-    current_vel_x_ = msg->twist.twist.linear.x;
-    current_vel_y_ = msg->twist.twist.linear.y;
-    current_vel_z_ = msg->twist.twist.linear.z;
+    current_vel_x_ = msg->twist.twist.linear.x + 0.0*current_vel_x_;
+    current_vel_y_ = msg->twist.twist.linear.y + 0.0*current_vel_y_;
+    current_vel_z_ = msg->twist.twist.linear.z + 0.0*current_vel_z_;
     
-    current_ang_vel_x_ = msg->twist.twist.angular.x;
-    current_ang_vel_y_ = msg->twist.twist.angular.y;
-    current_ang_vel_z_ = msg->twist.twist.angular.z;
+    current_ang_vel_x_ = msg->twist.twist.angular.x + 0.0*current_ang_vel_x_;
+    current_ang_vel_y_ = msg->twist.twist.angular.y + 0.0*current_ang_vel_y_;
+    current_ang_vel_z_ = msg->twist.twist.angular.z + 0.0*current_ang_vel_z_;
     
     have_odom_ = true;
   }
   
-  // New callback for desired velocity subscription
+  // Callback for desired velocity subscription
   void desired_vel_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
   {
-    // Store desired velocity from subscription
-    desired_vel_x_ = msg->linear.x;
-    desired_vel_y_ = msg->linear.y;
-    desired_vel_z_ = msg->linear.z;
-    
-    desired_ang_vel_x_ = msg->angular.x;
-    desired_ang_vel_y_ = msg->angular.y;
-    desired_ang_vel_z_ = msg->angular.z;
+    // Store desired velocity from subscription with input filter
+    desired_vel_x_ = (1.0 - input_filter_) * desired_vel_x_ + input_filter_ * msg->linear.x;
+    desired_vel_y_ = (1.0 - input_filter_) * desired_vel_y_ + input_filter_ * msg->linear.y;
+    desired_vel_z_ = (1.0 - input_filter_) * desired_vel_z_ + input_filter_ * msg->linear.z;
+    desired_ang_vel_x_ = (1.0 - input_filter_) * desired_ang_vel_x_ + input_filter_ * msg->angular.x;
+    desired_ang_vel_y_ = (1.0 - input_filter_) * desired_ang_vel_y_ + input_filter_ * msg->angular.y;
+    desired_ang_vel_z_ = (1.0 - input_filter_) * desired_ang_vel_z_ + input_filter_ * msg->angular.z;
     
     have_desired_vel_ = true;
   }
   
-  double compute_pid_control(double setpoint, double current_value, 
-                             double &prev_error, double &integral)
+  double compute_linear_pid(double setpoint, double current_value, 
+                           double &prev_error, double &integral)
   {
     // Calculate error
     double error = setpoint - current_value;
     
-    // Proportional term
+    // Proportional term with gain scheduling for low speeds
     double p_term = kp_linear_ * error;
+    if (std::abs(current_value) < 0.2) {
+      p_term = kp_linear_/3.0 * error;
+    }
     
-    // Integral term (with anti-windup)
-    integral += error * dt_;
-    // Limit integral term to prevent windup
-    double max_integral = 50.0;
-    if (integral > max_integral) integral = max_integral;
-    if (integral < -max_integral) integral = -max_integral;
+    // Integral term (with enhanced anti-windup)
+    // Reset integral when trying to stop and near zero velocity
+    if (std::abs(setpoint) < 0.01 && std::abs(current_value) < 0.1) {
+      integral = 0.0;  // Reset integral when stopping
+    } else {
+      integral += error * dt_;
+      // Limit integral term to prevent windup
+      if (integral > max_integral_linear_) integral = max_integral_linear_;
+      if (integral < -max_integral_linear_) integral = -max_integral_linear_;
+    }
     double i_term = ki_linear_ * integral;
     
     // Derivative term
     double derivative = (error - prev_error) / dt_;
     double d_term = kd_linear_ * derivative;
+    
+    // Update previous error
+    prev_error = error;
+    
+    // Return control output
+    return p_term + i_term + d_term;
+  }
+  
+  double compute_angular_pid(double setpoint, double current_value, 
+                            double &prev_error, double &integral)
+  {
+    // Calculate error
+    double error = setpoint - current_value;
+    
+    // Proportional term (with optional gain scheduling for low angular speeds)
+    double p_term = kp_angular_ * error;
+    if (std::abs(current_value) < 0.1) {  // If we're rotating slowly
+      p_term = kp_angular_/2.0 * error;   // Use gentler gains
+    }
+    
+    // Integral term (with anti-windup)
+    // Reset integral when trying to stop rotation and near zero angular velocity
+    if (std::abs(setpoint) < 0.01 && std::abs(current_value) < 0.05) {
+      integral = 0.0;  // Reset integral when stopping rotation
+    } else {
+      integral += error * dt_;
+      // Limit integral term to prevent windup
+      if (integral > max_integral_angular_) integral = max_integral_angular_;
+      if (integral < -max_integral_angular_) integral = -max_integral_angular_;
+    }
+    double i_term = ki_angular_ * integral;
+    
+    // Derivative term
+    double derivative = (error - prev_error) / dt_;
+    double d_term = kd_angular_ * derivative;
     
     // Update previous error
     prev_error = error;
@@ -128,26 +200,31 @@ private:
       return;
     }
     
-    // Compute control outputs using PID for both x and y
-    thrust_msg.fx = compute_pid_control(desired_vel_x_, current_vel_x_, prev_error_x_, integral_x_);
-    thrust_msg.fy = compute_pid_control(desired_vel_y_, current_vel_y_, prev_error_y_, integral_y_);
+    // Compute control outputs using PID for x and y (linear)
+    thrust_msg.fx = compute_linear_pid(desired_vel_x_, current_vel_x_, prev_error_x_, integral_x_);
+    thrust_msg.fy = compute_linear_pid(desired_vel_y_, current_vel_y_, prev_error_y_, integral_y_);
+    
+    // Compute yaw control (angular z)
+    thrust_msg.mz = compute_angular_pid(desired_ang_vel_z_, current_ang_vel_z_, prev_error_yaw_, integral_yaw_);
     
     // Set other thrust commands to zero (for now)
     thrust_msg.fz = 0.0;
     thrust_msg.mx = 0.0;
     thrust_msg.my = 0.0;
-    thrust_msg.mz = 0.0;
     
     // Publish the thrust command
     thrust_publisher_->publish(thrust_msg);
     
     // Log debug information
     RCLCPP_INFO(this->get_logger(),
-      "Desired vel_x: %.2f, Current vel_x: %.2f, Thrust_x: %.2f",
+      "Linear X: desired=%.2f, current=%.2f, thrust=%.2f",
       desired_vel_x_, current_vel_x_, thrust_msg.fx);
     RCLCPP_INFO(this->get_logger(),
-      "Desired vel_y: %.2f, Current vel_y: %.2f, Thrust_y: %.2f",
+      "Linear Y: desired=%.2f, current=%.2f, thrust=%.2f",
       desired_vel_y_, current_vel_y_, thrust_msg.fy);
+    RCLCPP_INFO(this->get_logger(),
+      "Angular Z (Yaw): desired=%.2f, current=%.2f, thrust=%.2f",
+      desired_ang_vel_z_, current_ang_vel_z_, thrust_msg.mz);
   }
 
   // Publishers
@@ -160,19 +237,33 @@ private:
   // Timer
   rclcpp::TimerBase::SharedPtr timer_;
   
-  // Control parameters
+  // Linear control parameters
   double kp_linear_;
   double ki_linear_;
   double kd_linear_;
-  double dt_;
   
-  // PID error tracking
-  double prev_error_x_;  // Add error tracking for x
+  // Angular control parameters (for yaw)
+  double kp_angular_;
+  double ki_angular_;
+  double kd_angular_;
+  
+  // Other parameters
+  double dt_;
+  double input_filter_;
+  double max_integral_linear_;
+  double max_integral_angular_;
+  
+  // PID error tracking for linear motion
+  double prev_error_x_;
   double prev_error_y_;
-  double integral_x_;    // Add integral tracking for x
+  double integral_x_;
   double integral_y_;
   
-  // Current velocity tracking
+  // PID error tracking for angular motion (yaw)
+  double prev_error_yaw_;
+  double integral_yaw_;
+  
+  // Current velocity tracking 
   double current_vel_x_ = 0.0;
   double current_vel_y_ = 0.0;
   double current_vel_z_ = 0.0;

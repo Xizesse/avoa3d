@@ -74,7 +74,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
             // get obstacle radius
             double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
-                                    + vehicle_radius_ * 1.8 + obstacle.protective_zone; 
+                                    + vehicle_radius_ + obstacle.protective_zone; 
 
             //std::cout << "Obstacle radius: " << obstacle_radius << std::endl;
 

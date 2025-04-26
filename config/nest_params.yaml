@@ -1,7 +1,7 @@
 avoa3dnode:
   ros__parameters:
     # AVOA PARAMS
-    kinematic_mode : "holonomic"
+    kinematic_mode : "diff_drive" # "diff_drive" or "holonomic"
 
     #Goal weights 
     heading_weight: 0.70
@@ -10,7 +10,7 @@ avoa3dnode:
     danger_weight: 0.0
 
     # Vehicle parameters
-    vehicle_radius: 2.8
+    vehicle_radius: 2.15 #floaters 3 meters * sqrt(2) / 2 for radius
 
     # Time step
     delta_t: 2.0
@@ -20,21 +20,21 @@ avoa3dnode:
     
     # 6DOF parameters
     # Maximum accelerations
-    a_x_max: 5.0
-    a_y_max: 5.0
+    a_x_max: 1.5
+    a_y_max: 1.5
     a_z_max: 0.0
     
     # Maximum angular accelerations
     a_roll_max: 0.0
     a_pitch_max: 0.0
-    a_yaw_max: 0.0
+    a_yaw_max: 1.0
 
     # Maximum linear velocities
     v_x_max: 2.0
-    v_y_max: 2.0
+    v_y_max: 1.0
     v_z_max: 0.0
 
     # Maximum angular velocities
     w_roll_max: 0.0
     w_pitch_max: 0.0
-    w_yaw_max: 0.0
+    w_yaw_max: 1.0
