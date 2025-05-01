@@ -28,16 +28,16 @@
     kinematic_mode: "diff_drive" # "diff_drive" or "holonomic"
 
     #Goal weights 
-    heading_weight: 0.70
-    abs_weight: 0.3
+    heading_weight: 0.5
+    abs_weight: 0.5
     #Danger weight. Goal weight will be * (1 - danger_weight)
     danger_weight: 0.0
 
     # Vehicle parameters
-    vehicle_radius: 0.75
+    vehicle_radius: 0.8 #floaters 3 meters * sqrt(2) / 2 for radius
 
     # Time step
-    delta_t: 1.0
+    delta_t: 3.0
     
     # Sampling parameters
     num_samples: 3000

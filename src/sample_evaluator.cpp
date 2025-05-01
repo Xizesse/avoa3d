@@ -113,7 +113,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
 
 
-            float time_to_collision_treshold = 10.0;
+            float time_to_collision_treshold = 60.0 * 3.0; // seconds
             float time_to_collision = (obstacle_distance - obstacle_radius) / sample_distance;
             
             if (actual_radius < expected_radius) { //if Collision Cone

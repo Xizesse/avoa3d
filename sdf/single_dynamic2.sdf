@@ -124,6 +124,7 @@
                         <specular>0.0 0.0 1.0 1</specular>
                     </material>
                 </visual>
+                
                 <collision name='collision'>
                     <geometry>
                         <box>

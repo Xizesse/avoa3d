@@ -106,6 +106,11 @@ def generate_launch_description():
             'd2': 'single_dynamic3.sdf',
             'd3': 'single_dynamic4.sdf',
             'd4': 'single_dynamic5.sdf',
+            'c0': 'complex1.sdf',
+            'c1': 'complex2.sdf',
+            'c2': 'complex3.sdf',
+            'c3': 'complex4.sdf',
+            'c4': 'complex5.sdf',
         }
         
         chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')

@@ -142,13 +142,15 @@ private:
   void publish_obstacle()
   {
     //! OBSTACLE MARKER (in the agent frame)
+    //std::cout the number of obstacles
+    std::cout << "Number of obstacles: " << obstacles_.elements.size() << std::endl;
 
     for (auto& obstacle : obstacles_.elements) {
       auto obstacle_marker_msg = visualization_msgs::msg::Marker();
       obstacle_marker_msg.header.frame_id = agent_frame;  // Use parameter instead of hardcoded "agent"
       obstacle_marker_msg.header.stamp = this->now();
       obstacle_marker_msg.ns = "basic_shapes";
-      obstacle_marker_msg.id = 0;
+      obstacle_marker_msg.id = obstacle.id;  // Use obstacle ID for unique identification
       obstacle_marker_msg.type = visualization_msgs::msg::Marker::SPHERE;
       obstacle_marker_msg.action = visualization_msgs::msg::Marker::ADD;
 
@@ -156,9 +158,9 @@ private:
       obstacle_marker_msg.pose.position.y = obstacle.pose.position.y;
       obstacle_marker_msg.pose.position.z = obstacle.pose.position.z;
       obstacle_marker_msg.pose.orientation = obstacle.pose.orientation;
-      obstacle_marker_msg.scale.x = 2.0;
-      obstacle_marker_msg.scale.y = 2.0;
-      obstacle_marker_msg.scale.z = 2.0;
+      obstacle_marker_msg.scale.x = obstacle.size.x;
+      obstacle_marker_msg.scale.y = obstacle.size.y;
+      obstacle_marker_msg.scale.z = obstacle.size.z;
       obstacle_marker_msg.color.r = 0.0f;
       obstacle_marker_msg.color.g = 1.0f;
       obstacle_marker_msg.color.b = 0.0f;
