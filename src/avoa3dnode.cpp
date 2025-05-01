@@ -26,65 +26,153 @@ class AVOA : public rclcpp::Node
 public:
     AVOA() : Node("avoa3dnode", rclcpp::NodeOptions())
     {
-        // Declare frame ID parameters with defaults
-        this->declare_parameter<std::string>("fixed_frame", "map");
-        this->declare_parameter<std::string>("agent_frame", "agent");
         
-        fixed_frame_ = this->get_parameter("fixed_frame").as_string();
-        agent_frame_ = this->get_parameter("agent_frame").as_string();
+        // Frame parameters
+        this->declare_parameter("fixed_frame", "map");
+        this->declare_parameter("agent_frame", "agent");
         
-        RCLCPP_INFO(this->get_logger(), "Using frames: fixed=%s, agent=%s", 
-                    fixed_frame_.c_str(), agent_frame_.c_str());
+        // Topic parameters
+        this->declare_parameter("topics.desired_vel", "/model/agente/desired_vel");
+        this->declare_parameter("topics.cmd_vel", "/avoa/cmd_vel");
+        this->declare_parameter("topics.odometry", "/nest/odometry");
+        this->declare_parameter("topics.element_tracking", "/element_tracking/elements");
+        this->declare_parameter("topics.goal_odometry", "/model/goal/odometry");
+        
+        
+        // AVOA parameters
+        this->declare_parameter("kinematic_mode", "holonomic");
+        this->declare_parameter("vehicle_radius", 0.0);
+        this->declare_parameter("heading_weight", 0.0);
+        this->declare_parameter("abs_weight", 0.0);
+        this->declare_parameter("danger_weight", 0.0);
+        
+        // Motion parameters
+        this->declare_parameter("a_x_max", 0.0);
+        this->declare_parameter("a_y_max", 0.0);
+        this->declare_parameter("a_z_max", 0.0);
+        this->declare_parameter("a_roll_max", 0.0);
+        this->declare_parameter("a_pitch_max", 0.0);
+        this->declare_parameter("a_yaw_max", 0.0);
+        this->declare_parameter("v_x_max", 0.0);
+        this->declare_parameter("v_y_max", 0.0);
+        this->declare_parameter("v_z_max", 0.0);
+        this->declare_parameter("w_roll_max", 0.0);
+        this->declare_parameter("w_pitch_max", 0.0);
+        this->declare_parameter("w_yaw_max", 0.0);
+        this->declare_parameter("delta_t", 0.0);
+        this->declare_parameter("num_samples", 0);
+        
+        // Log parameters
+        std::string fixed_frame = this->get_parameter("fixed_frame").as_string();
+        std::string agent_frame = this->get_parameter("agent_frame").as_string();
 
-        // Declare and load all parameters
-        loadParameters();
+        std::string kinematic_mode = this->get_parameter("kinematic_mode").as_string();
         
-        RCLCPP_INFO(this->get_logger(), "Initializing AVOA node with kinematic mode: %s", motion_params_.kinematic_mode.c_str());
-        RCLCPP_INFO(this->get_logger(), "Vehicle radius: %.2f", motion_params_.vehicle_radius);
+        double vehicle_radius = this->get_parameter("vehicle_radius").as_double();
+        double heading_weight = this->get_parameter("heading_weight").as_double();
+        double abs_weight = this->get_parameter("abs_weight").as_double();
+        double danger_weight = this->get_parameter("danger_weight").as_double();
+        
+        std::string desired_vel_topic = this->get_parameter("topics.desired_vel").as_string();
+        std::string cmd_vel_topic = this->get_parameter("topics.cmd_vel").as_string();
+        std::string odometry_topic = this->get_parameter("topics.odometry").as_string();
+        std::string element_tracking_topic = this->get_parameter("topics.element_tracking").as_string();
+        std::string goal_odometry_topic = this->get_parameter("topics.goal_odometry").as_string();
+        
+        std::cout << "================================================================" << std::endl;
+        std::cout << "================== AVOA3D NODE INITIALIZATION =================" << std::endl;
+        std::cout << "================================================================" << std::endl;
+        
+        std::cout << "Frame Settings:" << std::endl;
+        std::cout << "  - Fixed Frame: " << fixed_frame << std::endl;
+        std::cout << "  - Agent Frame: " << agent_frame << std::endl;
+        
+        std::cout << "Using topics:" << std::endl;
+        std::cout << "  - Cmd Velocity: " << cmd_vel_topic << std::endl;
+        std::cout << "  - Desired Velocity: " << desired_vel_topic << std::endl;
+        std::cout << "  - Odometry: " << odometry_topic << std::endl;
+        std::cout << "  - Element Tracking: " << element_tracking_topic << std::endl;
+        std::cout << "  - Goal Odometry: " << goal_odometry_topic << std::endl;
+        
+        std::cout << "AVOA Parameters:" << std::endl;
+        std::cout << "  - Kinematic Mode: " << kinematic_mode << std::endl;
+        std::cout << "  - Vehicle Radius: " << std::fixed << std::setprecision(2) << vehicle_radius << std::endl;
+        std::cout << "  - Heading Weight: " << heading_weight << std::endl;
+        std::cout << "  - Danger Weight: " << danger_weight << std::endl;
+        std::cout << "  - Absolute Weight: " << abs_weight << std::endl;
+        
+        std::cout << "Motion Limits:" << std::endl;
+        std::cout << "  - Max Linear Velocity [X,Y,Z]: ["
+                  << std::fixed << std::setprecision(2)
+                  << this->get_parameter("v_x_max").as_double() << ", "
+                  << this->get_parameter("v_y_max").as_double() << ", "
+                  << this->get_parameter("v_z_max").as_double() << "]" << std::endl;
+        
+        std::cout << "  - Max Angular Velocity [R,P,Y]: ["
+                  << this->get_parameter("w_roll_max").as_double() << ", "
+                  << this->get_parameter("w_pitch_max").as_double() << ", "
+                  << this->get_parameter("w_yaw_max").as_double() << "]" << std::endl;
+        
+        std::cout << "================================================================\n" << std::endl;
 
-        // Initialize the appropriate sample generator
-        if (motion_params_.kinematic_mode == "diff_drive") {
-            RCLCPP_INFO(this->get_logger(), "Using differential drive sample generator");
-            sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(
-                this->get_logger(), this);
+        // Initialize the appropriate sample generator based on kinematic mode
+        if (kinematic_mode == "diff_drive") {
+            std::cout << "Using differential drive sample generator" << std::endl;
+            sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(this->get_logger());
         } else {
             // Default to holonomic
-            RCLCPP_INFO(this->get_logger(), "Using holonomic sample generator");
-            sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(
-                this->get_logger(), this);
+            std::cout << "Using holonomic sample generator" << std::endl;
+            sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(this->get_logger());
         }
-        
-        // Set parameters in the sample generator
-        sample_generator_->setMotionParameters(motion_params_);
+                
 
-        // Initialize evaluator and visualizer
+        
+        //! Set parameters in the sample generator
+        sample_generator_->setParams(
+            this->get_parameter("v_x_max").as_double(), 
+            this->get_parameter("v_y_max").as_double(), 
+            this->get_parameter("v_z_max").as_double(),
+            this->get_parameter("a_x_max").as_double(), 
+            this->get_parameter("a_y_max").as_double(), 
+            this->get_parameter("a_z_max").as_double(),
+            this->get_parameter("w_roll_max").as_double(), 
+            this->get_parameter("w_pitch_max").as_double(), 
+            this->get_parameter("w_yaw_max").as_double(),
+            this->get_parameter("a_roll_max").as_double(), 
+            this->get_parameter("a_pitch_max").as_double(), 
+            this->get_parameter("a_yaw_max").as_double(),
+            this->get_parameter("delta_t").as_double(), 
+            this->get_parameter("num_samples").as_int());
+
+        //! Initialize evaluator and visualizer
         sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(
-            this->get_logger(), motion_params_.vehicle_radius, motion_params_.heading_weight,
-            motion_params_.danger_weight, motion_params_.abs_weight);
+            this->get_logger(), 
+            vehicle_radius, 
+            heading_weight,
+            danger_weight, 
+            abs_weight);
+           
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
-        // Publishers and subscribers
-        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/avoa/cmd_vel", 10);
+
+
+        // Publishers and subscribers - keep these as they are
+        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic, 10);
         
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
-            "/model/agente/desired_vel", 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
+            desired_vel_topic, 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
             
         velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
-           "/avoa/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
-        //velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
-        //    "/nest/cmd_vel", 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));    
+            cmd_vel_topic, 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
         
         agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "/nest/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
-        //agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            //"/nest/odometry", 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
-
+            odometry_topic, 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
+        
         obstacles_subscriber_ = this->create_subscription<custom_msgs::msg::ElementCharacteristicsArray>(
-            "/element_tracking/elements", 10, std::bind(&AVOA::obstacles_callback, this, std::placeholders::_1));
-
-        //!Not being used rn
+            element_tracking_topic, 10, std::bind(&AVOA::obstacles_callback, this, std::placeholders::_1));
+        
         goal_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "/model/goal/odometry", 10, std::bind(&AVOA::goal_callback, this, std::placeholders::_1));
+            goal_odometry_topic, 10, std::bind(&AVOA::goal_callback, this, std::placeholders::_1));
 
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(static_cast<int>(200)), 
@@ -92,39 +180,36 @@ public:
     }
 
 private:
-    std::string fixed_frame_;
-    std::string agent_frame_;
 
-    // Load all parameters from ROS Parameter Server
-    void loadParameters() {
-        // AVOA Parameters
-        motion_params_.kinematic_mode = this->declare_parameter<std::string>("kinematic_mode", "holonomic");
-        motion_params_.vehicle_radius = this->declare_parameter<double>("vehicle_radius", 0.5);
-        motion_params_.heading_weight = this->declare_parameter<double>("heading_weight", 0.5);
-        motion_params_.abs_weight = this->declare_parameter<double>("abs_weight", 0.5);
-        motion_params_.danger_weight = this->declare_parameter<double>("danger_weight", 0.5);
+    // // Load all parameters from ROS Parameter Server
+    // void loadParameters() {
+    //     // AVOA Parameters
+    //     motion_params_.kinematic_mode = this->declare_parameter<std::string>("kinematic_mode", "holonomic");
+    //     motion_params_.vehicle_radius = this->declare_parameter<double>("vehicle_radius", 0.5);
+    //     motion_params_.heading_weight = this->declare_parameter<double>("heading_weight", 0.5);
+    //     motion_params_.abs_weight = this->declare_parameter<double>("abs_weight", 0.5);
+    //     motion_params_.danger_weight = this->declare_parameter<double>("danger_weight", 0.5);
         
-        // Motion Parameters
-        motion_params_.a_x_max = this->declare_parameter<double>("a_x_max", 3.0);
-        motion_params_.a_y_max = this->declare_parameter<double>("a_y_max", 3.0);
-        motion_params_.a_z_max = this->declare_parameter<double>("a_z_max", 3.0);
+    //     // Motion Parameters
+    //     motion_params_.a_x_max = this->declare_parameter<double>("a_x_max", 3.0);
+    //     motion_params_.a_y_max = this->declare_parameter<double>("a_y_max", 3.0);
+    //     motion_params_.a_z_max = this->declare_parameter<double>("a_z_max", 3.0);
         
-        motion_params_.a_roll_max = this->declare_parameter<double>("a_roll_max", 0.0);
-        motion_params_.a_pitch_max = this->declare_parameter<double>("a_pitch_max", 0.0);
-        motion_params_.a_yaw_max = this->declare_parameter<double>("a_yaw_max", 0.0);
+    //     motion_params_.a_roll_max = this->declare_parameter<double>("a_roll_max", 0.0);
+    //     motion_params_.a_pitch_max = this->declare_parameter<double>("a_pitch_max", 0.0);
+    //     motion_params_.a_yaw_max = this->declare_parameter<double>("a_yaw_max", 0.0);
         
-        motion_params_.v_x_max = this->declare_parameter<double>("v_x_max", 1.0);
-        motion_params_.v_y_max = this->declare_parameter<double>("v_y_max", 1.0);
-        motion_params_.v_z_max = this->declare_parameter<double>("v_z_max", 0.0);
+    //     motion_params_.v_x_max = this->declare_parameter<double>("v_x_max", 1.0);
+    //     motion_params_.v_y_max = this->declare_parameter<double>("v_y_max", 1.0);
+    //     motion_params_.v_z_max = this->declare_parameter<double>("v_z_max", 0.0);
         
-        motion_params_.w_roll_max = this->declare_parameter<double>("w_roll_max", 0.0);
-        motion_params_.w_pitch_max = this->declare_parameter<double>("w_pitch_max", 0.0);
-        motion_params_.w_yaw_max = this->declare_parameter<double>("w_yaw_max", 0.0);
+    //     motion_params_.w_roll_max = this->declare_parameter<double>("w_roll_max", 0.0);
+    //     motion_params_.w_pitch_max = this->declare_parameter<double>("w_pitch_max", 0.0);
+    //     motion_params_.w_yaw_max = this->declare_parameter<double>("w_yaw_max", 0.0);
         
-        motion_params_.delta_t = this->declare_parameter<double>("delta_t", 1.0);
-        motion_params_.num_samples = this->declare_parameter<int>("num_samples", 10000);
-        motion_params_.filtering_obstacles = this->declare_parameter<bool>("filtering_obstacles", false);
-    }
+    //     motion_params_.delta_t = this->declare_parameter<double>("delta_t", 1.0);
+    //     motion_params_.num_samples = this->declare_parameter<int>("num_samples", 10000);
+    // }
     
     // Callback functions
     void desired_velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
@@ -186,7 +271,7 @@ private:
         add then to the new messas
         */
         
-        if (motion_params_.filtering_obstacles)
+        /* if (motion_params_.filtering_obstacles)
         {
             float distance_to_goal = std::sqrt(
                 std::pow(latest_goal_odometry_.pose.pose.position.x - latest_agent_odometry_.pose.pose.position.x, 2) +
@@ -205,7 +290,7 @@ private:
                 }
             }
             latest_obstacles_ = filtered_obstacles;
-        }   
+        }    */
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_);

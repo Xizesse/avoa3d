@@ -22,22 +22,36 @@ public:
     // Declare and get frame ID parameters with defaults
     this->declare_parameter<std::string>("fixed_frame", "map");
     this->declare_parameter<std::string>("agent_frame", "agent");
+
+    this->declare_parameter<std::string>("topics.element_tracking", "/element_tracking/elements");
+    this->declare_parameter<std::string>("topics.obstacle_odometry", "/model/obstacle/odometry");
     
     fixed_frame_ = this->get_parameter("fixed_frame").as_string();
     agent_frame_ = this->get_parameter("agent_frame").as_string();
+
+    std::string element_tracking_topic = this->get_parameter("topics.element_tracking").as_string();
+    std::string obstacle_odometry_topic = this->get_parameter("topics.obstacle_odometry").as_string();
     
-    RCLCPP_INFO(this->get_logger(), "Using frames: fixed=%s, agent=%s", 
-                fixed_frame_.c_str(), agent_frame_.c_str());
+    std::cout << "================================================================" << std::endl;
+    std::cout << "============== OBSTACLE PUBLISHER INITIALIZATION ==============" << std::endl;
+    std::cout << "================================================================" << std::endl;
+    std::cout << "Frame Settings:" << std::endl;
+    std::cout << "  - Fixed Frame: " << fixed_frame_ << std::endl;
+    std::cout << "  - Agent Frame: " << agent_frame_ << std::endl;
+    std::cout << "Using topics:" << std::endl;
+    std::cout << "  - Element Tracking: " << element_tracking_topic << std::endl;
+    std::cout << "  - Obstacle Odometry: " << obstacle_odometry_topic << std::endl;
+    std::cout << "================================================================\n" << std::endl;
 
     tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
     tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
-    // Publisher for the array of obstacles
-    publisher_ = this->create_publisher<custom_msgs::msg::ElementCharacteristicsArray>("/element_tracking/elements", 10);
-    
+      // Publisher for the array of obstacles
+      publisher_ = this->create_publisher<custom_msgs::msg::ElementCharacteristicsArray>(element_tracking_topic, 10);
+      
     // Subscriber for the obstacle odometry
     obstacle_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/model/obstacle/odometry", 10,
+      obstacle_odometry_topic, 10,
       std::bind(&ObstaclePublisher::odometry_callback, this, std::placeholders::_1));
     
     // Timer that calls timer_callback every 100 milliseconds
@@ -189,6 +203,8 @@ private:
       array_message.elements.push_back(element);
       publisher_->publish(array_message);
     }
+    //Say throttle how many obstacles pubblished
+    //RCLCPP_INFO(this->get_logger(), "🪨 Published %zu obstacles", array_message.elements.size());
   }
 
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;

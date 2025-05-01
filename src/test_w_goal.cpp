@@ -37,35 +37,49 @@ public:
     this->declare_parameter<std::string>("fixed_frame", "map");
     this->declare_parameter<std::string>("agent_frame", "agent");
     
-    // Declare parameter for goal topic
-    this->declare_parameter<std::string>("goal_topic", "/goal_pose");
-    
+    // Declare topic parameters
+    this->declare_parameter<std::string>("topics.desired_vel", "/model/agente/desired_vel");
+    this->declare_parameter<std::string>("topics.agent_odometry", "/model/agente/odometry");
+    this->declare_parameter<std::string>("topics.goal_pose", "/goal_pose");
+    this->declare_parameter<double>("constant_speed", 1.0);
+
     fixed_frame_ = this->get_parameter("fixed_frame").as_string();
     agent_frame_ = this->get_parameter("agent_frame").as_string();
-    std::string goal_topic = this->get_parameter("goal_topic").as_string();
+    std::string goal_topic = this->get_parameter("topics.goal_pose").as_string();
+    std::string desired_vel_topic = this->get_parameter("topics.desired_vel").as_string();
+    std::string agent_odometry_topic = this->get_parameter("topics.agent_odometry").as_string();
     
-    RCLCPP_INFO(this->get_logger(), "Using frames: fixed=%s, agent=%s", 
-                fixed_frame_.c_str(), agent_frame_.c_str());
-    RCLCPP_INFO(this->get_logger(), "Subscribing to goal topic: %s", 
-                goal_topic.c_str());
-
+    std::cout << "================================================================" << std::endl;
+    std::cout << "================ TEST WITH GOAL NODE INITIALIZATION ===========" << std::endl;
+    std::cout << "================================================================" << std::endl;
+    std::cout << "Frame Settings:" << std::endl;
+    std::cout << "  - Fixed Frame: " << fixed_frame_ << std::endl;
+    std::cout << "  - Agent Frame: " << agent_frame_ << std::endl;
+    std::cout << "Using topics:" << std::endl;
+    std::cout << "  - Goal Topic: " << goal_topic << std::endl;
+    std::cout << "  - Desired Velocity: " << desired_vel_topic << std::endl;
+    std::cout << "  - Agent Odometry: " << agent_odometry_topic << std::endl;
+    std::cout << "  - Constant Speed: " << std::fixed << std::setprecision(2) << constant_speed_ << std::endl;
+    std::cout << "================================================================\n" << std::endl;
+    
+  
     tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
     tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
-    publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/desired_vel", 10);
+    publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(desired_vel_topic, 10);
 
-    timer_ = this->create_wall_timer(
-      100ms, std::bind(&VelocityPublisher::timer_callback, this));
-
+    
     agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/model/agente/odometry", 10, 
+      agent_odometry_topic, 10, 
       std::bind(&VelocityPublisher::agent_odometry_callback, this, std::placeholders::_1));
-    
-    // Subscribe to RViz2 goal pose topic
-    goal_subscriber_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
-      goal_topic, 10,
-      std::bind(&VelocityPublisher::goal_callback, this, std::placeholders::_1));
-    
+      
+      goal_subscriber_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
+        goal_topic, 10,
+        std::bind(&VelocityPublisher::goal_callback, this, std::placeholders::_1));
+        
+        timer_ = this->create_wall_timer(
+          100ms, std::bind(&VelocityPublisher::timer_callback, this));
+
     // Set default goal for fallback, but we'll wait for RViz2 goal
     goal_x_ = 0.0;
     goal_y_ = 0.0;
@@ -106,7 +120,7 @@ private:
     goal_frame_ = msg->header.frame_id;
     have_goal_ = true;
     
-    RCLCPP_INFO(this->get_logger(), "Received new goal: [%.2f, %.2f, %.2f] in frame %s", 
+    RCLCPP_INFO(this->get_logger(), "🎯 Received new goal: [%.2f, %.2f, %.2f] in frame %s", 
                 goal_x_, goal_y_, goal_z_, goal_frame_.c_str());
   }
 
@@ -171,7 +185,7 @@ private:
       msg.linear.x = 0.0;
       msg.linear.y = 0.0;
       msg.linear.z = 0.0;
-      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "Goal reached!");
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, " 🏁 Goal reached!");
     }
     else if (distance < 10.0)
     {
@@ -180,7 +194,7 @@ private:
       msg.linear.y = (error_y)/10.0 * constant_speed_;
       msg.linear.z = (error_z)/10.0 * constant_speed_;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
-                          "Approaching goal, distance: %.2f", distance);
+                          "❯❯❯❯ Approaching goal, distance: %.2f", distance);
     }
     else
     {
@@ -189,7 +203,7 @@ private:
       msg.linear.y = (error_y / distance) * constant_speed_;
       msg.linear.z = (error_z / distance) * constant_speed_;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
-                          "Moving to goal, distance: %.2f", distance);
+                          "❯❯❯❯  Moving to goal, distance: %.2f", distance);
     }
 
     publisher_->publish(msg);

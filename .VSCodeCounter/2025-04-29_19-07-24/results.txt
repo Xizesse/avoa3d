@@ -1,0 +1,252 @@
+Date : 2025-04-29 19:07:24
+Directory : /home/xizesse/ros_ws/src/avoa3d
+Total : 160 files,  20154 codes, 595 comments, 918 blanks, all 21667 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Log      |        126 |     17,048 |          0 |        126 |     17,174 |
+| C++      |         14 |      1,682 |        296 |        452 |      2,430 |
+| Python   |          8 |        992 |        216 |        242 |      1,450 |
+| XML      |          3 |        153 |         11 |         16 |        180 |
+| CMake    |          1 |        134 |          0 |         21 |        155 |
+| YAML     |          6 |        126 |         72 |         55 |        253 |
+| Markdown |          2 |         19 |          0 |          6 |         25 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                   | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                      |        160 |     20,154 |        595 |        918 |     21,667 |
+| . (Files)                                                                              |          4 |        188 |          4 |         39 |        231 |
+| config                                                                                 |          7 |        228 |         77 |         57 |        362 |
+| include                                                                                |          5 |        175 |         32 |         62 |        269 |
+| include/avoa3d                                                                         |          5 |        175 |         32 |         62 |        269 |
+| launch                                                                                 |          4 |        447 |         47 |         58 |        552 |
+| log                                                                                    |        126 |     17,048 |          0 |        126 |     17,174 |
+| log/build_2025-03-24_18-15-52                                                          |          7 |      1,680 |          0 |          7 |      1,687 |
+| log/build_2025-03-24_18-15-52 (Files)                                                  |          2 |        669 |          0 |          2 |        671 |
+| log/build_2025-03-24_18-15-52/avoa3d                                                   |          5 |      1,011 |          0 |          5 |      1,016 |
+| log/build_2025-03-24_18-16-31                                                          |          7 |        868 |          0 |          7 |        875 |
+| log/build_2025-03-24_18-16-31 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-24_18-16-31/avoa3d                                                   |          5 |        551 |          0 |          5 |        556 |
+| log/build_2025-03-24_18-16-37                                                          |          7 |        867 |          0 |          7 |        874 |
+| log/build_2025-03-24_18-16-37 (Files)                                                  |          2 |        316 |          0 |          2 |        318 |
+| log/build_2025-03-24_18-16-37/avoa3d                                                   |          5 |        551 |          0 |          5 |        556 |
+| log/build_2025-03-25_16-38-20                                                          |          7 |      1,173 |          0 |          7 |      1,180 |
+| log/build_2025-03-25_16-38-20 (Files)                                                  |          2 |        466 |          0 |          2 |        468 |
+| log/build_2025-03-25_16-38-20/avoa3d                                                   |          5 |        707 |          0 |          5 |        712 |
+| log/build_2025-03-25_16-39-12                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-39-12 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-39-12/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-25_16-39-43                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-39-43 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-39-43/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-25_16-40-16                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-40-16 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-40-16/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-25_16-40-36                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-40-36 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-40-36/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-25_16-40-47                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-40-47 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-40-47/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-25_16-40-54                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-40-54 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-40-54/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-25_16-41-58                                                          |          7 |        871 |          0 |          7 |        878 |
+| log/build_2025-03-25_16-41-58 (Files)                                                  |          2 |        317 |          0 |          2 |        319 |
+| log/build_2025-03-25_16-41-58/avoa3d                                                   |          5 |        554 |          0 |          5 |        559 |
+| log/build_2025-03-27_10-37-12                                                          |          7 |      1,925 |          0 |          7 |      1,932 |
+| log/build_2025-03-27_10-37-12 (Files)                                                  |          2 |        905 |          0 |          2 |        907 |
+| log/build_2025-03-27_10-37-12/avoa3d                                                   |          5 |      1,020 |          0 |          5 |      1,025 |
+| log/build_2025-04-01_18-52-09                                                          |          7 |      1,486 |          0 |          7 |      1,493 |
+| log/build_2025-04-01_18-52-09 (Files)                                                  |          2 |        887 |          0 |          2 |        889 |
+| log/build_2025-04-01_18-52-09/avoa3d                                                   |          5 |        599 |          0 |          5 |        604 |
+| log/build_2025-04-01_18-53-30                                                          |          7 |      1,250 |          0 |          7 |      1,257 |
+| log/build_2025-04-01_18-53-30 (Files)                                                  |          2 |        615 |          0 |          2 |        617 |
+| log/build_2025-04-01_18-53-30/avoa3d                                                   |          5 |        635 |          0 |          5 |        640 |
+| log/build_2025-04-01_18-56-41                                                          |          7 |      1,006 |          0 |          7 |      1,013 |
+| log/build_2025-04-01_18-56-41 (Files)                                                  |          2 |        428 |          0 |          2 |        430 |
+| log/build_2025-04-01_18-56-41/avoa3d                                                   |          5 |        578 |          0 |          5 |        583 |
+| log/build_2025-04-01_18-57-34                                                          |          7 |        232 |          0 |          7 |        239 |
+| log/build_2025-04-01_18-57-34 (Files)                                                  |          2 |        144 |          0 |          2 |        146 |
+| log/build_2025-04-01_18-57-34/avoa3d                                                   |          5 |         88 |          0 |          5 |         93 |
+| log/latest                                                                             |          7 |        232 |          0 |          7 |        239 |
+| log/latest (Files)                                                                     |          2 |        144 |          0 |          2 |        146 |
+| log/latest/avoa3d                                                                      |          5 |         88 |          0 |          5 |         93 |
+| log/latest_build                                                                       |          7 |        232 |          0 |          7 |        239 |
+| log/latest_build (Files)                                                               |          2 |        144 |          0 |          2 |        146 |
+| log/latest_build/avoa3d                                                                |          5 |         88 |          0 |          5 |         93 |
+| scripts                                                                                |          5 |        561 |        171 |        186 |        918 |
+| src                                                                                    |          9 |      1,507 |        264 |        390 |      2,161 |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                               | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/xizesse/ros_ws/src/avoa3d/CMakeLists.txt                                         | CMake    |        134 |          0 |         21 |        155 |
+| /home/xizesse/ros_ws/src/avoa3d/README.md                                              | Markdown |          1 |          0 |          0 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/config/PlotJugglerLayout.xml                           | XML      |        102 |          5 |          2 |        109 |
+| /home/xizesse/ros_ws/src/avoa3d/config/bridge_config.yaml                              | YAML     |         24 |          4 |          7 |         35 |
+| /home/xizesse/ros_ws/src/avoa3d/config/default_params.yaml                             | YAML     |         21 |         12 |         11 |         44 |
+| /home/xizesse/ros_ws/src/avoa3d/config/diff_drive_params.yaml                          | YAML     |         22 |         11 |         10 |         43 |
+| /home/xizesse/ros_ws/src/avoa3d/config/holonomic_params.yaml                           | YAML     |         21 |         11 |          8 |         40 |
+| /home/xizesse/ros_ws/src/avoa3d/config/nest_bridge_config.yaml                         | YAML     |          6 |         23 |          7 |         36 |
+| /home/xizesse/ros_ws/src/avoa3d/config/nest_params.yaml                                | YAML     |         32 |         11 |         12 |         55 |
+| /home/xizesse/ros_ws/src/avoa3d/include/avoa3d/motion_params.hpp                       | C++      |         28 |          9 |         11 |         48 |
+| /home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_evaluator.hpp                    | C++      |         39 |          9 |         14 |         62 |
+| /home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_generator.hpp                    | C++      |         70 |         12 |         23 |        105 |
+| /home/xizesse/ros_ws/src/avoa3d/include/avoa3d/sample_visualizer.hpp                   | C++      |         23 |          1 |          8 |         32 |
+| /home/xizesse/ros_ws/src/avoa3d/include/avoa3d/velocity_sample.hpp                     | C++      |         15 |          1 |          6 |         22 |
+| /home/xizesse/ros_ws/src/avoa3d/launch/avoa.launch.py                                  | Python   |        139 |         15 |         20 |        174 |
+| /home/xizesse/ros_ws/src/avoa3d/launch/bridge_launch.xml                               | XML      |         16 |          2 |          2 |         20 |
+| /home/xizesse/ros_ws/src/avoa3d/launch/diff_drive.launch.py                            | Python   |        122 |         14 |         17 |        153 |
+| /home/xizesse/ros_ws/src/avoa3d/launch/holonomic.launch.py                             | Python   |        170 |         16 |         19 |        205 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/avoa3d/command.log       | Log      |          6 |          0 |          1 |          7 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/avoa3d/stdout.log        | Log      |        333 |          0 |          1 |        334 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/avoa3d/stdout_stderr.log | Log      |        333 |          0 |          1 |        334 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/avoa3d/streams.log       | Log      |        339 |          0 |          1 |        340 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/events.log               | Log      |        547 |          0 |          1 |        548 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-15-52/logger_all.log           | Log      |        122 |          0 |          1 |        123 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/avoa3d/stdout.log        | Log      |        181 |          0 |          1 |        182 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/avoa3d/stdout_stderr.log | Log      |        181 |          0 |          1 |        182 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/avoa3d/streams.log       | Log      |        185 |          0 |          1 |        186 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-31/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/avoa3d/stdout.log        | Log      |        181 |          0 |          1 |        182 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/avoa3d/stdout_stderr.log | Log      |        181 |          0 |          1 |        182 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/avoa3d/streams.log       | Log      |        185 |          0 |          1 |        186 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/events.log               | Log      |        196 |          0 |          1 |        197 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-24_18-16-37/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/avoa3d/stdout.log        | Log      |        233 |          0 |          1 |        234 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/avoa3d/stdout_stderr.log | Log      |        233 |          0 |          1 |        234 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/avoa3d/streams.log       | Log      |        237 |          0 |          1 |        238 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/events.log               | Log      |        346 |          0 |          1 |        347 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-38-20/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-12/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-39-43/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-16/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-36/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-47/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-40-54/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/avoa3d/stdout.log        | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/avoa3d/stdout_stderr.log | Log      |        182 |          0 |          1 |        183 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/avoa3d/streams.log       | Log      |        186 |          0 |          1 |        187 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/events.log               | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-25_16-41-58/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/avoa3d/command.log       | Log      |          6 |          0 |          1 |          7 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/avoa3d/stdout.log        | Log      |        336 |          0 |          1 |        337 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/avoa3d/stdout_stderr.log | Log      |        336 |          0 |          1 |        337 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/avoa3d/streams.log       | Log      |        342 |          0 |          1 |        343 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/events.log               | Log      |        783 |          0 |          1 |        784 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-03-27_10-37-12/logger_all.log           | Log      |        122 |          0 |          1 |        123 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/avoa3d/stderr.log        | Log      |         38 |          0 |          1 |         39 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/avoa3d/stdout.log        | Log      |        159 |          0 |          1 |        160 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/avoa3d/stdout_stderr.log | Log      |        197 |          0 |          1 |        198 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/avoa3d/streams.log       | Log      |        201 |          0 |          1 |        202 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/events.log               | Log      |        806 |          0 |          1 |        807 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-52-09/logger_all.log           | Log      |         81 |          0 |          1 |         82 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/avoa3d/stdout.log        | Log      |        209 |          0 |          1 |        210 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/avoa3d/stdout_stderr.log | Log      |        209 |          0 |          1 |        210 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/avoa3d/streams.log       | Log      |        213 |          0 |          1 |        214 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/events.log               | Log      |        495 |          0 |          1 |        496 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-53-30/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/avoa3d/command.log       | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/avoa3d/stderr.log        | Log      |          0 |          0 |          1 |          1 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/avoa3d/stdout.log        | Log      |        190 |          0 |          1 |        191 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/avoa3d/stdout_stderr.log | Log      |        190 |          0 |          1 |        191 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/avoa3d/streams.log       | Log      |        194 |          0 |          1 |        195 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/events.log               | Log      |        308 |          0 |          1 |        309 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-56-41/logger_all.log           | Log      |        120 |          0 |          1 |        121 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/avoa3d/command.log       | Log      |          2 |          0 |          1 |          3 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/avoa3d/stderr.log        | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/avoa3d/stdout.log        | Log      |         24 |          0 |          1 |         25 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/avoa3d/stdout_stderr.log | Log      |         28 |          0 |          1 |         29 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/avoa3d/streams.log       | Log      |         30 |          0 |          1 |         31 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/events.log               | Log      |         50 |          0 |          1 |         51 |
+| /home/xizesse/ros_ws/src/avoa3d/log/build_2025-04-01_18-57-34/logger_all.log           | Log      |         94 |          0 |          1 |         95 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/avoa3d/command.log                          | Log      |          2 |          0 |          1 |          3 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/avoa3d/stderr.log                           | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/avoa3d/stdout.log                           | Log      |         24 |          0 |          1 |         25 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/avoa3d/stdout_stderr.log                    | Log      |         28 |          0 |          1 |         29 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/avoa3d/streams.log                          | Log      |         30 |          0 |          1 |         31 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/events.log                                  | Log      |         50 |          0 |          1 |         51 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest/logger_all.log                              | Log      |         94 |          0 |          1 |         95 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/avoa3d/command.log                    | Log      |          2 |          0 |          1 |          3 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/avoa3d/stderr.log                     | Log      |          4 |          0 |          1 |          5 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/avoa3d/stdout.log                     | Log      |         24 |          0 |          1 |         25 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/avoa3d/stdout_stderr.log              | Log      |         28 |          0 |          1 |         29 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/avoa3d/streams.log                    | Log      |         30 |          0 |          1 |         31 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/events.log                            | Log      |         50 |          0 |          1 |         51 |
+| /home/xizesse/ros_ws/src/avoa3d/log/latest_build/logger_all.log                        | Log      |         94 |          0 |          1 |         95 |
+| /home/xizesse/ros_ws/src/avoa3d/notes.md                                               | Markdown |         18 |          0 |          6 |         24 |
+| /home/xizesse/ros_ws/src/avoa3d/package.xml                                            | XML      |         35 |          4 |         12 |         51 |
+| /home/xizesse/ros_ws/src/avoa3d/scripts/cone.py                                        | Python   |        156 |         45 |         52 |        253 |
+| /home/xizesse/ros_ws/src/avoa3d/scripts/cone_cost.py                                   | Python   |        169 |         60 |         63 |        292 |
+| /home/xizesse/ros_ws/src/avoa3d/scripts/diff_drive_area.py                             | Python   |         36 |          8 |          9 |         53 |
+| /home/xizesse/ros_ws/src/avoa3d/scripts/explorer.py                                    | Python   |        100 |         29 |         31 |        160 |
+| /home/xizesse/ros_ws/src/avoa3d/scripts/holonomic_area.py                              | Python   |        100 |         29 |         31 |        160 |
+| /home/xizesse/ros_ws/src/avoa3d/src/avoa3dnode.cpp                                     | C++      |        226 |         79 |         63 |        368 |
+| /home/xizesse/ros_ws/src/avoa3d/src/obstacle_publisher.cpp                             | C++      |        163 |         24 |         40 |        227 |
+| /home/xizesse/ros_ws/src/avoa3d/src/rviz_marker.cpp                                    | C++      |        227 |         17 |         48 |        292 |
+| /home/xizesse/ros_ws/src/avoa3d/src/sample_evaluator.cpp                               | C++      |        144 |         39 |         61 |        244 |
+| /home/xizesse/ros_ws/src/avoa3d/src/sample_generator.cpp                               | C++      |        202 |         23 |         38 |        263 |
+| /home/xizesse/ros_ws/src/avoa3d/src/sample_visualizer.cpp                              | C++      |         67 |         10 |         19 |         96 |
+| /home/xizesse/ros_ws/src/avoa3d/src/test_w_goal.cpp                                    | C++      |        173 |         12 |         43 |        228 |
+| /home/xizesse/ros_ws/src/avoa3d/src/tf_publisher.cpp                                   | C++      |        100 |         14 |         25 |        139 |
+| /home/xizesse/ros_ws/src/avoa3d/src/thruster_controller.cpp                            | C++      |        205 |         46 |         53 |        304 |
+| Total                                                                                  |          |     20,154 |        595 |        918 |     21,667 |
++----------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

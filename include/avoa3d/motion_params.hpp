@@ -41,7 +41,6 @@ struct MotionParameters
     
     // Number of samples
     int num_samples = 10000;
-    bool filtering_obstacles = false; // Flag to enable/disable filtering of obstacles
 };
 
 } // namespace avoa3d

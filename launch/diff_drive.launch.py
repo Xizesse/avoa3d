@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import yaml
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
@@ -12,7 +13,7 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
-    # Declare arguments that match your XML launch file
+    # Declare arguments
     name_arg = DeclareLaunchArgument(
         'name',
         default_value='ros_gz_bridge'
@@ -31,26 +32,74 @@ def generate_launch_description():
     )
     scenario_arg = DeclareLaunchArgument(
         'scenario',
-        default_value='1',
+        default_value='s0',
         description='Scenario number: s=static, d=dynamic.'
     )
+    
+    # Frame arguments
+    fixed_frame_arg = DeclareLaunchArgument(
+        'fixed_frame',
+        default_value='map',
+        description='Fixed/world reference frame'
+    )
+    agent_frame_arg = DeclareLaunchArgument(
+        'agent_frame',
+        default_value='agent',
+        description='Agent reference frame'
+    )
+    
+    # Goal topic argument
+    goal_topic_arg = DeclareLaunchArgument(
+        'goal_topic',
+        default_value='/goal_pose',
+        description='RViz2 goal pose topic'
+    )
 
-    # Create LaunchConfigurations to reference the user’s CLI/arg values
+    # Create LaunchConfigurations
     name = LaunchConfiguration('name')
     config_file = LaunchConfiguration('config_file')
     namespace = LaunchConfiguration('namespace')
     log_level = LaunchConfiguration('log_level')
     scenario = LaunchConfiguration('scenario')
+    fixed_frame = LaunchConfiguration('fixed_frame')
+    agent_frame = LaunchConfiguration('agent_frame')
+    goal_topic = LaunchConfiguration('goal_topic')
 
-    # Function to pick an SDF file based on scenario
-    def get_sdf_file(context):
+    # Get package share directory and config paths
+    pkg_share = get_package_share_directory('avoa3d')
+    params_path = os.path.join(pkg_share, 'config', 'diff_drive_params.yaml')
+    
+    # Load parameters from yaml
+    with open(params_path, 'r') as f:
+        params = yaml.safe_load(f)
+    
+    # Extract launch configurations
+    launch_configs = params.get('/**', {}).get('ros__parameters', {}).get('launch_nodes', {})
+    
+    # Check which nodes to launch
+    launch_bridge = launch_configs.get('bridge_node', True)
+    launch_avoa3d = launch_configs.get('avoa3d_node', True)
+    launch_obstacle_publisher = launch_configs.get('obstacle_publisher', True)
+    launch_rviz_marker = launch_configs.get('rviz_marker', True)
+    launch_test_w_goal = launch_configs.get('test_w_goal', True)
+    launch_tf_publisher = launch_configs.get('tf_publisher', False)
+    launch_thruster_controller = launch_configs.get('thruster_controller', False)
+    
+    # Bridge config path
+    home_path = os.environ.get('HOME', '/tmp')
+    bridge_config = os.path.join(
+        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'bridge_config.yaml'
+    )
+
+    # Function to select the SDF file based on scenario parameter
+    def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
-        home = os.environ.get('HOME', '/tmp')  # or fallback
-        sdf_base = os.path.join(home, 'ros_ws', 'src', 'avoa3d', 'sdf')
-
+        sdf_base = os.path.join(home_path, 'ros_ws', 'src', 'avoa3d', 'sdf')
+        
+        # Define scenario mapping here in the launch file
         scenario_map = {
             's0': 'single_static1.sdf',
-            's1': 'single_static2.sdf',
+            's1': 'single_static2.sdf', 
             's2': 'single_static3.sdf',
             'd0': 'single_dynamic1.sdf',
             'd1': 'single_dynamic2.sdf',
@@ -58,9 +107,10 @@ def generate_launch_description():
             'd3': 'single_dynamic4.sdf',
             'd4': 'single_dynamic5.sdf',
         }
+        
         chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')
         sdf_file = os.path.join(sdf_base, chosen_sdf)
-
+        
         return [
             ExecuteProcess(
                 cmd=['gz', 'sim', '4', '-r', sdf_file],
@@ -68,23 +118,16 @@ def generate_launch_description():
             )
         ]
 
-    # Use OpaqueFunction so we can dynamically pick the SDF file at runtime
-    gazebo_process = OpaqueFunction(function=get_sdf_file)
+    # Use OpaqueFunction for dynamic gazebo process
+    gazebo_process = OpaqueFunction(function=get_gazebo_process)
 
-    # Build path to your ros_gz_bridge config in ~/ros_ws/src/avoa3d/config
-    home_path = os.environ.get('HOME', '/tmp')
-    bridge_config = os.path.join(
-        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'bridge_config.yaml'
-    )
-
-    # ros_gz_bridge node
+    # Define all nodes
     bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name=name,
         namespace=namespace,
         output='screen',
-        # Log level from user’s arg
         arguments=['--ros-args', '--log-level', log_level],
         parameters=[
             {'use_sim_time': True},
@@ -92,36 +135,45 @@ def generate_launch_description():
         ]
     )
 
-    # obstacle_publisher
     obstacle_publisher_node = Node(
         package='avoa3d',
         executable='obstacle_publisher',
         name='obstacle_publisher',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            params_path
+        ]
     )
 
-    # rviz_marker
     rviz_marker_node = Node(
         package='avoa3d',
         executable='rviz_marker',
         name='rviz_marker',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            params_path
+        ]
     )
 
-    # test_w_goal
     test_w_goal_node = Node(
         package='avoa3d',
         executable='test_w_goal',
         name='test_w_goal',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            {'goal_topic': goal_topic},
+            params_path
+        ]
     )
-
-    # Load your holonomic_params.yaml for the avoa3dnode
-    pkg_share = get_package_share_directory('avoa3d')
-    motion_params = os.path.join(pkg_share, 'config', 'diff_drive_params.yaml')
 
     avoa3d_node = Node(
         package='avoa3d',
@@ -130,23 +182,76 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {'use_sim_time': True},
-            motion_params
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            params_path
         ]
     )
 
-    return LaunchDescription([
+    tf_publisher = Node(
+        package='avoa3d',
+        executable='tf_publisher',
+        name='tf_publisher',
+        output='screen',
+        emulate_tty=True,
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            params_path
+        ]
+    )
+    
+    thruster_controller_node = Node(
+        package='avoa3d',
+        executable='thruster_controller',
+        name='thruster_controller',
+        output='screen',
+        emulate_tty=True,
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            params_path
+        ]
+    )
+
+    # Create an empty list for nodes and add the argument declarations
+    nodes = [
         # Declare arguments
         name_arg,
         config_file_arg,
         namespace_arg,
         log_level_arg,
         scenario_arg,
-
-        # Processes & nodes
-        gazebo_process,
-        bridge_node,
-        obstacle_publisher_node,
-        rviz_marker_node,
-        test_w_goal_node,
-        avoa3d_node
-    ])
+        fixed_frame_arg,
+        agent_frame_arg,
+        goal_topic_arg,
+        
+        # Always add gazebo process
+        gazebo_process
+    ]
+    
+    # Conditionally add nodes based on configuration
+    if launch_bridge:
+        nodes.append(bridge_node)
+    
+    if launch_avoa3d:
+        nodes.append(avoa3d_node)
+    
+    if launch_obstacle_publisher:
+        nodes.append(obstacle_publisher_node)
+    
+    if launch_rviz_marker:
+        nodes.append(rviz_marker_node)
+    
+    if launch_test_w_goal:
+        nodes.append(test_w_goal_node)
+    
+    if launch_tf_publisher:
+        nodes.append(tf_publisher)
+        
+    if launch_thruster_controller:
+        nodes.append(thruster_controller_node)
+    
+    return LaunchDescription(nodes)

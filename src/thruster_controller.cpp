@@ -12,6 +12,10 @@ class ThrustCommandPublisher : public rclcpp::Node
 public:
   ThrustCommandPublisher() : Node("thruster_controller")
   {
+    this->declare_parameter<std::string>("topics.thrust_cmd", "/nest/thrusters/thrust_cmd");
+    this->declare_parameter<std::string>("topics.odometry", "/nest/odometry");
+    this->declare_parameter<std::string>("topics.cmd_vel", "/avoa/cmd_vel");
+
     // Declare parameters with default values for linear motion
     this->declare_parameter("kp_linear", 120.0);
     this->declare_parameter("ki_linear", 1.5);
@@ -27,6 +31,10 @@ public:
     this->declare_parameter("input_filter", 0.3);
     this->declare_parameter("max_integral_linear", 1000.0);
     this->declare_parameter("max_integral_angular", 100.0);
+
+    std::string thrust_cmd_topic = this->get_parameter("topics.thrust_cmd").as_string();
+    std::string odometry_topic = this->get_parameter("topics.odometry").as_string();
+    std::string cmd_vel_topic = this->get_parameter("topics.cmd_vel").as_string();
     
     // Get parameter values
     kp_linear_ = this->get_parameter("kp_linear").as_double();
@@ -44,18 +52,33 @@ public:
     max_integral_linear_ = this->get_parameter("max_integral_linear").as_double();
     max_integral_angular_ = this->get_parameter("max_integral_angular").as_double();
     
+    std::cout << "================================================================" << std::endl;
+    std::cout << "=============== THRUSTER CONTROLLER INITIALIZATION ============" << std::endl;
+    std::cout << "================================================================" << std::endl;
+    std::cout << "Topics:" << std::endl;
+    std::cout << "  - Thrust Command: " << thrust_cmd_topic << std::endl;
+    std::cout << "  - Odometry: " << odometry_topic << std::endl;
+    std::cout << "  - Command Velocity: " << cmd_vel_topic << std::endl;
+    std::cout << "Control Parameters:" << std::endl;
+    std::cout << "  - Linear control (P,I,D): ("
+              << kp_linear_ << ", " << ki_linear_ << ", " << kd_linear_ << ")" << std::endl;
+    std::cout << "  - Angular control (P,I,D): ("
+              << kp_angular_ << ", " << ki_angular_ << ", " << kd_angular_ << ")" << std::endl;
+    std::cout << "  - dt: " << dt_ << ", input_filter: " << input_filter_ << std::endl;
+    std::cout << "================================================================\n" << std::endl;
+    
     // Create a publisher for the ThrustCommand message
     thrust_publisher_ = this->create_publisher<nest_interfaces::msg::ThrustCommand>(
-      "/nest/thrusters/thrust_cmd", 10);
+      thrust_cmd_topic, 10);
     
     // Subscribe to odometry for current velocity
     odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/nest/odometry", 10, 
+      odometry_topic, 10, 
       std::bind(&ThrustCommandPublisher::odom_callback, this, std::placeholders::_1));
     
-    // Subscribe to desired velocity instead of simulating it
+    // Subscribe to desired velocity
     desired_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
-      "avoa/cmd_vel", 10, 
+      cmd_vel_topic, 10, 
       std::bind(&ThrustCommandPublisher::desired_vel_callback, this, std::placeholders::_1));
     
     // Create a timer to publish messages at 10Hz (or as specified by the dt parameter)
@@ -66,12 +89,11 @@ public:
     // Initialize error tracking for PID
     prev_error_x_ = 0.0;
     prev_error_y_ = 0.0;
-    prev_error_yaw_ = 0.0;  // For yaw control
+    prev_error_yaw_ = 0.0;  
     integral_x_ = 0.0;
     integral_y_ = 0.0;
-    integral_yaw_ = 0.0;    // For yaw control
+    integral_yaw_ = 0.0;    
     
-    // Log the parameters that were loaded
     RCLCPP_INFO(this->get_logger(), "Velocity Controller started with parameters:");
     RCLCPP_INFO(this->get_logger(), "  Linear control: kp=%.2f, ki=%.2f, kd=%.2f", 
                 kp_linear_, ki_linear_, kd_linear_);
@@ -207,24 +229,12 @@ private:
     // Compute yaw control (angular z)
     thrust_msg.mz = compute_angular_pid(desired_ang_vel_z_, current_ang_vel_z_, prev_error_yaw_, integral_yaw_);
     
-    // Set other thrust commands to zero (for now)
     thrust_msg.fz = 0.0;
     thrust_msg.mx = 0.0;
     thrust_msg.my = 0.0;
     
-    // Publish the thrust command
     thrust_publisher_->publish(thrust_msg);
     
-    // Log debug information
-    RCLCPP_INFO(this->get_logger(),
-      "Linear X: desired=%.2f, current=%.2f, thrust=%.2f",
-      desired_vel_x_, current_vel_x_, thrust_msg.fx);
-    RCLCPP_INFO(this->get_logger(),
-      "Linear Y: desired=%.2f, current=%.2f, thrust=%.2f",
-      desired_vel_y_, current_vel_y_, thrust_msg.fy);
-    RCLCPP_INFO(this->get_logger(),
-      "Angular Z (Yaw): desired=%.2f, current=%.2f, thrust=%.2f",
-      desired_ang_vel_z_, current_ang_vel_z_, thrust_msg.mz);
   }
 
   // Publishers

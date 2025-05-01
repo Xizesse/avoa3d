@@ -1,42 +1,64 @@
-avoa3dnode:
+/**:
   ros__parameters:
-    # Kinematic mode
-    # Options: "diff_drive", "holonomic", more can be added
-    kinematic_mode: "diff_drive"
+    # Node launch control - which nodes to launch
+    launch_nodes:
+      bridge_node: true
+      avoa3d_node: true  
+      obstacle_publisher: true 
+      rviz_marker: true  
+      test_w_goal: true  
+      tf_publisher: true  
+      thruster_controller: false #sim plugin to control velocity
 
-    # Weight
-    heading_weight: 0.5
-    abs_weight: 0.5
-    danger_weight: 0.1
+    # Common parameters used by multiple nodes
+    fixed_frame: "map"
+    agent_frame: "agent"
+
+    topics:
+      desired_vel: "/model/agente/desired_vel"
+      cmd_vel: "/model/agente/cmd_vel"
+      odometry: "/model/agente/odometry"
+      element_tracking: "/element_tracking/elements"
+      goal_pose: "/goal_pose"
+      goal_odometry: "/model/goal/odometry"
+      obstacle_odometry: "/model/obstacle/odometry"
+      velocity_samples: "/avoa/velocity_samples"
     
+    # AVOA PARAMS
+    kinematic_mode: "diff_drive" # "diff_drive" or "holonomic"
+
+    #Goal weights 
+    heading_weight: 0.70
+    abs_weight: 0.3
+    #Danger weight. Goal weight will be * (1 - danger_weight)
+    danger_weight: 0.0
+
     # Vehicle parameters
-    vehicle_radius: 1.0
+    vehicle_radius: 0.75
 
     # Time step
     delta_t: 1.0
     
     # Sampling parameters
-    num_samples: 5000
-
-    filtering_obstacles: true
+    num_samples: 3000
     
     # 6DOF parameters
     # Maximum accelerations
-    a_x_max: 3.0
-    a_y_max: 0.0
+    a_x_max: 1.0
+    a_y_max: 1.0
     a_z_max: 0.0
-
+    
     # Maximum angular accelerations
     a_roll_max: 0.0
     a_pitch_max: 0.0
-    a_yaw_max: 0.0
+    a_yaw_max: 0.5
 
     # Maximum linear velocities
-    v_x_max: 1.305
-    v_y_max: 0.0
+    v_x_max: 1.0
+    v_y_max: 1.0
     v_z_max: 0.0
 
     # Maximum angular velocities
     w_roll_max: 0.0
     w_pitch_max: 0.0
-    w_yaw_max: 1.2
+    w_yaw_max: 0.5

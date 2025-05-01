@@ -111,6 +111,40 @@ geometry_msgs::msg::Twist HolonomicSampleGenerator::translateToTwist(const Veloc
     return twist;
 }
 
+void HolonomicSampleGenerator::setParams(
+    double v_x_max, double v_y_max, double v_z_max,
+    double a_x_max, double a_y_max, double a_z_max,
+    double w_roll_max, double w_pitch_max, double w_yaw_max,
+    double a_roll_max, double a_pitch_max, double a_yaw_max,
+    double delta_t, int num_samples) 
+{
+    // Store parameters in the params_ structure
+    params_.v_x_max = v_x_max;
+    params_.v_y_max = v_y_max;
+    params_.v_z_max = v_z_max;
+    params_.a_x_max = a_x_max;
+    params_.a_y_max = a_y_max;
+    params_.a_z_max = a_z_max;
+    params_.w_roll_max = w_roll_max;
+    params_.w_pitch_max = w_pitch_max;
+    params_.w_yaw_max = w_yaw_max;
+    params_.a_roll_max = a_roll_max;
+    params_.a_pitch_max = a_pitch_max;
+    params_.a_yaw_max = a_yaw_max;
+    params_.delta_t = delta_t;
+    params_.num_samples = num_samples;
+    
+    // Log parameters
+    RCLCPP_INFO(logger_, "Set holonomic parameters:");
+    RCLCPP_INFO(logger_, "  Linear velocity limits [X,Y,Z]: [%.2f, %.2f, %.2f]", 
+               params_.v_x_max, params_.v_y_max, params_.v_z_max);
+    RCLCPP_INFO(logger_, "  Linear accel limits [X,Y,Z]: [%.2f, %.2f, %.2f]", 
+               params_.a_x_max, params_.a_y_max, params_.a_z_max);
+    RCLCPP_INFO(logger_, "  Angular velocity limits [R,P,Y]: [%.2f, %.2f, %.2f]", 
+               params_.w_roll_max, params_.w_pitch_max, params_.w_yaw_max);
+    RCLCPP_INFO(logger_, "  delta_t: %.2f, num_samples: %d", params_.delta_t, params_.num_samples);
+}
+
 //! Diff Drive Sample Generator
 
 DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger)
@@ -190,6 +224,40 @@ double DiffDriveSampleGenerator::normalizeAngle(double angle)
     while (angle > M_PI) angle -= 2*M_PI;
     while (angle < -M_PI) angle += 2*M_PI;
     return angle;
+}
+
+void DiffDriveSampleGenerator::setParams(
+    double v_x_max, double v_y_max, double v_z_max,
+    double a_x_max, double a_y_max, double a_z_max,
+    double w_roll_max, double w_pitch_max, double w_yaw_max,
+    double a_roll_max, double a_pitch_max, double a_yaw_max,
+    double delta_t, int num_samples) 
+{
+    // Store parameters in the params_ structure
+    params_.v_x_max = v_x_max;
+    params_.v_y_max = v_y_max;
+    params_.v_z_max = v_z_max;
+    params_.a_x_max = a_x_max;
+    params_.a_y_max = a_y_max;
+    params_.a_z_max = a_z_max;
+    params_.w_roll_max = w_roll_max;
+    params_.w_pitch_max = w_pitch_max;
+    params_.w_yaw_max = w_yaw_max;
+    params_.a_roll_max = a_roll_max;
+    params_.a_pitch_max = a_pitch_max;
+    params_.a_yaw_max = a_yaw_max;
+    params_.delta_t = delta_t;
+    params_.num_samples = num_samples;
+    
+    // Log parameters
+    RCLCPP_INFO(logger_, "Set diff drive parameters:");
+    RCLCPP_INFO(logger_, "  Linear velocity limits [X,Y,Z]: [%.2f, %.2f, %.2f]", 
+               params_.v_x_max, params_.v_y_max, params_.v_z_max);
+    RCLCPP_INFO(logger_, "  Linear accel limits [X,Y,Z]: [%.2f, %.2f, %.2f]", 
+               params_.a_x_max, params_.a_y_max, params_.a_z_max);
+    RCLCPP_INFO(logger_, "  Angular velocity limits [R,P,Y]: [%.2f, %.2f, %.2f]", 
+               params_.w_roll_max, params_.w_pitch_max, params_.w_yaw_max);
+    RCLCPP_INFO(logger_, "  delta_t: %.2f, num_samples: %d", params_.delta_t, params_.num_samples);
 }
 
 } // namespace avoa3d
