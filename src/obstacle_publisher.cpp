@@ -193,11 +193,29 @@ private:
         }
         
         // Transform the velocity vector
+        // The velocity from odometry is in the obstacle's local frame
+        // First, we need to rotate it to the fixed/world frame using the obstacle's orientation
+        tf2::Vector3 vel_obstacle_local(
+            odom.twist.twist.linear.x,
+            odom.twist.twist.linear.y,
+            odom.twist.twist.linear.z);
+
+        // Get the obstacle's orientation quaternion
+        tf2::Quaternion obstacle_orientation;
+        tf2::fromMsg(odom.pose.pose.orientation, obstacle_orientation);
+
+        // Rotate the velocity vector from obstacle frame to world frame
+        tf2::Vector3 vel_world_tf2 = tf2::quatRotate(obstacle_orientation, vel_obstacle_local);
+
+        // Create a Vector3Stamped for the world-frame velocity
         geometry_msgs::msg::Vector3Stamped vel_world;
         vel_world.header.frame_id = fixed_frame_;
         vel_world.header.stamp = current_time;
-        vel_world.vector = odom.twist.twist.linear;
-        
+        vel_world.vector.x = vel_world_tf2.x();
+        vel_world.vector.y = vel_world_tf2.y();
+        vel_world.vector.z = vel_world_tf2.z();
+
+        // Now transform from world frame to agent frame
         geometry_msgs::msg::Vector3Stamped vel_agent;
         try {
           tf2::doTransform(vel_world, vel_agent, transform);
@@ -247,10 +265,22 @@ private:
         element.pose.position.z = odom.pose.pose.position.z;
         element.pose.orientation = odom.pose.pose.orientation;
         
-        // Use original velocity
-        element.velocity.x = odom.twist.twist.linear.x;
-        element.velocity.y = odom.twist.twist.linear.y;
-        element.velocity.z = odom.twist.twist.linear.z;
+        // Rotate velocity from obstacle local frame to world frame for fallback
+        tf2::Vector3 vel_obstacle_local(
+            odom.twist.twist.linear.x,
+            odom.twist.twist.linear.y,
+            odom.twist.twist.linear.z);
+
+        tf2::Quaternion obstacle_orientation;
+        tf2::fromMsg(odom.pose.pose.orientation, obstacle_orientation);
+
+        // Rotate the velocity vector from obstacle frame to world frame
+        tf2::Vector3 vel_world_tf2 = tf2::quatRotate(obstacle_orientation, vel_obstacle_local);
+
+        // Set the velocity in world frame (since we're in the fallback where we can't transform to agent frame)
+        element.velocity.x = vel_world_tf2.x();
+        element.velocity.y = vel_world_tf2.y();
+        element.velocity.z = vel_world_tf2.z();
         
         // Set the size and protective zone
         element.size.x = 0.5;

@@ -43,8 +43,8 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
     VelocitySample translated_sample;
     
     // Safety cost parameters
-    const double safety_threshold = 0.5;   // Maximum distance to apply safety cost
-    const double max_safety_cost = 0.5;    // Maximum safety cost when on cone boundary
+    const double safety_threshold = 0.1;   // Maximum distance to apply safety cost
+    const double max_safety_cost = 0.1;    // Maximum safety cost when on cone boundary
     
     for (auto& sample : samples) {
         bool collision_free = true;
@@ -53,24 +53,13 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
         for (const auto& obstacle : obstacles.elements) {
 
-            //std::cout << "\nStarting New Sample" << std::endl;
             translated_sample.vx = sample.vx - obstacle.velocity.x ;
             translated_sample.vy = sample.vy - obstacle.velocity.y ;
             translated_sample.vz = sample.vz - obstacle.velocity.z ;
-
-            //std::cout << "Translated Sample Coordinates" << std::endl;
-            //std::cout << "Translated Sample vx: " << translated_sample.vx << std::endl;
-            //std::cout << "Translated Sample vy: " << translated_sample.vy << std::endl;
-            //std::cout << "Translated Sample vz: " << translated_sample.vz << std::endl;
             
             double obstacle_x = obstacle.pose.position.x;
             double obstacle_y = obstacle.pose.position.y;
             double obstacle_z = obstacle.pose.position.z;
-            //std::cout << "Obstacle x: " << obstacle_x << std::endl;
-            //std::cout << "Obstacle y: " << obstacle_y << std::endl;
-            //std::cout << "Obstacle z: " << obstacle_z << std::endl;
-    
-
 
             // get obstacle radius
             double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
@@ -109,11 +98,11 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
             //std::cout << "Actual radius: " << actual_radius << std::endl;
             
-            double radius_treshold = 1.0;
+            double radius_treshold = 0.2;
 
 
 
-            float time_to_collision_treshold = 60.0 * 3.0; // seconds
+            float time_to_collision_treshold = 300000.0; // seconds
             float time_to_collision = (obstacle_distance - obstacle_radius) / sample_distance;
             
             if (actual_radius < expected_radius) { //if Collision Cone
@@ -136,10 +125,10 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                     
                 }
             } 
-            if (projection > 0 && actual_radius - expected_radius < radius_treshold ) {
+            if (projection > 0.0 && actual_radius - expected_radius < radius_treshold ) {
                 if((time_to_collision < time_to_collision_treshold)) // above this treshold
                 {
-                    sample.danger += ( radius_treshold - (actual_radius - expected_radius)) / radius_treshold;
+                    sample.danger += (( radius_treshold - (actual_radius - expected_radius)) / radius_treshold)  *projection;
                 }
                 else
                 {   
@@ -157,7 +146,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
                     if (distance_to_truncated_center < truncated_expected_radius )
                     {
-                        sample.danger += (truncated_expected_radius - distance_to_truncated_center) / truncated_expected_radius;
+                        //sample.danger += (truncated_expected_radius - distance_to_truncated_center) / truncated_expected_radius;
                     }
          
                 }

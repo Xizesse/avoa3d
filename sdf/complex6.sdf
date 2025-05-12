@@ -165,7 +165,7 @@
         <!-- !OBSTACULO 1 (Left side of V) -->
         <model name='obstacle_1' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 -5.0 0.5 0 0 0</pose>
+            <pose relative_to='world'>0.0 -3.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -192,7 +192,7 @@
             
             <plugin
                 filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
+                name="ignition::gazebo::sy0.0 3.0 0.5 0 0 0</pose>stems::VelocityControl">
                 <initial_linear>0.0 0 0</initial_linear>
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
@@ -207,7 +207,7 @@
         <!-- !OBSTACULO 2 (Left side of V) -->
         <model name='obstacle_2' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 -3.3 0.5 0 0 0</pose>
+            <pose relative_to='world'>1.0 -2.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -249,7 +249,7 @@
         <!-- !OBSTACULO 3 (Left side of V) -->
         <model name='obstacle_3' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 -1.6 0.5 0 0 0</pose>
+            <pose relative_to='world'>2.0 -1.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -291,7 +291,7 @@
         <!-- !OBSTACULO 4 (Center of V) -->
         <model name='obstacle_4' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 0.0 0.5 0 0 0</pose>
+            <pose relative_to='world'>3.0 0.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -333,7 +333,7 @@
         <!-- !OBSTACULO 5 (Right side of V) -->
         <model name='obstacle_5' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 1.6 0.5 0 0 0</pose>
+            <pose relative_to='world'>2.0 1.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -375,7 +375,7 @@
         <!-- !OBSTACULO 6 (Right side of V) -->
         <model name='obstacle_6' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 3.3 0.5 0 0 0</pose>
+            <pose relative_to='world'>1.0 2.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -417,7 +417,7 @@
         <!-- !OBSTACULO 7 (Right side of V) -->
         <model name='obstacle_7' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 5.0 0.5 0 0 0</pose>
+            <pose relative_to='world'>0.0 3.0 0.5 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>

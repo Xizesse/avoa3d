@@ -31,7 +31,7 @@
     heading_weight: 0.70
     abs_weight: 0.3
     #Danger weight. Goal weight will be * (1 - danger_weight)
-    danger_weight: 0.0
+    danger_weight: 0.05
 
     # Vehicle parameters
     vehicle_radius: 0.8 #floaters 3 meters * sqrt(2) / 2 for radius
@@ -40,13 +40,13 @@
     delta_t: 3.0
     
     # Sampling parameters
-    num_samples: 3000
+    num_samples: 10000
     
     # 6DOF parameters
     # Maximum accelerations
     a_x_max: 1.0
     a_y_max: 1.0
-    a_z_max: 0.0
+    a_z_max: 1.0
     
     # Maximum angular accelerations
     a_roll_max: 0.0
@@ -56,7 +56,7 @@
     # Maximum linear velocities
     v_x_max: 1.0
     v_y_max: 1.0
-    v_z_max: 0.0
+    v_z_max: 1.0
 
     # Maximum angular velocities
     w_roll_max: 0.0

@@ -91,6 +91,10 @@ def generate_launch_description():
         home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'bridge_config.yaml'
     )
 
+    rviz_config_path = os.path.join(
+        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'rviz_config.rviz')
+
+
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
@@ -106,10 +110,14 @@ def generate_launch_description():
             'd2': 'single_dynamic3.sdf',
             'd3': 'single_dynamic4.sdf',
             'd4': 'single_dynamic5.sdf',
-            'c0': 'complex1.sdf',
-            'c1': 'complex2.sdf',
-            'c2': 'complex3.sdf',
-            'c3': 'complex4.sdf',
+            'c0': 'complex0.sdf',
+            'c1': 'complex1.sdf',
+            'c2': 'complex2.sdf',
+            'c3': 'complex3.sdf',
+            'c4': 'complex4.sdf',
+            'c5': 'complex5.sdf',
+            'c6': 'complex6.sdf',
+            'c7': 'complex7.sdf',
         }
         
         chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')
@@ -137,6 +145,14 @@ def generate_launch_description():
             {'use_sim_time': True},
             {'config_file': bridge_config}
         ]
+    )
+
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config_path],
+        output='screen',
     )
 
     obstacle_publisher_node = Node(
@@ -232,7 +248,7 @@ def generate_launch_description():
         agent_frame_arg,
         goal_topic_arg,
         
-        # Always add gazebo process
+        #  add gazebo process
         gazebo_process
     ]
     
@@ -248,6 +264,8 @@ def generate_launch_description():
     
     if launch_rviz_marker:
         nodes.append(rviz_marker_node)
+        nodes.append(rviz_node)
+
     
     if launch_test_w_goal:
         nodes.append(test_w_goal_node)

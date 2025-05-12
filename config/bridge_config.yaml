@@ -3,6 +3,13 @@
 #//ros2 run ros_gz_bridge parameter_bridge /model/agente/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist
 #//ros2 launch ros_gz_bridge ros_gz_bridge.launch.py name:=ros_gz_bridge config_file:=avoa/config/bridge_config.yaml
 
+# - ros_topic_name: "/world/pose/info"
+#   gz_topic_name: "/world/3d_world/pose/info"
+#   ros_type_name: "tf2_msgs/msg/TFMessage"
+#   gz_type_name: "gz.msgs.Pose_V"
+#   lazy: true
+#   direction: GZ_TO_ROS
+
 - ros_topic_name: "/model/agente/cmd_vel"
   gz_topic_name: "/model/agente/cmd_vel"
   ros_type_name: "geometry_msgs/msg/Twist"

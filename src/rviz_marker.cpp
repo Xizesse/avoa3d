@@ -1,9 +1,11 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <cmath>  // For sqrt, max, etc.
 
 #include "rclcpp/rclcpp.hpp"
 #include "visualization_msgs/msg/marker.hpp"
+#include "visualization_msgs/msg/marker_array.hpp"  // Added for MarkerArray
 #include "geometry_msgs/msg/twist.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
@@ -20,7 +22,6 @@
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
-
 
 //######################################
 // Node to publish markers for RVIZ 
@@ -51,7 +52,7 @@ public:
     agent_frame = this->get_parameter("agent_frame").as_string();
 
     const std::string agent_marker_topic = "/markers/agent_marker";
-    const std::string obstacle_marker_topic = "/markers/obstacle_marker";
+    const std::string obstacle_array_topic = "/markers/obstacle_array";  // Changed to array
     const std::string desired_vel_marker_topic = "/markers/desired_vel";
     const std::string cmd_vel_marker_topic = "/markers/cmd_vel";
     const std::string visualization_marker_topic = "/visualization_marker";
@@ -87,7 +88,8 @@ public:
     //! PUBLISHERS
     // Publishers for Markers
     agent_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(agent_marker_topic, 10);
-    obstacle_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(obstacle_marker_topic, 10);
+    // New MarkerArray publisher for obstacles
+    obstacle_array_publisher_ = this->create_publisher<visualization_msgs::msg::MarkerArray>(obstacle_array_topic, 10);
     // Publishers for TwistStamped
     velocity_desired_publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(desired_vel_marker_topic, 10);
     velocity_cmd_publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(cmd_vel_marker_topic, 10);
@@ -108,8 +110,6 @@ public:
   }
 
 private:
-
-
   void publish_agent()
   {
     //! AGENT MARKER
@@ -134,43 +134,161 @@ private:
     agent_marker_msg.color.g = 0.0f;
     agent_marker_msg.color.b = 1.0f;
     agent_marker_msg.color.a = 0.3;
-    agent_marker_msg.lifetime = rclcpp::Duration(std::chrono::nanoseconds(static_cast<int64_t>(1))); 
+    agent_marker_msg.lifetime = rclcpp::Duration(1, 0);  // 1 second lifetime
 
     agent_publisher_->publish(agent_marker_msg);
   }  
   
   void publish_obstacle()
   {
-    //! OBSTACLE MARKER (in the agent frame)
-    //std::cout the number of obstacles
-    std::cout << "Number of obstacles: " << obstacles_.elements.size() << std::endl;
-
+    // Create a marker array to hold all obstacles
+    auto marker_array = visualization_msgs::msg::MarkerArray();
+    
+    // First add a DELETE_ALL marker to clear previous markers
+    auto delete_marker = visualization_msgs::msg::Marker();
+    delete_marker.header.frame_id = agent_frame;
+    delete_marker.header.stamp = this->now();
+    delete_marker.ns = "obstacles";
+    delete_marker.id = 0;
+    delete_marker.action = visualization_msgs::msg::Marker::DELETEALL;
+    marker_array.markers.push_back(delete_marker);
+    
+    // Add a DELETE_ALL marker for velocity markers too
+    auto delete_vel_marker = visualization_msgs::msg::Marker();
+    delete_vel_marker.header.frame_id = agent_frame;
+    delete_vel_marker.header.stamp = this->now();
+    delete_vel_marker.ns = "obstacle_velocities";
+    delete_vel_marker.id = 0;
+    delete_vel_marker.action = visualization_msgs::msg::Marker::DELETEALL;
+    marker_array.markers.push_back(delete_vel_marker);
+    
+    // Log the number of obstacles (but not too frequently)
+    RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
+                        "Publishing %zu obstacles", obstacles_.elements.size());
+    
+    // Start IDs at 1 since 0 is used for DELETE_ALL
+    int id = 1;
+    
+    // Process each obstacle
     for (auto& obstacle : obstacles_.elements) {
-      auto obstacle_marker_msg = visualization_msgs::msg::Marker();
-      obstacle_marker_msg.header.frame_id = agent_frame;  // Use parameter instead of hardcoded "agent"
-      obstacle_marker_msg.header.stamp = this->now();
-      obstacle_marker_msg.ns = "basic_shapes";
-      obstacle_marker_msg.id = obstacle.id;  // Use obstacle ID for unique identification
-      obstacle_marker_msg.type = visualization_msgs::msg::Marker::SPHERE;
-      obstacle_marker_msg.action = visualization_msgs::msg::Marker::ADD;
-
-      obstacle_marker_msg.pose.position.x = obstacle.pose.position.x;
-      obstacle_marker_msg.pose.position.y = obstacle.pose.position.y;
-      obstacle_marker_msg.pose.position.z = obstacle.pose.position.z;
-      obstacle_marker_msg.pose.orientation = obstacle.pose.orientation;
-      obstacle_marker_msg.scale.x = obstacle.size.x;
-      obstacle_marker_msg.scale.y = obstacle.size.y;
-      obstacle_marker_msg.scale.z = obstacle.size.z;
-      obstacle_marker_msg.color.r = 0.0f;
-      obstacle_marker_msg.color.g = 1.0f;
-      obstacle_marker_msg.color.b = 0.0f;
-      obstacle_marker_msg.color.a = 0.9;
-      obstacle_marker_msg.lifetime = rclcpp::Duration(std::chrono::nanoseconds(static_cast<int64_t>(1))); 
-
-      obstacle_publisher_->publish(obstacle_marker_msg);
+      // Create marker for this obstacle
+      auto obstacle_marker = visualization_msgs::msg::Marker();
+      obstacle_marker.header.frame_id = agent_frame;
+      obstacle_marker.header.stamp = this->now();
+      obstacle_marker.ns = "obstacles";
+      obstacle_marker.id = id++;  // Use incremental ID
+      obstacle_marker.type = visualization_msgs::msg::Marker::SPHERE;
+      obstacle_marker.action = visualization_msgs::msg::Marker::ADD;
+      
+      // Position and orientation
+      obstacle_marker.pose.position.x = obstacle.pose.position.x;
+      obstacle_marker.pose.position.y = obstacle.pose.position.y;
+      obstacle_marker.pose.position.z = obstacle.pose.position.z;
+      obstacle_marker.pose.orientation = obstacle.pose.orientation;
+      
+      // Size (use at least 0.5m for visibility)
+      obstacle_marker.scale.x = std::max(obstacle.size.x, 0.5);
+      obstacle_marker.scale.y = std::max(obstacle.size.y, 0.5);
+      obstacle_marker.scale.z = std::max(obstacle.size.z, 0.5);
+      
+      // Green color
+      obstacle_marker.color.r = 0.0f;
+      obstacle_marker.color.g = 1.0f;
+      obstacle_marker.color.b = 0.0f;
+      obstacle_marker.color.a = 0.9;
+      
+      // Use a longer lifetime (1 second)
+      obstacle_marker.lifetime = rclcpp::Duration(1, 0);
+      
+      // Add to the array
+      marker_array.markers.push_back(obstacle_marker);
+      
+      // Add velocity vector visualization as an arrow
+      // Calculate velocity magnitude
+      float speed = std::sqrt(
+        obstacle.velocity.x * obstacle.velocity.x +
+        obstacle.velocity.y * obstacle.velocity.y +
+        obstacle.velocity.z * obstacle.velocity.z
+      );
+      
+      // Only show velocity for moving obstacles (speed > 0.1 m/s)
+      if (speed > 0.1) {
+        auto velocity_marker = visualization_msgs::msg::Marker();
+        velocity_marker.header.frame_id = agent_frame;
+        velocity_marker.header.stamp = this->now();
+        velocity_marker.ns = "obstacle_velocities";
+        velocity_marker.id = id++;  // Use next ID
+        velocity_marker.type = visualization_msgs::msg::Marker::ARROW;
+        velocity_marker.action = visualization_msgs::msg::Marker::ADD;
+        
+        // Start at obstacle position
+        velocity_marker.pose.position = obstacle.pose.position;
+        
+        // Calculate orientation from velocity vector
+        if (speed > 0) {
+          // Create normalized velocity vector
+          tf2::Vector3 vel_vector(
+            obstacle.velocity.x / speed,
+            obstacle.velocity.y / speed, 
+            obstacle.velocity.z / speed
+          );
+          
+          // Default reference direction (arrow points along x-axis)
+          tf2::Vector3 reference(1, 0, 0);
+          
+          // Calculate rotation axis and angle
+          tf2::Vector3 axis = reference.cross(vel_vector);
+          float angle = 0.0;
+          
+          // Set quaternion based on axis and angle
+          tf2::Quaternion quat;
+          
+          if (axis.length() > 0.001) {
+            // Normal case - calculate angle and rotate
+            angle = std::acos(reference.dot(vel_vector));
+            quat.setRotation(axis.normalize(), angle);
+          } else if (vel_vector.x() < 0) {
+            // Special case - velocity pointing backward along x-axis
+            quat.setRotation(tf2::Vector3(0, 1, 0), M_PI);
+          } else {
+            // Default - pointing forward along x-axis
+            quat.setRotation(tf2::Vector3(0, 1, 0), 0);
+          }
+          
+          // Convert to geometry_msgs quaternion
+          velocity_marker.pose.orientation.x = quat.x();
+          velocity_marker.pose.orientation.y = quat.y();
+          velocity_marker.pose.orientation.z = quat.z();
+          velocity_marker.pose.orientation.w = quat.w();
+        } else {
+          // Default identity orientation if no velocity
+          velocity_marker.pose.orientation.w = 1.0;
+        }
+        
+        // Scale arrow by velocity - length proportional to speed
+        float arrow_length = std::max(speed, 0.5f);  // At least 0.5m for visibility
+        velocity_marker.scale.x = arrow_length;  // Length along x-axis
+        velocity_marker.scale.y = 0.1;           // Width
+        velocity_marker.scale.z = 0.1;           // Height
+        
+        // Blue color for velocity
+        velocity_marker.color.r = 0.0f;
+        velocity_marker.color.g = 0.0f;
+        velocity_marker.color.b = 1.0f;
+        velocity_marker.color.a = 0.8;
+        
+        velocity_marker.lifetime = rclcpp::Duration(1, 0);
+        
+        // Add velocity marker to array
+        marker_array.markers.push_back(velocity_marker);
+      }
+    }
+    
+    // Publish the entire array at once if we have any markers
+    if (!marker_array.markers.empty()) {
+      obstacle_array_publisher_->publish(marker_array);
     }
   }
-
 
   void publish_velocity_cmd()
   {
@@ -194,9 +312,7 @@ private:
     velocity_desired_publisher_->publish(twist_stamped_msg);
   }
   
-
   //! Callbacks
-
   void timer_callback()
   {
     publish_agent();
@@ -234,7 +350,8 @@ private:
   std::string fixed_frame;
   std::string agent_frame;
   rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr agent_publisher_;
-  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr obstacle_publisher_;
+  // Changed from single marker publisher to marker array publisher
+  rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr obstacle_array_publisher_;
   rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr velocity_desired_publisher_;
   rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr velocity_cmd_publisher_;
   
