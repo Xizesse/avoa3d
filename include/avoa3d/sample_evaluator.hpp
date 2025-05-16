@@ -21,7 +21,8 @@ public:
     // Main evaluation function (same signature as your original)
     void evaluateSamples(
         std::vector<VelocitySample>& samples, 
-        const custom_msgs::msg::ElementCharacteristicsArray& obstacles
+        const custom_msgs::msg::ElementCharacteristicsArray& obstacles,
+        const geometry_msgs::msg::Twist& current_velocity
     );
     
     // Find the best sample

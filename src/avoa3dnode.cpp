@@ -293,7 +293,7 @@ private:
         }    */
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
-        sample_evaluator_->evaluateSamples(samples, latest_obstacles_);
+        sample_evaluator_->evaluateSamples(samples, latest_obstacles_, latest_velocity_);
         best_sample = sample_evaluator_->findBestSample(samples);
         best_twist = sample_generator_->translateToTwist(best_sample);
 

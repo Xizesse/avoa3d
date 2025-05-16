@@ -211,8 +211,8 @@ geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const Veloc
     geometry_msgs::msg::Twist twist;
     // If x is positive, angle is
     twist.linear.x = sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
-    twist.angular.z = std::atan2(sample.vy, sample.vx);
-    if (sample.vx <= 0.0) {
+    twist.angular.z = 3*std::atan2(sample.vy, sample.vx);
+    if (false && sample.vx <= 0.0) {
         twist.linear.x *= -1.0;
         twist.angular.z = normalizeAngle(twist.angular.z + M_PI);
     }

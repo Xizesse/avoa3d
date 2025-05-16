@@ -4,7 +4,7 @@
     launch_nodes:
       bridge_node: true
       avoa3d_node: true  
-      obstacle_publisher: true 
+      obstacle_publisher: false 
       rviz_marker: true  
       test_w_goal: true  
       tf_publisher: true  
@@ -56,7 +56,7 @@
     # Maximum linear velocities
     v_x_max: 1.0
     v_y_max: 1.0
-    v_z_max: 1.0
+    v_z_max: 0.0
 
     # Maximum angular velocities
     w_roll_max: 0.0

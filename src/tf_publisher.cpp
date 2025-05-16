@@ -38,28 +38,50 @@ public:
 private:
   void publish_static_transforms()
   {
-    //! map to odom static transform from 
-    geometry_msgs::msg::TransformStamped map_to_odom;
-    map_to_odom.header.stamp = this->get_clock()->now();
-    map_to_odom.header.frame_id = "map";
-    map_to_odom.child_frame_id = "odom";
-    
-    // Identity transform (map = odom initially)
-    map_to_odom.transform.translation.x = 0.0;
-    map_to_odom.transform.translation.y = 0.0;
-    map_to_odom.transform.translation.z = 0.0;
-    
-    tf2::Quaternion q_identity;
-    q_identity.setRPY(0.0, 0.0, 0.0);
-    map_to_odom.transform.rotation.x = q_identity.x();
-    map_to_odom.transform.rotation.y = q_identity.y();
-    map_to_odom.transform.rotation.z = q_identity.z();
-    map_to_odom.transform.rotation.w = q_identity.w();
-    
-    // Publish static transform
-    static_tf_broadcaster_->sendTransform(map_to_odom);
-    
-    RCLCPP_INFO(this->get_logger(), "Published static transform: map -> odom");
+      //! map to odom static transform from 
+      geometry_msgs::msg::TransformStamped map_to_odom;
+      map_to_odom.header.stamp = this->get_clock()->now();
+      map_to_odom.header.frame_id = "map";
+      map_to_odom.child_frame_id = "odom";
+      
+      // Identity transform (map = odom initially)
+      map_to_odom.transform.translation.x = 0.0;
+      map_to_odom.transform.translation.y = 0.0;
+      map_to_odom.transform.translation.z = 0.0;
+      
+      tf2::Quaternion q_identity;
+      q_identity.setRPY(0.0, 0.0, 0.0);
+      map_to_odom.transform.rotation.x = q_identity.x();
+      map_to_odom.transform.rotation.y = q_identity.y();
+      map_to_odom.transform.rotation.z = q_identity.z();
+      map_to_odom.transform.rotation.w = q_identity.w();
+      
+      // Publish static transform
+      static_tf_broadcaster_->sendTransform(map_to_odom);
+      
+      RCLCPP_INFO(this->get_logger(), "Published static transform: map -> odom");
+
+      // Add base_link to lidar static transform
+      geometry_msgs::msg::TransformStamped base_link_to_lidar;
+      base_link_to_lidar.header.stamp = this->get_clock()->now();
+      base_link_to_lidar.header.frame_id = "base_link";
+      base_link_to_lidar.child_frame_id = "lidar";
+      
+      // Position lidar at (0, 0, 0.5) relative to base_link
+      base_link_to_lidar.transform.translation.x = 0.0;
+      base_link_to_lidar.transform.translation.y = 0.0;
+      base_link_to_lidar.transform.translation.z = 0.5;
+      
+      // Identity rotation (no rotation relative to base_link)
+      base_link_to_lidar.transform.rotation.x = q_identity.x();
+      base_link_to_lidar.transform.rotation.y = q_identity.y();
+      base_link_to_lidar.transform.rotation.z = q_identity.z();
+      base_link_to_lidar.transform.rotation.w = q_identity.w();
+      
+      // Publish static transform
+      static_tf_broadcaster_->sendTransform(base_link_to_lidar);
+      
+      RCLCPP_INFO(this->get_logger(), "Published static transform: base_link -> lidar");
   }
   
   void publish_odom_to_base_link()

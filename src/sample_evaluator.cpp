@@ -25,7 +25,7 @@ void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desire
     latest_desired_velocity_ = desired_velocity;
 }
 
-void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const custom_msgs::msg::ElementCharacteristicsArray& obstacles )
+void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const custom_msgs::msg::ElementCharacteristicsArray& obstacles, const geometry_msgs::msg::Twist& current_velocity)
 {
     double desired_vx = latest_desired_velocity_.linear.x;
     double desired_vy = latest_desired_velocity_.linear.y;
@@ -53,9 +53,11 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
         for (const auto& obstacle : obstacles.elements) {
 
-            translated_sample.vx = sample.vx - obstacle.velocity.x ;
-            translated_sample.vy = sample.vy - obstacle.velocity.y ;
-            translated_sample.vz = sample.vz - obstacle.velocity.z ;
+            translated_sample.vx = sample.vx - obstacle.velocity.x - current_velocity.linear.x;
+            translated_sample.vy = sample.vy - obstacle.velocity.y - current_velocity.linear.y;
+            translated_sample.vz = sample.vz - obstacle.velocity.z - current_velocity.linear.z;
+
+            //RCL for Deb
             
             double obstacle_x = obstacle.pose.position.x;
             double obstacle_y = obstacle.pose.position.y;

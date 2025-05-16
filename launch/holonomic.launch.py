@@ -102,14 +102,9 @@ def generate_launch_description():
         
         # Define scenario mapping here in the launch file
         scenario_map = {
-            's0': 'single_static1.sdf',
-            's1': 'single_static2.sdf', 
-            's2': 'single_static3.sdf',
-            'd0': 'single_dynamic1.sdf',
-            'd1': 'single_dynamic2.sdf',
-            'd2': 'single_dynamic3.sdf',
-            'd3': 'single_dynamic4.sdf',
-            'd4': 'single_dynamic5.sdf',
+            's1': 'single_static1.sdf',
+            'd1': 'single_dynamic1.sdf',
+            'd2': 'single_dynamic2.sdf',
             'c0': 'complex0.sdf',
             'c1': 'complex1.sdf',
             'c2': 'complex2.sdf',
@@ -118,6 +113,7 @@ def generate_launch_description():
             'c5': 'complex5.sdf',
             'c6': 'complex6.sdf',
             'c7': 'complex7.sdf',
+            'c8': 'complex8.sdf',
         }
         
         chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')

@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.5)
 project(avoa3d)
 
@@ -17,6 +18,7 @@ find_package(tf2_geometry_msgs REQUIRED)  # Added for PoseStamped transforms
 find_package(custom_msgs REQUIRED)
 find_package(rviz_visual_tools REQUIRED)
 find_package(nest_interfaces REQUIRED) # FOR nest messages
+find_package(obstacle_detector REQUIRED) # Added for obstacle_converter_node
 
 
 # Generate custom messages
@@ -48,6 +50,8 @@ add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)
 add_executable(tf_publisher src/tf_publisher.cpp)
 add_executable(thruster_controller src/thruster_controller.cpp)
+add_executable(obstacle_converter_node src/obstacle_converter_node.cpp)
+
 
 
 # Link dependencies to executables
@@ -114,6 +118,18 @@ ament_target_dependencies(thruster_controller
   nest_interfaces  
 )
 
+# Add dependencies for obstacle_converter_node
+ament_target_dependencies(obstacle_converter_node
+  rclcpp
+  std_msgs
+  geometry_msgs
+  nav_msgs
+  custom_msgs
+  tf2_ros
+  tf2_geometry_msgs
+  obstacle_detector
+)
+
 # Link the typesupport target to the executables
 target_link_libraries(rviz_marker ${cpp_typesupport_target} rviz_visual_tools::rviz_visual_tools)
 target_link_libraries(obstacle_publisher ${cpp_typesupport_target})
@@ -121,6 +137,7 @@ target_link_libraries(test_w_goal ${cpp_typesupport_target})
 target_link_libraries(avoa3dnode ${cpp_typesupport_target})
 target_link_libraries(tf_publisher ${cpp_typesupport_target})
 target_link_libraries(thruster_controller ${cpp_typesupport_target})
+target_link_libraries(obstacle_converter_node ${cpp_typesupport_target})
 
 
 # Install executables
@@ -131,6 +148,7 @@ install(TARGETS
   avoa3dnode
   tf_publisher
   thruster_controller
+  obstacle_converter_node
   DESTINATION lib/${PROJECT_NAME})
 
 # Enable testing
