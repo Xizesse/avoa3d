@@ -7,12 +7,15 @@
 namespace avoa3d {
 
 SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius, 
-                                 double heading_weight, double danger_weight, double abs_weight)
+                                 double heading_weight, double danger_weight, double abs_weight, double time_to_collision_threshold, double radius_threshold)
     : logger_(logger),
       vehicle_radius_(vehicle_radius),
         heading_weight_(heading_weight),
         danger_weight_(danger_weight),
-        abs_weight_(abs_weight)
+        abs_weight_(abs_weight),
+        time_to_collision_threshold_(time_to_collision_threshold),
+        radius_threshold_(radius_threshold)
+
 {
     RCLCPP_INFO(logger_, "Initializing SampleEvaluator with vehicle radius: %.2f", vehicle_radius_);
     RCLCPP_INFO(logger_, "Heading weight: %.2f", heading_weight_);
@@ -43,8 +46,8 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
     VelocitySample translated_sample;
     
     // Safety cost parameters
-    const double safety_threshold = 0.1;   // Maximum distance to apply safety cost
-    const double max_safety_cost = 0.1;    // Maximum safety cost when on cone boundary
+    const double safety_threshold = 0.3;   // Maximum distance to apply safety cost
+    const double max_safety_cost = 0.3;    // Maximum safety cost when on cone boundary
     
     for (auto& sample : samples) {
         bool collision_free = true;
@@ -53,9 +56,9 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
         for (const auto& obstacle : obstacles.elements) {
 
-            translated_sample.vx = sample.vx - obstacle.velocity.x - current_velocity.linear.x;
-            translated_sample.vy = sample.vy - obstacle.velocity.y - current_velocity.linear.y;
-            translated_sample.vz = sample.vz - obstacle.velocity.z - current_velocity.linear.z;
+            translated_sample.vx = sample.vx - obstacle.velocity.x ;//- current_velocity.linear.x;
+            translated_sample.vy = sample.vy - obstacle.velocity.y ;//- current_velocity.linear.y;
+            translated_sample.vz = sample.vz - obstacle.velocity.z ;//- current_velocity.linear.z;
 
             //RCL for Deb
             
@@ -85,10 +88,26 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 translated_sample.vz * translated_sample.vz
             );
 
-            double cone_angle = std::asin(obstacle_radius / obstacle_distance);
+            double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
+            
+            double cone_angle = 0.0;
+            
+            if(obstacle_distance < obstacle_radius)
+            {
+                cone_angle = M_PI;   
+                if (projection > 0.0)
+                {
+                    collision_free = false;
+                    break;
+                }
+                
+            }
+            else
+            {
+                cone_angle = std::atan(obstacle_radius / obstacle_distance);
+            }
             
             //Get the projection of the translated sample on the obstacle axis
-            double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
 
             // Calculate the expected radius in the cone :
             double expected_radius = projection * std::tan(cone_angle);
@@ -100,11 +119,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
             //std::cout << "Actual radius: " << actual_radius << std::endl;
             
-            double radius_treshold = 0.2;
 
-
-
-            float time_to_collision_treshold = 300000.0; // seconds
             float time_to_collision = (obstacle_distance - obstacle_radius) / sample_distance;
             
             if (actual_radius < expected_radius) { //if Collision Cone
@@ -115,10 +130,10 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 sample distance = magnitude velocity
                 obstacle_distance - obstacle_radius = distance for collision
                 defined time
-                check if the time for collision is greater than the treshold 
+                check if the time for collision is greater than the threshold 
                 */
                 
-                if (time_to_collision < time_to_collision_treshold)
+                if (time_to_collision < time_to_collision_threshold_)
                 {
                     collision_free = false;
                     break;
@@ -127,14 +142,14 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                     
                 }
             } 
-            if (projection > 0.0 && actual_radius - expected_radius < radius_treshold ) {
-                if((time_to_collision < time_to_collision_treshold)) // above this treshold
+            if (projection > 0.0 && actual_radius - expected_radius < radius_threshold_ ) {
+                if((time_to_collision < time_to_collision_threshold_)) // above this threshold
                 {
-                    sample.danger += (( radius_treshold - (actual_radius - expected_radius)) / radius_treshold)  *projection;
+                    sample.danger += (( radius_threshold_ - (actual_radius - expected_radius)) / radius_threshold_)  *projection;
                 }
                 else
                 {   
-                    float truncated_min_distance = (obstacle_distance - obstacle_radius) / time_to_collision_treshold;
+                    float truncated_min_distance = (obstacle_distance - obstacle_radius) / time_to_collision_threshold_;
                     float truncated_center_x = (obstacle_x/obstacle_distance)* truncated_min_distance;
                     float truncated_center_y = (obstacle_y/obstacle_distance)* truncated_min_distance;
                     float truncated_center_z = (obstacle_z/obstacle_distance)* truncated_min_distance;
@@ -144,7 +159,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                         (truncated_center_y - translated_sample.vy) * (truncated_center_y - translated_sample.vy) +
                         (truncated_center_z - translated_sample.vz) * (truncated_center_z - translated_sample.vz)
                     );
-                    double truncated_expected_radius =  radius_treshold + (truncated_min_distance/obstacle_distance)*obstacle_radius;
+                    double truncated_expected_radius =  radius_threshold_ + (truncated_min_distance/obstacle_distance)*obstacle_radius;
 
                     if (distance_to_truncated_center < truncated_expected_radius )
                     {
@@ -204,7 +219,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             
             if (sample.vy <= 0.0 )
             {
-                sample.cost -= 0.1*sample.vy/sample_magnitude;
+                sample.cost -= 0.0*sample.vy/sample_magnitude;
             }
              
             valid_samples.push_back(sample); 

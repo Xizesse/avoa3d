@@ -99,7 +99,7 @@ private:
       if (circle.true_radius > 0 && circle.true_radius < circle.radius) {
         element.protective_zone = circle.radius - circle.true_radius;
       } else {
-        element.protective_zone = 0.1;  // Small default value
+        element.protective_zone = 1.0;  // Small default value
       }
       
       // Add to array
@@ -175,7 +175,7 @@ private:
     }
     
     // Publish elements
-    if (!elements_msg.elements.empty()) {
+    if (true || !elements_msg.elements.empty()) {
       elements_publisher_->publish(elements_msg);
       RCLCPP_INFO(this->get_logger(), "Published %zu elements (circles: %zu, segments: %zu)", 
                  elements_msg.elements.size(), msg->circles.size(), msg->segments.size());

@@ -61,6 +61,8 @@ public:
         this->declare_parameter("w_yaw_max", 0.0);
         this->declare_parameter("delta_t", 0.0);
         this->declare_parameter("num_samples", 0);
+        this->declare_parameter("time_to_collision_threshold", 3000.0);
+        this->declare_parameter("radius_threshold", 0.2);
         
         // Log parameters
         std::string fixed_frame = this->get_parameter("fixed_frame").as_string();
@@ -72,6 +74,9 @@ public:
         double heading_weight = this->get_parameter("heading_weight").as_double();
         double abs_weight = this->get_parameter("abs_weight").as_double();
         double danger_weight = this->get_parameter("danger_weight").as_double();
+
+        double time_to_collision_threshold = this->get_parameter("time_to_collision_threshold").as_double();
+        double radius_threshold = this->get_parameter("radius_threshold").as_double();
         
         std::string desired_vel_topic = this->get_parameter("topics.desired_vel").as_string();
         std::string cmd_vel_topic = this->get_parameter("topics.cmd_vel").as_string();
@@ -143,6 +148,8 @@ public:
             this->get_parameter("a_yaw_max").as_double(),
             this->get_parameter("delta_t").as_double(), 
             this->get_parameter("num_samples").as_int());
+            
+
 
         //! Initialize evaluator and visualizer
         sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(
@@ -150,7 +157,11 @@ public:
             vehicle_radius, 
             heading_weight,
             danger_weight, 
-            abs_weight);
+            abs_weight,    
+            time_to_collision_threshold,  // NEW
+            radius_threshold);            // NEW
+    
+            
            
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
@@ -181,35 +192,7 @@ public:
 
 private:
 
-    // // Load all parameters from ROS Parameter Server
-    // void loadParameters() {
-    //     // AVOA Parameters
-    //     motion_params_.kinematic_mode = this->declare_parameter<std::string>("kinematic_mode", "holonomic");
-    //     motion_params_.vehicle_radius = this->declare_parameter<double>("vehicle_radius", 0.5);
-    //     motion_params_.heading_weight = this->declare_parameter<double>("heading_weight", 0.5);
-    //     motion_params_.abs_weight = this->declare_parameter<double>("abs_weight", 0.5);
-    //     motion_params_.danger_weight = this->declare_parameter<double>("danger_weight", 0.5);
-        
-    //     // Motion Parameters
-    //     motion_params_.a_x_max = this->declare_parameter<double>("a_x_max", 3.0);
-    //     motion_params_.a_y_max = this->declare_parameter<double>("a_y_max", 3.0);
-    //     motion_params_.a_z_max = this->declare_parameter<double>("a_z_max", 3.0);
-        
-    //     motion_params_.a_roll_max = this->declare_parameter<double>("a_roll_max", 0.0);
-    //     motion_params_.a_pitch_max = this->declare_parameter<double>("a_pitch_max", 0.0);
-    //     motion_params_.a_yaw_max = this->declare_parameter<double>("a_yaw_max", 0.0);
-        
-    //     motion_params_.v_x_max = this->declare_parameter<double>("v_x_max", 1.0);
-    //     motion_params_.v_y_max = this->declare_parameter<double>("v_y_max", 1.0);
-    //     motion_params_.v_z_max = this->declare_parameter<double>("v_z_max", 0.0);
-        
-    //     motion_params_.w_roll_max = this->declare_parameter<double>("w_roll_max", 0.0);
-    //     motion_params_.w_pitch_max = this->declare_parameter<double>("w_pitch_max", 0.0);
-    //     motion_params_.w_yaw_max = this->declare_parameter<double>("w_yaw_max", 0.0);
-        
-    //     motion_params_.delta_t = this->declare_parameter<double>("delta_t", 1.0);
-    //     motion_params_.num_samples = this->declare_parameter<int>("num_samples", 10000);
-    // }
+
     
     // Callback functions
     void desired_velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
