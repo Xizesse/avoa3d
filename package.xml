@@ -21,11 +21,14 @@
   <build_depend>builtin_interfaces</build_depend>
   <build_depend>nav_msgs</build_depend>
   <build_depend>tf2_ros</build_depend>t
+  
 
   
   
   <depend>custom_msgs</depend>
   <depend>rviz_visual_tools</depend>
+  <depend>obstacle_detector</depend>
+
 
 
   <!-- Exec dependencies -->
@@ -40,6 +43,7 @@
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>turtlebot3_gazebo</exec_depend>
 
+  <exec_depend>rclpy</exec_depend>          <!-- Runtime Python ROS2 -->
 
 
   <!-- Member of groups -->

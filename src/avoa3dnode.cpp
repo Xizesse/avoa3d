@@ -192,8 +192,6 @@ public:
 
 private:
 
-
-    
     // Callback functions
     void desired_velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
     {
@@ -234,46 +232,15 @@ private:
             return;
         }
 
+
+        
         /*
-         if(latest_desired_velocity_.linear.x == 0.0 && 
-           latest_desired_velocity_.linear.y == 0.0 && 
-           latest_desired_velocity_.linear.z == 0.0)
-        {
-            cmd_vel.linear.x = 0.0; cmd_vel.linear.y = 0.0; cmd_vel.linear.z = 0.0;
-            cmd_vel.angular.x = 0.0; cmd_vel.angular.y = 0.0; cmd_vel.angular.z = 0.0;
-            cmd_vel_publisher_->publish(cmd_vel);
-            return;
-        } */
-        
-       /*
-       calc goal distance
-        create a new obstacle array message
-        for each obstacle in the old obstacle array
-        check distance
-        if distance to the goal is greater than distance to the obstacles
-        add then to the new messas
+        TODO: goal_feasibility check
+        TODO: filter_obstacles
+            TODO: Distance and velocity thresholds
+            TODO: Goal Logic
         */
-        
-        /* if (motion_params_.filtering_obstacles)
-        {
-            float distance_to_goal = std::sqrt(
-                std::pow(latest_goal_odometry_.pose.pose.position.x - latest_agent_odometry_.pose.pose.position.x, 2) +
-                std::pow(latest_goal_odometry_.pose.pose.position.y - latest_agent_odometry_.pose.pose.position.y, 2) +
-                std::pow(latest_goal_odometry_.pose.pose.position.z - latest_agent_odometry_.pose.pose.position.z, 2)
-            );
-            custom_msgs::msg::ElementCharacteristicsArray filtered_obstacles;
-            for (const auto& obstacle : latest_obstacles_.elements) {
-                float distance_to_obstacle = std::sqrt(
-                    std::pow(obstacle.pose.position.x - latest_agent_odometry_.pose.pose.position.x, 2) +
-                    std::pow(obstacle.pose.position.y - latest_agent_odometry_.pose.pose.position.y, 2) +
-                    std::pow(obstacle.pose.position.z - latest_agent_odometry_.pose.pose.position.z, 2)
-                );
-                if (distance_to_goal + 2 > distance_to_obstacle ) {
-                    filtered_obstacles.elements.push_back(obstacle);
-                }
-            }
-            latest_obstacles_ = filtered_obstacles;
-        }    */
+
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_, latest_velocity_);
