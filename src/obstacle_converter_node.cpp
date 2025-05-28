@@ -46,8 +46,8 @@ private:
     auto current_time = this->get_clock()->now();
     
     // Debug output - report received message
-    RCLCPP_INFO(this->get_logger(), "Received obstacles message with %zu circles and %zu segments", 
-               msg->circles.size(), msg->segments.size());
+    // RCLCPP_INFO(this->get_logger(), "Received obstacles message with %zu circles and %zu segments", 
+    //            msg->circles.size(), msg->segments.size());
     
     // Create element array message
     auto elements_msg = custom_msgs::msg::ElementCharacteristicsArray();
@@ -62,10 +62,10 @@ private:
                        std::abs(circle.velocity.z) > min_velocity_threshold_);
       
       // Debug each circle
-      RCLCPP_INFO(this->get_logger(), "Circle %zu: Position (%.2f, %.2f, %.2f), Radius: %.2f, Velocity (%.2f, %.2f, %.2f), Moving: %s", 
-                 i, circle.center.x, circle.center.y, circle.center.z, circle.radius,
-                 circle.velocity.x, circle.velocity.y, circle.velocity.z,
-                 is_moving ? "true" : "false");
+      // RCLCPP_INFO(this->get_logger(), "Circle %zu: Position (%.2f, %.2f, %.2f), Radius: %.2f, Velocity (%.2f, %.2f, %.2f), Moving: %s", 
+      //            i, circle.center.x, circle.center.y, circle.center.z, circle.radius,
+      //            circle.velocity.x, circle.velocity.y, circle.velocity.z,
+      //            is_moving ? "true" : "false");
       
       // Create element message with enhanced fields
       auto element = custom_msgs::msg::ElementCharacteristicsStamped();
@@ -125,15 +125,17 @@ private:
       velocity.x = (segment.first_velocity.x + segment.last_velocity.x) / 2.0;
       velocity.y = (segment.first_velocity.y + segment.last_velocity.y) / 2.0;
       velocity.z = (segment.first_velocity.z + segment.last_velocity.z) / 2.0;
+
+      
       
       bool is_moving = (std::abs(velocity.x) > min_velocity_threshold_ || 
                        std::abs(velocity.y) > min_velocity_threshold_ ||
                        std::abs(velocity.z) > min_velocity_threshold_);
       
-      RCLCPP_INFO(this->get_logger(), "Segment %zu: Length: %.2f, Center (%.2f, %.2f, %.2f), Velocity (%.2f, %.2f, %.2f), Moving: %s", 
-                 i, length, center_x, center_y, center_z,
-                 velocity.x, velocity.y, velocity.z,
-                 is_moving ? "true" : "false");
+      // RCLCPP_INFO(this->get_logger(), "Segment %zu: Length: %.2f, Center (%.2f, %.2f, %.2f), Velocity (%.2f, %.2f, %.2f), Moving: %s", 
+      //            i, length, center_x, center_y, center_z,
+      //            velocity.x, velocity.y, velocity.z,
+      //            is_moving ? "true" : "false");
       
       // Create element message for segment
       auto element = custom_msgs::msg::ElementCharacteristicsStamped();
@@ -177,8 +179,8 @@ private:
     // Publish elements
     if (true || !elements_msg.elements.empty()) {
       elements_publisher_->publish(elements_msg);
-      RCLCPP_INFO(this->get_logger(), "Published %zu elements (circles: %zu, segments: %zu)", 
-                 elements_msg.elements.size(), msg->circles.size(), msg->segments.size());
+      // RCLCPP_INFO(this->get_logger(), "Published %zu elements (circles: %zu, segments: %zu)", 
+      //            elements_msg.elements.size(), msg->circles.size(), msg->segments.size());
     } else {
       RCLCPP_WARN(this->get_logger(), "No elements to publish");
     }

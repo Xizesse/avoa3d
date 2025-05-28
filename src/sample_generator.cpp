@@ -207,8 +207,16 @@ geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const Veloc
     if (sample.vx == 0.0 && sample.vy == 0.0) {
         return geometry_msgs::msg::Twist();
     }
+
     
     geometry_msgs::msg::Twist twist;
+    //If linear is small enough, return zero twist
+    if (std::abs(sample.vx) < 0.1 && std::abs(sample.vy) < 0.1) {
+        twist.angular.z = 0.0;
+        return twist;
+    }
+
+
     // If x is positive, angle is
     twist.linear.x = sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
     twist.angular.z = 1*std::atan2(sample.vy, sample.vx);

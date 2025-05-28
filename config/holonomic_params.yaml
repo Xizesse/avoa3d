@@ -43,7 +43,7 @@
     num_samples: 10000
 
     #safey parameters
-    radius_threshold: 0.0
+    radius_threshold: 0.2 # meters/s
     time_to_collision_threshold: 60.0 # seconds
     
     # 6DOF parameters

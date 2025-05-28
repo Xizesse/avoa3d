@@ -20,7 +20,7 @@ public:
     // Declare parameters
     this->declare_parameter<std::string>("fixed_frame", "map");
     this->declare_parameter<std::string>("agent_frame", "agent");
-    this->declare_parameter<int>("num_obstacles", 10);
+    this->declare_parameter<int>("num_obstacles", 11);
     
     fixed_frame_ = this->get_parameter("fixed_frame").as_string();
     agent_frame_ = this->get_parameter("agent_frame").as_string();
@@ -113,7 +113,7 @@ private:
         obstacle_world.point.y = obstacles_data_[i].pose.pose.position.y;
         obstacle_world.point.z = obstacles_data_[i].pose.pose.position.z;
         
-        // Transform to agent frame
+        // Transform position to agent frame
         geometry_msgs::msg::PointStamped obstacle_agent;
         tf2::doTransform(obstacle_world, obstacle_agent, transform);
         
@@ -131,10 +131,21 @@ private:
         tf2::doTransform(orientation_world, orientation_agent, transform);
         element.pose.orientation = orientation_agent.quaternion;
         
-        // Set velocity (simplified - just copying the linear velocity)
-        element.velocity.x = obstacles_data_[i].twist.twist.linear.x;
-        element.velocity.y = obstacles_data_[i].twist.twist.linear.y;
-        element.velocity.z = obstacles_data_[i].twist.twist.linear.z;
+        // Transform velocity to agent frame
+        geometry_msgs::msg::Vector3Stamped velocity_world;
+        velocity_world.header.frame_id = fixed_frame_;
+        velocity_world.header.stamp = current_time;
+        velocity_world.vector.x = obstacles_data_[i].twist.twist.linear.x;
+        velocity_world.vector.y = obstacles_data_[i].twist.twist.linear.y;
+        velocity_world.vector.z = obstacles_data_[i].twist.twist.linear.z;
+        
+        geometry_msgs::msg::Vector3Stamped velocity_agent;
+        tf2::doTransform(velocity_world, velocity_agent, transform);
+        
+        // Set transformed velocity
+        element.velocity.x = velocity_agent.vector.x;
+        element.velocity.y = velocity_agent.vector.y;
+        element.velocity.z = velocity_agent.vector.z;
         
         // Set size (fixed for all obstacles)
         element.size.x = 1.0;

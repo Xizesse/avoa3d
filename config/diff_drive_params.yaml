@@ -28,8 +28,8 @@
     kinematic_mode: "diff_drive" # "diff_drive" or "holonomic"
 
     #Goal weights 
-    heading_weight: 0.70
-    abs_weight: 0.3
+    heading_weight: 0.50
+    abs_weight: 0.5
     #Danger weight. Goal weight will be * (1 - danger_weight)
     danger_weight: 0.2
 
@@ -51,7 +51,7 @@
     # Maximum angular accelerations
     a_roll_max: 0.0
     a_pitch_max: 0.0
-    a_yaw_max: 0.5
+    a_yaw_max: 1.0
 
     # Maximum linear velocities
     v_x_max: 1.0
@@ -61,4 +61,4 @@
     # Maximum angular velocities
     w_roll_max: 0.0
     w_pitch_max: 0.0
-    w_yaw_max: 0.5
+    w_yaw_max: 1.0

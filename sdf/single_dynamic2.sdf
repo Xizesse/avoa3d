@@ -183,10 +183,10 @@
 
         <!-- !OBSTACULO DYNAMICO tpwards agente-->
 
-        <model name='obstacle' canonical_link='obstacle'>
+        <model name='obstacle_1' canonical_link='obstacle_1'>
             <static>false</static>
             <pose relative_to='world'>5 0 0 0 0 0</pose>
-            <link name='obstacle'>
+            <link name='obstacle_1'>
             <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose> <!-- Fixed to centered position -->
 
             

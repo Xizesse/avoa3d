@@ -56,11 +56,11 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
         for (const auto& obstacle : obstacles.elements) {
 
-            translated_sample.vx = sample.vx - obstacle.velocity.x ;//- current_velocity.linear.x;
-            translated_sample.vy = sample.vy - obstacle.velocity.y ;//- current_velocity.linear.y;
-            translated_sample.vz = sample.vz - obstacle.velocity.z ;//- current_velocity.linear.z;
+            translated_sample.vx = sample.vx - obstacle.velocity.x ;
+            translated_sample.vy = sample.vy - obstacle.velocity.y ;
+            translated_sample.vz = sample.vz - obstacle.velocity.z ;
 
-            //RCL for Deb
+            
             
             double obstacle_x = obstacle.pose.position.x;
             double obstacle_y = obstacle.pose.position.y;

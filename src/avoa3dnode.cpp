@@ -161,11 +161,8 @@ public:
             time_to_collision_threshold,  // NEW
             radius_threshold);            // NEW
     
-            
            
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
-
-
 
         // Publishers and subscribers - keep these as they are
         cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic, 10);
@@ -191,7 +188,6 @@ public:
     }
 
 private:
-
     // Callback functions
     void desired_velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
     {
@@ -232,14 +228,17 @@ private:
             return;
         }
 
-
-        
         /*
         TODO: goal_feasibility check
         TODO: filter_obstacles
             TODO: Distance and velocity thresholds
             TODO: Goal Logic
         */
+
+        if (!checkGoalFeasibility(latest_goal_odometry_, latest_agent_odometry_, latest_obstacles_)) {
+            RCLCPP_WARN(this->get_logger(), "Goal is not feasible !");
+            return;
+        }
 
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
@@ -278,6 +277,28 @@ private:
         }
         
         return have_agent_data && have_desired_velocity;
+    }
+
+    bool checkGoalFeasibility(
+        const nav_msgs::msg::Odometry& goal_odometry,
+        const nav_msgs::msg::Odometry& agent_odometry,
+        const custom_msgs::msg::ElementCharacteristicsArray& obstacles)
+    {
+        // Check distance to goal
+        double distance_to_goal = std::sqrt(
+            std::pow(goal_odometry.pose.pose.position.x - agent_odometry.pose.pose.position.x, 2) +
+            std::pow(goal_odometry.pose.pose.position.y - agent_odometry.pose.pose.position.y, 2) +
+            std::pow(goal_odometry.pose.pose.position.z - agent_odometry.pose.pose.position.z, 2)
+        );
+        if (distance_to_goal > 10.0) {
+            //Goal is far away, I dont care about opbstacles
+            return true;
+        }
+        for (const auto& obstacle : obstacles.elements) {
+            //todo Check if the goal is or will be obstructed by the obstacle
+
+        }
+        return true;
     }
     
     // State variables and components
