@@ -16,12 +16,14 @@ public:
   {
     // Declare parameters
     this->declare_parameter<std::string>("frame_id", "lidar");
-    this->declare_parameter<double>("default_height", 1.0);
+    this->declare_parameter<double>("default_height", 0.5);
     this->declare_parameter<double>("min_velocity_threshold", 0.05);
+    this->declare_parameter<double>("default_pz", 0.0);
     
     frame_id_ = this->get_parameter("frame_id").as_string();
     default_height_ = this->get_parameter("default_height").as_double();
     min_velocity_threshold_ = this->get_parameter("min_velocity_threshold").as_double();
+    default_pz_ = this->get_parameter("default_pz").as_double();
     
     RCLCPP_INFO(this->get_logger(), "Starting Enhanced Obstacle Converter Node");
     RCLCPP_INFO(this->get_logger(), "Using frame: %s", frame_id_.c_str());
@@ -96,12 +98,7 @@ private:
       
       // Set protective zone - if true_radius is available, use the difference
       // otherwise, use a small default value
-      if (circle.true_radius > 0 && circle.true_radius < circle.radius) {
-        element.protective_zone = circle.radius - circle.true_radius;
-      } else {
-        element.protective_zone = 1.0;  // Small default value
-      }
-      
+      element.protective_zone = default_pz_;
       // Add to array
       elements_msg.elements.push_back(element);
     }
@@ -170,7 +167,7 @@ private:
       element.size.z = default_height_;
       
       // Set protective zone
-      element.protective_zone = 0.1;
+      element.protective_zone = default_pz_;  
       
       // Add to array
       elements_msg.elements.push_back(element);
@@ -190,6 +187,7 @@ private:
   std::string frame_id_;
   double default_height_;
   double min_velocity_threshold_;
+  double default_pz_;
   
   rclcpp::Publisher<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr elements_publisher_;
   rclcpp::Subscription<obstacle_detector::msg::Obstacles>::SharedPtr obstacles_subscription_;

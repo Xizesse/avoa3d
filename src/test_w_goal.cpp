@@ -177,9 +177,9 @@ private:
     double error_y = goal_in_agent.point.y;
     double error_z = goal_in_agent.point.z;
 
-    double distance = std::sqrt(error_x * error_x + error_y * error_y);
+    double distance = std::sqrt(error_x * error_x + error_y * error_y + error_z * error_z);
 
-    if (distance < 0.5) 
+    if (distance < 0.2) 
     {
       // Goal reached
       msg.linear.x = 0.0;
@@ -187,12 +187,12 @@ private:
       msg.linear.z = 0.0;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, " 🏁 Goal reached!");
     }
-    else if (distance < 10.0)
+    else if (distance < 2.0)
     {
       // Slow down when close to goal
-      msg.linear.x = (error_x)/10.0 * constant_speed_;
-      msg.linear.y = (error_y)/10.0 * constant_speed_;
-      msg.linear.z = (error_z)/10.0 * constant_speed_;
+      msg.linear.x = (error_x)/2.0 * constant_speed_;
+      msg.linear.y = (error_y)/2.0 * constant_speed_;
+      msg.linear.z = (error_z)/2.0 * constant_speed_;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
                           "❯❯❯❯ Approaching goal, distance: %.2f", distance);
     }

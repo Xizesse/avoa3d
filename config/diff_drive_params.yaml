@@ -7,9 +7,8 @@
       obstacle_publisher: false 
       rviz_marker: true  
       test_w_goal: true  
-      tf_publisher: true  
-      thruster_controller: false #sim plugin to control velocity
-
+  
+    publish_transforms: true
     # Common parameters used by multiple nodes
     fixed_frame: "map"
     agent_frame: "agent"
@@ -31,7 +30,7 @@
     heading_weight: 0.50
     abs_weight: 0.5
     #Danger weight. Goal weight will be * (1 - danger_weight)
-    danger_weight: 0.2
+    danger_weight: 0.7
 
     # Vehicle parameters
     vehicle_radius: 0.8 #floaters 3 meters * sqrt(2) / 2 for radius

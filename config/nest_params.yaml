@@ -7,9 +7,9 @@
       obstacle_publisher: true  # Publishes obstacles on element_tracking
       rviz_marker: true  # Publishes agent and obstacle markers 
       test_w_goal: true  # Go towards a goal in goal_pose topic
-      tf_publisher: false  # Publishes tf frames
       thruster_controller: true  # Transforms the desired velocity to thrust commands
 
+    publish_transforms: true 
     fixed_frame: "world"
     agent_frame: "base_link"
 
@@ -31,7 +31,7 @@
     heading_weight: 0.50
     abs_weight: 0.5
     #Danger weight. Goal weight will be * (1 - danger_weight)
-    danger_weight: 0.1
+    danger_weight: 0.7
 
     # Vehicle parameters
     vehicle_radius: 2.15 #floaters 3 meters * sqrt(2) / 2 for radius

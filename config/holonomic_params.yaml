@@ -7,7 +7,6 @@
       obstacle_publisher: false 
       rviz_marker: true  
       test_w_goal: true  
-      tf_publisher: true  
 
     publish_transforms: true 
     # Common parameters used by multiple nodes
@@ -40,7 +39,7 @@
     delta_t: 3.0
     
     # Sampling parameters
-    num_samples: 1000
+    num_samples: 100000
 
     #safey parameters
     radius_threshold: 0.1 # meters/s
@@ -60,7 +59,7 @@
     # Maximum linear velocities
     v_x_max: 1.0
     v_y_max: 1.0
-    v_z_max: 0.0
+    v_z_max: 1.0
 
     # Maximum angular velocities
     w_roll_max: 0.0

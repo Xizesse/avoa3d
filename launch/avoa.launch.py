@@ -81,6 +81,23 @@ def generate_launch_description():
     launch_tf_publisher = launch_configs.get('tf_publisher', False)
     launch_thruster_controller = launch_configs.get('thruster_controller', False)
     
+    # Static Transform Publishers
+    static_tf_map_odom = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_tf_map_odom',
+        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+        parameters=[{'use_sim_time': False}]
+    )
+    
+    static_tf_base_agent = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_tf_base_agent',
+        arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'agent'],
+        parameters=[{'use_sim_time': False}]
+    )
+    
     # Define all nodes (we'll only add them to the launch description if enabled)
     
     # ros_gz_bridge node
@@ -178,6 +195,10 @@ def generate_launch_description():
         fixed_frame_arg,
         agent_frame_arg,
         goal_topic_arg,
+        
+        # Add static transforms (always needed for proper TF tree)
+        static_tf_map_odom,
+        static_tf_base_agent,
     ]
     
     # Conditionally add nodes based on configuration
