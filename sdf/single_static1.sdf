@@ -82,7 +82,7 @@
             
             <!-- Added LiDAR link -->
             <link name='lidar_link'>
-                <pose relative_to='chassis'>0.0 0 0.5 0 0 0</pose>
+                <pose relative_to='chassis'>0.0 0 0.25 0 0 0</pose>
                 <inertial>
                     <mass>0.1</mass>
                     <inertia>

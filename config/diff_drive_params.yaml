@@ -41,6 +41,11 @@
     
     # Sampling parameters
     num_samples: 10000
+
+    #safey parameters
+    
+    radius_threshold: 0.2 # meters/s
+    time_to_collision_threshold: 120.0 # seconds
     
     # 6DOF parameters
     # Maximum accelerations

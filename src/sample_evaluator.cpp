@@ -92,7 +92,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             
             double cone_angle = 0.0;
             
-            if(obstacle_distance < obstacle_radius)
+            if(false && (obstacle_distance < obstacle_radius))
             {
                 cone_angle = M_PI;   
                 if (projection > 0.0)

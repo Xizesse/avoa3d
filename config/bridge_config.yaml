@@ -3,12 +3,14 @@
 #//ros2 run ros_gz_bridge parameter_bridge /model/agente/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist
 #//ros2 launch ros_gz_bridge ros_gz_bridge.launch.py name:=ros_gz_bridge config_file:=avoa/config/bridge_config.yaml
 
-# - ros_topic_name: "/world/pose/info"
-#   gz_topic_name: "/world/3d_world/pose/info"
-#   ros_type_name: "tf2_msgs/msg/TFMessage"
-#   gz_type_name: "gz.msgs.Pose_V"
-#   lazy: true
-#   direction: GZ_TO_ROS
+- ros_topic_name: "/clock"
+  gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  lazy: true
+  direction: GZ_TO_ROS
+
+
 
 - ros_topic_name: "/model/agente/cmd_vel"
   gz_topic_name: "/model/agente/cmd_vel"
@@ -32,76 +34,6 @@
   lazy: true
   direction: GZ_TO_ROS
 
-# # Explicitly bridge each numbered obstacle
-# - ros_topic_name: "/model/obstacle_1/odometry"
-#   gz_topic_name: "/model/obstacle_1/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_2/odometry"
-#   gz_topic_name: "/model/obstacle_2/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_3/odometry"
-#   gz_topic_name: "/model/obstacle_3/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_4/odometry"
-#   gz_topic_name: "/model/obstacle_4/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_5/odometry"
-#   gz_topic_name: "/model/obstacle_5/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_6/odometry"
-#   gz_topic_name: "/model/obstacle_6/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_7/odometry"
-#   gz_topic_name: "/model/obstacle_7/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_8/odometry"
-#   gz_topic_name: "/model/obstacle_8/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_9/odometry"
-#   gz_topic_name: "/model/obstacle_9/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
-
-# - ros_topic_name: "/model/obstacle_10/odometry"
-#   gz_topic_name: "/model/obstacle_10/odometry"
-#   ros_type_name: "nav_msgs/msg/Odometry"
-#   gz_type_name: "gz.msgs.Odometry"
-#   lazy: true
-#   direction: GZ_TO_ROS
 
 - ros_topic_name: "/model/goal/odometry"
   gz_topic_name: "/model/goal/odometry"
@@ -114,7 +46,7 @@
   gz_topic_name: "/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
-  direction: GZ_TO_ROS  # BIDIRECTIONAL or ROS_TO_GZ
+  direction: GZ_TO_ROS  
 
 - ros_topic_name: "/points"
   gz_topic_name: "/points/points"

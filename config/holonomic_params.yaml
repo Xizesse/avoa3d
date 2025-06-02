@@ -8,11 +8,11 @@
       rviz_marker: true  
       test_w_goal: true  
       tf_publisher: true  
-      thruster_controller: false #sim plugin to control velocity
 
+    publish_transforms: true 
     # Common parameters used by multiple nodes
     fixed_frame: "map"
-    agent_frame: "agent"
+    agent_frame: "agent" #This frame should be in the center of the vehicle, consistent with the agent radius defined
 
     topics:
       desired_vel: "/model/agente/desired_vel"
@@ -40,10 +40,10 @@
     delta_t: 3.0
     
     # Sampling parameters
-    num_samples: 10000
+    num_samples: 1000
 
     #safey parameters
-    radius_threshold: 0.2 # meters/s
+    radius_threshold: 0.1 # meters/s
     time_to_collision_threshold: 60.0 # seconds
     
     # 6DOF parameters

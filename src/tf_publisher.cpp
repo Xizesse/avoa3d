@@ -5,157 +5,61 @@
 #include "rclcpp/rclcpp.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2_ros/transform_broadcaster.h"
-#include "tf2_ros/static_transform_broadcaster.h"
 #include <tf2/LinearMath/Quaternion.h>
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
 using namespace std::chrono_literals;
 
-class TfBroadcasterNode : public rclcpp::Node
+class DynamicTfPublisher : public rclcpp::Node
 {
 public:
-  TfBroadcasterNode()
-  : Node("tf_broadcaster_node")
+  DynamicTfPublisher()
+  : Node("tf_publisher")  // Keep same name for compatibility
   {
-    // Create transform broadcasters
+    // Only need dynamic transform broadcaster
     tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
-    static_tf_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
     
-    // Subscribe to agent odometry for dynamic transform
+    // Declare configurable parameter
+    this->declare_parameter("agent_odometry_topic", "/model/agente/odometry");
+    std::string odom_topic = this->get_parameter("agent_odometry_topic").as_string();
+    
+    // Subscribe to agent odometry - publish transform on every message
     agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/model/agente/odometry", 10, 
-      std::bind(&TfBroadcasterNode::agent_odometry_callback, this, std::placeholders::_1));
-      
-    // Publish static transforms once at startup
-    publish_static_transforms();
+      odom_topic, 10, 
+      std::bind(&DynamicTfPublisher::agent_odometry_callback, this, std::placeholders::_1));
     
-    // Timer for checking if transforms need republishing
-    timer_ = this->create_wall_timer(100ms, std::bind(&TfBroadcasterNode::timer_callback, this));
-    
-    RCLCPP_INFO(this->get_logger(), "TF Broadcaster Node initialized");
+    RCLCPP_INFO(this->get_logger(), "Dynamic TF Publisher initialized");
+    RCLCPP_INFO(this->get_logger(), "Subscribing to: %s", odom_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "Publishing odom->base_link transform on odometry messages");
   }
 
 private:
-  void publish_static_transforms()
+  void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
-      //! map to odom static transform from 
-      geometry_msgs::msg::TransformStamped map_to_odom;
-      map_to_odom.header.stamp = this->get_clock()->now();
-      map_to_odom.header.frame_id = "map";
-      map_to_odom.child_frame_id = "odom";
-      
-      // Identity transform (map = odom initially)
-      map_to_odom.transform.translation.x = 0.0;
-      map_to_odom.transform.translation.y = 0.0;
-      map_to_odom.transform.translation.z = 0.0;
-      
-      tf2::Quaternion q_identity;
-      q_identity.setRPY(0.0, 0.0, 0.0);
-      map_to_odom.transform.rotation.x = q_identity.x();
-      map_to_odom.transform.rotation.y = q_identity.y();
-      map_to_odom.transform.rotation.z = q_identity.z();
-      map_to_odom.transform.rotation.w = q_identity.w();
-      
-      // Publish static transform
-      static_tf_broadcaster_->sendTransform(map_to_odom);
-      
-      RCLCPP_INFO(this->get_logger(), "Published static transform: map -> odom");
-
-      // Add base_link to lidar static transform
-      geometry_msgs::msg::TransformStamped base_link_to_lidar;
-      base_link_to_lidar.header.stamp = this->get_clock()->now();
-      base_link_to_lidar.header.frame_id = "base_link";
-      base_link_to_lidar.child_frame_id = "lidar";
-      
-      // Position lidar at (0, 0, 0.5) relative to base_link
-      base_link_to_lidar.transform.translation.x = 0.0;
-      base_link_to_lidar.transform.translation.y = 0.0;
-      base_link_to_lidar.transform.translation.z = 0.5;
-      
-      // Identity rotation (no rotation relative to base_link)
-      base_link_to_lidar.transform.rotation.x = q_identity.x();
-      base_link_to_lidar.transform.rotation.y = q_identity.y();
-      base_link_to_lidar.transform.rotation.z = q_identity.z();
-      base_link_to_lidar.transform.rotation.w = q_identity.w();
-      
-      // Publish static transform
-      static_tf_broadcaster_->sendTransform(base_link_to_lidar);
-      
-      RCLCPP_INFO(this->get_logger(), "Published static transform: base_link -> lidar");
-  }
-  
-  void publish_odom_to_base_link()
-  {
-    if (!has_agent_odometry_) {
-      return;  // No odometry data yet
-    }
-    
-    //! odom to base_linkTransform from  (using agent odometry)
     geometry_msgs::msg::TransformStamped odom_to_base_link;
     odom_to_base_link.header.stamp = this->get_clock()->now();
     odom_to_base_link.header.frame_id = "odom";
     odom_to_base_link.child_frame_id = "base_link";
     
-    // Copy values from agent odometry
-    odom_to_base_link.transform.translation.x = agent_odometry_.pose.pose.position.x;
-    odom_to_base_link.transform.translation.y = agent_odometry_.pose.pose.position.y;
-    odom_to_base_link.transform.translation.z = agent_odometry_.pose.pose.position.z;
-    odom_to_base_link.transform.rotation = agent_odometry_.pose.pose.orientation;
+    // Copy pose from odometry message
+    odom_to_base_link.transform.translation.x = msg->pose.pose.position.x;
+    odom_to_base_link.transform.translation.y = msg->pose.pose.position.y;
+    odom_to_base_link.transform.translation.z = msg->pose.pose.position.z;
+    odom_to_base_link.transform.rotation = msg->pose.pose.orientation;
     
-    // Publish transform
+    // Publish transform immediately
     tf_broadcaster_->sendTransform(odom_to_base_link);
-  }
-  
-  void publish_base_link_to_agent()
-  {
-    // !base_link to agentIdentity transform from  (to maintain compatibility)
-    geometry_msgs::msg::TransformStamped base_link_to_agent;
-    base_link_to_agent.header.stamp = this->get_clock()->now();
-    base_link_to_agent.header.frame_id = "base_link";
-    base_link_to_agent.child_frame_id = "agent";
-    
-    // Identity transform
-    base_link_to_agent.transform.translation.x = 0.0;
-    base_link_to_agent.transform.translation.y = 0.0;
-    base_link_to_agent.transform.translation.z = 0.0;
-    
-    tf2::Quaternion q_identity;
-    q_identity.setRPY(0.0, 0.0, 0.0);
-    base_link_to_agent.transform.rotation.x = q_identity.x();
-    base_link_to_agent.transform.rotation.y = q_identity.y();
-    base_link_to_agent.transform.rotation.z = q_identity.z();
-    base_link_to_agent.transform.rotation.w = q_identity.w();
-    
-    // Publish transform
-    tf_broadcaster_->sendTransform(base_link_to_agent);
-  }
-
-  void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
-  {
-    agent_odometry_ = *msg;
-    has_agent_odometry_ = true;
-  }
-  
-  void timer_callback()
-  {
-    publish_odom_to_base_link();
-    publish_base_link_to_agent();
   }
 
   // Members
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
-  std::shared_ptr<tf2_ros::StaticTransformBroadcaster> static_tf_broadcaster_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
-  rclcpp::TimerBase::SharedPtr timer_;
-  
-  nav_msgs::msg::Odometry agent_odometry_;
-  bool has_agent_odometry_ = false;
 };
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<TfBroadcasterNode>());
+  rclcpp::spin(std::make_shared<DynamicTfPublisher>());
   rclcpp::shutdown();
   return 0;
 }

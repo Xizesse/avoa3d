@@ -27,6 +27,14 @@ def generate_launch_description():
             ])
         )
     )
+        # Static Transform Publisher: base_link -> lidar
+    static_tf_base_lidar = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_tf_base_lidar',
+        arguments=['0', '0', '0.5', '0', '0', '0', 'base_link', 'lidar'],
+        parameters=[{'use_sim_time': True}]
+    )
 
     # 3. Obstacle converter (C++ node)
     obstacle_converter = Node(
@@ -37,6 +45,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         lidar_frame_transformer,
+        static_tf_base_lidar,
         obstacle_detector_launch,
         obstacle_converter,
     ])

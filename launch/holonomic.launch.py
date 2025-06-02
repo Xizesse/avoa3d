@@ -82,8 +82,10 @@ def generate_launch_description():
     launch_obstacle_publisher = launch_configs.get('obstacle_publisher', True)
     launch_rviz_marker = launch_configs.get('rviz_marker', True)
     launch_test_w_goal = launch_configs.get('test_w_goal', True)
-    launch_tf_publisher = launch_configs.get('tf_publisher', False)
     launch_thruster_controller = launch_configs.get('thruster_controller', False)
+    
+    # NEW: Single flag to control all transforms
+    publish_transforms = launch_configs.get('publish_transforms', True)
     
     # Bridge config path
     home_path = os.environ.get('HOME', '/tmp')
@@ -93,7 +95,6 @@ def generate_launch_description():
 
     rviz_config_path = os.path.join(
         home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'rviz_config.rviz')
-
 
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
@@ -132,7 +133,41 @@ def generate_launch_description():
     # Use OpaqueFunction for dynamic gazebo process
     gazebo_process = OpaqueFunction(function=get_gazebo_process)
 
-    # Define all nodes
+    # Static Transform Publishers (Standard ROS2 approach)
+    static_tf_map_odom = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_tf_map_odom',
+        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+        parameters=[{'use_sim_time': True}]
+    )
+    
+    
+    static_tf_base_agent = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_tf_base_agent',
+        arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'agent'],
+        parameters=[{'use_sim_time': True}]
+    )
+
+    # Dynamic Transform Publisher (for odom->base_link)
+    dynamic_tf_publisher = Node(
+        package='avoa3d',
+        executable='tf_publisher',  # Keep your existing executable name
+        name='tf_publisher',
+        output='screen',
+        emulate_tty=True,
+        parameters=[
+            {'use_sim_time': True},
+            {'fixed_frame': fixed_frame},
+            {'agent_frame': agent_frame},
+            {'agent_odometry_topic': '/model/agente/odometry'},  # Make configurable
+            params_path
+        ]
+    )
+
+    # Regular nodes
     bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -152,6 +187,7 @@ def generate_launch_description():
         name='rviz2',
         arguments=['-d', rviz_config_path],
         output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
     obstacle_publisher_node = Node(
@@ -206,20 +242,6 @@ def generate_launch_description():
             params_path
         ]
     )
-
-    tf_publisher = Node(
-        package='avoa3d',
-        executable='tf_publisher',
-        name='tf_publisher',
-        output='screen',
-        emulate_tty=True,
-        parameters=[
-            {'use_sim_time': True},
-            {'fixed_frame': fixed_frame},
-            {'agent_frame': agent_frame},
-            params_path
-        ]
-    )
     
     thruster_controller_node = Node(
         package='avoa3d',
@@ -247,11 +269,19 @@ def generate_launch_description():
         agent_frame_arg,
         goal_topic_arg,
         
-        #  add gazebo process
+        # Add gazebo process
         gazebo_process
     ]
     
-    # Conditionally add nodes based on configuration
+    # Always add transform publishers when enabled (recommended for most use cases)
+    if publish_transforms:
+        nodes.extend([
+            static_tf_map_odom,
+            static_tf_base_agent,
+            dynamic_tf_publisher
+        ])
+    
+    # Conditionally add other nodes based on configuration
     if launch_bridge:
         nodes.append(bridge_node)
     
@@ -264,13 +294,9 @@ def generate_launch_description():
     if launch_rviz_marker:
         nodes.append(rviz_marker_node)
         nodes.append(rviz_node)
-
     
     if launch_test_w_goal:
         nodes.append(test_w_goal_node)
-    
-    if launch_tf_publisher:
-        nodes.append(tf_publisher)
         
     if launch_thruster_controller:
         nodes.append(thruster_controller_node)

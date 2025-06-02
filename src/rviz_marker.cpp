@@ -127,9 +127,9 @@ private:
     agent_marker_msg.pose.orientation.x = 0.0;
     agent_marker_msg.pose.orientation.y = 0.0;
     agent_marker_msg.pose.orientation.z = 0.0;
-    agent_marker_msg.scale.x = 3.0;
-    agent_marker_msg.scale.y = 2.5;
-    agent_marker_msg.scale.z = 1.0;
+    agent_marker_msg.scale.x = 1.0;
+    agent_marker_msg.scale.y = 1.0;
+    agent_marker_msg.scale.z = 0.1;
     agent_marker_msg.color.r = 1.0f;
     agent_marker_msg.color.g = 0.0f;
     agent_marker_msg.color.b = 1.0f;

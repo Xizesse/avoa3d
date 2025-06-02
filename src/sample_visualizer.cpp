@@ -23,7 +23,7 @@ SampleVisualizer::SampleVisualizer(rclcpp::Node* node)
     
     // Create publisher
     samples_cloud_publisher_ = node_->create_publisher<sensor_msgs::msg::PointCloud2>(
-        "/avoa/velocity_samples", 10);
+        "/avoa/velocity_samples", 1);
 }
 
 void SampleVisualizer::setAgentOdometry(const nav_msgs::msg::Odometry& odometry)
@@ -53,8 +53,9 @@ void SampleVisualizer::publishSamplesAsPointcloud(
         "danger", 1, sensor_msgs::msg::PointField::FLOAT32);
     
     // Set point cloud metadata
-    cloud_msg.header.frame_id = agent_frame_;  // Use parameter instead of hardcoded "agent"
-    cloud_msg.header.stamp = node_->now();
+    cloud_msg.header.frame_id = agent_frame_; 
+    cloud_msg.header.stamp = node_->get_clock()->now();
+
     
     // Allocate point cloud
     modifier.resize(samples.size());
