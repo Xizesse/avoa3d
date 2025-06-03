@@ -63,7 +63,7 @@ def generate_launch_description():
 
     # Load your params.yaml for the avoa3dnode
     pkg_share = get_package_share_directory('avoa3d')
-    avoa_params_path = os.path.join(pkg_share, 'config', 'holonomic_params.yaml')
+    avoa_params_path = os.path.join(pkg_share, 'config', 'nest_params.yaml')
     
     # Read the params file to get launch configuration
     with open(avoa_params_path, 'r') as f:

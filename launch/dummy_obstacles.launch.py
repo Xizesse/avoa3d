@@ -95,7 +95,7 @@ def generate_launch_description():
         agent_frame_arg,
         log_scenario,
         dummy_obstacle_0,
-        dummy_obstacle_1,
-        dummy_obstacle_2,
-        dummy_obstacle_3,
+        #dummy_obstacle_1,
+        #dummy_obstacle_2,
+        #dummy_obstacle_3,
     ])

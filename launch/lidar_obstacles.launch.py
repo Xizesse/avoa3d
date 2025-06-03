@@ -23,7 +23,7 @@ def generate_launch_description():
             PathJoinSubstitution([
                 FindPackageShare('obstacle_detector'),
                 'launch',
-                'my_obstacle_extractor_and_tracker.launch'
+                'my_obstacle_extractor_and_tracker.launch.py'
             ])
         )
     )

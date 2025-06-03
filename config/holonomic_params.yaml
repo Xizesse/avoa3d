@@ -30,19 +30,19 @@
     heading_weight: 0.70
     abs_weight: 0.3
     #Danger weight. Goal weight will be * (1 - danger_weight)
-    danger_weight: 0.7
+    danger_weight: 0.9
 
     # Vehicle parameters
-    vehicle_radius: 0.8 #floaters 3 meters * sqrt(2) / 2 for radius
+    vehicle_radius: 1.4 #floaters 3 meters * sqrt(2) / 2 for radius
 
-    # Time step
+    # How long in the future to look for a velocity sample
     delta_t: 3.0
     
     # Sampling parameters
-    num_samples: 100000
+    num_samples: 10000
 
     #safey parameters
-    radius_threshold: 0.1 # meters/s
+    radius_threshold: 0.3 # meters/s
     time_to_collision_threshold: 60.0 # seconds
     
     # 6DOF parameters
@@ -59,7 +59,7 @@
     # Maximum linear velocities
     v_x_max: 1.0
     v_y_max: 1.0
-    v_z_max: 1.0
+    v_z_max: 0.0
 
     # Maximum angular velocities
     w_roll_max: 0.0

@@ -183,7 +183,7 @@ public:
             goal_odometry_topic, 10, std::bind(&AVOA::goal_callback, this, std::placeholders::_1));
 
         timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(static_cast<int>(200)), 
+            std::chrono::milliseconds(static_cast<int>(100)), 
             std::bind(&AVOA::timer_callback, this));
     }
 
@@ -223,6 +223,9 @@ private:
     
     void timer_callback()
     {
+        // Timer callback tto eval time
+        auto start = std::chrono::steady_clock::now();  // Start time
+
         geometry_msgs::msg::Twist cmd_vel;
         if (!has_received_all_data()) {
             return;
@@ -264,6 +267,15 @@ private:
 
         cmd_vel_publisher_->publish(cmd_vel);
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
+
+        auto end = std::chrono::steady_clock::now();
+        auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        total_duration_us_ += duration_us;
+        callback_counter_++;
+
+        RCLCPP_INFO(this->get_logger(), "timer_callback executed, duration: %ld us, average: %ld us",
+                    duration_us, total_duration_us_ / callback_counter_);
+
     }
     
     bool has_received_all_data()
@@ -335,6 +347,9 @@ private:
     geometry_msgs::msg::Twist latest_velocity_{};
     nav_msgs::msg::Odometry latest_agent_odometry_{};
     custom_msgs::msg::ElementCharacteristicsArray latest_obstacles_{};
+
+    size_t callback_counter_ = 0;
+    int64_t total_duration_us_ = 0;
 };
 
 int main(int argc, char * argv[])
