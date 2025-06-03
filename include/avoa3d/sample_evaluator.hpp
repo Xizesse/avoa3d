@@ -5,7 +5,9 @@
 #include <vector>
 #include <rclcpp/rclcpp.hpp>
 #include "geometry_msgs/msg/twist.hpp"
-#include "custom_msgs/msg/element_characteristics_array.hpp"
+//#include "custom_msgs/msg/element_characteristics_array.hpp"
+#include "avoa3d/msg/element_characteristics_stamped.hpp"
+#include "avoa3d/msg/element_characteristics_array.hpp"
 #include "avoa3d/velocity_sample.hpp"
 
 namespace avoa3d {
@@ -21,7 +23,7 @@ public:
     // Main evaluation function (same signature as your original)
     void evaluateSamples(
         std::vector<VelocitySample>& samples, 
-        const custom_msgs::msg::ElementCharacteristicsArray& obstacles,
+        const avoa3d::msg::ElementCharacteristicsArray& obstacles,
         const geometry_msgs::msg::Twist& current_velocity
     );
     
@@ -31,7 +33,7 @@ public:
 private:
     bool checkCollision(
         const VelocitySample& sample,
-        const custom_msgs::msg::ElementCharacteristicsStamped& obstacle
+        const avoa3d::msg::ElementCharacteristicsStamped& obstacle
     );
     
     // Calculate costs for a sample

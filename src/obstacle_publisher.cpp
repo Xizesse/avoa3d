@@ -2,8 +2,12 @@
 #include <string>
 #include <vector>
 #include "rclcpp/rclcpp.hpp"
-#include "custom_msgs/msg/element_characteristics_stamped.hpp"
-#include "custom_msgs/msg/element_characteristics_array.hpp"
+//#include "custom_msgs/msg/element_characteristics_stamped.hpp"
+//#include "custom_msgs/msg/element_characteristics_array.hpp"
+
+#include "avoa3d/msg/element_characteristics_stamped.hpp"
+#include "avoa3d/msg/element_characteristics_array.hpp"
+
 #include "nav_msgs/msg/odometry.hpp"
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
@@ -36,7 +40,7 @@ public:
     tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
     
     // Create publisher
-    publisher_ = this->create_publisher<custom_msgs::msg::ElementCharacteristicsArray>(
+    publisher_ = this->create_publisher<avoa3d::msg::ElementCharacteristicsArray>(
                  "/element_tracking/elements", 10);
     
     // Create subscriptions for the fixed number of obstacles
@@ -81,7 +85,7 @@ private:
     }
     
     // Create element array message
-    auto array_msg = custom_msgs::msg::ElementCharacteristicsArray();
+    auto array_msg = avoa3d::msg::ElementCharacteristicsArray();
     auto current_time = this->get_clock()->now();
     
     try {
@@ -98,7 +102,7 @@ private:
         if (!obstacles_active_[i]) continue;
         
         // Create element message
-        auto element = custom_msgs::msg::ElementCharacteristicsStamped();
+        auto element = avoa3d::msg::ElementCharacteristicsStamped();
         element.header.stamp = current_time;
         element.header.frame_id = agent_frame_;
         element.id = static_cast<int>(i + 1);  // IDs start at 1
@@ -175,7 +179,7 @@ private:
   
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
-  rclcpp::Publisher<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr publisher_;
+  rclcpp::Publisher<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr publisher_;
   rclcpp::TimerBase::SharedPtr timer_;
 };
 

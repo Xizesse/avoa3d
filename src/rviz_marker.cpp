@@ -17,8 +17,11 @@
 #include <rviz_visual_tools/rviz_visual_tools.hpp>
 #include <Eigen/Geometry>
 
-#include "custom_msgs/msg/element_characteristics_stamped.hpp"
-#include "custom_msgs/msg/element_characteristics_array.hpp"
+// #include "custom_msgs/msg/element_characteristics_stamped.hpp"
+// #include "custom_msgs/msg/element_characteristics_array.hpp"
+
+#include "avoa3d/msg/element_characteristics_stamped.hpp"
+#include "avoa3d/msg/element_characteristics_array.hpp"
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
@@ -103,7 +106,7 @@ public:
       agent_odometry_topic, 10, std::bind(&MarkerPublisher::agent_odometry_callback, this, std::placeholders::_1));
     obstacle_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
       obstacle_odometry_topic, 10, std::bind(&MarkerPublisher::obstacle_odometry_callback, this, std::placeholders::_1)); 
-    element_tracking_subscriber_ = this->create_subscription<custom_msgs::msg::ElementCharacteristicsArray>(
+    element_tracking_subscriber_ = this->create_subscription<avoa3d::msg::ElementCharacteristicsArray>(
       element_tracking_topic, 10, std::bind(&MarkerPublisher::element_tracking_callback, this, std::placeholders::_1));
     
     timer_ = this->create_wall_timer(100ms, std::bind(&MarkerPublisher::timer_callback, this));
@@ -342,7 +345,7 @@ private:
     obstacle_odometry_ = *msg;
   }
 
-  void element_tracking_callback(const custom_msgs::msg::ElementCharacteristicsArray::SharedPtr msg)
+  void element_tracking_callback(const avoa3d::msg::ElementCharacteristicsArray::SharedPtr msg)
   {
     obstacles_ = *msg;
   }
@@ -360,13 +363,13 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr velocity_desired_subscriber_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr obstacle_odometry_subscriber_;
-  rclcpp::Subscription<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr element_tracking_subscriber_;
+  rclcpp::Subscription<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr element_tracking_subscriber_;
   
   geometry_msgs::msg::Twist velocity_cmd_;
   geometry_msgs::msg::Twist velocity_desired_;
   nav_msgs::msg::Odometry agent_odometry_;
   nav_msgs::msg::Odometry obstacle_odometry_;
-  custom_msgs::msg::ElementCharacteristicsArray obstacles_;
+  avoa3d::msg::ElementCharacteristicsArray obstacles_;
   size_t count_;
 };
 

@@ -15,7 +15,6 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)  # Added for PoseStamped transforms
-find_package(custom_msgs REQUIRED)
 find_package(rviz_visual_tools REQUIRED)
 find_package(nest_interfaces REQUIRED) # FOR nest messages
 find_package(obstacle_detector REQUIRED) # Added for obstacle_converter_node
@@ -33,7 +32,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 include_directories(
   include
   ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
-  ${custom_msgs_INCLUDE_DIRS}
 )
 
 # Get the typesupport target
@@ -63,7 +61,6 @@ ament_target_dependencies(rviz_marker
   nav_msgs
   tf2_ros
   tf2_eigen
-  custom_msgs
 )
 
 ament_target_dependencies(thruster_controller
@@ -71,7 +68,6 @@ ament_target_dependencies(thruster_controller
   std_msgs
   geometry_msgs
   nav_msgs
-  custom_msgs
 )
 
 ament_target_dependencies(test_w_goal
@@ -88,7 +84,6 @@ ament_target_dependencies(obstacle_publisher
   std_msgs
   geometry_msgs
   nav_msgs
-  custom_msgs
   tf2_ros              # Added for tf2 transforms
   tf2_geometry_msgs    # Added for PoseStamped transforms
 )
@@ -98,7 +93,7 @@ ament_target_dependencies(avoa3dnode
   std_msgs
   geometry_msgs
   nav_msgs
-  custom_msgs
+  sensor_msgs
 )
 
 ament_target_dependencies(tf_publisher
@@ -114,7 +109,6 @@ ament_target_dependencies(thruster_controller
   std_msgs
   geometry_msgs
   nav_msgs
-  custom_msgs
   nest_interfaces  
 )
 
@@ -124,7 +118,6 @@ ament_target_dependencies(obstacle_converter_node
   std_msgs
   geometry_msgs
   nav_msgs
-  custom_msgs
   tf2_ros
   tf2_geometry_msgs
   obstacle_detector

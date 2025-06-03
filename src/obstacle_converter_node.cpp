@@ -1,8 +1,11 @@
 #include <vector>
 #include <string>
 #include "rclcpp/rclcpp.hpp"
-#include "custom_msgs/msg/element_characteristics_stamped.hpp"
-#include "custom_msgs/msg/element_characteristics_array.hpp"
+//#include "custom_msgs/msg/element_characteristics_stamped.hpp"
+//#include "custom_msgs/msg/element_characteristics_array.hpp"
+#include "avoa3d/msg/element_characteristics_stamped.hpp"
+#include "avoa3d/msg/element_characteristics_array.hpp"
+
 #include "obstacle_detector/msg/obstacles.hpp"
 #include "obstacle_detector/msg/circle_obstacle.hpp"
 
@@ -29,7 +32,7 @@ public:
     RCLCPP_INFO(this->get_logger(), "Using frame: %s", frame_id_.c_str());
     
     // Create publisher for element tracking message
-    elements_publisher_ = this->create_publisher<custom_msgs::msg::ElementCharacteristicsArray>(
+    elements_publisher_ = this->create_publisher<avoa3d::msg::ElementCharacteristicsArray>(
                          "/element_tracking/elements", 10);
     
     // Create subscription to obstacle detector messages
@@ -52,7 +55,7 @@ private:
     //            msg->circles.size(), msg->segments.size());
     
     // Create element array message
-    auto elements_msg = custom_msgs::msg::ElementCharacteristicsArray();
+    auto elements_msg = avoa3d::msg::ElementCharacteristicsArray();
     
     // Process circle obstacles
     for (size_t i = 0; i < msg->circles.size(); i++) {
@@ -70,7 +73,7 @@ private:
       //            is_moving ? "true" : "false");
       
       // Create element message with enhanced fields
-      auto element = custom_msgs::msg::ElementCharacteristicsStamped();
+      auto element = avoa3d::msg::ElementCharacteristicsStamped();
       element.header.stamp = current_time;
       element.header.frame_id = frame_id_;  // Use specified frame_id
       
@@ -135,7 +138,7 @@ private:
       //            is_moving ? "true" : "false");
       
       // Create element message for segment
-      auto element = custom_msgs::msg::ElementCharacteristicsStamped();
+      auto element = avoa3d::msg::ElementCharacteristicsStamped();
       element.header.stamp = current_time;
       element.header.frame_id = frame_id_;
       
@@ -189,7 +192,7 @@ private:
   double min_velocity_threshold_;
   double default_pz_;
   
-  rclcpp::Publisher<custom_msgs::msg::ElementCharacteristicsArray>::SharedPtr elements_publisher_;
+  rclcpp::Publisher<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr elements_publisher_;
   rclcpp::Subscription<obstacle_detector::msg::Obstacles>::SharedPtr obstacles_subscription_;
 };
 

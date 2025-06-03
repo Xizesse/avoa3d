@@ -25,7 +25,6 @@
 
   
   
-  <depend>custom_msgs</depend>
   <depend>rviz_visual_tools</depend>
   <depend>obstacle_detector</depend>
 
