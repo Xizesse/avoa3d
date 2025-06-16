@@ -98,6 +98,8 @@ private:
       element.size.x = 2.0 * circle.radius;  // Diameter in x
       element.size.y = 2.0 * circle.radius;  // Diameter in y
       element.size.z = default_height_;      // Default height
+
+      element.radius_std = circle.radius_std;  // Copy radius standard deviation if available
       
       // Set protective zone - if true_radius is available, use the difference
       // otherwise, use a small default value

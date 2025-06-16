@@ -54,124 +54,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
         sample.cost = 0.0;
         sample.danger = 0.0;
 
-        for (const auto& obstacle : obstacles.elements) {
 
-            translated_sample.vx = sample.vx - obstacle.velocity.x ;
-            translated_sample.vy = sample.vy - obstacle.velocity.y ;
-            translated_sample.vz = sample.vz - obstacle.velocity.z ;
-
-            
-            
-            double obstacle_x = obstacle.pose.position.x;
-            double obstacle_y = obstacle.pose.position.y;
-            double obstacle_z = obstacle.pose.position.z;
-
-            // get obstacle radius
-            double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
-                                    + vehicle_radius_ + obstacle.protective_zone; 
-
-            //std::cout << "Obstacle radius: " << obstacle_radius << std::endl;
-
-            //get obstacle distance
-            double obstacle_distance = std::sqrt(
-                obstacle_x * obstacle_x +
-                obstacle_y * obstacle_y +
-                obstacle_z * obstacle_z
-            );
-
-            //std::cout << "Obstacle distance: " << obstacle_distance << std::endl;
-
-            //TGet Sample Distance
-            double sample_distance = std::sqrt(
-                translated_sample.vx * translated_sample.vx +
-                translated_sample.vy * translated_sample.vy +
-                translated_sample.vz * translated_sample.vz
-            );
-
-            double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
-            
-            double cone_angle = 0.0;
-            
-            if(false && (obstacle_distance < obstacle_radius))
-            {
-                cone_angle = M_PI;   
-                if (projection > 0.0)
-                {
-                    collision_free = false;
-                    break;
-                }
-                
-            }
-            else
-            {
-                cone_angle = std::atan(obstacle_radius / obstacle_distance);
-            }
-            
-            //Get the projection of the translated sample on the obstacle axis
-
-            // Calculate the expected radius in the cone :
-            double expected_radius = projection * std::tan(cone_angle);
-
-            //std::cout << "Expected radius: " << expected_radius << std::endl;
-
-            // Calculate the actual distance to the axis (use the angle between the translated sample and the obstacle, and the distance to the sample
-            double actual_radius = std::sqrt(sample_distance * sample_distance - projection * projection);
-
-            //std::cout << "Actual radius: " << actual_radius << std::endl;
-            
-
-            float time_to_collision = (obstacle_distance - obstacle_radius) / sample_distance;
-            
-            if (actual_radius < expected_radius) { //if Collision Cone
-                // Collision detected -> Break to Remove
-                
-                /*//! Time Horizon Constraint
-                If the time for collision is greater than X seconds, we dont remove the sample
-                sample distance = magnitude velocity
-                obstacle_distance - obstacle_radius = distance for collision
-                defined time
-                check if the time for collision is greater than the threshold 
-                */
-                
-                if (time_to_collision < time_to_collision_threshold_)
-                {
-                    collision_free = false;
-                    break;
-                }
-                else {
-                    
-                }
-            } 
-            if (projection > 0.0 && actual_radius - expected_radius < radius_threshold_ ) {
-                if((time_to_collision < time_to_collision_threshold_)) // above this threshold
-                {
-                    sample.danger += (( radius_threshold_ - (actual_radius - expected_radius)) / radius_threshold_)  *projection;
-                }
-                else
-                {   
-                    float truncated_min_distance = (obstacle_distance - obstacle_radius) / time_to_collision_threshold_;
-                    float truncated_center_x = (obstacle_x/obstacle_distance)* truncated_min_distance;
-                    float truncated_center_y = (obstacle_y/obstacle_distance)* truncated_min_distance;
-                    float truncated_center_z = (obstacle_z/obstacle_distance)* truncated_min_distance;
-                
-                    float distance_to_truncated_center = std::sqrt(
-                        (truncated_center_x - translated_sample.vx) * (truncated_center_x - translated_sample.vx) +
-                        (truncated_center_y - translated_sample.vy) * (truncated_center_y - translated_sample.vy) +
-                        (truncated_center_z - translated_sample.vz) * (truncated_center_z - translated_sample.vz)
-                    );
-                    double truncated_expected_radius =  radius_threshold_ + (truncated_min_distance/obstacle_distance)*obstacle_radius;
-
-                    if (distance_to_truncated_center < truncated_expected_radius )
-                    {
-                        //sample.danger += (truncated_expected_radius - distance_to_truncated_center) / truncated_expected_radius;
-                    }
-         
-                }
-                
-            }
-            
-    
-        }   
         
         // If this velocity doesn't lead to collision, keep it and evaluate cost
         if (collision_free) {
@@ -191,11 +74,11 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 double sample_ny = sample.vy / sample_magnitude;
                 double sample_nz = sample.vz / sample_magnitude;
                 
-                double dot_product = (sample_nx * desired_vx + sample_ny * desired_vy + sample_nz * desired_vz );
+                double dot_product = (sample_nx * desired_vx + sample_ny * desired_vy + sample_nz * desired_vz ) / desired_magnitude;
                 
-                dot_product = std::max(-1.0, std::min(1.0, dot_product));//clamp to [-1,1]
+                dot_product = std::max(-1.0, std::min(1.0, dot_product));
                 
-                direction_error = std::acos(dot_product)/M_PI;  // Normalize to [0,1]
+                direction_error = (dot_product - 1.0) / -2.0;  // Normalize to [0, 1]
 
 
             } else {
@@ -207,12 +90,12 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             
             // 3. Combine errors 
             // Normalize magnitude error by dividing by desired magnitude (if non-zero)
-            double normalized_magnitude_error = (desired_magnitude > 0.001) ? 
-                magnitude_error / desired_magnitude : magnitude_error;
+            double max_speed = 1.0;
+            double normalized_magnitude_error = magnitude_error / max_speed;
             
             std::atan2(sample.vy,sample.vx);
 
-            // Combine goal-directed cost with safety cost
+            // ! Combine goal-directed cost with safety cost
             double goal_cost = heading_weight_ * direction_error + abs_weight_ * normalized_magnitude_error;
             
             sample.cost = (1-danger_weight_) * goal_cost + danger_weight_ * sample.danger;

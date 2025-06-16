@@ -199,7 +199,7 @@ private:
       obstacle_marker.color.r = 0.0f;
       obstacle_marker.color.g = 1.0f;
       obstacle_marker.color.b = 0.0f;
-      obstacle_marker.color.a = 0.2;
+      obstacle_marker.color.a = 0.9;
       
       // Use a longer lifetime (1 second)
       obstacle_marker.lifetime = rclcpp::Duration(1, 0);

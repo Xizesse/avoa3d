@@ -41,7 +41,7 @@ public:
     this->declare_parameter<std::string>("topics.desired_vel", "/model/agente/desired_vel");
     this->declare_parameter<std::string>("topics.agent_odometry", "/model/agente/odometry");
     this->declare_parameter<std::string>("topics.goal_pose", "/goal_pose");
-    this->declare_parameter<double>("constant_speed", 1.0);
+    this->declare_parameter<double>("constant_speed", 0.5);
 
     fixed_frame_ = this->get_parameter("fixed_frame").as_string();
     agent_frame_ = this->get_parameter("agent_frame").as_string();

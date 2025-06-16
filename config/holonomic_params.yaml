@@ -24,16 +24,23 @@
       velocity_samples: "/avoa/velocity_samples"
     
     # AVOA PARAMS
-    kinematic_mode: "holonomic" # "diff_drive" or "holonomic"
+    kinematic_mode: "holonomic_ellipsoidal" # "diff_drive" or "holonomic" or "holonomic_ellipsoidal"
 
-    #Goal weights 
-    heading_weight: 0.70
-    abs_weight: 0.3
+    # #Goal weights 
+    # heading_weight: 0.70
+    # abs_weight: 0.3
+    # #Danger weight. Goal weight will be * (1 - danger_weight)
+    # danger_weight: 0.9
+
+    # Goal weights    #Goal weights 
+    heading_weight: 1.0
+    abs_weight: 0.0
     #Danger weight. Goal weight will be * (1 - danger_weight)
-    danger_weight: 0.9
+    danger_weight: 0.0
+  
 
     # Vehicle parameters
-    vehicle_radius: 1.4 #floaters 3 meters * sqrt(2) / 2 for radius
+    vehicle_radius: 1.0 #floaters 3 meters * sqrt(2) / 2 for radius
 
     # How long in the future to look for a velocity sample
     delta_t: 3.0
@@ -43,7 +50,7 @@
 
     #safey parameters
     radius_threshold: 0.3 # meters/s
-    time_to_collision_threshold: 60.0 # seconds
+    time_to_collision_threshold: 120.0 # seconds
     
     # 6DOF parameters
     # Maximum accelerations
@@ -54,14 +61,14 @@
     # Maximum angular accelerations
     a_roll_max: 0.0
     a_pitch_max: 0.0
-    a_yaw_max: 0.5
+    a_yaw_max: 0.0
 
     # Maximum linear velocities
     v_x_max: 1.0
     v_y_max: 1.0
-    v_z_max: 0.0
+    v_z_max: 0.5
 
     # Maximum angular velocities
     w_roll_max: 0.0
     w_pitch_max: 0.0
-    w_yaw_max: 0.5
+    w_yaw_max: 0.0

@@ -126,6 +126,11 @@ public:
         if (kinematic_mode == "diff_drive") {
             std::cout << "Using differential drive sample generator" << std::endl;
             sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(this->get_logger());
+        }
+        else if (kinematic_mode == "holonomic_ellipsoidal"){
+            std::cout << "Using holonomic ellipsoidal sample generator" << std::endl;
+            sample_generator_ = std::make_unique<avoa3d::HolonomicEllipsoidalSampleGenerator>(this->get_logger());
+
         } else {
             // Default to holonomic
             std::cout << "Using holonomic sample generator" << std::endl;

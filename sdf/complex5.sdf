@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.8">
-
-    <world name="3d_world">
-
+    <world name="column_world">
         <physics name="1ms" type="ode">
             <max_step_size>0.001</max_step_size>
             <real_time_factor>1.0</real_time_factor>
@@ -29,8 +27,6 @@
             <render_engine>ogre2</render_engine>
         </plugin>
 
-       
-
         <light type="directional" name="sun"> 
             <cast_shadows>true</cast_shadows>
             <pose>0 0 10 0 0 0</pose>
@@ -47,9 +43,9 @@
 
         <!--!AGENTE -->
         <model name='agente' canonical_link='chassis'>
-            <pose relative_to='world'>-5.0 0 0.0 0 0 0</pose> <!-- Changed z-position to 0.0 -->
+            <pose relative_to='world'>-5.0 0 0.0 0 0 0</pose> <!-- Adjusted z-position to 0.0 -->
             <link name='chassis'>
-                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose> <!-- Match the dynamic file positioning -->
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <inertial>
                     <mass>1.14395</mass>
                     <inertia>
@@ -175,11 +171,13 @@
             </plugin>
         </model>
 
-        <!-- !OBSTACULO 1 (Left side of V) -->
-        <model name='obstacle_1' canonical_link='obstacle'>
-            <static>false</static>
-            <pose relative_to='world'>0.0 -3.0 0.5 0 0 0</pose>
-            <link name='obstacle'>
+        <!-- Column of obstacles from y=-10 to y=10 at x=0 -->
+        
+        <!-- !OBSTACULO 1 -->
+        <model name='obstacle_1' canonical_link='obstacle_1'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 0.0 -5.0 0 0 0</pose>
+            <link name='obstacle_1'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
                     <geometry>
@@ -202,21 +200,181 @@
                 </collision>
                 <enable_gravity>false</enable_gravity>
             </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>1.0 0 0</initial_linear>
-                <initial_angular>0 0 0.5</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
         </model>
 
-      
+        <!-- !OBSTACULO 2 -->
+        <model name='obstacle_2' canonical_link='obstacle_2'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 -0.0 -3.0 0 0 0</pose>
+            <link name='obstacle_2'>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <visual name='visual'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius> 
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius>
+                        </sphere>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity>
+            </link>
+        </model>
+
+        <!-- !OBSTACULO 3 -->
+        <model name='obstacle_3' canonical_link='obstacle_3'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 0.0 -1.0 0 0 0</pose>
+            <link name='obstacle_3'>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <visual name='visual'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius> 
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius>
+                        </sphere>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity>
+            </link>
+        </model>
+
+        <!-- !OBSTACULO 4 -->
+        <model name='obstacle_4' canonical_link='obstacle_4'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 -0.0 1.0 0 0 0</pose>
+            <link name='obstacle_4'>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <visual name='visual'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius> 
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius>
+                        </sphere>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity>
+            </link>
+        </model>
+
+        <!-- !OBSTACULO 5 -->
+        <model name='obstacle_5' canonical_link='obstacle_5'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 -0.0 3.0 0 0 0</pose>
+            <link name='obstacle_5'>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <visual name='visual'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius> 
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius>
+                        </sphere>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity>
+            </link>
+        </model>
+
+        <!-- !OBSTACULO 6 -->
+        <model name='obstacle_6' canonical_link='obstacle_6'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 0.0 5.0 0 0 0</pose>
+            <link name='obstacle_6'>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <visual name='visual'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius> 
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius>
+                        </sphere>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity>
+            </link>
+        </model>
+
+        <!-- !OBSTACULO 7 -->
+        <model name='obstacle_7' canonical_link='obstacle_7'>
+            <static>true</static>
+            <pose relative_to='world'>0.0 0.0 6.0 0 0 0</pose>
+            <link name='obstacle_7'>
+                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
+                <visual name='visual'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius> 
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <sphere>
+                            <radius>0.5</radius>
+                        </sphere>
+                    </geometry>
+                </collision>
+                <enable_gravity>false</enable_gravity>
+            </link>
+        </model>
+
     </world>
 </sdf>
