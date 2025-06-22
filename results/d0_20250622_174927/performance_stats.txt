@@ -1,0 +1,21 @@
+AVOA Performance Statistics - Scenario d0
+==================================================
+
+TRAJECTORY SUMMARY:
+Start Position: (-5.00, 0.00, 0.00)
+End Position: (-5.00, 0.00, 0.00)
+Total Time: 2.68 seconds
+Path Length: 0.00 meters
+Average Speed: 0.00 m/s
+
+GOAL PERFORMANCE:
+Final Distance to Goal: 0.00 meters
+Goal Reached: Yes
+Minimum Distance to Goal: 0.00 meters
+
+OBSTACLE SUMMARY:
+Number of Active Obstacles: 1
+  - Obstacle 1: Active
+
+Data Points Collected: 7
+Generated: 2025-06-22 17:49:30

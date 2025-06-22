@@ -260,7 +260,7 @@ def generate_launch_description():
 
     metrics_node = Node(
         package='avoa3d',  # Replace with your actual package name
-        executable='metrics.py',
+        executable='metrics3d.py',
         name='metrics_node',
         output='screen',
         parameters=[

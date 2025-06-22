@@ -126,9 +126,9 @@ class BasicAVOAMetrics(Node):
         ]
         
         # Add obstacle position columns
-        headers.extend(['obstacle_main_x', 'obstacle_main_y'])
+        headers.extend(['obstacle_main_x', 'obstacle_main_y', 'obstacle_main_z'])
         for i in range(10):
-            headers.extend([f'obstacle_{i}_x', f'obstacle_{i}_y'])
+            headers.extend([f'obstacle_{i}_x', f'obstacle_{i}_y', f'obstacle_{i}_z'])
         
         with open(self.csv_filename, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
@@ -223,19 +223,21 @@ class BasicAVOAMetrics(Node):
         
         # Add obstacle positions
         # Main obstacle
+        import numpy as np
+
         if 'main' in self.obstacle_odometries:
             obs_pos = self.obstacle_odometries['main'].pose.pose.position
-            data_row.extend([obs_pos.x, obs_pos.y])
+            data_row.extend([obs_pos.x, obs_pos.y, obs_pos.z])
         else:
-            data_row.extend([0.0, 0.0])
+            data_row.extend([np.nan, np.nan, np.nan])
         
         # Obstacles 0-9
         for i in range(10):
             if i in self.obstacle_odometries:
                 obs_pos = self.obstacle_odometries[i].pose.pose.position
-                data_row.extend([obs_pos.x, obs_pos.y])
+                data_row.extend([obs_pos.x, obs_pos.y, obs_pos.z])
             else:
-                data_row.extend([0.0, 0.0])
+                data_row.extend([np.nan, np.nan, np.nan])
         
         # Write to CSV
         with open(self.csv_filename, 'a', newline='') as csvfile:
@@ -322,42 +324,47 @@ class BasicAVOAMetrics(Node):
 
         u, v = np.mgrid[0:2*np.pi:10j, 0:np.pi:5j]
 
-        for label, (ox, oy) in obstacle_data.items():
+        for label, (ox, oy, oz) in obstacle_data.items():
+            u, v = np.mgrid[0:2*np.pi:10j, 0:np.pi:5j]
             key_frames = []
+
             for i, t in enumerate(time_stamps):
+                if np.isnan(ox[i]) or np.isnan(oy[i]) or np.isnan(oz[i]):
+                    continue
                 if not key_frames or t - key_frames[-1][0] >= interval:
-                    key_frames.append((t, ox[i], oy[i]))
+                    key_frames.append((t, ox[i], oy[i], oz[i]))
+
+            if not key_frames:
+                continue
 
             t0, tN = key_frames[0][0], key_frames[-1][0]
-            span    = max(tN - t0, 1e-6)
+            span = max(tN - t0, 1e-6)
 
-            for t, cx, cy in key_frames:
-                alpha = 0.1 + 0.4 * (t - t0) / span    # 0.1 → 0.5
+            for t, cx, cy, cz in key_frames:
+                alpha = 0.1 + 0.4 * (t - t0) / span
+
                 xs = cx + radius * np.cos(u) * np.sin(v)
                 ys = cy + radius * np.sin(u) * np.sin(v)
-                zs =      radius * np.cos(v)           # obstacles on ground (z≈0)
+                zs = cz + radius * np.cos(v)
 
-                fig.add_trace(
-                    go.Surface(
-                        x=xs, y=ys, z=zs,
-                        opacity=alpha,
-                        showscale=False,
-                        colorscale=[[0, 'red'], [1, 'red']],
-                        hoverinfo='skip',
-                        name=f'Obstacle {label} footprint'
-                    )
-                )
-                fig.add_trace(
-                    go.Scatter3d(
-                        x=[cx], y=[cy], z=[radius + 0.2],
-                        mode='text',
-                        text=[f"{round(t - t0):d}s"],
-                        textposition='top center',
-                        textfont=dict(size=28, color='darkred'),
-                        showlegend=False,
-                        hoverinfo='skip'
-                    )
-)
+                fig.add_trace(go.Surface(
+                    x=xs, y=ys, z=zs,
+                    opacity=alpha,
+                    showscale=False,
+                    colorscale=[[0, 'red'], [1, 'red']],
+                    hoverinfo='skip',
+                    name=f'Obstacle {label} footprint'
+                ))
+
+                fig.add_trace(go.Scatter3d(
+                    x=[cx], y=[cy], z=[cz + radius + 0.2],
+                    mode='text',
+                    text=[f"{round(t - t0):d}s"],
+                    textposition='top center',
+                    textfont=dict(size=28, color='darkred'),
+                    showlegend=False,
+                    hoverinfo='skip'
+                ))
 
     def shutdown_callback(self):
         """Called when node is shutting down"""
@@ -368,6 +375,9 @@ class BasicAVOAMetrics(Node):
         if self.get_parameter('auto_generate_plots').value and len(self.data_points) > 0:
             self.get_logger().info("📊 Generating plots...")
             self.generate_plots()
+            self.get_logger().info("🖼️ Generating 2-D XY plot ...")
+            self.generate_xy_plot()
+            self.generate_xz_plot()
 
 
 
@@ -394,7 +404,7 @@ class BasicAVOAMetrics(Node):
             y_r  = data[:, 3]
             z_r  = data[:, 4]
 
-            pad = 2.0
+            pad = 4.0
             
             x_min, x_max = np.min(x_r) - pad, np.max(x_r) + pad
             y_min, y_max = np.min(y_r) - pad, np.max(y_r) + pad
@@ -420,46 +430,55 @@ class BasicAVOAMetrics(Node):
             )
 
             # ───── Obstacle arrays ─────
-            obstacle_data = {}
+            obstacle_data_xyz = {}
             labels = ['main'] + [str(i) for i in range(10)]
             base = 18  # First obstacle x column
             for idx, label in enumerate(labels):
-                x_idx = base + idx * 2
+                x_idx = base + idx * 3
                 y_idx = x_idx + 1
-                if y_idx >= data.shape[1]:
+                z_idx = x_idx + 2
+                if z_idx >= data.shape[1]:
                     break
 
-                ox, oy = data[:, x_idx], data[:, y_idx]
+                ox, oy, oz = data[:, x_idx], data[:, y_idx], data[:, z_idx]
 
-                # Skip obstacles always at (0, 0)
-                if np.allclose(ox, 0.0) and np.allclose(oy, 0.0):
+                if np.allclose(ox, 0.0) and np.allclose(oy, 0.0) and np.allclose(oz, 0.0):
                     continue
 
-                # Skip obstacles that never moved
-                if len(np.unique(ox)) == 1 and len(np.unique(oy)) == 1:
+                if len(np.unique(ox)) <= 1 and len(np.unique(oy)) <= 1 and len(np.unique(oz)) <= 1:
                     continue
 
-                obstacle_data[label] = (ox, oy)
+                obstacle_data_xyz[label] = (ox, oy, oz)
 
-            self.get_logger().info(f"📦 Found {len(obstacle_data)} active obstacles (of {len(labels)})")
+            self.get_logger().info(f"📦 Found {len(obstacle_data_xyz)} active obstacles (of {len(labels)})")
 
-            obstacle_lines = [
-                go.Scatter3d(
-                    x=ox, y=oy, z=np.zeros_like(ox),
+            obstacle_lines = []
+            for lbl, value in obstacle_data_xyz.items():
+                if not isinstance(value, tuple) or len(value) != 3:
+                    self.get_logger().error(f"⚠️ Skipping malformed obstacle data for '{lbl}': {value}")
+                    continue
+
+                ox, oy, oz = value
+
+                line = go.Scatter3d(
+                    x=ox, y=oy, z=oz,
                     mode='lines',
                     line=dict(color='red', width=2, dash='dot'),
                     name=f'Obstacle {lbl}',
                     opacity=0.6
                 )
-                for lbl, (ox, oy) in obstacle_data.items()
-            ]
+                obstacle_lines.append(line)
+
 
             # ───── Assemble scene ─────
             fig = go.Figure(data=[robot_line] + obstacle_lines)
 
             # Fading spheres
+            for label, value in obstacle_data_xyz.items():
+                if not isinstance(value, tuple) or len(value) != 3:
+                    self.get_logger().error(f"❌ Invalid obstacle data format for '{label}': {value}")
             self._add_robot_fading_spheres(fig, t, x_r, y_r, z_r)
-            self._add_obstacle_fading_spheres(fig, obstacle_data, t)
+            self._add_obstacle_fading_spheres(fig, obstacle_data_xyz, t)
 
             fig.update_layout(
                 scene=dict(
@@ -505,8 +524,218 @@ class BasicAVOAMetrics(Node):
             self.get_logger().error(f"Plotly error: {ex}")
 
 
+    def generate_xy_plot(self):
+        """Generate trajectory and performance plots"""
+        if not PLOTTING_AVAILABLE:
+            self.get_logger().warn("📊 Could not generate plots: matplotlib not installed")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            import numpy as np
+            from matplotlib.patches import Circle
+
+            data = np.array(self.data_points)
+
+            time_stamps = data[:, 1]
+            pos_x = data[:, 2]
+            pos_y = data[:, 3]
+            goal_x = data[:, 5]
+            goal_y = data[:, 6]
+
+            plt.figure(figsize=(10, 10))
+            ax = plt.gca()
+
+            agent_radius = 1.42/2
+            obstacle_radius = 0.5
+            circle_interval = 2.0
+            last_time = -circle_interval
+
+            obstacle_colors = ['orange', 'purple', 'brown', 'pink', 'gray',
+                            'olive', 'cyan', 'magenta', 'yellow', 'lime', 'red']
+
+            for i in range(len(time_stamps)):
+                t = time_stamps[i]
+                if t - last_time >= circle_interval:
+                    # === Robot footprint circle ===
+                    circle = Circle((pos_x[i], pos_y[i]), radius=agent_radius,
+                                    edgecolor='blue', facecolor='blue', alpha=0.3, linewidth=1)
+                    ax.add_patch(circle)
+                    ax.text(pos_x[i], pos_y[i], f"{int(t)}s", ha='center', va='center',
+                            fontsize=16, color='black')
+
+                    # === Main obstacle circle ===
+                    if data.shape[1] > 19:
+                        obs_main_x = data[i, 18]
+                        obs_main_y = data[i, 19]
+                        obs_main_z = data[i, 20]
+                        if obs_main_x != 0.0 or obs_main_y != 0.0:
+                            circle = Circle((obs_main_x, obs_main_y), radius=obstacle_radius,
+                                            edgecolor=obstacle_colors[0], facecolor=obstacle_colors[0],
+                                            alpha=0.3, linewidth=1)
+                            ax.add_patch(circle)
+                            ax.text(obs_main_x, obs_main_y, f"{int(t)}s", ha='center', va='center',
+                                    fontsize=16, color='black')
+
+                    # === Obstacles 0–9 ===
+                    for j in range(10):
+                        col_x = 21 + j * 3
+                        col_y = col_x + 1
+                        if data.shape[1] > col_y:
+                            obs_x = data[i, col_x]
+                            obs_y = data[i, col_y]
+                            if obs_x != 0.0 or obs_y != 0.0:
+                                color = obstacle_colors[(j + 1) % len(obstacle_colors)]
+                                circle = Circle((obs_x, obs_y), radius=obstacle_radius,
+                                                edgecolor=color, facecolor=color,
+                                                alpha=0.3, linewidth=1)
+                                ax.add_patch(circle)
+                                ax.text(obs_x, obs_y, f"{int(t)}s", ha='center', va='center',
+                                        fontsize=16, color='black')
+
+                    last_time = t
+
+            # Optional: dashed path line
+            plt.plot(pos_x, pos_y, 'b--', linewidth=1, alpha=0.4)
+
+            # Start/Goal/End markers
+            plt.scatter(pos_x[0], pos_y[0], color='blue', s=120, marker='s',
+                        alpha=0.8, zorder=5, edgecolors='darkblue', linewidth=2)
+            plt.scatter(goal_x[0], goal_y[0], color='red', s=150, marker='x',
+                        zorder=5, linewidth=3)
+            plt.scatter(pos_x[-1], pos_y[-1], color='blue', s=120, marker='s',
+                        alpha=0.3, zorder=5, edgecolors='darkblue', linewidth=2)
+
+            plt.xlim(-10, 10)
+            plt.ylim(-10, 10)
+            plt.grid(True, alpha=0.3)
+            plt.xlabel('X Position (m)', fontsize=16, fontweight='bold')
+            plt.ylabel('Y Position (m)', fontsize=16, fontweight='bold')
+            plt.tick_params(axis='both', which='major', labelsize=14)
+            plt.axis('equal')
+
+            plot_filename = os.path.join(self.scenario_dir, 'xy_trajectory_plot.png')
+            plt.savefig(plot_filename, dpi=300, bbox_inches='tight')
+            plt.close()
+
+            self.generate_stats_file()
+            self.get_logger().info(f"📊 Trajectory + labeled footprints saved to: {plot_filename}")
+
+        except Exception as e:
+            self.get_logger().error(f"📊 Error generating plots: {str(e)}")
+
+    def generate_xz_plot(self):
+        """Generate an X-Z 2-D footprint plot (similar style to XY)."""
+        if not PLOTTING_AVAILABLE:
+            self.get_logger().warn("📊 Could not generate plots: matplotlib not installed")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            import numpy as np
+            from matplotlib.patches import Circle
+
+            data = np.array(self.data_points)
+            if data.size == 0:
+                self.get_logger().warn("📊 No data recorded – skipping XZ plot.")
+                return
+
+            # ── Core arrays ──────────────────────────────────────────────
+            time_stamps = data[:, 1]
+            pos_x = data[:, 2]
+            pos_z = data[:, 4]
+            goal_x = data[:, 5]
+            goal_z = data[:, 7]
+
+            plt.figure(figsize=(10, 10))
+            ax = plt.gca()
+
+            agent_radius     = 1.42 / 2
+            obstacle_radius  = 0.5
+            circle_interval  = 2.0   # seconds between circles
+            last_time        = -circle_interval
+
+            obstacle_colors = [
+                'orange', 'purple', 'brown', 'pink', 'gray',
+                'olive', 'cyan', 'magenta', 'yellow', 'lime', 'red'
+            ]
+
+            # ── Draw circles every `circle_interval` seconds ─────────────
+            for i, t in enumerate(time_stamps):
+                if t - last_time < circle_interval:
+                    continue
+
+                # Robot footprint
+                circ = Circle((pos_x[i], pos_z[i]), agent_radius,
+                            edgecolor='blue', facecolor='blue',
+                            alpha=0.30, linewidth=1)
+                ax.add_patch(circ)
+                ax.text(pos_x[i], pos_z[i], f"{int(t)}s",
+                        ha='center', va='center', fontsize=16, color='black')
+
+                # Main obstacle (columns 18–19 = x, y)
+                # Main obstacle (columns 18–20 = x, y, z)
+                if data.shape[1] > 20:
+                    obs_x = data[i, 18]
+                    obs_z = data[i, 20]
+                    if obs_x or obs_z:
+                        circ = Circle((obs_x, obs_z), obstacle_radius,
+                                    edgecolor=obstacle_colors[0],
+                                    facecolor=obstacle_colors[0],
+                                    alpha=0.30, linewidth=1)
+                        ax.add_patch(circ)
+                        ax.text(obs_x, obs_z, f"{int(t)}s",
+                                ha='center', va='center', fontsize=16, color='black')
+
+                        
+                # Obstacles 0-9
+                for j in range(10):
+                    base_col = 21 + j * 3
+                    if data.shape[1] <= base_col + 2:
+                        break  # Skip if data incomplete
+                    ox = data[i, base_col]
+                    oz = data[i, base_col + 2]
+                    if ox or oz:
+                        color = obstacle_colors[(j + 1) % len(obstacle_colors)]
+                        circ = Circle((ox, oz), obstacle_radius,
+                                    edgecolor=color, facecolor=color,
+                                    alpha=0.30, linewidth=1)
+                        ax.add_patch(circ)
+                        ax.text(ox, oz, f"{int(t)}s",
+                                ha='center', va='center', fontsize=16, color='black')
 
 
+                last_time = t
+
+            # Dashed robot path
+            plt.plot(pos_x, pos_z, 'b--', linewidth=1, alpha=0.4)
+
+            # Start / goal / end markers
+            plt.scatter(pos_x[0],  pos_z[0],  s=120, marker='s', color='blue',
+                        alpha=0.8,  edgecolors='darkblue', linewidth=2, zorder=5)
+            plt.scatter(goal_x[0], goal_z[0], s=150, marker='x', color='red',
+                        linewidth=3, zorder=5)
+            plt.scatter(pos_x[-1], pos_z[-1], s=120, marker='s', color='blue',
+                        alpha=0.3,  edgecolors='darkblue', linewidth=2, zorder=5)
+
+            # Axes / grid / style
+            plt.xlim(-10, 10)
+            plt.ylim(-10, 10)
+            plt.grid(True, alpha=0.3)
+            plt.xlabel('X Position (m)', fontsize=16, fontweight='bold')
+            plt.ylabel('Z Position (m)', fontsize=16, fontweight='bold')
+            plt.tick_params(axis='both', which='major', labelsize=14)
+            plt.axis('equal')
+
+            out_png = os.path.join(self.scenario_dir, 'xz_trajectory_plot.png')
+            plt.savefig(out_png, dpi=300, bbox_inches='tight')
+            plt.close()
+
+            self.get_logger().info(f"📊 XZ footprint plot saved to: {out_png}")
+            # stats file is already generated in other calls, no need to duplicate
+
+        except Exception as e:
+            self.get_logger().error(f"📊 XZ plot error: {e}")
 
     def generate_stats_file(self):
         """Generate a text file with performance statistics"""
