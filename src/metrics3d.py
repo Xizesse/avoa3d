@@ -259,7 +259,7 @@ class BasicAVOAMetrics(Node):
 
     def _add_robot_fading_spheres(
         self, fig, time_stamps, pos_x, pos_y, pos_z,
-        interval: float = 2.0, radius: float = 0.71
+        interval: float = 2.0, radius: float = 0.71, show_labels = True
     ):
         """
         Add semi-transparent blue spheres along the robot trajectory.
@@ -294,17 +294,18 @@ class BasicAVOAMetrics(Node):
                     name='Robot footprint'
                 )
             )
-            fig.add_trace(
-                go.Scatter3d(
-                    x=[cx], y=[cy], z=[cz + radius + 0.2],
-                    mode='text',
-                    text=[f"{round(t - t0):d}s"],
-                    textposition='top center',
-                    textfont=dict(size=18, color='black'),
-                    showlegend=False,
-                    hoverinfo='skip'
+            if show_labels:
+                fig.add_trace(
+                    go.Scatter3d(
+                        x=[cx], y=[cy], z=[cz + radius + 0.2],
+                        mode='text',
+                        text=[f"{round(t - t0):d}s"],
+                        textposition='top center',
+                        textfont=dict(size=18, color='black'),
+                        showlegend=False,
+                        hoverinfo='skip'
+                    )
                 )
-            )
 
 
     # ------------------------------------------------------------------
@@ -312,7 +313,7 @@ class BasicAVOAMetrics(Node):
     # ------------------------------------------------------------------
     def _add_obstacle_fading_spheres(
         self, fig, obstacle_data, time_stamps,
-        interval: float = 2.0, radius: float = 0.50
+        interval: float = 2.0, radius: float = 0.50, show_labels = True
     ):
         """
         Add semi-transparent red spheres on every obstacle trajectory.
@@ -356,15 +357,16 @@ class BasicAVOAMetrics(Node):
                     name=f'Obstacle {label} footprint'
                 ))
 
-                fig.add_trace(go.Scatter3d(
-                    x=[cx], y=[cy], z=[cz + radius + 0.2],
-                    mode='text',
-                    text=[f"{round(t - t0):d}s"],
-                    textposition='top center',
-                    textfont=dict(size=28, color='darkred'),
-                    showlegend=False,
-                    hoverinfo='skip'
-                ))
+                if show_labels:
+                    fig.add_trace(go.Scatter3d(
+                        x=[cx], y=[cy], z=[cz + radius + 0.2],
+                        mode='text',
+                        text=[f"{round(t - t0):d}s"],
+                        textposition='top center',
+                        textfont=dict(size=28, color='darkred'),
+                        showlegend=False,
+                        hoverinfo='skip'
+                    ))
 
     def shutdown_callback(self):
         """Called when node is shutting down"""
@@ -374,14 +376,18 @@ class BasicAVOAMetrics(Node):
         # Auto-generate plots if enabled and we have data
         if self.get_parameter('auto_generate_plots').value and len(self.data_points) > 0:
             self.get_logger().info("📊 Generating plots...")
-            self.generate_plots()
+            self.generate_plots(show_labels=True)
+            self.generate_plots(show_labels=False)
+
             self.get_logger().info("🖼️ Generating 2-D XY plot ...")
-            self.generate_xy_plot()
-            self.generate_xz_plot()
+            self.generate_xy_plot(show_labels=True)
+            self.generate_xy_plot(show_labels=False)
+            self.generate_xz_plot(show_labels=True)
+            self.generate_xz_plot(show_labels=False)
 
 
 
-    def generate_plots(self):
+    def generate_plots(self, show_labels=True):
         """
         Build an interactive Plotly 3-D scene:
         – blue robot trajectory + fading spheres (Ø 1.42 m)
@@ -442,10 +448,7 @@ class BasicAVOAMetrics(Node):
 
                 ox, oy, oz = data[:, x_idx], data[:, y_idx], data[:, z_idx]
 
-                if np.allclose(ox, 0.0) and np.allclose(oy, 0.0) and np.allclose(oz, 0.0):
-                    continue
-
-                if len(np.unique(ox)) <= 1 and len(np.unique(oy)) <= 1 and len(np.unique(oz)) <= 1:
+                if np.isnan(ox).all() and np.isnan(oy).all() and np.isnan(oz).all():
                     continue
 
                 obstacle_data_xyz[label] = (ox, oy, oz)
@@ -477,8 +480,8 @@ class BasicAVOAMetrics(Node):
             for label, value in obstacle_data_xyz.items():
                 if not isinstance(value, tuple) or len(value) != 3:
                     self.get_logger().error(f"❌ Invalid obstacle data format for '{label}': {value}")
-            self._add_robot_fading_spheres(fig, t, x_r, y_r, z_r)
-            self._add_obstacle_fading_spheres(fig, obstacle_data_xyz, t)
+            self._add_robot_fading_spheres(fig, t, x_r, y_r, z_r,show_labels=show_labels)
+            self._add_obstacle_fading_spheres(fig, obstacle_data_xyz, t, show_labels=show_labels)
 
             fig.update_layout(
                 scene=dict(
@@ -487,7 +490,7 @@ class BasicAVOAMetrics(Node):
                         title_font=dict(size=20),
                         tickfont=dict(size=16),
                         tickmode='linear',
-                        dtick=1.0,
+                        dtick=3.0,
                         tickangle=0,
                         range=[x_min, x_max]
                     ),
@@ -496,7 +499,7 @@ class BasicAVOAMetrics(Node):
                         title_font=dict(size=20),
                         tickfont=dict(size=16),
                         tickmode='linear',
-                        dtick=1.0,
+                        dtick=3.0,
                         tickangle=0,
                         range=[y_min, y_max]
                     ),
@@ -505,7 +508,7 @@ class BasicAVOAMetrics(Node):
                         title_font=dict(size=20),
                         tickfont=dict(size=16),
                         tickmode='linear',
-                        dtick=1.0,
+                        dtick=3.0,
                         tickangle=0,
                         range=[z_min, z_max]
                     ),
@@ -516,7 +519,8 @@ class BasicAVOAMetrics(Node):
                 margin=dict(l=0, r=0, b=0, t=0)
             )
 
-            out_file = os.path.join(self.scenario_dir, 'trajectory_plot_3d.html')
+            suffix = 'with_labels' if show_labels else 'no_labels'
+            out_file = os.path.join(self.scenario_dir, f'trajectory_plot_3d_{suffix}.html')
             fig.write_html(out_file)
             self.get_logger().info(f"🌐 3-D plot written to {out_file}")
 
@@ -524,7 +528,7 @@ class BasicAVOAMetrics(Node):
             self.get_logger().error(f"Plotly error: {ex}")
 
 
-    def generate_xy_plot(self):
+    def generate_xy_plot(self, show_labels=True):
         """Generate trajectory and performance plots"""
         if not PLOTTING_AVAILABLE:
             self.get_logger().warn("📊 Could not generate plots: matplotlib not installed")
@@ -561,8 +565,9 @@ class BasicAVOAMetrics(Node):
                     circle = Circle((pos_x[i], pos_y[i]), radius=agent_radius,
                                     edgecolor='blue', facecolor='blue', alpha=0.3, linewidth=1)
                     ax.add_patch(circle)
-                    ax.text(pos_x[i], pos_y[i], f"{int(t)}s", ha='center', va='center',
-                            fontsize=16, color='black')
+                    if show_labels:
+                        ax.text(pos_x[i], pos_y[i], f"{int(t)}s", ha='center', va='center',
+                                fontsize=16, color='black')
 
                     # === Main obstacle circle ===
                     if data.shape[1] > 19:
@@ -574,8 +579,9 @@ class BasicAVOAMetrics(Node):
                                             edgecolor=obstacle_colors[0], facecolor=obstacle_colors[0],
                                             alpha=0.3, linewidth=1)
                             ax.add_patch(circle)
-                            ax.text(obs_main_x, obs_main_y, f"{int(t)}s", ha='center', va='center',
-                                    fontsize=16, color='black')
+                            if show_labels:
+                                ax.text(obs_main_x, obs_main_y, f"{int(t)}s", ha='center', va='center',
+                                        fontsize=16, color='black')
 
                     # === Obstacles 0–9 ===
                     for j in range(10):
@@ -590,8 +596,9 @@ class BasicAVOAMetrics(Node):
                                                 edgecolor=color, facecolor=color,
                                                 alpha=0.3, linewidth=1)
                                 ax.add_patch(circle)
-                                ax.text(obs_x, obs_y, f"{int(t)}s", ha='center', va='center',
-                                        fontsize=16, color='black')
+                                if show_labels:
+                                    ax.text(obs_x, obs_y, f"{int(t)}s", ha='center', va='center',
+                                            fontsize=16, color='black')
 
                     last_time = t
 
@@ -614,8 +621,9 @@ class BasicAVOAMetrics(Node):
             plt.tick_params(axis='both', which='major', labelsize=14)
             plt.axis('equal')
 
-            plot_filename = os.path.join(self.scenario_dir, 'xy_trajectory_plot.png')
-            plt.savefig(plot_filename, dpi=300, bbox_inches='tight')
+            suffix = 'with_labels' if show_labels else 'no_labels'
+            filename = os.path.join(self.scenario_dir, f'xy_trajectory_plot_{suffix}.png')
+            plt.savefig(filename, dpi=300, bbox_inches='tight')
             plt.close()
 
             self.generate_stats_file()
@@ -624,7 +632,7 @@ class BasicAVOAMetrics(Node):
         except Exception as e:
             self.get_logger().error(f"📊 Error generating plots: {str(e)}")
 
-    def generate_xz_plot(self):
+    def generate_xz_plot(self, show_labels=True):
         """Generate an X-Z 2-D footprint plot (similar style to XY)."""
         if not PLOTTING_AVAILABLE:
             self.get_logger().warn("📊 Could not generate plots: matplotlib not installed")
@@ -670,8 +678,9 @@ class BasicAVOAMetrics(Node):
                             edgecolor='blue', facecolor='blue',
                             alpha=0.30, linewidth=1)
                 ax.add_patch(circ)
-                ax.text(pos_x[i], pos_z[i], f"{int(t)}s",
-                        ha='center', va='center', fontsize=16, color='black')
+                if show_labels:
+                    ax.text(pos_x[i], pos_z[i], f"{int(t)}s",
+                            ha='center', va='center', fontsize=16, color='black')
 
                 # Main obstacle (columns 18–19 = x, y)
                 # Main obstacle (columns 18–20 = x, y, z)
@@ -684,8 +693,9 @@ class BasicAVOAMetrics(Node):
                                     facecolor=obstacle_colors[0],
                                     alpha=0.30, linewidth=1)
                         ax.add_patch(circ)
-                        ax.text(obs_x, obs_z, f"{int(t)}s",
-                                ha='center', va='center', fontsize=16, color='black')
+                        if show_labels:
+                            ax.text(obs_x, obs_z, f"{int(t)}s",
+                                    ha='center', va='center', fontsize=16, color='black')
 
                         
                 # Obstacles 0-9
@@ -701,8 +711,9 @@ class BasicAVOAMetrics(Node):
                                     edgecolor=color, facecolor=color,
                                     alpha=0.30, linewidth=1)
                         ax.add_patch(circ)
-                        ax.text(ox, oz, f"{int(t)}s",
-                                ha='center', va='center', fontsize=16, color='black')
+                        if show_labels:
+                            ax.text(ox, oz, f"{int(t)}s",
+                                    ha='center', va='center', fontsize=16, color='black')
 
 
                 last_time = t
@@ -727,8 +738,9 @@ class BasicAVOAMetrics(Node):
             plt.tick_params(axis='both', which='major', labelsize=14)
             plt.axis('equal')
 
-            out_png = os.path.join(self.scenario_dir, 'xz_trajectory_plot.png')
-            plt.savefig(out_png, dpi=300, bbox_inches='tight')
+            suffix = 'with_labels' if show_labels else 'no_labels'
+            filename = os.path.join(self.scenario_dir, f'xz_trajectory_plot_{suffix}.png')
+            plt.savefig(filename, dpi=300, bbox_inches='tight')
             plt.close()
 
             self.get_logger().info(f"📊 XZ footprint plot saved to: {out_png}")

@@ -1,0 +1,27 @@
+AVOA Performance Statistics - Scenario c3
+==================================================
+
+TRAJECTORY SUMMARY:
+Start Position: (-5.00, 0.00, 0.00)
+End Position: (9.22, 0.04, -0.19)
+Total Time: 18.80 seconds
+Path Length: 14.47 meters
+Average Speed: 0.77 m/s
+
+GOAL PERFORMANCE:
+Final Distance to Goal: nan meters
+Goal Reached: No
+Minimum Distance to Goal: nan meters
+
+OBSTACLE SUMMARY:
+Number of Active Obstacles: 7
+  - Obstacle 1: Active
+  - Obstacle 2: Active
+  - Obstacle 3: Active
+  - Obstacle 4: Active
+  - Obstacle 5: Active
+  - Obstacle 6: Active
+  - Obstacle 7: Active
+
+Data Points Collected: 162
+Generated: 2025-06-22 18:24:14
