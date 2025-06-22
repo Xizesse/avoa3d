@@ -231,7 +231,7 @@ private:
     void timer_callback()
     {
         // Timer callback tto eval time
-        auto start = std::chrono::steady_clock::now();  // Start time
+        // auto start = std::chrono::steady_clock::now();  // Start time
 
         geometry_msgs::msg::Twist cmd_vel;
         if (!has_received_all_data()) {
@@ -281,13 +281,13 @@ private:
         cmd_vel_publisher_->publish(cmd_vel);
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
 
-        auto end = std::chrono::steady_clock::now();
-        auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-        total_duration_us_ += duration_us;
-        callback_counter_++;
+        // auto end = std::chrono::steady_clock::now();
+        // auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        // total_duration_us_ += duration_us;
+        // callback_counter_++;
 
-        RCLCPP_INFO(this->get_logger(), "timer_callback executed, duration: %ld us, average: %ld us",
-                    duration_us, total_duration_us_ / callback_counter_);
+        // RCLCPP_INFO(this->get_logger(), "timer_callback executed, duration: %ld us, average: %ld us",
+        //             duration_us, total_duration_us_ / callback_counter_);
 
     }
     

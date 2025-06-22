@@ -63,7 +63,7 @@
     # Maximum linear velocities
     v_x_max: 1.0
     v_y_max: 1.0
-    v_z_max: 0.0
+    v_z_max: 1.0
 
     # Maximum angular velocities
     w_roll_max: 0.0
