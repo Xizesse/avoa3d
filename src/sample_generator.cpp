@@ -403,8 +403,8 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
         double w = dist_w(gen);
         
         // Convert to vx, vy, vz (your preferred approach)
-        double vx = v * std::cos(w);
-        double vy = v * std::sin(w);
+        double vx = v * std::cos(w * params_.delta_t); // Assuming w is in radians and delta_t is time step
+        double vy = v * std::sin(w * params_.delta_t); // Convert to Cartesian coordinates
         double vz = 0.0;
         
         samples.push_back(VelocitySample(vx, vy, vz));
@@ -413,8 +413,8 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     // Always include the current velocity as a sample (if valid)
     if (current_v >= min_v && current_v <= max_v &&
         current_w >= min_w && current_w <= max_w) {
-        double vx = current_v * std::cos(current_w);
-        double vy = current_v * std::sin(current_w);
+        double vx = current_v * std::cos(current_w * params_.delta_t);
+        double vy = current_v * std::sin(current_w * params_.delta_t);
         samples.push_back(VelocitySample(vx, vy, 0.0));
     }
     
@@ -425,8 +425,8 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     
     if (desired_v >= min_v && desired_v <= max_v &&
         desired_w >= min_w && desired_w <= max_w) {
-        double vx = desired_v * std::cos(desired_w);
-        double vy = desired_v * std::sin(desired_w);
+        double vx = desired_v * std::cos(desired_w * params_.delta_t);
+        double vy = desired_v * std::sin(desired_w * params_.delta_t);
         samples.push_back(VelocitySample(vx, vy, 0.0));
     }
     
@@ -449,12 +449,15 @@ geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const Veloc
 
 
     // If x is positive, angle is
-    twist.linear.x = sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
-    twist.angular.z = 1*std::atan2(sample.vy, sample.vx);
-    if (false && sample.vx <= 0.0) {
+   twist.linear.x = sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
+    double angle = std::atan2(sample.vy, sample.vx);
+
+    if (sample.vx <= 0.0) {
         twist.linear.x *= -1.0;
-        twist.angular.z = normalizeAngle(twist.angular.z + M_PI);
+        angle = normalizeAngle(angle + M_PI);  // Normalize angle first
     }
+
+    twist.angular.z = angle / params_.delta_t;  // Then convert to angular velocity
     return twist;
 }
 

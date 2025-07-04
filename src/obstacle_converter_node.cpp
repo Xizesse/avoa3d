@@ -21,7 +21,7 @@ public:
     this->declare_parameter<std::string>("frame_id", "lidar");
     this->declare_parameter<double>("default_height", 0.5);
     this->declare_parameter<double>("min_velocity_threshold", 0.05);
-    this->declare_parameter<double>("default_pz", 0.0);
+    this->declare_parameter<double>("default_pz", 0.5);
     
     frame_id_ = this->get_parameter("frame_id").as_string();
     default_height_ = this->get_parameter("default_height").as_double();

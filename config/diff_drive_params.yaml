@@ -7,6 +7,7 @@
       obstacle_publisher: false 
       rviz_marker: true  
       test_w_goal: true  
+      metrics_node: false   
   
     publish_transforms: true
     # Common parameters used by multiple nodes
@@ -36,7 +37,7 @@
     vehicle_radius: 1.4 #floaters 3 meters * sqrt(2) / 2 for radius
 
     # Time step
-    delta_t: 3.0
+    delta_t: 1.0
     
     # Sampling parameters
     num_samples: 10000
@@ -55,7 +56,7 @@
     # Maximum angular accelerations
     a_roll_max: 0.0
     a_pitch_max: 0.0
-    a_yaw_max: 1.0
+    a_yaw_max: 0.5
 
     # Maximum linear velocities
     v_x_max: 1.0
@@ -65,4 +66,4 @@
     # Maximum angular velocities
     w_roll_max: 0.0
     w_pitch_max: 0.0
-    w_yaw_max: 1.0
+    w_yaw_max: 0.5

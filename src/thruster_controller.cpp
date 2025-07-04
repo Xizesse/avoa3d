@@ -16,20 +16,31 @@ public:
     this->declare_parameter<std::string>("topics.odometry", "/nest/odometry");
     this->declare_parameter<std::string>("topics.cmd_vel", "/avoa/cmd_vel");
 
-    // Declare parameters with default values for linear motion
-    this->declare_parameter("kp_linear", 120.0);
-    this->declare_parameter("ki_linear", 1.5);
-    this->declare_parameter("kd_linear", 0.0);
+    // // Declare parameters with default values for linear motion
+    // this->declare_parameter("kp_linear", 60.0);
+    // this->declare_parameter("ki_linear", 5.0);
+    // this->declare_parameter("kd_linear", 0.5);
+    
+    // // New parameters for angular motion (yaw control)
+    // this->declare_parameter("kp_angular", 50.0);
+    // this->declare_parameter("ki_angular", 0.5);
+    // this->declare_parameter("kd_angular", 0.5);
+
+        // Declare parameters with default values for linear motion
+    this->declare_parameter("kp_linear", 60.0);
+    this->declare_parameter("ki_linear", 10.0);
+    this->declare_parameter("kd_linear", 0.5);
     
     // New parameters for angular motion (yaw control)
     this->declare_parameter("kp_angular", 50.0);
-    this->declare_parameter("ki_angular", 0.0);
-    this->declare_parameter("kd_angular", 0.0);
+    this->declare_parameter("ki_angular", 0.5);
+    this->declare_parameter("kd_angular", 0.5);
+
     
     // Other parameters
     this->declare_parameter("dt", 0.1);
     this->declare_parameter("input_filter", 0.3);
-    this->declare_parameter("max_integral_linear", 1000.0);
+    this->declare_parameter("max_integral_linear", 100.0);
     this->declare_parameter("max_integral_angular", 100.0);
 
     std::string thrust_cmd_topic = this->get_parameter("topics.thrust_cmd").as_string();

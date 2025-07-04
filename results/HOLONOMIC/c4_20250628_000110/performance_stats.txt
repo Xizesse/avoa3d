@@ -1,0 +1,22 @@
+AVOA Performance Statistics – Scenario c4
+============================================================
+
+MISSION SUMMARY
+Start Pos: (-5.00, 0.00, 0.00)
+End   Pos: (1.43, -0.07, 0.00)
+Goal  Pos: (10.00, 0.00, 0.00)
+Final Distance to Goal: 8.57 m
+
+TIMING
+Mission Duration: 20.25 s
+Cruise Window: 2.47s → 21.05s
+
+PATH
+Path Length:  13.38 m
+Elongation:   2.08× straight-line
+Average Speed (|v| > 0.5 m/s): 0.71 m/s
+
+SAFETY
+Minimum Clearance: 2.36 m
+
+Generated: 2025-06-28 00:01:34

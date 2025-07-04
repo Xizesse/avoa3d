@@ -30,6 +30,11 @@ def generate_launch_description():
         'log_level',
         default_value='info'
     )
+    scenario_arg = DeclareLaunchArgument(
+        'scenario',
+        default_value='s0',
+        description='Scenario number: s=static, d=dynamic.'
+    )
     
     # New TF frame arguments
     fixed_frame_arg = DeclareLaunchArgument(
@@ -54,6 +59,7 @@ def generate_launch_description():
     config_file = LaunchConfiguration('config_file')
     namespace = LaunchConfiguration('namespace')
     log_level = LaunchConfiguration('log_level')
+    scenario = LaunchConfiguration('scenario')
 
     # Build path to your ros_gz_bridge config in ~/ros_ws/src/avoa3d/config
     home_path = os.environ.get('HOME', '/tmp')
@@ -80,6 +86,7 @@ def generate_launch_description():
     launch_test_w_goal = launch_configs.get('test_w_goal', False)
     launch_tf_publisher = launch_configs.get('tf_publisher', False)
     launch_thruster_controller = launch_configs.get('thruster_controller', False)
+    launch_metrics = launch_configs.get('metrics_node', True)  # Added metrics support
     
     # Static Transform Publishers
     static_tf_map_odom = Node(
@@ -186,12 +193,32 @@ def generate_launch_description():
         ]
     )
 
+    # metrics3d node - Added from holonomic.launch.py
+    metrics_node = Node(
+        package='avoa3d',
+        executable='metrics3d.py',
+        name='metrics_node',
+        output='screen',
+        parameters=[
+            {'use_sim_time': False},
+            {'scenario': scenario},  # Pass the scenario parameter
+            {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros_ws', 'src', 'avoa3d', 'results')},
+            {'topics.desired_vel': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('desired_vel', '/model/agente/desired_vel')},
+            {'topics.cmd_vel': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('cmd_vel', '/model/agente/cmd_vel')},
+            {'topics.odometry': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('odometry', '/model/agente/odometry')},
+            {'topics.goal_odometry': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('goal_odometry', '/model/goal/odometry')},
+            avoa_params_path
+        ]
+        # shutdown_timeout=30
+    )
+
     # Create an empty list for nodes and add the argument declarations
     nodes = [
         name_arg,
         config_file_arg,
         namespace_arg,
         log_level_arg,
+        scenario_arg,  # Added scenario argument
         fixed_frame_arg,
         agent_frame_arg,
         goal_topic_arg,
@@ -222,5 +249,8 @@ def generate_launch_description():
     
     if launch_thruster_controller:
         nodes.append(thruster_controller)
+    
+    if launch_metrics:
+        nodes.append(metrics_node)
     
     return LaunchDescription(nodes)

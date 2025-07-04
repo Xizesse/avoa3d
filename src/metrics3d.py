@@ -4,6 +4,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import PoseStamped
 import os
 import time
 from datetime import datetime
@@ -30,10 +31,15 @@ class BasicAVOAMetrics(Node):
         self.declare_parameter('auto_generate_plots', True)
         
         # Topic parameters (from your yaml structure)
+        # self.declare_parameter('topics.desired_vel', '/model/agente/desired_vel')
+        # self.declare_parameter('topics.cmd_vel', '/model/agente/cmd_vel')
+        # self.declare_parameter('topics.odometry', '/model/agente/odometry')
+        # self.declare_parameter('topics.goal_pose', 'goal_pose')
+
         self.declare_parameter('topics.desired_vel', '/model/agente/desired_vel')
-        self.declare_parameter('topics.cmd_vel', '/model/agente/cmd_vel')
-        self.declare_parameter('topics.odometry', '/model/agente/odometry')
-        self.declare_parameter('topics.goal_odometry', '/model/goal/odometry')
+        self.declare_parameter('topics.cmd_vel', '/avoa/cmd_vel')
+        self.declare_parameter('topics.odometry', '/nest/odometry')
+        self.declare_parameter('topics.goal_pose', 'goal_pose')
         
         # Get parameters
         self.scenario = self.get_parameter('scenario').value
@@ -43,7 +49,8 @@ class BasicAVOAMetrics(Node):
         self.desired_vel_topic = self.get_parameter('topics.desired_vel').value
         self.cmd_vel_topic = self.get_parameter('topics.cmd_vel').value
         self.odometry_topic = self.get_parameter('topics.odometry').value
-        self.goal_odometry_topic = self.get_parameter('topics.goal_odometry').value
+        self.goal_pose_topic = self.get_parameter('topics.goal_pose').value
+        
         
         # Create timestamped results directory
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -73,14 +80,16 @@ class BasicAVOAMetrics(Node):
         self.odometry_sub = self.create_subscription(
             Odometry, self.odometry_topic, self.odometry_callback, 10)
         
-        self.goal_odometry_sub = self.create_subscription(
-            Odometry, self.goal_odometry_topic, self.goal_odometry_callback, 10)
-        
         self.cmd_vel_sub = self.create_subscription(
             Twist, self.cmd_vel_topic, self.cmd_vel_callback, 10)
         
         self.desired_vel_sub = self.create_subscription(
             Twist, self.desired_vel_topic, self.desired_vel_callback, 10)
+        
+        self.goal_pose_sub = self.create_subscription(
+            PoseStamped, self.goal_pose_topic, self.goal_pose_callback, 10)
+    
+        self.goal_pose_from_topic = None
         
         # Create obstacle subscribers (0-9 + main obstacle)
         self.obstacle_subscribers = {}
@@ -101,14 +110,14 @@ class BasicAVOAMetrics(Node):
         self.timer = self.create_timer(0.1, self.log_data)
         
         # Initialize CSV file
-        self.csv_filename = os.path.join(self.scenario_dir, 'metrics_data.csv')
+        self.csv_filename = os.path.join(self.scenario_dir, f'{self.scenario}_metrics_data.csv')
         self.init_csv_file()
         
         self.get_logger().info(f"🎬 AVOA Metrics started for scenario: {self.scenario}")
         self.get_logger().info(f"📁 Results directory: {self.scenario_dir}")
         self.get_logger().info(f"📊 Subscribed to topics:")
         self.get_logger().info(f"  - Robot Odometry: {self.odometry_topic}")
-        self.get_logger().info(f"  - Goal: {self.goal_odometry_topic}")
+        self.get_logger().info(f"  - Goal: {self.goal_pose_topic}")
         self.get_logger().info(f"  - Cmd Vel: {self.cmd_vel_topic}")
         self.get_logger().info(f"  - Desired Vel: {self.desired_vel_topic}")
         self.get_logger().info(f"  - Obstacles: /model/obstacle/odometry + /model/obstacle_0-9/odometry")
@@ -124,14 +133,22 @@ class BasicAVOAMetrics(Node):
             'actual_vel_x', 'actual_vel_y', 'actual_vel_z',
             'distance_to_goal'
         ]
-        
+
         # Add obstacle position columns
         headers.extend(['obstacle_main_x', 'obstacle_main_y', 'obstacle_main_z'])
         for i in range(10):
             headers.extend([f'obstacle_{i}_x', f'obstacle_{i}_y', f'obstacle_{i}_z'])
-        
+
+        # NEW: Append angular velocity columns (after obstacle data)
+        headers.extend([
+            'cmd_ang_x', 'cmd_ang_y', 'cmd_ang_z',
+            'desired_ang_x', 'desired_ang_y', 'desired_ang_z',
+            'actual_ang_x', 'actual_ang_y', 'actual_ang_z'
+        ])
+
         with open(self.csv_filename, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
+            writer.writerow([f"Scenario: {self.scenario}"])
             writer.writerow(headers)
 
     def odometry_callback(self, msg):
@@ -139,10 +156,8 @@ class BasicAVOAMetrics(Node):
         self.current_odometry = msg
         self.received_odometry = True
 
-    def goal_odometry_callback(self, msg):
-        """Callback for goal odometry"""
-        self.current_goal_odometry = msg
-        self.received_goal = True
+    def goal_pose_callback(self, msg):
+        self.goal_pose_from_topic = msg.pose.position
 
     def cmd_vel_callback(self, msg):
         """Callback for commanded velocity"""
@@ -161,56 +176,68 @@ class BasicAVOAMetrics(Node):
         # Log when we first receive an obstacle
         if obstacle_id not in self.obstacle_odometries or len(self.obstacle_odometries) == 1:
             pos = msg.pose.pose.position
-            self.get_logger().info(f"🚧 Obstacle {obstacle_id} detected at ({pos.x:.2f}, {pos.y:.2f})")
+            # self.get_logger().info(f"🚧 Obstacle {obstacle_id} detected at ({pos.x:.2f}, {pos.y:.2f})")
 
     def calculate_distance_to_goal(self):
         """Calculate distance from current position to goal"""
-        if not (self.received_odometry and self.received_goal):
+        if self.current_odometry is None or self.goal_pose_from_topic is None:
             return float('inf')
         
         pos = self.current_odometry.pose.pose.position
-        goal = self.current_goal_odometry.pose.pose.position
+        goal = self.goal_pose_from_topic
         
-        distance = ((pos.x - goal.x)**2 + (pos.y - goal.y)**2 + (pos.z - goal.z)**2)**0.5
-        return distance
+        return ((pos.x - goal.x)**2 + (pos.y - goal.y)**2 + (pos.z - goal.z)**2)**0.5
 
     def log_data(self):
-        """Log current data point to CSV"""
+        """Log current data point to CSV (now with angular velocities)"""
         # Only log if we have received at least odometry data
         if not self.received_odometry:
             return
-        
-        current_time = time.time()
-        elapsed_time = current_time - self.start_time
-        
-        # Calculate distance to goal
-        distance_to_goal = self.calculate_distance_to_goal()
-        
-        # Prepare data row - robot data
+
+        current_time   = time.time()
+        elapsed_time   = current_time - self.start_time
+
+        # ------------------------------------------------------------------
+        # 1.  Core robot state
+        # ------------------------------------------------------------------
         pos = self.current_odometry.pose.pose.position
         vel = self.current_odometry.twist.twist.linear
-        
-        # Goal position (use default if not received)
-        if self.received_goal:
-            goal_pos = self.current_goal_odometry.pose.pose.position
-            goal_x, goal_y, goal_z = goal_pos.x, goal_pos.y, goal_pos.z
+
+        # Goal position (fallback if not received)
+        if self.goal_pose_from_topic:
+            goal = self.goal_pose_from_topic
+            goal_x, goal_y, goal_z = goal.x, goal.y, goal.z
         else:
-            goal_x, goal_y, goal_z = 10.0, 0.0, 0.0  # Default goal
-        
-        # Command velocity (use zero if not received)
+            goal_x, goal_y, goal_z = 10.0, 0.0, 0.0
+        # Commanded linear velocity
         if self.received_cmd_vel:
-            cmd_vel = self.current_cmd_vel.linear
-            cmd_vel_x, cmd_vel_y, cmd_vel_z = cmd_vel.x, cmd_vel.y, cmd_vel.z
+            cmd_lin      = self.current_cmd_vel.linear
+            cmd_ang      = self.current_cmd_vel.angular
+            cmd_vel_x, cmd_vel_y, cmd_vel_z = cmd_lin.x, cmd_lin.y, cmd_lin.z
+            cmd_ang_x, cmd_ang_y, cmd_ang_z = cmd_ang.x, cmd_ang.y, cmd_ang.z
         else:
-            cmd_vel_x, cmd_vel_y, cmd_vel_z = 0.0, 0.0, 0.0
-        
-        # Desired velocity (use zero if not received)
+            cmd_vel_x = cmd_vel_y = cmd_vel_z = 0.0
+            cmd_ang_x = cmd_ang_y = cmd_ang_z = 0.0
+
+        # Desired linear velocity
         if self.received_desired_vel:
-            des_vel = self.current_desired_vel.linear
-            des_vel_x, des_vel_y, des_vel_z = des_vel.x, des_vel.y, des_vel.z
+            des_lin      = self.current_desired_vel.linear
+            des_ang      = self.current_desired_vel.angular
+            des_vel_x, des_vel_y, des_vel_z = des_lin.x, des_lin.y, des_lin.z
+            des_ang_x, des_ang_y, des_ang_z = des_ang.x, des_ang.y, des_ang.z
         else:
-            des_vel_x, des_vel_y, des_vel_z = 0.0, 0.0, 0.0
-        
+            des_vel_x = des_vel_y = des_vel_z = 0.0
+            des_ang_x = des_ang_y = des_ang_z = 0.0
+
+        # Actual angular velocity from odometry
+        act_ang         = self.current_odometry.twist.twist.angular
+        act_ang_x, act_ang_y, act_ang_z = act_ang.x, act_ang.y, act_ang.z
+
+        # ------------------------------------------------------------------
+        # 2.  Build base row (everything *before* obstacles stays unchanged)
+        # ------------------------------------------------------------------
+        distance_to_goal = self.calculate_distance_to_goal()
+
         data_row = [
             current_time, elapsed_time,
             pos.x, pos.y, pos.z,
@@ -220,17 +247,19 @@ class BasicAVOAMetrics(Node):
             vel.x, vel.y, vel.z,
             distance_to_goal
         ]
-        
-        # Add obstacle positions
-        # Main obstacle
+
+        # ------------------------------------------------------------------
+        # 3.  Obstacle positions (main + 0-9)  ────────
+        # ------------------------------------------------------------------
         import numpy as np
 
+        # Main obstacle
         if 'main' in self.obstacle_odometries:
             obs_pos = self.obstacle_odometries['main'].pose.pose.position
             data_row.extend([obs_pos.x, obs_pos.y, obs_pos.z])
         else:
             data_row.extend([np.nan, np.nan, np.nan])
-        
+
         # Obstacles 0-9
         for i in range(10):
             if i in self.obstacle_odometries:
@@ -238,23 +267,33 @@ class BasicAVOAMetrics(Node):
                 data_row.extend([obs_pos.x, obs_pos.y, obs_pos.z])
             else:
                 data_row.extend([np.nan, np.nan, np.nan])
-        
-        # Write to CSV
+
+        # ------------------------------------------------------------------
+        # 4.  Append angular velocities (✱ NEW ✱)  ────
+        # ------------------------------------------------------------------
+        data_row.extend([
+            cmd_ang_x, cmd_ang_y, cmd_ang_z,
+            des_ang_x, des_ang_y, des_ang_z,
+            act_ang_x, act_ang_y, act_ang_z
+        ])
+
+        # ------------------------------------------------------------------
+        # 5.  Persist row
+        # ------------------------------------------------------------------
         with open(self.csv_filename, 'a', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(data_row)
-        
-        # Store in memory for potential plotting
+            csv.writer(csvfile).writerow(data_row)
+
         self.data_points.append(data_row)
-        
-        # Periodic status print
-        if int(elapsed_time) % 5 == 0 and len(self.data_points) % 50 == 0:  # Every 5 seconds
-            obstacle_count = len(self.obstacle_odometries)
+
+        # ------------------------------------------------------------------
+        # 6.  Periodic console status
+        # ------------------------------------------------------------------
+        if int(elapsed_time) % 5 == 0 and len(self.data_points) % 50 == 0:
             self.get_logger().info(
                 f"[{elapsed_time:.1f}s] Pos: ({pos.x:.2f}, {pos.y:.2f}) | "
-                f"Goal dist: {distance_to_goal:.2f}m | "
+                f"Goal dist: {distance_to_goal:.2f} m | "
                 f"Data points: {len(self.data_points)} | "
-                f"Obstacles: {obstacle_count}"
+                f"Obstacles: {len(self.obstacle_odometries)}"
             )
 
     def _add_robot_fading_spheres(
@@ -307,10 +346,6 @@ class BasicAVOAMetrics(Node):
                     )
                 )
 
-
-    # ------------------------------------------------------------------
-    # 2.  Obstacle fading spheres  (Ø 1 m → radius 0.5 m, red)
-    # ------------------------------------------------------------------
     def _add_obstacle_fading_spheres(
         self, fig, obstacle_data, time_stamps,
         interval: float = 2.0, radius: float = 0.50, show_labels = True
@@ -385,6 +420,12 @@ class BasicAVOAMetrics(Node):
             self.generate_xz_plot(show_labels=True)
             self.generate_xz_plot(show_labels=False)
 
+            self.get_logger().info("📊 Generating Time PLots!")
+            self.generate_velocity_magnitude_plot()
+            self.generate_velocity_components_plot()
+            self.generate_cmd_vs_actual_plot()
+            self.generate_cmd_vs_actual_linear_angular_plot()
+   
 
 
     def generate_plots(self, show_labels=True):
@@ -527,7 +568,6 @@ class BasicAVOAMetrics(Node):
         except Exception as ex:
             self.get_logger().error(f"Plotly error: {ex}")
 
-
     def generate_xy_plot(self, show_labels=True):
         """Generate trajectory and performance plots"""
         if not PLOTTING_AVAILABLE:
@@ -542,6 +582,11 @@ class BasicAVOAMetrics(Node):
             data = np.array(self.data_points)
 
             time_stamps = data[:, 1]
+            t0 = time_stamps[0]
+            tN = time_stamps[-1]
+            span = max(tN- t0, 1e-6)  
+            alpha_min = 0.10
+            alpha_max = 0.75
             pos_x = data[:, 2]
             pos_y = data[:, 3]
             goal_x = data[:, 5]
@@ -562,8 +607,10 @@ class BasicAVOAMetrics(Node):
                 t = time_stamps[i]
                 if t - last_time >= circle_interval:
                     # === Robot footprint circle ===
+                    alpha = alpha_min + alpha_max * (t - t0) / span
+
                     circle = Circle((pos_x[i], pos_y[i]), radius=agent_radius,
-                                    edgecolor='blue', facecolor='blue', alpha=0.3, linewidth=1)
+                                    edgecolor='blue', facecolor='blue', alpha=alpha, linewidth=1)
                     ax.add_patch(circle)
                     if show_labels:
                         ax.text(pos_x[i], pos_y[i], f"{int(t)}s", ha='center', va='center',
@@ -575,9 +622,11 @@ class BasicAVOAMetrics(Node):
                         obs_main_y = data[i, 19]
                         obs_main_z = data[i, 20]
                         if obs_main_x != 0.0 or obs_main_y != 0.0:
+                            alpha = alpha_min + alpha_max * (t - t0) / span
+
                             circle = Circle((obs_main_x, obs_main_y), radius=obstacle_radius,
                                             edgecolor=obstacle_colors[0], facecolor=obstacle_colors[0],
-                                            alpha=0.3, linewidth=1)
+                                            alpha=alpha, linewidth=1)
                             ax.add_patch(circle)
                             if show_labels:
                                 ax.text(obs_main_x, obs_main_y, f"{int(t)}s", ha='center', va='center',
@@ -592,9 +641,11 @@ class BasicAVOAMetrics(Node):
                             obs_y = data[i, col_y]
                             if obs_x != 0.0 or obs_y != 0.0:
                                 color = obstacle_colors[(j + 1) % len(obstacle_colors)]
+                                alpha = alpha_min + alpha_max * (t - t0) / span
+
                                 circle = Circle((obs_x, obs_y), radius=obstacle_radius,
                                                 edgecolor=color, facecolor=color,
-                                                alpha=0.3, linewidth=1)
+                                                alpha=alpha, linewidth=1)
                                 ax.add_patch(circle)
                                 if show_labels:
                                     ax.text(obs_x, obs_y, f"{int(t)}s", ha='center', va='center',
@@ -616,18 +667,18 @@ class BasicAVOAMetrics(Node):
             plt.xlim(-10, 10)
             plt.ylim(-10, 10)
             plt.grid(True, alpha=0.3)
-            plt.xlabel('X Position (m)', fontsize=16, fontweight='bold')
-            plt.ylabel('Y Position (m)', fontsize=16, fontweight='bold')
-            plt.tick_params(axis='both', which='major', labelsize=14)
+            plt.xlabel('X Position (m)', fontsize=30, fontweight='bold')
+            plt.ylabel('Y Position (m)', fontsize=30, fontweight='bold')
+            plt.tick_params(axis='both', which='major', labelsize=30)
             plt.axis('equal')
 
             suffix = 'with_labels' if show_labels else 'no_labels'
-            filename = os.path.join(self.scenario_dir, f'xy_trajectory_plot_{suffix}.png')
+            filename = os.path.join(self.scenario_dir, f'{self.scenario}_xy_trajectory_plot_{suffix}.png')
             plt.savefig(filename, dpi=300, bbox_inches='tight')
             plt.close()
 
             self.generate_stats_file()
-            self.get_logger().info(f"📊 Trajectory + labeled footprints saved to: {plot_filename}")
+            self.get_logger().info(f"📊 Trajectory + labeled footprints saved to: {filename}")
 
         except Exception as e:
             self.get_logger().error(f"📊 Error generating plots: {str(e)}")
@@ -650,6 +701,11 @@ class BasicAVOAMetrics(Node):
 
             # ── Core arrays ──────────────────────────────────────────────
             time_stamps = data[:, 1]
+            t0 = time_stamps[0]
+            tN = time_stamps[-1]
+            alpha_min = 0.10
+            alpha_max = 0.75
+            span = max(tN- t0, 1e-6)  
             pos_x = data[:, 2]
             pos_z = data[:, 4]
             goal_x = data[:, 5]
@@ -674,9 +730,11 @@ class BasicAVOAMetrics(Node):
                     continue
 
                 # Robot footprint
+                alpha = alpha_min + alpha_max * (t - t0) / span
+
                 circ = Circle((pos_x[i], pos_z[i]), agent_radius,
                             edgecolor='blue', facecolor='blue',
-                            alpha=0.30, linewidth=1)
+                            alpha=alpha, linewidth=1)
                 ax.add_patch(circ)
                 if show_labels:
                     ax.text(pos_x[i], pos_z[i], f"{int(t)}s",
@@ -688,10 +746,12 @@ class BasicAVOAMetrics(Node):
                     obs_x = data[i, 18]
                     obs_z = data[i, 20]
                     if obs_x or obs_z:
+                        alpha = alpha_min + alpha_max * (t - t0) / span
+
                         circ = Circle((obs_x, obs_z), obstacle_radius,
                                     edgecolor=obstacle_colors[0],
                                     facecolor=obstacle_colors[0],
-                                    alpha=0.30, linewidth=1)
+                                    alpha=alpha, linewidth=1)
                         ax.add_patch(circ)
                         if show_labels:
                             ax.text(obs_x, obs_z, f"{int(t)}s",
@@ -707,9 +767,10 @@ class BasicAVOAMetrics(Node):
                     oz = data[i, base_col + 2]
                     if ox or oz:
                         color = obstacle_colors[(j + 1) % len(obstacle_colors)]
+                        alpha = alpha_min + alpha_max * (t - t0) / span
                         circ = Circle((ox, oz), obstacle_radius,
                                     edgecolor=color, facecolor=color,
-                                    alpha=0.30, linewidth=1)
+                                    alpha=alpha, linewidth=1)
                         ax.add_patch(circ)
                         if show_labels:
                             ax.text(ox, oz, f"{int(t)}s",
@@ -733,86 +794,426 @@ class BasicAVOAMetrics(Node):
             plt.xlim(-10, 10)
             plt.ylim(-10, 10)
             plt.grid(True, alpha=0.3)
-            plt.xlabel('X Position (m)', fontsize=16, fontweight='bold')
-            plt.ylabel('Z Position (m)', fontsize=16, fontweight='bold')
-            plt.tick_params(axis='both', which='major', labelsize=14)
+            plt.xlabel('X Position (m)', fontsize=30, fontweight='bold')
+            plt.ylabel('Z Position (m)', fontsize=30, fontweight='bold')
+            plt.tick_params(axis='both', which='major', labelsize=30)
             plt.axis('equal')
 
             suffix = 'with_labels' if show_labels else 'no_labels'
-            filename = os.path.join(self.scenario_dir, f'xz_trajectory_plot_{suffix}.png')
+            filename = os.path.join(self.scenario_dir, f'{self.scenario}_xz_trajectory_plot_{suffix}.png')
             plt.savefig(filename, dpi=300, bbox_inches='tight')
             plt.close()
 
-            self.get_logger().info(f"📊 XZ footprint plot saved to: {out_png}")
+            self.get_logger().info(f"📊 XZ footprint plot saved to: {filename}")
             # stats file is already generated in other calls, no need to duplicate
 
         except Exception as e:
             self.get_logger().error(f"📊 XZ plot error: {e}")
 
     def generate_stats_file(self):
-        """Generate a text file with performance statistics"""
+        """
+        Generate performance stats.
+
+        Average speed is now computed only over the cruise window defined by:
+        – first time |v| > speed_threshold  (start_idx_cruise)
+        – last  time |v| >= speed_threshold (end_idx_cruise)
+        Any dips below the threshold between those two points are kept,
+        so brief slow-downs do not split the window.
+        """
         try:
             stats_filename = os.path.join(self.scenario_dir, 'performance_stats.txt')
-            
             if not self.data_points:
                 return
-            
-            data = np.array(self.data_points)
-            time_elapsed = data[:, 1]
-            pos_x = data[:, 2]
-            pos_y = data[:, 3]
-            pos_z = data[:, 4]
-            distance_to_goal = data[:, -1]  # Last column before obstacle data
-            
-            # Calculate statistics
-            total_time = time_elapsed[-1]
-            final_distance = distance_to_goal[-1] if not np.isinf(distance_to_goal[-1]) else float('inf')
-            path_length = np.sum(np.sqrt(np.diff(pos_x)**2 + np.diff(pos_y)**2 + np.diff(pos_z)**2))
 
-            min_distance_to_goal = np.min(distance_to_goal[~np.isinf(distance_to_goal)]) if np.any(~np.isinf(distance_to_goal)) else float('inf')
-            average_speed = path_length / total_time if total_time > 0 else 0
-            
-            # Start and end positions
-            start_pos = f"({pos_x[0]:.2f}, {pos_y[0]:.2f}, {pos_z[0]:.2f})"
-            end_pos = f"({pos_x[-1]:.2f}, {pos_y[-1]:.2f}, {pos_z[-1]:.2f})"
-            
-            # Write statistics to file
-            with open(stats_filename, 'w') as f:
-                f.write(f"AVOA Performance Statistics - Scenario {self.scenario}\n")
-                f.write("=" * 50 + "\n\n")
-                
-                f.write("TRAJECTORY SUMMARY:\n")
-                f.write(f"Start Position: {start_pos}\n")
-                f.write(f"End Position: {end_pos}\n")
-                f.write(f"Total Time: {total_time:.2f} seconds\n")
-                f.write(f"Path Length: {path_length:.2f} meters\n")
-                f.write(f"Average Speed: {average_speed:.2f} m/s\n\n")
-                
-                f.write("GOAL PERFORMANCE:\n")
-                if final_distance != float('inf'):
-                    f.write(f"Final Distance to Goal: {final_distance:.2f} meters\n")
-                    f.write(f"Goal Reached: {'Yes' if final_distance < 0.5 else 'No'}\n")
+            data = np.array(self.data_points)
+            t         = data[:, 1]        # elapsed time
+            px, py, pz = data[:, 2], data[:, 3], data[:, 4]
+            vx, vy, vz = data[:, 14], data[:, 15], data[:, 16]
+
+            # ------------------------------------------------------------------
+            # 1.  Identify mission-wide start / end indices
+            # ------------------------------------------------------------------
+            start_idx = 0
+            end_idx   = len(data) - 1     # may shorten if goal reached
+
+            # Goal pose (fallback if missing)
+            if self.goal_pose_from_topic:
+                gx, gy, gz = (self.goal_pose_from_topic.x,
+                            self.goal_pose_from_topic.y,
+                            self.goal_pose_from_topic.z)
+            else:
+                gx, gy, gz = 10.0, 0.0, 0.0
+
+            robot_radius = 1.42 / 2.0
+            for i in range(len(data)):
+                if np.linalg.norm([px[i]-gx, py[i]-gy, pz[i]-gz]) <= robot_radius:
+                    end_idx = i
+                    break
+
+            # ------------------------------------------------------------------
+            # 2.  Cruise-window (hysteresis) for average speed
+            # ------------------------------------------------------------------
+            speed = np.sqrt(vx**2 + vy**2 + vz**2)
+            threshold = 0.5
+
+            # 1. First crossing above threshold (start of real motion)
+            above_idxs = np.where(speed > threshold)[0]
+            if len(above_idxs) == 0:
+                cruise_start = cruise_end = None
+                avg_speed = 0.0
+            else:
+                cruise_start = above_idxs[0]
+
+                # 2. Find last index after which speed never goes back above threshold
+                cruise_end = len(speed) - 1  # fallback
+                for i in range(len(speed) - 1, cruise_start, -1):
+                    if np.any(speed[i:] > threshold):
+                        cruise_end = i
+                        break
+
+                # 3. Compute time and distance in this window
+                dt_cruise = t[cruise_end] - t[cruise_start]
+                dx = np.diff(px[cruise_start:cruise_end + 1])
+                dy = np.diff(py[cruise_start:cruise_end + 1])
+                dz = np.diff(pz[cruise_start:cruise_end + 1])
+                cruise_dist = np.sum(np.sqrt(dx**2 + dy**2 + dz**2))
+                avg_speed = cruise_dist / dt_cruise if dt_cruise > 0 else 0.0
+
+            # ------------------------------------------------------------------
+            # 3.  Mission-wide metrics (path length, elongation, etc.)
+            # ------------------------------------------------------------------
+            mission_dt = t[end_idx] - t[start_idx]
+            dx = np.diff(px[start_idx:end_idx+1])
+            dy = np.diff(py[start_idx:end_idx+1])
+            dz = np.diff(pz[start_idx:end_idx+1])
+            path_len = np.sum(np.sqrt(dx**2 + dy**2 + dz**2))
+
+            straight = np.linalg.norm([px[end_idx]-px[start_idx],
+                                    py[end_idx]-py[start_idx],
+                                    pz[end_idx]-pz[start_idx]])
+            elong = path_len / straight if straight > 0 else float("inf")
+
+            final_dist = np.linalg.norm([px[end_idx]-gx, py[end_idx]-gy, pz[end_idx]-gz])
+
+            # ------------------------------------------------------------------
+            # 4.  Clearance check (unchanged)
+            # ------------------------------------------------------------------
+            min_clear = float('inf')
+            for i in range(start_idx, end_idx+1):
+                pos = np.array([px[i], py[i], pz[i]])
+                # main obstacle
+                if data.shape[1] > 20:
+                    obs = data[i, 18:21]
+                    if not np.isnan(obs).any() and not np.allclose(obs, 0):
+                        min_clear = min(min_clear,
+                                        np.linalg.norm(pos-obs) - robot_radius - 0.50)
+                # obstacle 0-9
+                for j in range(10):
+                    base = 21 + j*3
+                    if data.shape[1] > base+2:
+                        obs = data[i, base:base+3]
+                        if not np.isnan(obs).any() and not np.allclose(obs, 0):
+                            min_clear = min(min_clear,
+                                            np.linalg.norm(pos-obs) - robot_radius - 0.50)
+
+            # ------------------------------------------------------------------
+            # 5.  Write report
+            # ------------------------------------------------------------------
+            with open(stats_filename, "w") as f:
+                f.write(f"AVOA Performance Statistics – Scenario {self.scenario}\n")
+                f.write("="*60 + "\n\n")
+                f.write("MISSION SUMMARY\n")
+                f.write(f"Start Pos: ({px[start_idx]:.2f}, {py[start_idx]:.2f}, {pz[start_idx]:.2f})\n")
+                f.write(f"End   Pos: ({px[end_idx]:.2f}, {py[end_idx]:.2f}, {pz[end_idx]:.2f})\n")
+                f.write(f"Goal  Pos: ({gx:.2f}, {gy:.2f}, {gz:.2f})\n")
+                f.write(f"Final Distance to Goal: {final_dist:.2f} m\n\n")
+
+                f.write("TIMING\n")
+                f.write(f"Mission Duration: {mission_dt:.2f} s\n")
+                if cruise_start is not None:
+                    f.write(f"Cruise Window: {t[cruise_start]:.2f}s → {t[cruise_end]:.2f}s\n")
                 else:
-                    f.write("Final Distance to Goal: N/A\n")
-                    f.write("Goal Reached: Unknown\n")
-                
-                if min_distance_to_goal != float('inf'):
-                    f.write(f"Minimum Distance to Goal: {min_distance_to_goal:.2f} meters\n")
+                    f.write("Cruise Window: n/a (speed never exceeded threshold)\n")
+                f.write("\n")
+
+                f.write("PATH\n")
+                f.write(f"Path Length:  {path_len:.2f} m\n")
+                f.write(f"Elongation:   {elong:.2f}× straight-line\n")
+                f.write(f"Average Speed (|v| > {threshold} m/s): {avg_speed:.2f} m/s\n\n")
+
+                f.write("SAFETY\n")
+                if min_clear != float('inf'):
+                    f.write(f"Minimum Clearance: {min_clear:.2f} m\n")
+                    if min_clear < 0:
+                        f.write("⚠️ Collision detected\n")
                 else:
-                    f.write("Minimum Distance to Goal: N/A\n")
-                
-                f.write(f"\nOBSTACLE SUMMARY:\n")
-                f.write(f"Number of Active Obstacles: {len(self.obstacle_odometries)}\n")
-                for obs_id in sorted(self.obstacle_odometries.keys()):
-                    f.write(f"  - Obstacle {obs_id}: Active\n")
-                
-                f.write(f"\nData Points Collected: {len(self.data_points)}\n")
-                f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            
-            self.get_logger().info(f"📋 Performance stats saved to: {stats_filename}")
-            
+                    f.write("No obstacle data available\n")
+
+                f.write("\nGenerated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+
+            self.get_logger().info(f"📋 Stats written → {stats_filename}")
+            self.get_logger().info(f"   Avg speed (>{threshold} m/s) = {avg_speed:.2f} m/s")
+
         except Exception as e:
-            self.get_logger().error(f"📋 Error generating stats file: {str(e)}")
+            self.get_logger().error(f"Stats generation error: {e}")
+            import traceback; self.get_logger().error(traceback.format_exc())
+
+
+    def generate_velocity_magnitude_plot(self):
+        """Plot linear velocity magnitude over time (actual vs desired) with publication-ready styling"""
+        if not PLOTTING_AVAILABLE:
+            self.get_logger().warn("📊 Skipping velocity magnitude plot: matplotlib not installed")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            import numpy as np
+            import os
+
+            data = np.array(self.data_points)
+            if data.shape[0] == 0:
+                self.get_logger().warn("📊 No data points available for velocity magnitude plot.")
+                return
+
+            t = data[:, 1]  # elapsed time
+
+            # Actual linear velocity magnitude
+            v_x = data[:, 14]
+            v_y = data[:, 15]
+            v_z = data[:, 16]
+            actual_speed = np.sqrt(v_x**2 + v_y**2 + v_z**2)
+
+            # Desired linear velocity magnitude
+            v_dx = data[:, 11]
+            v_dy = data[:, 12]
+            v_dz = data[:, 13]
+            desired_speed = np.sqrt(v_dx**2 + v_dy**2 + v_dz**2)
+
+            # Plot
+            plt.figure(figsize=(10, 10))  # Larger size for documents
+            plt.plot(t, desired_speed, linestyle='--', color='green', linewidth=2.5)
+            plt.plot(t, actual_speed, color='blue', linewidth=2.5)
+
+            plt.xlabel('Time [s]', fontsize=30, fontweight='bold')
+            plt.ylabel('Speed [m/s]', fontsize=30, fontweight='bold')
+            plt.title('Linear Velocity Magnitude Over Time', fontsize=30, fontweight='bold')
+            plt.grid(True, alpha=0.4)
+            plt.legend(fontsize=30, loc='upper right')
+            plt.xticks(fontsize=30)
+            plt.yticks(fontsize=30)
+            plt.tight_layout()
+
+            filename = os.path.join(self.scenario_dir, f'{self.scenario}_velocity_magnitude_plot.png')
+            plt.savefig(filename, dpi=300, bbox_inches='tight')
+            plt.close()
+
+            self.get_logger().info(f"📈 Velocity magnitude plot saved to: {filename}")
+
+        except Exception as e:
+            self.get_logger().error(f"📉 Error generating velocity magnitude plot: {e}")
+
+    def generate_velocity_components_plot(self):
+        """Generate velocity component plots with synchronized y-scale and padded range."""
+        if not PLOTTING_AVAILABLE:
+            self.get_logger().warn("📊 Skipping velocity plots: matplotlib not installed")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            import numpy as np
+            import os
+
+            data = np.array(self.data_points)
+            if data.shape[0] == 0:
+                self.get_logger().warn("📊 No data to plot.")
+                return
+
+            t = data[:, 1]
+            vx_d, vy_d, vz_d = data[:, 11], data[:, 12], data[:, 13]
+            vx_a, vy_a, vz_a = data[:, 14], data[:, 15], data[:, 16]
+
+            all_vels = np.hstack([
+                vx_d, vy_d, vz_d,
+                vx_a, vy_a, vz_a
+            ])
+            v_min = np.min(all_vels)
+            v_max = np.max(all_vels)
+            margin = 0.1 * max(abs(v_min), abs(v_max), 1.0)  # At least 10% or 0.1
+
+            y_low = min(v_min, -1.0) - margin
+            y_high = max(v_max, 1.0) + margin
+
+            def subplot_velocity(t, actuals, desireds, labels, title, filename):
+                fig, axs = plt.subplots(len(labels), 1, figsize=(10, 10), sharex=True)
+                if len(labels) == 1:
+                    axs = [axs]
+
+                colors = ['tab:red', 'tab:green', 'tab:blue']
+
+                for i, label in enumerate(labels):
+                    axs[i].plot(t, desireds[i], '--', color=colors[i], linewidth=3.5)
+                    axs[i].plot(t, actuals[i], '-', color=colors[i], linewidth=3.5)
+                    axs[i].set_ylabel(f'v{label} [m/s]', fontsize=30)
+                    axs[i].tick_params(axis='both', labelsize=30)
+                    axs[i].grid(True, alpha=0.3)
+                    axs[i].legend(fontsize=30)
+                    axs[i].set_ylim(y_low, y_high)
+
+                axs[-1].set_xlabel('Time [s]', fontsize=30)
+                fig.suptitle(title, fontsize=30, fontweight='bold')
+                fig.tight_layout(rect=[0, 0, 1, 0.96])
+
+                out_path = os.path.join(self.scenario_dir, filename)
+                plt.savefig(out_path, dpi=300, bbox_inches='tight')
+                plt.close()
+                self.get_logger().info(f"📈 Velocity subplot saved: {filename}")
+
+            # ── Plot vx, vy, vz ──
+            subplot_velocity(
+                t,
+                actuals=[vx_a, vy_a, vz_a],
+                desireds=[vx_d, vy_d, vz_d],
+                labels=['x', 'y', 'z'],
+                title='3D Linear Velocity Components Over Time',
+                filename=f'{self.scenario}_velocity_subplots_3d.png'
+            )
+
+            # ── Plot vx, vy only ──
+            subplot_velocity(
+                t,
+                actuals=[vx_a, vy_a],
+                desireds=[vx_d, vy_d],
+                labels=['x', 'y'],
+                title='2D Linear Velocity Components Over Time',
+                filename=f'{self.scenario}_velocity_subplots_2d.png'
+            )
+
+            # ── Plot vx vs wz (angular z) ──
+            fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+
+            axs[0].plot(t, vx_a, color='tab:blue', linewidth=3.5)
+            axs[0].set_ylabel('vx [m/s]', fontsize=30)
+            axs[0].tick_params(axis='both', labelsize=30)
+            axs[0].grid(True, alpha=0.3)
+
+            axs[1].plot(t, data[:, 59], color='tab:orange', linewidth=3.5)  # wz actual only
+            axs[1].set_ylabel('wz [rad/s]', fontsize=30)
+            axs[1].tick_params(axis='both', labelsize=30)
+            axs[1].grid(True, alpha=0.3)
+
+            axs[1].set_xlabel('Time [s]', fontsize=30)
+            fig.suptitle('Linear vs Angular Velocity (Differential Drive)', fontsize=30, fontweight='bold')
+            fig.tight_layout(rect=[0, 0, 1, 0.96])
+
+            filename = f'{self.scenario}_velocity_vx_wz_plot.png'
+            plt.savefig(os.path.join(self.scenario_dir, filename), dpi=300, bbox_inches='tight')
+            plt.close()
+
+            self.get_logger().info(f"📈 Differential drive velocity plot saved: {filename}")
+        except Exception as e:
+            self.get_logger().error(f"📉 Error in velocity subplot generation: {e}")
+
+    def generate_cmd_vs_actual_plot(self):
+        """Generate cmd_vel vs actual_vel plots, same style as velocity_components_plot, no labels."""
+        if not PLOTTING_AVAILABLE:
+            self.get_logger().warn("📊 Skipping cmd_vel plot: matplotlib not installed")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            import numpy as np
+            import os
+
+            data = np.array(self.data_points)
+            if data.shape[0] == 0:
+                self.get_logger().warn("📊 No data to plot.")
+                return
+
+            t = data[:, 1]
+            vx_c, vy_c, vz_c = data[:, 8], data[:, 9], data[:, 10]
+            vx_a, vy_a, vz_a = data[:, 14], data[:, 15], data[:, 16]
+
+            all_vels = np.hstack([
+                vx_c, vy_c, vz_c,
+                vx_a, vy_a, vz_a
+            ])
+            v_min, v_max = np.min(all_vels), np.max(all_vels)
+            margin = 0.1 * max(abs(v_min), abs(v_max), 1.0)
+            y_low = min(v_min, -1.0) - margin
+            y_high = max(v_max, 1.0) + margin
+
+            fig, axs = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
+            colors = ['tab:red', 'tab:green', 'tab:blue']
+            labels = ['x', 'y', 'z']
+            cmd_vels = [vx_c, vy_c, vz_c]
+            act_vels = [vx_a, vy_a, vz_a]
+
+            for i in range(3):
+                axs[i].plot(t, cmd_vels[i], '--', color=colors[i], linewidth=3.5)
+                axs[i].plot(t, act_vels[i], '-', color=colors[i], linewidth=3.5)
+                axs[i].set_ylabel(f'v{labels[i]} [m/s]', fontsize=30)
+                axs[i].tick_params(axis='both', labelsize=30)
+                axs[i].grid(True, alpha=0.3)
+                axs[i].set_ylim(y_low, y_high)
+
+            axs[-1].set_xlabel('Time [s]', fontsize=30)
+            fig.tight_layout()
+
+            out_path = os.path.join(self.scenario_dir, f'{self.scenario}_cmd_vs_actual_vel.png')
+            plt.savefig(out_path, dpi=300, bbox_inches='tight')
+            plt.close()
+            self.get_logger().info(f"📈 Cmd vs Actual velocity plot saved: {out_path}")
+
+        except Exception as e:
+            self.get_logger().error(f"📉 Error in cmd_vel vs actual_vel plot generation: {e}")
+
+    def generate_cmd_vs_actual_linear_angular_plot(self):
+        """Plot cmd_vel vs actual_vel for linear x and angular z, styled for publication, no labels."""
+        if not PLOTTING_AVAILABLE:
+            self.get_logger().warn("📊 Skipping cmd vs actual plot: matplotlib not installed")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            import numpy as np
+            import os
+
+            data = np.array(self.data_points)
+            if data.shape[0] == 0:
+                self.get_logger().warn("📊 No data to plot.")
+                return
+
+            t = data[:, 1]
+            vx_c, vx_a = data[:, 8], data[:, 14]
+            wz_c, wz_a = data[:, 53], data[:, 59]
+
+            fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+
+            axs[0].plot(t, vx_c, '--', color='tab:green', linewidth=3.5)
+            axs[0].plot(t, vx_a, '-', color='tab:green', linewidth=3.5)
+            axs[0].set_ylabel('vx [m/s]', fontsize=30)
+            axs[0].tick_params(axis='both', labelsize=30)
+            axs[0].grid(True, alpha=0.3)
+
+            axs[1].plot(t, wz_c, '--', color='tab:orange', linewidth=3.5)
+            axs[1].plot(t, wz_a, '-', color='tab:orange', linewidth=3.5)
+            axs[1].set_ylabel('wz [rad/s]', fontsize=30)
+            axs[1].tick_params(axis='both', labelsize=30)
+            axs[1].grid(True, alpha=0.3)
+
+            axs[1].set_xlabel('Time [s]', fontsize=30)
+            fig.tight_layout()
+
+            filename = f'{self.scenario}_cmd_vs_actual_vx_wz.png'
+            out_path = os.path.join(self.scenario_dir, filename)
+            plt.savefig(out_path, dpi=300, bbox_inches='tight')
+            plt.close()
+
+            self.get_logger().info(f"📈 Cmd vs Actual vx/wz plot saved: {filename}")
+ 
+
+        except Exception as e:
+            self.get_logger().error(f"📉 Error generating cmd vs actual vx/wz plot: {e}")
 
 def main(args=None):
     rclpy.init(args=args)

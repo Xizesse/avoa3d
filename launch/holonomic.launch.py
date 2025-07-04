@@ -108,6 +108,7 @@ def generate_launch_description():
             'd0': 'single_dynamic0.sdf',
             'd1': 'single_dynamic1.sdf',
             'd2': 'single_dynamic2.sdf',
+            'd3': 'single_dynamic3.sdf',
             'c0': 'complex0.sdf',
             'c1': 'complex1.sdf',
             'c2': 'complex2.sdf',

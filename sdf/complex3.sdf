@@ -179,52 +179,11 @@
             </plugin>
         </model>
 
-        <!-- !OBSTACULO 1 -->
-        <model name='obstacle_1' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>0.0 -6.0 0.5 0 0 0</pose>
-            <link name='obstacle'>
-                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
-                <visual name='visual'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius> 
-                        </sphere>
-                    </geometry>
-                    <material>
-                        <ambient>1.0 0.0 0.0 1</ambient>
-                        <diffuse>1.0 0.0 0.0 1</diffuse>
-                        <specular>1.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                <collision name='collision'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius>
-                        </sphere>
-                    </geometry>
-                </collision>
-                <enable_gravity>false</enable_gravity>
-            </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
-                <initial_angular>0 0 0.0</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
-        </model>
 
         <!-- !OBSTACULO 2 -->
         <model name='obstacle_2' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>2.0 -4.0 0.5 0 0 0</pose>
+            <static>false</static>
+            <pose relative_to='world'>5.0 1.5 9.0 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -252,7 +211,7 @@
             <plugin
                 filename="ignition-gazebo-velocity-control-system"
                 name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
+                <initial_linear>0.0 0 -1.0</initial_linear>
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             
@@ -265,8 +224,8 @@
 
         <!-- !OBSTACULO 3 -->
         <model name='obstacle_3' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>4.0 -2.0 0.5 0 0 0</pose>
+            <static>false</static>
+            <pose relative_to='world'>5.0 -1.5 10.0 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -294,7 +253,7 @@
             <plugin
                 filename="ignition-gazebo-velocity-control-system"
                 name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
+                <initial_linear>0.0 0 -1.0</initial_linear>
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             
@@ -305,173 +264,6 @@
             </plugin>
         </model>
 
-        <!-- !OBSTACULO 4 -->
-        <model name='obstacle_4' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>6.0 0.0 0.5 0 0 0</pose>
-            <link name='obstacle'>
-                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
-                <visual name='visual'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius> 
-                        </sphere>
-                    </geometry>
-                    <material>
-                        <ambient>1.0 0.0 0.0 1</ambient>
-                        <diffuse>1.0 0.0 0.0 1</diffuse>
-                        <specular>1.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                <collision name='collision'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius>
-                        </sphere>
-                    </geometry>
-                </collision>
-                <enable_gravity>false</enable_gravity>
-            </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
-                <initial_angular>0 0 0.0</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
-        </model>
-
-        <!-- !OBSTACULO 5 -->
-        <model name='obstacle_5' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>4.0 2.0 0.5 0 0 0</pose>
-            <link name='obstacle'>
-                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
-                <visual name='visual'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius> 
-                        </sphere>
-                    </geometry>
-                    <material>
-                        <ambient>1.0 0.0 0.0 1</ambient>
-                        <diffuse>1.0 0.0 0.0 1</diffuse>
-                        <specular>1.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                <collision name='collision'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius>
-                        </sphere>
-                    </geometry>
-                </collision>
-                <enable_gravity>false</enable_gravity>
-            </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
-                <initial_angular>0 0 0.0</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
-        </model>
-
-                <!-- !OBSTACULO 6 -->
-        <model name='obstacle_6' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>2.0 4.0 0.5 0 0 0</pose>
-            <link name='obstacle'>
-                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
-                <visual name='visual'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius> 
-                        </sphere>
-                    </geometry>
-                    <material>
-                        <ambient>1.0 0.0 0.0 1</ambient>
-                        <diffuse>1.0 0.0 0.0 1</diffuse>
-                        <specular>1.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                <collision name='collision'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius>
-                        </sphere>
-                    </geometry>
-                </collision>
-                <enable_gravity>false</enable_gravity>
-            </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
-                <initial_angular>0 0 0.0</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
-        </model>
-
-        <!-- !OBSTACULO 7 -->
-        <model name='obstacle_7' canonical_link='obstacle'>
-            <static>true</static>
-            <pose relative_to='world'>0.0 6.0 0.5 0 0 0</pose>
-            <link name='obstacle'>
-                <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
-                <visual name='visual'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius> 
-                        </sphere>
-                    </geometry>
-                    <material>
-                        <ambient>1.0 0.0 0.0 1</ambient>
-                        <diffuse>1.0 0.0 0.0 1</diffuse>
-                        <specular>1.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                <collision name='collision'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius>
-                        </sphere>
-                    </geometry>
-                </collision>
-                <enable_gravity>false</enable_gravity>
-            </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
-                <initial_angular>0 0 0.0</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
-        </model>
 
     </world>
 </sdf>

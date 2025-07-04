@@ -8,6 +8,7 @@
       rviz_marker: true  # Publishes agent and obstacle markers 
       test_w_goal: true  # Go towards a goal in goal_pose topic
       thruster_controller: true  # Transforms the desired velocity to thrust commands
+      metrics_node: true  # Publishes metrics on the agent's performance
 
     publish_transforms: true 
     fixed_frame: "world"

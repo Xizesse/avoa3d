@@ -1,0 +1,22 @@
+AVOA Performance Statistics – Scenario s0
+============================================================
+
+MISSION SUMMARY
+Start Pos: (-5.00, 0.00, 0.00)
+End   Pos: (9.40, -0.21, 0.00)
+Goal  Pos: (10.00, 0.00, 0.00)
+Final Distance to Goal: 0.63 m
+
+TIMING
+Mission Duration: 16.61 s
+Cruise Window: 3.11s → 19.19s
+
+PATH
+Path Length:  15.04 m
+Elongation:   1.04× straight-line
+Average Speed (|v| > 0.5 m/s): 0.96 m/s
+
+SAFETY
+Minimum Clearance: 0.44 m
+
+Generated: 2025-06-27 23:19:39

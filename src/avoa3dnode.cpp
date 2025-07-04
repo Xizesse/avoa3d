@@ -258,20 +258,20 @@ private:
         best_twist = sample_generator_->translateToTwist(best_sample);
 
         // Apply filtering (weighted average with current velocity)
-        cmd_vel.linear.x = 0.5*best_twist.linear.x + 0.5*latest_velocity_.linear.x;
-        cmd_vel.linear.y = 0.5*best_twist.linear.y + 0.5*latest_velocity_.linear.y;
-        cmd_vel.linear.z = 0.5*best_twist.linear.z + 0.5*latest_velocity_.linear.z;
+        // cmd_vel.linear.x = 0.5*best_twist.linear.x + 0.5*latest_velocity_.linear.x;
+        // cmd_vel.linear.y = 0.5*best_twist.linear.y + 0.5*latest_velocity_.linear.y;
+        // cmd_vel.linear.z = 0.5*best_twist.linear.z + 0.5*latest_velocity_.linear.z;
 
-        cmd_vel.angular.x = 0.5*best_twist.angular.x + 0.5*latest_velocity_.angular.x;
-        cmd_vel.angular.y = 0.5*best_twist.angular.y + 0.5*latest_velocity_.angular.y;
-        cmd_vel.angular.z = 0.5*best_twist.angular.z + 0.5*latest_velocity_.angular.z;
+        // cmd_vel.angular.x = 0.5*best_twist.angular.x + 0.5*latest_velocity_.angular.x;
+        // cmd_vel.angular.y = 0.5*best_twist.angular.y + 0.5*latest_velocity_.angular.y;
+        // cmd_vel.angular.z = 0.5*best_twist.angular.z + 0.5*latest_velocity_.angular.z;
 
-        // cmd_vel.linear.x = best_twist.linear.x;
-        // cmd_vel.linear.y = best_twist.linear.y;
-        // cmd_vel.linear.z = best_twist.linear.z;
-        // cmd_vel.angular.x = best_twist.angular.x;
-        // cmd_vel.angular.y = best_twist.angular.y;
-        // cmd_vel.angular.z = best_twist.angular.z;
+        cmd_vel.linear.x = best_twist.linear.x;
+        cmd_vel.linear.y = best_twist.linear.y;
+        cmd_vel.linear.z = best_twist.linear.z;
+        cmd_vel.angular.x = best_twist.angular.x;
+        cmd_vel.angular.y = best_twist.angular.y;
+        cmd_vel.angular.z = best_twist.angular.z;
 
         // std::cout << "Commanded Velocity: "
         //           << "Linear: [" << cmd_vel.linear.x << ", " << cmd_vel.linear.y << ", " << cmd_vel.linear.z << "], "

@@ -200,9 +200,12 @@ class BasicAVOAMetrics(Node):
         # Command velocity (use zero if not received)
         if self.received_cmd_vel:
             cmd_vel = self.current_cmd_vel.linear
+            cmd_ang
             cmd_vel_x, cmd_vel_y, cmd_vel_z = cmd_vel.x, cmd_vel.y, cmd_vel.z
         else:
             cmd_vel_x, cmd_vel_y, cmd_vel_z = 0.0, 0.0, 0.0
+
+        
         
         # Desired velocity (use zero if not received)
         if self.received_desired_vel:
