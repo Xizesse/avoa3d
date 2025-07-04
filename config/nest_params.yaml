@@ -1,0 +1,64 @@
+/**:
+  ros__parameters:
+    # Node launch control
+    launch_nodes:
+      avoa3d_node: true  # Core node 
+      bridge_node: false  # Bridge node to connect to gazebo. Set bridge_params.yaml
+      obstacle_publisher: false  # Publishes obstacles on element_tracking
+      rviz_marker: true  # Publishes agent and obstacle markers 
+      test_w_goal: false  # Go towards a goal in goal_pose topic
+      thruster_controller: false  # Transforms the desired velocity to thrust commands
+
+    publish_transforms: false 
+    fixed_frame: "world"
+    agent_frame: "base_link"
+
+    topics:
+      desired_vel: "/nest/desired_vel"
+      cmd_vel: "/avoa/cmd_vel" 
+      odometry: "/odometry/filtered"
+
+      element_tracking: "/element_tracking/elements"
+      goal_pose: "/goal_pose"
+      goal_odometry: "/model/goal/odometry"
+      obstacle_odometry: "/model/obstacle/odometry"
+      velocity_samples: "/avoa/velocity_samples"
+    
+    # AVOA PARAMS
+    kinematic_mode: "diff_drive" # "diff_drive" or "holonomic"
+
+    #Goal weights 
+    heading_weight: 0.50
+    abs_weight: 0.5
+    #Danger weight. Goal weight will be * (1 - danger_weight)
+    danger_weight: 0.7
+
+    # Vehicle parameters
+    vehicle_radius: 2.15 #floaters 3 meters * sqrt(2) / 2 for radius
+
+    # Time step
+    delta_t: 1.0
+    
+    # Sampling parameters
+    num_samples: 3000
+    
+    # 6DOF parameters
+    # Maximum accelerations
+    a_x_max: 1.0
+    a_y_max: 1.0
+    a_z_max: 0.0
+    
+    # Maximum angular accelerations
+    a_roll_max: 0.0
+    a_pitch_max: 0.0
+    a_yaw_max: 1.0
+
+    # Maximum linear velocities
+    v_x_max: 1.0
+    v_y_max: 1.0
+    v_z_max: 0.0
+
+    # Maximum angular velocities
+    w_roll_max: 0.0
+    w_pitch_max: 0.0
+    w_yaw_max: 0.5

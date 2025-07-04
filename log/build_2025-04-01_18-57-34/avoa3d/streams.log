@@ -1,0 +1,30 @@
+[0.049s] Invoking command in '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros_ws/src/avoa3d/build/avoa3d -- -j20 -l20
+[0.297s] [  1%] Built target avoa3d__rosidl_generator_type_description
+[0.328s] [  1%] Built target ament_cmake_python_copy_avoa3d
+[0.376s] [  3%] Built target avoa3d__cpp
+[0.389s] [ 18%] Built target avoa3d__rosidl_generator_c
+[0.472s] [ 25%] Built target avoa3d__rosidl_typesupport_fastrtps_c
+[0.473s] [ 40%] Built target avoa3d__rosidl_typesupport_fastrtps_cpp
+[0.473s] [ 40%] Built target avoa3d__rosidl_typesupport_introspection_cpp
+[0.474s] [ 47%] Built target avoa3d__rosidl_typesupport_cpp
+[0.476s] [ 54%] Built target avoa3d__rosidl_typesupport_c
+[0.482s] [ 61%] Built target avoa3d__rosidl_typesupport_introspection_c
+[0.578s] [ 61%] Built target avoa3d
+[0.580s] [ 65%] Built target test_w_goal
+[0.581s] [ 69%] Built target rviz_marker
+[0.584s] [ 72%] Built target obstacle_publisher
+[0.624s] [ 81%] Built target avoa3dnode
+[0.670s] [ 83%] Built target avoa3d__py
+[0.770s] [ 89%] Built target avoa3d__rosidl_generator_py
+[0.858s] [ 92%] Built target avoa3d_s__rosidl_typesupport_c
+[0.861s] [ 96%] Built target avoa3d_s__rosidl_typesupport_fastrtps_c
+[0.864s] [100%] Built target avoa3d_s__rosidl_typesupport_introspection_c
+[1.078s] running egg_info
+[1.135s] writing avoa3d.egg-info/PKG-INFO
+[1.136s] writing dependency_links to avoa3d.egg-info/dependency_links.txt
+[1.136s] writing top-level names to avoa3d.egg-info/top_level.txt
+[1.237s] interrupted
+[1.306s] gmake[2]: *** [CMakeFiles/ament_cmake_python_build_avoa3d_egg.dir/build.make:70: CMakeFiles/ament_cmake_python_build_avoa3d_egg] Interrupt
+[1.307s] gmake[1]: *** [CMakeFiles/Makefile2:486: CMakeFiles/ament_cmake_python_build_avoa3d_egg.dir/all] Interrupt
+[1.309s] gmake: *** [Makefile:146: all] Interrupt
+[1.315s] Invoked command in '/home/xizesse/ros_ws/src/avoa3d/build/avoa3d' returned '-2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros_ws/src/avoa3d/build/avoa3d -- -j20 -l20
