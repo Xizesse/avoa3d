@@ -119,7 +119,9 @@ def generate_launch_description():
             'c7': 'complex7.sdf',
             'c8': 'complex8.sdf',
             'c9': 'complex9.sdf',
+            'c10': 'complex10.sdf',
             'v0': 'viana0.sdf',
+
         }
         
         chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')

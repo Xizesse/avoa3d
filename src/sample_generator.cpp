@@ -378,21 +378,20 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     std::mt19937 gen(rd());
     
     // Extract current linear and angular velocities
-    double current_v = std::sqrt(current_velocity.linear.x * current_velocity.linear.x + 
-                                current_velocity.linear.y * current_velocity.linear.y);
+    double current_v = current_velocity.linear.x; 
     double current_w = current_velocity.angular.z;
     
     // Calculate velocity limits based on current velocity and acceleration constraints
     // For differential drive: linear acceleration constraint and angular acceleration constraint
     
     // Linear velocity bounds (forward/backward)
-    double min_v = std::max(current_v - params_.a_x_max * params_.delta_t, -params_.v_x_max);
+    double min_v = std::max(current_v - params_.a_x_max * params_.delta_t, 0.0); // No negative linear velocity
     double max_v = std::min(current_v + params_.a_x_max * params_.delta_t, params_.v_x_max);
     
     // Angular velocity bounds (turning)
     double min_w = std::max(current_w - params_.a_yaw_max * params_.delta_t, -params_.w_yaw_max);
     double max_w = std::min(current_w + params_.a_yaw_max * params_.delta_t, params_.w_yaw_max);
-    
+        
     // Create distributions based on the calculated bounds
     std::uniform_real_distribution<> dist_v(min_v, max_v);
     std::uniform_real_distribution<> dist_w(min_w, max_w);
@@ -410,7 +409,7 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
         samples.push_back(VelocitySample(vx, vy, vz));
     }
     
-    // Always include the current velocity as a sample (if valid)
+    //! Always include the current velocity as a sample (if valid)
     if (current_v >= min_v && current_v <= max_v &&
         current_w >= min_w && current_w <= max_w) {
         double vx = current_v * std::cos(current_w * params_.delta_t);
@@ -418,10 +417,10 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
         samples.push_back(VelocitySample(vx, vy, 0.0));
     }
     
-    // Always include the desired velocity as a sample (if valid and within constraints)
+    //! Always include the desired velocity as a sample (if valid and within constraints)
     double desired_v = std::sqrt(desired_velocity.linear.x * desired_velocity.linear.x + 
                                 desired_velocity.linear.y * desired_velocity.linear.y);
-    double desired_w = desired_velocity.angular.z;
+    double desired_w = std::atan2(desired_velocity.linear.y, desired_velocity.linear.x) / params_.delta_t;
     
     if (desired_v >= min_v && desired_v <= max_v &&
         desired_w >= min_w && desired_w <= max_w) {
@@ -435,29 +434,27 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
 
 geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const VelocitySample& sample)
 {
-    if (sample.vx == 0.0 && sample.vy == 0.0) {
-        return geometry_msgs::msg::Twist();
-    }
-
-    
     geometry_msgs::msg::Twist twist;
-    //If linear is small enough, return zero twist
-    if (std::abs(sample.vx) < 0.1 && std::abs(sample.vy) < 0.1) {
-        twist.angular.z = 0.0;
-        return twist;
+    
+    //!Handle zero or near-zero velocities
+    if (std::abs(sample.vx) < 1e-6 && std::abs(sample.vy) < 1e-6) {
+        return twist;  // All zeros
     }
-
-
-    // If x is positive, angle is
-   twist.linear.x = sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
-    double angle = std::atan2(sample.vy, sample.vx);
-
-    if (sample.vx <= 0.0) {
-        twist.linear.x *= -1.0;
-        angle = normalizeAngle(angle + M_PI);  // Normalize angle first
+    
+    double angle;
+    //!If x is zero, but y is not, then angle is pi/2 or -pi/2
+    if (std::abs(sample.vx) < 1e-6 && std::abs(sample.vy) > 1e-6) {
+        angle = (sample.vy > 0) ? M_PI_2 : -M_PI_2;
     }
-
-    twist.angular.z = angle / params_.delta_t;  // Then convert to angular velocity
+    //!General case 
+    else {
+        angle = std::atan2(sample.vy, sample.vx);
+    }
+    
+    //!Remap the velocity
+    twist.linear.x = std::sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
+    twist.angular.z = angle / params_.delta_t;
+    
     return twist;
 }
 
