@@ -246,10 +246,10 @@ private:
         */
        //
 
-        if (!checkGoalFeasibility(latest_goal_odometry_, latest_agent_odometry_, latest_obstacles_)) {
-            RCLCPP_WARN(this->get_logger(), "Goal is not feasible !");
-            return;
-        }
+        // if (!checkGoalFeasibility(latest_goal_odometry_, latest_agent_odometry_, latest_obstacles_)) {
+        //     RCLCPP_WARN(this->get_logger(), "Goal is not feasible !");
+        //     return;
+        // }
 
 
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);

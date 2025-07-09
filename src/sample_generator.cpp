@@ -431,13 +431,13 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     
     return samples;
 }
-
+//!Alterado o sample generator
 geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const VelocitySample& sample)
 {
     geometry_msgs::msg::Twist twist;
     
     //!Handle zero or near-zero velocities
-    if (std::abs(sample.vx) < 1e-6 && std::abs(sample.vy) < 1e-6) {
+    if (std::abs(sample.vx) = 0.0 && std::abs(sample.vy) = 0.0) {
         return twist;  // All zeros
     }
     
@@ -446,6 +446,7 @@ geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const Veloc
     if (std::abs(sample.vx) < 1e-6 && std::abs(sample.vy) > 1e-6) {
         angle = (sample.vy > 0) ? M_PI_2 : -M_PI_2;
     }
+    
     //!General case 
     else {
         angle = std::atan2(sample.vy, sample.vx);
@@ -453,10 +454,12 @@ geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const Veloc
     
     //!Remap the velocity
     twist.linear.x = std::sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
+
     twist.angular.z = angle / params_.delta_t;
     
     return twist;
 }
+
 
 double DiffDriveSampleGenerator::normalizeAngle(double angle)
 {

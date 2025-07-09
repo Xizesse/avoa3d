@@ -44,8 +44,8 @@
 
     #safey parameters
     
-    radius_threshold: 0.2 # meters/s
-    time_to_collision_threshold: 120.0 # seconds
+    radius_threshold: 0.05 # meters/s
+    time_to_collision_threshold: 60.0 # seconds
     
     # 6DOF parameters
     # Maximum accelerations

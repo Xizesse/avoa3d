@@ -14,6 +14,9 @@
 
 using namespace std::chrono_literals;
 
+/// LIne to set parameters when calling
+//ros2 run avoa3d dummy_obstacle_publisher --ros-args -p obstacle_initial_x:=5.0 -p obstacle_initial_y:=10.0 -p obstacle_initial_z:=0.0 -p obstacle_vel_x:=-0.0 -p obstacle_vel_y:=-0.5 -p obstacle_vel_z:=0.0 -p obstacle_radius:=0.5 -p obstacle_height:=1.0 -p protective_zone:=0.2
+
 class DummyObstaclePublisher : public rclcpp::Node
 {
 public:
@@ -175,9 +178,10 @@ private:
         
         // Set velocity (transform to agent frame for dynamic obstacles)
         if (obstacle_dynamic_) {
-            // For dynamic obstacles, transform velocity to agent frame
-            // (This is a simplified approach - full implementation would need velocity transformation)
-            element.velocity = obstacle_velocity_;
+            // Transform velocity from world frame to agent frame
+            element.velocity = transform_velocity_to_vehicle_frame(
+                obstacle_velocity_, 
+                latest_odometry_.pose.pose.orientation);
         } else {
             // Static obstacles have zero velocity
             element.velocity.x = 0.0;
@@ -229,6 +233,14 @@ private:
                              latest_odometry_.pose.pose.position.x, latest_odometry_.pose.pose.position.y, latest_odometry_.pose.pose.position.z,
                              current_obstacle_world_pos.x, current_obstacle_world_pos.y, current_obstacle_world_pos.z,
                              obstacle_agent_pos.x, obstacle_agent_pos.y, obstacle_agent_pos.z);
+        
+        // Velocity transformation debug output
+        if (obstacle_dynamic_) {
+            RCLCPP_DEBUG_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
+                                 "Velocity - World: (%.2f, %.2f, %.2f) -> Agent: (%.2f, %.2f, %.2f)",
+                                 obstacle_velocity_.x, obstacle_velocity_.y, obstacle_velocity_.z,
+                                 element.velocity.x, element.velocity.y, element.velocity.z);
+        }
         
         RCLCPP_DEBUG_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
                              "Published: element_tracking (agent frame) + obstacle odometry (world frame)");
@@ -305,6 +317,55 @@ private:
         relative_point.z = r31 * dx + r32 * dy + r33 * dz;
         
         return relative_point;
+    }
+    
+    geometry_msgs::msg::Vector3 transform_velocity_to_vehicle_frame(
+        const geometry_msgs::msg::Vector3& world_velocity,
+        const geometry_msgs::msg::Quaternion& vehicle_orientation)
+    {
+        // Convert quaternion to rotation matrix (inverse/conjugate)
+        double qw = vehicle_orientation.w;
+        double qx = vehicle_orientation.x;
+        double qy = vehicle_orientation.y;
+        double qz = vehicle_orientation.z;
+        
+        // Normalize quaternion (safety check)
+        double norm = sqrt(qw*qw + qx*qx + qy*qy + qz*qz);
+        if (norm > 0.0001) {
+            qw /= norm;
+            qx /= norm;
+            qy /= norm;
+            qz /= norm;
+        }
+        
+        // For inverse rotation, use conjugate quaternion (-x, -y, -z, w)
+        double qx_inv = -qx;
+        double qy_inv = -qy;
+        double qz_inv = -qz;
+        double qw_inv = qw;
+        
+        // Apply inverse rotation using rotation matrix from conjugate quaternion
+        geometry_msgs::msg::Vector3 relative_velocity;
+        
+        // Rotation matrix elements for inverse transform
+        double r11 = 1 - 2*(qy_inv*qy_inv + qz_inv*qz_inv);
+        double r12 = 2*(qx_inv*qy_inv - qw_inv*qz_inv);
+        double r13 = 2*(qx_inv*qz_inv + qw_inv*qy_inv);
+        
+        double r21 = 2*(qx_inv*qy_inv + qw_inv*qz_inv);
+        double r22 = 1 - 2*(qx_inv*qx_inv + qz_inv*qz_inv);
+        double r23 = 2*(qy_inv*qz_inv - qw_inv*qx_inv);
+        
+        double r31 = 2*(qx_inv*qz_inv - qw_inv*qy_inv);
+        double r32 = 2*(qy_inv*qz_inv + qw_inv*qx_inv);
+        double r33 = 1 - 2*(qx_inv*qx_inv + qy_inv*qy_inv);
+        
+        // Apply rotation to velocity vector
+        relative_velocity.x = r11 * world_velocity.x + r12 * world_velocity.y + r13 * world_velocity.z;
+        relative_velocity.y = r21 * world_velocity.x + r22 * world_velocity.y + r23 * world_velocity.z;
+        relative_velocity.z = r31 * world_velocity.x + r32 * world_velocity.y + r33 * world_velocity.z;
+        
+        return relative_velocity;
     }
 
     // Member variables

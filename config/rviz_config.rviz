@@ -53,38 +53,21 @@ Visualization Manager:
       Reference Frame: map
       Value: true
     - Class: rviz_default_plugins/TF
-      Enabled: true
+      Enabled: false
       Filter (blacklist): ""
       Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        agent:
-          Value: true
-        base_link:
-          Value: true
-        lidar:
-          Value: true
-        map:
-          Value: false
-        odom:
-          Value: false
       Marker Scale: 2
       Name: TF
       Show Arrows: false
       Show Axes: true
       Show Names: false
       Tree:
-        base_link:
-          agent:
-            {}
-          lidar:
-            {}
-        map:
-          odom:
-            {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -100,15 +83,15 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 0.8070037364959717
+      Max Intensity: 0.029999110847711563
       Min Color: 0; 0; 0
-      Min Intensity: 0.012065961956977844
+      Min Intensity: 3.78805520995229e-06
       Name: AVOA_Samples
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.009999999776482582
-      Style: Flat Squares
+      Style: Points
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -123,7 +106,7 @@ Visualization Manager:
       Angular Color: 204; 204; 51
       Arrow Width: 0.5
       Class: rviz_default_plugins/TwistStamped
-      Enabled: true
+      Enabled: false
       Hide Small Values: true
       History Length: 1
       Linear Arrow Scale: 1
@@ -136,13 +119,13 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /markers/cmd_vel
-      Value: true
+      Value: false
     - Alpha: 1
       Angular Arrow Scale: 2
       Angular Color: 204; 204; 51
       Arrow Width: 0.5
       Class: rviz_default_plugins/TwistStamped
-      Enabled: true
+      Enabled: false
       Hide Small Values: true
       History Length: 1
       Linear Arrow Scale: 1
@@ -155,7 +138,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /markers/desired_vel
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -204,9 +187,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 0
+      Max Intensity: -999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 999999
       Name: scan_fix
       Position Transformer: XYZ
       Selectable: true
@@ -251,7 +234,6 @@ Visualization Manager:
       Enabled: true
       Name: elements
       Namespaces:
-        obstacle_velocities: true
         obstacles: true
       Topic:
         Depth: 5
@@ -259,6 +241,26 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /markers/obstacle_array
+      Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz_default_plugins/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /goal_pose
       Value: true
   Enabled: true
   Global Options:
@@ -305,7 +307,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.004999999888241291
+      Angle: -1.5399994850158691
       Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -315,11 +317,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 150.76255798339844
+      Scale: 41.02351760864258
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: 0.47375187277793884
-      Y: 0.8747244477272034
+      X: 0.4897044897079468
+      Y: 0.08667673170566559
     Saved: ~
 Window Geometry:
   Displays:

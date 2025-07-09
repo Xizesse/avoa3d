@@ -54,7 +54,14 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
         sample.cost = 0.0;
         sample.danger = 0.0;
 
-                for (const auto& obstacle : obstacles.elements) {
+
+        if (sample.vx == 0.0 && sample.vy == 0.0 && sample.vz == 0.0) {
+            // Skip zero velocity samples
+            RCLCPP_INFO(logger_, "Skipping zero velocity sample: vx=%.2f, vy=%.2f, vz=%.2f", sample.vx, sample.vy, sample.vz);
+            continue;
+        }
+
+            for (const auto& obstacle : obstacles.elements) {
 
             translated_sample.vx = sample.vx - obstacle.velocity.x ;
             translated_sample.vy = sample.vy - obstacle.velocity.y ;
@@ -115,8 +122,8 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             //std::cout << "Expected radius: " << expected_radius << std::endl;
 
             // Calculate the actual distance to the axis (use the angle between the translated sample and the obstacle, and the distance to the sample
-            double actual_radius = std::sqrt(sample_distance * sample_distance - projection * projection);
-
+            double radius_squared = sample_distance * sample_distance - projection * projection;
+            double actual_radius = (radius_squared >= 0.0) ? std::sqrt(radius_squared) : 0.0;
             //std::cout << "Actual radius: " << actual_radius << std::endl;
             
 
@@ -187,7 +194,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             // TODO 1. Direction error (heading alignment with desired velocity)
             double direction_error = 0.0;
 
-            if (sample_magnitude > 0.001) {  // Avoid division by zero for normalization
+            if (sample_magnitude >= 0.01) {  // Avoid division by zero for normalization
                 // Normalize the sample velocity
                 double sample_nx = sample.vx / sample_magnitude;
                 double sample_ny = sample.vy / sample_magnitude;
@@ -201,12 +208,12 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
 
 
             } else {
-                direction_error = 0;  // No direction error if sample velocity is zero
+                continue;  // No direction error if sample velocity is zero
             }
             
             // TODO 2. Magnitude error (difference between magnitudes)
+
             double magnitude_error = std::abs(sample_magnitude - desired_magnitude);
-            
             // 3. Combine errors 
             // Normalize magnitude error by dividing by desired magnitude (if non-zero)
             double max_speed = 1.0;
@@ -219,10 +226,6 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             
             sample.cost = (1-danger_weight_) * goal_cost + danger_weight_ * sample.danger;
             
-            if (sample.vy <= 0.0 )
-            {
-                sample.cost -= 0.0*sample.vy/sample_magnitude;
-            }
              
             valid_samples.push_back(sample); 
         }
