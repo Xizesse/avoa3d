@@ -62,7 +62,7 @@
                 <visual name='visual'>
                     <geometry>
                         <box>
-                            <size>1.0 1.0 0.1</size>
+                            <size>1.0 1.0 1.0</size>
                         </box>
                     </geometry>
                     <material>

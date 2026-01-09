@@ -14,7 +14,7 @@ def generate_launch_description():
     # Bridge config path
     home_path = os.environ.get('HOME', '/tmp')
     bridge_config = os.path.join(
-        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'bridge_obstacles_config.yaml'
+        home_path, 'ros2_ws', 'src', 'avoa3d', 'config', 'bridge_obstacles_config.yaml'
     )
 
     # Bridge node - connects Gazebo to ROS2

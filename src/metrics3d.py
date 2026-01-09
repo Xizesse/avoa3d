@@ -27,7 +27,8 @@ class BasicAVOAMetrics(Node):
         
         # Declare parameters
         self.declare_parameter('scenario', 'default')
-        self.declare_parameter('results_directory', 'results')
+        self.declare_parameter('results_directory', os.path.expanduser('~/ros2_ws/src/avoa3d/results'))
+
         self.declare_parameter('auto_generate_plots', True)
         
         # Topic parameters (from your yaml structure)
@@ -37,10 +38,10 @@ class BasicAVOAMetrics(Node):
         # self.declare_parameter('topics.goal_pose', 'goal_pose')
 
         self.declare_parameter('topics.desired_vel', '/model/agente/desired_vel')
-        self.declare_parameter('topics.cmd_vel', '/avoa/cmd_vel')
-        self.declare_parameter('topics.odometry', '/nest/odometry')
-        self.declare_parameter('topics.goal_pose', 'goal_pose')
-        
+        self.declare_parameter('topics.cmd_vel', '/model/agente/cmd_vel')
+        self.declare_parameter('topics.odometry', '/model/agente/odometry')
+        self.declare_parameter('topics.goal_pose', '/goal_pose')
+
         # Get parameters
         self.scenario = self.get_parameter('scenario').value
         self.results_dir = self.get_parameter('results_directory').value
@@ -59,7 +60,8 @@ class BasicAVOAMetrics(Node):
         
         # Initialize data storage
         self.data_points = []
-        self.start_time = time.time()
+        self.start_time = None
+        self.start_time_source = None
         
         # Current message storage - robot
         self.current_odometry = None
@@ -99,18 +101,23 @@ class BasicAVOAMetrics(Node):
             Odometry, '/model/obstacle/odometry', 
             lambda msg: self.obstacle_callback('main', msg), 10)
         
-        # Subscribe to obstacle_0 through obstacle_9
+        # --- Fix lambda subscription bug in Python 3.12 / ROS Jazzy ---
+        def make_obstacle_callback(obstacle_id):
+            def callback(msg):
+                self.obstacle_callback(obstacle_id, msg)
+            return callback
+
         for i in range(10):
             topic_name = f'/model/obstacle_{i}/odometry'
+            cb = make_obstacle_callback(i)
             self.obstacle_subscribers[i] = self.create_subscription(
-                Odometry, topic_name,
-                lambda msg, obstacle_id=i: self.obstacle_callback(obstacle_id, msg), 10)
-        
+                Odometry, topic_name, cb, 10)
+
         # Create timer for periodic data logging (10 Hz)
         self.timer = self.create_timer(0.1, self.log_data)
         
         # Initialize CSV file
-        self.csv_filename = os.path.join(self.scenario_dir, f'{self.scenario}_metrics_data.csv')
+        self.csv_filename = os.path.join(self.scenario_dir, 'metrics.csv')
         self.init_csv_file()
         
         self.get_logger().info(f"🎬 AVOA Metrics started for scenario: {self.scenario}")
@@ -194,8 +201,18 @@ class BasicAVOAMetrics(Node):
         if not self.received_odometry:
             return
 
-        current_time   = time.time()
-        elapsed_time   = current_time - self.start_time
+        now_sim = self.get_clock().now().nanoseconds / 1e9
+        if now_sim > 0.0:
+            if self.start_time is None or self.start_time_source != "sim":
+                self.start_time = now_sim
+                self.start_time_source = "sim"
+            current_time = now_sim
+        else:
+            current_time = time.time()
+            if self.start_time is None:
+                self.start_time = current_time
+                self.start_time_source = "wall"
+        elapsed_time = current_time - self.start_time
 
         # ------------------------------------------------------------------
         # 1.  Core robot state
@@ -423,8 +440,11 @@ class BasicAVOAMetrics(Node):
             self.get_logger().info("📊 Generating Time PLots!")
             self.generate_velocity_magnitude_plot()
             self.generate_velocity_components_plot()
-            self.generate_cmd_vs_actual_plot()
-            self.generate_cmd_vs_actual_linear_angular_plot()
+            #self.generate_cmd_vs_actual_plot()
+            #self.generate_cmd_vs_actual_linear_angular_plot()
+
+        if len(self.data_points) > 0:
+            self.generate_stats_file()
    
 
 
@@ -456,6 +476,11 @@ class BasicAVOAMetrics(Node):
             x_min, x_max = np.min(x_r) - pad, np.max(x_r) + pad
             y_min, y_max = np.min(y_r) - pad, np.max(y_r) + pad
             z_min, z_max = np.min(z_r) - pad, np.max(z_r) + pad
+
+            x_max = max(x_max, 5.0)
+            x_min = min(x_min, -5.0)
+            y_max = max(y_max, 5.0)
+            y_min = min(y_min, -5.0)
 
             x_range = x_max - x_min
             y_range = y_max - y_min
@@ -569,7 +594,7 @@ class BasicAVOAMetrics(Node):
             self.get_logger().error(f"Plotly error: {ex}")
 
     def generate_xy_plot(self, show_labels=True):
-        """Generate trajectory and performance plots"""
+        """Generate 2D XY trajectory plot with consistent visual scale and dynamic centering."""
         if not PLOTTING_AVAILABLE:
             self.get_logger().warn("📊 Could not generate plots: matplotlib not installed")
             return
@@ -580,22 +605,44 @@ class BasicAVOAMetrics(Node):
             from matplotlib.patches import Circle
 
             data = np.array(self.data_points)
+            if data.size == 0:
+                self.get_logger().warn("📊 No data recorded – skipping XY plot.")
+                return
 
+            # --- Core arrays ---
             time_stamps = data[:, 1]
-            t0 = time_stamps[0]
-            tN = time_stamps[-1]
-            span = max(tN- t0, 1e-6)  
-            alpha_min = 0.10
-            alpha_max = 0.75
-            pos_x = data[:, 2]
-            pos_y = data[:, 3]
-            goal_x = data[:, 5]
-            goal_y = data[:, 6]
+            pos_x, pos_y = data[:, 2], data[:, 3]
+            goal_x, goal_y = data[:, 5], data[:, 6]
+
+
+
+            # --- Crop data to visible XY range ---
+            x_min, x_max = 0, 20
+            y_min, y_max = -10, 10
+            mask = (pos_x  >= x_min) & (pos_x <= x_max) & (pos_y >= y_min) & (pos_y <= y_max)
+            data = data[mask, :]
+            time_stamps = time_stamps[mask]
+            pos_x, pos_y = pos_x[mask], pos_y[mask]
+            goal_x, goal_y = goal_x[mask], goal_y[mask]
+
+            for base_col in range(18, data.shape[1], 3):  # each obstacle has (x, y, z)
+                ox = data[:, base_col]
+                oy = data[:, base_col + 1]
+                mask_obs = (ox < x_min) | (ox > x_max) | (oy < y_min) | (oy > y_max)
+                data[mask_obs, base_col:base_col+2] = np.nan
+
+            if time_stamps.size == 0:
+                self.get_logger().warn("📊 XY plot skipped: no points inside visible range [-10,10]")
+                return
+
+            t0, tN = time_stamps[0], time_stamps[-1]
+            span = max(tN - t0, 1e-6)
+            alpha_min, alpha_max = 0.10, 0.75
 
             plt.figure(figsize=(10, 10))
             ax = plt.gca()
 
-            agent_radius = 1.42/2
+            agent_radius = 1.42 / 2
             obstacle_radius = 0.5
             circle_interval = 2.0
             last_time = -circle_interval
@@ -603,69 +650,67 @@ class BasicAVOAMetrics(Node):
             obstacle_colors = ['orange', 'purple', 'brown', 'pink', 'gray',
                             'olive', 'cyan', 'magenta', 'yellow', 'lime', 'red']
 
-            for i in range(len(time_stamps)):
-                t = time_stamps[i]
-                if t - last_time >= circle_interval:
-                    # === Robot footprint circle ===
-                    alpha = alpha_min + alpha_max * (t - t0) / span
+            for i, t in enumerate(time_stamps):
+                if t - last_time < circle_interval:
+                    continue
+                alpha = alpha_min + alpha_max * (t - t0) / span
 
-                    circle = Circle((pos_x[i], pos_y[i]), radius=agent_radius,
-                                    edgecolor='blue', facecolor='blue', alpha=alpha, linewidth=1)
-                    ax.add_patch(circle)
+                # --- Robot ---
+                circle = Circle((pos_x[i], pos_y[i]), agent_radius,
+                                edgecolor='blue', facecolor='blue',
+                                alpha=alpha, linewidth=1)
+                ax.add_patch(circle)
+                if show_labels:
+                    ax.text(pos_x[i], pos_y[i], f"{int(t)}s",
+                            ha='center', va='center', fontsize=16, color='black')
+
+                # --- Main obstacle ---
+                if data.shape[1] > 20:
+                    obs_x, obs_y = data[i, 18], data[i, 19]
+                    if not np.isnan(obs_x) and not np.isnan(obs_y):
+                        color = obstacle_colors[0]
+                        circ = Circle((obs_x, obs_y), obstacle_radius,
+                                    edgecolor=color, facecolor=color,
+                                    alpha=alpha, linewidth=1)
+                        ax.add_patch(circ)
+                        if show_labels:
+                            ax.text(obs_x, obs_y, f"{int(t)}s", ha='center', va='center',
+                                    fontsize=16, color='black')
+
+                # --- Obstacles 0–9 ---
+                for j in range(10):
+                    base = 21 + j * 3
+                    if data.shape[1] <= base + 1:
+                        break
+                    ox, oy = data[i, base], data[i, base + 1]
+                    if np.isnan(ox) or np.isnan(oy):
+                        continue
+                    color = obstacle_colors[(j + 1) % len(obstacle_colors)]
+                    circ = Circle((ox, oy), obstacle_radius,
+                                edgecolor=color, facecolor=color,
+                                alpha=alpha, linewidth=1)
+                    ax.add_patch(circ)
                     if show_labels:
-                        ax.text(pos_x[i], pos_y[i], f"{int(t)}s", ha='center', va='center',
-                                fontsize=16, color='black')
+                        ax.text(ox, oy, f"{int(t)}s",
+                                ha='center', va='center', fontsize=16, color='black')
 
-                    # === Main obstacle circle ===
-                    if data.shape[1] > 19:
-                        obs_main_x = data[i, 18]
-                        obs_main_y = data[i, 19]
-                        obs_main_z = data[i, 20]
-                        if obs_main_x != 0.0 or obs_main_y != 0.0:
-                            alpha = alpha_min + alpha_max * (t - t0) / span
+                last_time = t
 
-                            circle = Circle((obs_main_x, obs_main_y), radius=obstacle_radius,
-                                            edgecolor=obstacle_colors[0], facecolor=obstacle_colors[0],
-                                            alpha=alpha, linewidth=1)
-                            ax.add_patch(circle)
-                            if show_labels:
-                                ax.text(obs_main_x, obs_main_y, f"{int(t)}s", ha='center', va='center',
-                                        fontsize=16, color='black')
-
-                    # === Obstacles 0–9 ===
-                    for j in range(10):
-                        col_x = 21 + j * 3
-                        col_y = col_x + 1
-                        if data.shape[1] > col_y:
-                            obs_x = data[i, col_x]
-                            obs_y = data[i, col_y]
-                            if obs_x != 0.0 or obs_y != 0.0:
-                                color = obstacle_colors[(j + 1) % len(obstacle_colors)]
-                                alpha = alpha_min + alpha_max * (t - t0) / span
-
-                                circle = Circle((obs_x, obs_y), radius=obstacle_radius,
-                                                edgecolor=color, facecolor=color,
-                                                alpha=alpha, linewidth=1)
-                                ax.add_patch(circle)
-                                if show_labels:
-                                    ax.text(obs_x, obs_y, f"{int(t)}s", ha='center', va='center',
-                                            fontsize=16, color='black')
-
-                    last_time = t
-
-            # Optional: dashed path line
+            # --- Path and markers ---
             plt.plot(pos_x, pos_y, 'b--', linewidth=1, alpha=0.4)
-
-            # Start/Goal/End markers
             plt.scatter(pos_x[0], pos_y[0], color='blue', s=120, marker='s',
-                        alpha=0.8, zorder=5, edgecolors='darkblue', linewidth=2)
+                        alpha=0.8, edgecolors='darkblue', linewidth=2, zorder=5)
             plt.scatter(goal_x[0], goal_y[0], color='red', s=150, marker='x',
-                        zorder=5, linewidth=3)
+                        linewidth=3, zorder=5)
             plt.scatter(pos_x[-1], pos_y[-1], color='blue', s=120, marker='s',
-                        alpha=0.3, zorder=5, edgecolors='darkblue', linewidth=2)
+                        alpha=0.3, edgecolors='darkblue', linewidth=2, zorder=5)
 
-            plt.xlim(-10, 10)
-            plt.ylim(-10, 10)
+            # --- Dynamic, consistent limits ---
+            x_min, x_max = -10, 10
+            y_min, y_max = -10, 10
+            plt.xlim(x_min, x_max)
+            plt.ylim(y_min, y_max)
+
             plt.grid(True, alpha=0.3)
             plt.xlabel('X Position (m)', fontsize=30, fontweight='bold')
             plt.ylabel('Y Position (m)', fontsize=30, fontweight='bold')
@@ -678,13 +723,14 @@ class BasicAVOAMetrics(Node):
             plt.close()
 
             self.generate_stats_file()
-            self.get_logger().info(f"📊 Trajectory + labeled footprints saved to: {filename}")
+            self.get_logger().info(f"📊 XY trajectory plot saved: {filename}")
 
         except Exception as e:
-            self.get_logger().error(f"📊 Error generating plots: {str(e)}")
+            self.get_logger().error(f"📊 Error generating XY plot: {e}")
+
 
     def generate_xz_plot(self, show_labels=True):
-        """Generate an X-Z 2-D footprint plot (similar style to XY)."""
+        """Generate 2D XZ footprint plot (same crop logic as XY plot)."""
         if not PLOTTING_AVAILABLE:
             self.get_logger().warn("📊 Could not generate plots: matplotlib not installed")
             return
@@ -699,100 +745,116 @@ class BasicAVOAMetrics(Node):
                 self.get_logger().warn("📊 No data recorded – skipping XZ plot.")
                 return
 
-            # ── Core arrays ──────────────────────────────────────────────
+            # --- Core arrays ---
             time_stamps = data[:, 1]
-            t0 = time_stamps[0]
-            tN = time_stamps[-1]
-            alpha_min = 0.10
-            alpha_max = 0.75
-            span = max(tN- t0, 1e-6)  
-            pos_x = data[:, 2]
-            pos_z = data[:, 4]
-            goal_x = data[:, 5]
-            goal_z = data[:, 7]
+            pos_x, pos_z = data[:, 2], data[:, 4]
+            goal_x, goal_z = data[:, 5], data[:, 7]
 
+            # --- Manual crop window (adjust for your scenario) ---
+            x_min, x_max = 5, 15     # visible horizontal range
+            z_min, z_max = -5, 5    # visible vertical range
+
+            # --- Crop data to visible window ---
+            mask = (pos_x >= x_min) & (pos_x <= x_max) & (pos_z >= z_min) & (pos_z <= z_max)
+            data = data[mask, :]
+            time_stamps = time_stamps[mask]
+            pos_x, pos_z = pos_x[mask], pos_z[mask]
+            goal_x, goal_z = goal_x[mask], goal_z[mask]
+
+            # --- Crop obstacle data too ---
+            for base_col in range(18, data.shape[1], 3):  # each obstacle has (x, y, z)
+                ox = data[:, base_col]
+                oz = data[:, base_col + 2]
+                mask_obs = (ox < x_min) | (ox > x_max) | (oz < z_min) | (oz > z_max)
+                data[mask_obs, base_col] = np.nan
+                data[mask_obs, base_col + 2] = np.nan
+
+            if time_stamps.size == 0:
+                self.get_logger().warn(
+                    f"📊 XZ plot skipped: no points inside visible range [{x_min},{x_max}]×[{z_min},{z_max}]"
+                )
+                return
+
+            # --- Setup figure ---
             plt.figure(figsize=(10, 10))
             ax = plt.gca()
 
-            agent_radius     = 1.42 / 2
-            obstacle_radius  = 0.5
-            circle_interval  = 2.0   # seconds between circles
-            last_time        = -circle_interval
+            agent_radius = 1.42 / 2
+            obstacle_radius = 0.5
+            circle_interval = 2.0
+            last_time = -circle_interval
+
+            t0, tN = time_stamps[0], time_stamps[-1]
+            span = max(tN - t0, 1e-6)
+            alpha_min, alpha_max = 0.10, 0.75
 
             obstacle_colors = [
                 'orange', 'purple', 'brown', 'pink', 'gray',
                 'olive', 'cyan', 'magenta', 'yellow', 'lime', 'red'
             ]
 
-            # ── Draw circles every `circle_interval` seconds ─────────────
+            # --- Draw circles every interval ---
             for i, t in enumerate(time_stamps):
                 if t - last_time < circle_interval:
                     continue
+                if not np.isfinite(pos_x[i]) or not np.isfinite(pos_z[i]):
+                    continue
 
-                # Robot footprint
                 alpha = alpha_min + alpha_max * (t - t0) / span
 
+                # --- Robot ---
                 circ = Circle((pos_x[i], pos_z[i]), agent_radius,
-                            edgecolor='blue', facecolor='blue',
-                            alpha=alpha, linewidth=1)
+                              edgecolor='blue', facecolor='blue',
+                              alpha=alpha, linewidth=1)
                 ax.add_patch(circ)
                 if show_labels:
                     ax.text(pos_x[i], pos_z[i], f"{int(t)}s",
                             ha='center', va='center', fontsize=16, color='black')
 
-                # Main obstacle (columns 18–19 = x, y)
-                # Main obstacle (columns 18–20 = x, y, z)
+                # --- Main obstacle ---
                 if data.shape[1] > 20:
-                    obs_x = data[i, 18]
-                    obs_z = data[i, 20]
-                    if obs_x or obs_z:
-                        alpha = alpha_min + alpha_max * (t - t0) / span
-
+                    obs_x, obs_z = data[i, 18], data[i, 20]
+                    if np.isfinite(obs_x) and np.isfinite(obs_z):
+                        color = obstacle_colors[0]
                         circ = Circle((obs_x, obs_z), obstacle_radius,
-                                    edgecolor=obstacle_colors[0],
-                                    facecolor=obstacle_colors[0],
-                                    alpha=alpha, linewidth=1)
+                                      edgecolor=color, facecolor=color,
+                                      alpha=alpha, linewidth=1)
                         ax.add_patch(circ)
                         if show_labels:
                             ax.text(obs_x, obs_z, f"{int(t)}s",
                                     ha='center', va='center', fontsize=16, color='black')
 
-                        
-                # Obstacles 0-9
+                # --- Obstacles 0–9 ---
                 for j in range(10):
                     base_col = 21 + j * 3
                     if data.shape[1] <= base_col + 2:
-                        break  # Skip if data incomplete
-                    ox = data[i, base_col]
-                    oz = data[i, base_col + 2]
-                    if ox or oz:
-                        color = obstacle_colors[(j + 1) % len(obstacle_colors)]
-                        alpha = alpha_min + alpha_max * (t - t0) / span
-                        circ = Circle((ox, oz), obstacle_radius,
-                                    edgecolor=color, facecolor=color,
-                                    alpha=alpha, linewidth=1)
-                        ax.add_patch(circ)
-                        if show_labels:
-                            ax.text(ox, oz, f"{int(t)}s",
-                                    ha='center', va='center', fontsize=16, color='black')
-
+                        break
+                    ox, oz = data[i, base_col], data[i, base_col + 2]
+                    if not np.isfinite(ox) or not np.isfinite(oz):
+                        continue
+                    color = obstacle_colors[(j + 1) % len(obstacle_colors)]
+                    circ = Circle((ox, oz), obstacle_radius,
+                                  edgecolor=color, facecolor=color,
+                                  alpha=alpha, linewidth=1)
+                    ax.add_patch(circ)
+                    if show_labels:
+                        ax.text(ox, oz, f"{int(t)}s",
+                                ha='center', va='center', fontsize=16, color='black')
 
                 last_time = t
 
-            # Dashed robot path
+            # --- Path and markers ---
             plt.plot(pos_x, pos_z, 'b--', linewidth=1, alpha=0.4)
-
-            # Start / goal / end markers
-            plt.scatter(pos_x[0],  pos_z[0],  s=120, marker='s', color='blue',
-                        alpha=0.8,  edgecolors='darkblue', linewidth=2, zorder=5)
-            plt.scatter(goal_x[0], goal_z[0], s=150, marker='x', color='red',
+            plt.scatter(pos_x[0], pos_z[0], color='blue', s=120, marker='s',
+                        alpha=0.8, edgecolors='darkblue', linewidth=2, zorder=5)
+            plt.scatter(goal_x[0], goal_z[0], color='red', s=150, marker='x',
                         linewidth=3, zorder=5)
-            plt.scatter(pos_x[-1], pos_z[-1], s=120, marker='s', color='blue',
-                        alpha=0.3,  edgecolors='darkblue', linewidth=2, zorder=5)
+            plt.scatter(pos_x[-1], pos_z[-1], color='blue', s=120, marker='s',
+                        alpha=0.3, edgecolors='darkblue', linewidth=2, zorder=5)
 
-            # Axes / grid / style
-            plt.xlim(-10, 10)
-            plt.ylim(-10, 10)
+            # --- Axes / style ---
+            plt.xlim(x_min, x_max)
+            plt.ylim(z_min, z_max)
             plt.grid(True, alpha=0.3)
             plt.xlabel('X Position (m)', fontsize=30, fontweight='bold')
             plt.ylabel('Z Position (m)', fontsize=30, fontweight='bold')
@@ -804,8 +866,7 @@ class BasicAVOAMetrics(Node):
             plt.savefig(filename, dpi=300, bbox_inches='tight')
             plt.close()
 
-            self.get_logger().info(f"📊 XZ footprint plot saved to: {filename}")
-            # stats file is already generated in other calls, no need to duplicate
+            self.get_logger().info(f"📊 XZ trajectory plot saved: {filename}")
 
         except Exception as e:
             self.get_logger().error(f"📊 XZ plot error: {e}")
@@ -844,43 +905,16 @@ class BasicAVOAMetrics(Node):
             else:
                 gx, gy, gz = 10.0, 0.0, 0.0
 
-            robot_radius = 1.42 / 2.0
+            # Clearance uses center-to-center distance minus agent/obstacle radii,
+            # then adds back the protective zone to report surface clearance.
+            robot_radius = 0.867
             for i in range(len(data)):
                 if np.linalg.norm([px[i]-gx, py[i]-gy, pz[i]-gz]) <= robot_radius:
                     end_idx = i
                     break
 
             # ------------------------------------------------------------------
-            # 2.  Cruise-window (hysteresis) for average speed
-            # ------------------------------------------------------------------
-            speed = np.sqrt(vx**2 + vy**2 + vz**2)
-            threshold = 0.5
-
-            # 1. First crossing above threshold (start of real motion)
-            above_idxs = np.where(speed > threshold)[0]
-            if len(above_idxs) == 0:
-                cruise_start = cruise_end = None
-                avg_speed = 0.0
-            else:
-                cruise_start = above_idxs[0]
-
-                # 2. Find last index after which speed never goes back above threshold
-                cruise_end = len(speed) - 1  # fallback
-                for i in range(len(speed) - 1, cruise_start, -1):
-                    if np.any(speed[i:] > threshold):
-                        cruise_end = i
-                        break
-
-                # 3. Compute time and distance in this window
-                dt_cruise = t[cruise_end] - t[cruise_start]
-                dx = np.diff(px[cruise_start:cruise_end + 1])
-                dy = np.diff(py[cruise_start:cruise_end + 1])
-                dz = np.diff(pz[cruise_start:cruise_end + 1])
-                cruise_dist = np.sum(np.sqrt(dx**2 + dy**2 + dz**2))
-                avg_speed = cruise_dist / dt_cruise if dt_cruise > 0 else 0.0
-
-            # ------------------------------------------------------------------
-            # 3.  Mission-wide metrics (path length, elongation, etc.)
+            # 2.  Mission-wide metrics (path length only)
             # ------------------------------------------------------------------
             mission_dt = t[end_idx] - t[start_idx]
             dx = np.diff(px[start_idx:end_idx+1])
@@ -888,71 +922,67 @@ class BasicAVOAMetrics(Node):
             dz = np.diff(pz[start_idx:end_idx+1])
             path_len = np.sum(np.sqrt(dx**2 + dy**2 + dz**2))
 
-            straight = np.linalg.norm([px[end_idx]-px[start_idx],
-                                    py[end_idx]-py[start_idx],
-                                    pz[end_idx]-pz[start_idx]])
-            elong = path_len / straight if straight > 0 else float("inf")
-
-            final_dist = np.linalg.norm([px[end_idx]-gx, py[end_idx]-gy, pz[end_idx]-gz])
-
             # ------------------------------------------------------------------
-            # 4.  Clearance check (unchanged)
+            # 3.  Clearance check (per obstacle)
             # ------------------------------------------------------------------
-            min_clear = float('inf')
+            obstacle_radius = 0.50
+            protective_zone = 0.50
+            min_clear = {"main": float("inf")}
+            for j in range(10):
+                min_clear[j] = float("inf")
+
             for i in range(start_idx, end_idx+1):
                 pos = np.array([px[i], py[i], pz[i]])
                 # main obstacle
                 if data.shape[1] > 20:
                     obs = data[i, 18:21]
-                    if not np.isnan(obs).any() and not np.allclose(obs, 0):
-                        min_clear = min(min_clear,
-                                        np.linalg.norm(pos-obs) - robot_radius - 0.50)
+                    if not np.isnan(obs).any():
+                        min_clear["main"] = min(
+                            min_clear["main"],
+                            np.linalg.norm(pos - obs) - robot_radius - obstacle_radius + protective_zone
+                        )
                 # obstacle 0-9
                 for j in range(10):
                     base = 21 + j*3
                     if data.shape[1] > base+2:
                         obs = data[i, base:base+3]
-                        if not np.isnan(obs).any() and not np.allclose(obs, 0):
-                            min_clear = min(min_clear,
-                                            np.linalg.norm(pos-obs) - robot_radius - 0.50)
+                        if not np.isnan(obs).any():
+                            min_clear[j] = min(
+                                min_clear[j],
+                                np.linalg.norm(pos - obs) - robot_radius - obstacle_radius + protective_zone
+                            )
 
             # ------------------------------------------------------------------
-            # 5.  Write report
+            # 4.  Write report (minimal)
             # ------------------------------------------------------------------
             with open(stats_filename, "w") as f:
                 f.write(f"AVOA Performance Statistics – Scenario {self.scenario}\n")
                 f.write("="*60 + "\n\n")
-                f.write("MISSION SUMMARY\n")
-                f.write(f"Start Pos: ({px[start_idx]:.2f}, {py[start_idx]:.2f}, {pz[start_idx]:.2f})\n")
-                f.write(f"End   Pos: ({px[end_idx]:.2f}, {py[end_idx]:.2f}, {pz[end_idx]:.2f})\n")
-                f.write(f"Goal  Pos: ({gx:.2f}, {gy:.2f}, {gz:.2f})\n")
-                f.write(f"Final Distance to Goal: {final_dist:.2f} m\n\n")
-
-                f.write("TIMING\n")
-                f.write(f"Mission Duration: {mission_dt:.2f} s\n")
-                if cruise_start is not None:
-                    f.write(f"Cruise Window: {t[cruise_start]:.2f}s → {t[cruise_end]:.2f}s\n")
-                else:
-                    f.write("Cruise Window: n/a (speed never exceeded threshold)\n")
-                f.write("\n")
 
                 f.write("PATH\n")
                 f.write(f"Path Length:  {path_len:.2f} m\n")
-                f.write(f"Elongation:   {elong:.2f}× straight-line\n")
-                f.write(f"Average Speed (|v| > {threshold} m/s): {avg_speed:.2f} m/s\n\n")
+                f.write("\n")
 
-                f.write("SAFETY\n")
-                if min_clear != float('inf'):
-                    f.write(f"Minimum Clearance: {min_clear:.2f} m\n")
-                    if min_clear < 0:
-                        f.write("⚠️ Collision detected\n")
+                f.write("SAFETY (MIN CLEARANCE PER OBSTACLE)\n")
+                main_clear = min_clear["main"]
+                if main_clear != float("inf"):
+                    f.write(f"main: {main_clear:.2f} m\n")
+                    if main_clear < 0:
+                        f.write("⚠️ Collision detected with main obstacle\n")
                 else:
-                    f.write("No obstacle data available\n")
+                    f.write("main: no data\n")
+                for j in range(10):
+                    clear = min_clear[j]
+                    if clear != float("inf"):
+                        f.write(f"obstacle_{j}: {clear:.2f} m\n")
+                        if clear < 0:
+                            f.write(f"⚠️ Collision detected with obstacle_{j}\n")
+                    else:
+                        f.write(f"obstacle_{j}: no data\n")
 
                 f.write("\nGenerated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
             self.get_logger().info(f"📋 Stats written → {stats_filename}")
-            self.get_logger().info(f"   Avg speed (>{threshold} m/s) = {avg_speed:.2f} m/s")
 
         except Exception as e:
             self.get_logger().error(f"Stats generation error: {e}")

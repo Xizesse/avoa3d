@@ -36,7 +36,7 @@
 
         
         <model name="agente" canonical_link="chassis">
-            <pose relative_to="world">11.0 0 0.0 0 0 0</pose> <!-- Changed z-position to 0.0 -->
+            <pose relative_to="world">10.0 0 0.0 0 0 0</pose> <!-- Changed z-position to 0.0 -->
             <link name="chassis">
                 <pose relative_to="__model__">0.0 0 0.0 0 0 0</pose>
                 <inertial>
@@ -53,7 +53,7 @@
                 <visual name="visual">
                     <geometry>
                         <box>
-                            <size>1.0 1.0 0.1</size> <!-- Changed height to 0.1 for flatter chassis -->
+                            <size>1.0 1.0 1.0</size> <!-- Changed height to 1.0 for cube chassis -->
                         </box>
                     </geometry>
                     <material>
@@ -158,7 +158,7 @@
         
         <model name="obstacle_1" canonical_link="obstacle">
             <static>false</static> 
-            <pose relative_to="world">11.0 20.0 0.5 0 0 0</pose> 
+            <pose relative_to="world">11.0 20.0 0.0 0 0 0</pose> 
             <link name="obstacle">
                 <pose relative_to="__model__">0.0 0 0.0 0 0 0</pose>
                 <inertial> 
@@ -195,7 +195,7 @@
             </link>
             
             <plugin filename="ignition-gazebo-velocity-control-system" name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 -2.0 0</initial_linear> 
+                <initial_linear>0.0 -4.0 0</initial_linear> 
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             
@@ -207,7 +207,7 @@
         
         <model name="obstacle_2" canonical_link="obstacle">
             <static>false</static>
-            <pose relative_to="world">9.0 -20.0 0.5 0 0 0</pose> 
+            <pose relative_to="world">9.0 -20.0 -0.0 0 0 0</pose> 
             <link name="obstacle">
                 <pose relative_to="__model__">0.0 0 0.0 0 0 0</pose>
                 <inertial>
@@ -244,7 +244,7 @@
             </link>
             
             <plugin filename="ignition-gazebo-velocity-control-system" name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 2.0 0</initial_linear> 
+                <initial_linear>0.0 4.0 0</initial_linear> 
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             
@@ -256,7 +256,7 @@
         
         <model name="obstacle_3" canonical_link="obstacle">
             <static>false</static>
-            <pose relative_to="world">30.0 -1.0 0.5 0 0 0</pose> 
+            <pose relative_to="world">30.0 -1.0 0.0 0 0 0</pose> 
             <link name="obstacle">
                 <pose relative_to="__model__">0.0 0 0.0 0 0 0</pose>
                 <inertial>
@@ -293,7 +293,7 @@
             </link>
             
             <plugin filename="ignition-gazebo-velocity-control-system" name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>-2.0 0.0 0</initial_linear> 
+                <initial_linear>-4.0 0.0 0</initial_linear> 
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             
@@ -305,7 +305,7 @@
         
         <model name="obstacle_4" canonical_link="obstacle">
             <static>false</static>
-            <pose relative_to="world">-10.0 1.0 0.5 0 0 0</pose> 
+            <pose relative_to="world">-10.0 1.0 0.0 0 0 0</pose> 
             <link name="obstacle">
                 <pose relative_to="__model__">0.0 0 0.0 0 0 0</pose>
                 <inertial>
@@ -342,7 +342,7 @@
             </link>
             
             <plugin filename="ignition-gazebo-velocity-control-system" name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>2.0 0.0 0</initial_linear> 
+                <initial_linear>4.0 0.0 0</initial_linear> 
                 <initial_angular>0 0 0.0</initial_angular>
             </plugin> 
             

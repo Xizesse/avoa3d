@@ -61,7 +61,7 @@
                 <visual name='visual'>
                     <geometry>
                         <box>
-                            <size>1.0 1.0 0.1</size> <!-- Changed height to 0.1 -->
+                            <size>1.0 1.0 1.0</size> <!-- Changed height to 1.0 -->
                         </box>
                     </geometry>
                     <material>

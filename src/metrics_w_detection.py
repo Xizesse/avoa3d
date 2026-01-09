@@ -106,7 +106,7 @@ class BasicAVOATrackingMetrics(Node):
         self.timer = self.create_timer(0.1, self.log_data)
         
         # Initialize CSV file
-        self.csv_filename = os.path.join(self.scenario_dir, f'{self.scenario}_metrics_data.csv')
+        self.csv_filename = os.path.join(self.scenario_dir, 'metrics.csv')
         self.init_csv_file()
         
         self.get_logger().info(f"🎬 AVOA Tracking Metrics started for scenario: {self.scenario}")

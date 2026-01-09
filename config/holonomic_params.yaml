@@ -4,10 +4,10 @@
     launch_nodes:
       bridge_node: true
       avoa3d_node: true  
-      obstacle_publisher: false 
+      obstacle_publisher: true 
       rviz_marker: true  
       test_w_goal: true 
-      metrics_node: true        # ← ADD THIS LINE
+      metrics_node: false       
 
 
     publish_transforms: true 
@@ -36,10 +36,10 @@
 
 
     #Goal weights 
-    heading_weight: 0.70
+    heading_weight: 0.7
     abs_weight: 0.3
     #Danger weight. Goal weight will be * (1 - danger_weight)
-    danger_weight: 0.99
+    danger_weight: 0.5
 
 
 
@@ -53,7 +53,7 @@
     num_samples: 10000
 
     #safey parameters
-    radius_threshold: 0.5 # meters/s
+    radius_threshold: 0. # meters/s
     time_to_collision_threshold: 120.0 # seconds
     
     # 6DOF parameters
@@ -65,7 +65,7 @@
     # Maximum angular accelerations
     a_roll_max: 0.0
     a_pitch_max: 0.0
-    a_yaw_max: 2.0
+    a_yaw_max: 0.0
 
     # Maximum linear velocities
     v_x_max: 1.0

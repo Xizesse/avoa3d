@@ -1,0 +1,20 @@
+AVOA Performance Statistics – Postprocessed
+============================================================
+
+PATH
+Path Length:  15.34 m
+
+SAFETY (MIN CLEARANCE PER OBSTACLE)
+main: no data
+obstacle_0: no data
+obstacle_1: 4.24 m
+obstacle_2: 2.65 m
+obstacle_3: 1.23 m
+obstacle_4: 0.60 m
+obstacle_5: 1.38 m
+obstacle_6: 2.84 m
+obstacle_7: no data
+obstacle_8: no data
+obstacle_9: no data
+
+Generated: 2026-01-07 18:17:59

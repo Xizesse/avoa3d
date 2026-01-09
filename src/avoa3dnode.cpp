@@ -165,14 +165,14 @@ public:
             heading_weight,
             danger_weight, 
             abs_weight,    
-            time_to_collision_threshold,  // NEW
-            radius_threshold);            // NEW
+            time_to_collision_threshold,  
+            radius_threshold);           
     
            
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
         // Publishers and subscribers - keep these as they are
-        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic, 10);
+        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/cmd_vel_unfiltered", 10);
         
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
             desired_vel_topic, 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
@@ -230,41 +230,22 @@ private:
     
     void timer_callback()
     {
-        // Timer callback tto eval time
-        // auto start = std::chrono::steady_clock::now();  // Start time
-
+        // Timer callback to eval time
+        
         geometry_msgs::msg::Twist cmd_vel;
         if (!has_received_all_data()) {
             return;
         }
 
-        /*
-        TODO: goal_feasibility check
-        TODO: filter_obstacles
-            TODO: Distance and velocity thresholds
-            TODO: Goal Logic
-        */
-       //
-
-        // if (!checkGoalFeasibility(latest_goal_odometry_, latest_agent_odometry_, latest_obstacles_)) {
-        //     RCLCPP_WARN(this->get_logger(), "Goal is not feasible !");
-        //     return;
-        // }
-
-
+        auto t0 = std::chrono::steady_clock::now();
+        
         samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_, latest_velocity_);
+
+        auto t1 = std::chrono::steady_clock::now();
+
         best_sample = sample_evaluator_->findBestSample(samples);
         best_twist = sample_generator_->translateToTwist(best_sample);
-
-        // Apply filtering (weighted average with current velocity)
-        // cmd_vel.linear.x = 0.5*best_twist.linear.x + 0.5*latest_velocity_.linear.x;
-        // cmd_vel.linear.y = 0.5*best_twist.linear.y + 0.5*latest_velocity_.linear.y;
-        // cmd_vel.linear.z = 0.5*best_twist.linear.z + 0.5*latest_velocity_.linear.z;
-
-        // cmd_vel.angular.x = 0.5*best_twist.angular.x + 0.5*latest_velocity_.angular.x;
-        // cmd_vel.angular.y = 0.5*best_twist.angular.y + 0.5*latest_velocity_.angular.y;
-        // cmd_vel.angular.z = 0.5*best_twist.angular.z + 0.5*latest_velocity_.angular.z;
 
         cmd_vel.linear.x = best_twist.linear.x;
         cmd_vel.linear.y = best_twist.linear.y;
@@ -273,21 +254,18 @@ private:
         cmd_vel.angular.y = best_twist.angular.y;
         cmd_vel.angular.z = best_twist.angular.z;
 
-        // std::cout << "Commanded Velocity: "
-        //           << "Linear: [" << cmd_vel.linear.x << ", " << cmd_vel.linear.y << ", " << cmd_vel.linear.z << "], "
-        //           << "Angular: [" << cmd_vel.angular.x << ", " << cmd_vel.angular.y << ", " << cmd_vel.angular.z << "]" 
-        //           << std::endl;
-
         cmd_vel_publisher_->publish(cmd_vel);
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
 
-        // auto end = std::chrono::steady_clock::now();
-        // auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-        // total_duration_us_ += duration_us;
-        // callback_counter_++;
+        auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+        meas_total_us_ += duration_us;
+        meas_count_++;
 
-        // RCLCPP_INFO(this->get_logger(), "timer_callback executed, duration: %ld us, average: %ld us",
-        //             duration_us, total_duration_us_ / callback_counter_);
+        // RCLCPP_INFO(this->get_logger(),
+        //             "N=%zu  this_call=%ld us  avg=%ld us",
+        //             samples.size(),
+        //             duration_us,
+        //             meas_total_us_ / meas_count_);
 
     }
     
@@ -311,27 +289,6 @@ private:
         return have_agent_data && have_desired_velocity;
     }
 
-    bool checkGoalFeasibility(
-        const nav_msgs::msg::Odometry& goal_odometry,
-        const nav_msgs::msg::Odometry& agent_odometry,
-        const avoa3d::msg::ElementCharacteristicsArray& obstacles)
-    {
-        // Check distance to goal
-        double distance_to_goal = std::sqrt(
-            std::pow(goal_odometry.pose.pose.position.x - agent_odometry.pose.pose.position.x, 2) +
-            std::pow(goal_odometry.pose.pose.position.y - agent_odometry.pose.pose.position.y, 2) +
-            std::pow(goal_odometry.pose.pose.position.z - agent_odometry.pose.pose.position.z, 2)
-        );
-        if (distance_to_goal > 10.0) {
-            //Goal is far away, I dont care about opbstacles
-            return true;
-        }
-        for (const auto& obstacle : obstacles.elements) {
-            //todo Check if the goal is or will be obstructed by the obstacle
-
-        }
-        return true;
-    }
     
     // State variables and components
     MotionParameters motion_params_;
@@ -363,6 +320,10 @@ private:
 
     size_t callback_counter_ = 0;
     int64_t total_duration_us_ = 0;
+    size_t meas_count_ = 0;      // how many cycles we measured
+    int64_t meas_total_us_ = 0;  // accumulated time in microseconds
+
+        
 };
 
 int main(int argc, char * argv[])

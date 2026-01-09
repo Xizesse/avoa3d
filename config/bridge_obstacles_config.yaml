@@ -10,20 +10,6 @@
 #   lazy: true
 #   direction: GZ_TO_ROS
 
-- ros_topic_name: "/model/agente/cmd_vel"
-  gz_topic_name: "/model/agente/cmd_vel"
-  ros_type_name: "geometry_msgs/msg/Twist"
-  gz_type_name: "gz.msgs.Twist"
-  lazy: true
-  direction: ROS_TO_GZ
-
-- ros_topic_name: "/model/agente/odometry"
-  gz_topic_name: "/model/agente/odometry"
-  ros_type_name: "nav_msgs/msg/Odometry"
-  gz_type_name: "gz.msgs.Odometry"
-  lazy: true
-  direction: GZ_TO_ROS
-
 # Original obstacle (kept for backward compatibility)
 - ros_topic_name: "/model/obstacle/odometry"
   gz_topic_name: "/model/obstacle/odometry"
@@ -103,21 +89,3 @@
   lazy: true
   direction: GZ_TO_ROS
 
-- ros_topic_name: "/model/goal/odometry"
-  gz_topic_name: "/model/goal/odometry"
-  ros_type_name: "nav_msgs/msg/Odometry"
-  gz_type_name: "gz.msgs.Odometry"
-  lazy: true
-  direction: GZ_TO_ROS
-
-- ros_topic_name: "scan"
-  gz_topic_name: "/scan"
-  ros_type_name: "sensor_msgs/msg/LaserScan"
-  gz_type_name: "gz.msgs.LaserScan"
-  direction: GZ_TO_ROS  # BIDIRECTIONAL or ROS_TO_GZ
-
-- ros_topic_name: "/points"
-  gz_topic_name: "/points/points"
-  ros_type_name: "sensor_msgs/msg/PointCloud2" 
-  gz_type_name: "gz.msgs.PointCloudPacked"
-  direction: GZ_TO_ROS

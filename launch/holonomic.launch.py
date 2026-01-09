@@ -6,8 +6,10 @@ from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
     OpaqueFunction,
-    ExecuteProcess
+    ExecuteProcess,
+    IncludeLaunchDescription
 )
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
@@ -67,7 +69,7 @@ def generate_launch_description():
 
     # Get package share directory and config paths
     pkg_share = get_package_share_directory('avoa3d')
-    params_path = os.path.join(pkg_share, 'config', 'holonomic_params.yaml')
+    params_path = os.path.join(pkg_share, 'config', 'holonomic_params2.yaml')
     
     # Load parameters from yaml
     with open(params_path, 'r') as f:
@@ -91,16 +93,16 @@ def generate_launch_description():
     # Bridge config path
     home_path = os.environ.get('HOME', '/tmp')
     bridge_config = os.path.join(
-        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'bridge_config.yaml'
+        home_path, 'ros2_ws', 'src', 'avoa3d', 'config', 'bridge_config.yaml'
     )
 
     rviz_config_path = os.path.join(
-        home_path, 'ros_ws', 'src', 'avoa3d', 'config', 'rviz_config.rviz')
+        home_path, 'ros2_ws', 'src', 'avoa3d', 'config', 'rviz_config.rviz')
 
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
-        sdf_base = os.path.join(home_path, 'ros_ws', 'src', 'avoa3d', 'sdf')
+        sdf_base = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d', 'sdf')
         
         # Define scenario mapping here in the launch file
         scenario_map = {
@@ -134,6 +136,12 @@ def generate_launch_description():
 
     # Use OpaqueFunction for dynamic gazebo process
     gazebo_process = OpaqueFunction(function=get_gazebo_process)
+
+    ground_truth_obstacles_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_share, 'launch', 'ground_truth_obstacles.launch.py')
+        )
+    )
 
     # Static Transform Publishers (Standard ROS2 approach)
     static_tf_map_odom = Node(
@@ -244,6 +252,14 @@ def generate_launch_description():
             params_path
         ]
     )
+
+    velocity_filter_node = Node(
+        package='rvo2_ros2',
+        executable='velocity_filter_node',
+        name='velocity_filter_node',
+        output='screen',
+        parameters=[{'use_sim_time': True}]
+    )
     
     thruster_controller_node = Node(
         package='avoa3d',
@@ -260,19 +276,16 @@ def generate_launch_description():
     )
 
     metrics_node = Node(
-        package='avoa3d',  # Replace with your actual package name
-        executable='metrics3d.py',
-        name='metrics_node',
+        package='avoa3d',
+        executable='metrics3d_raw.py',
+        name='metrics_raw_node',
         output='screen',
         parameters=[
             {'use_sim_time': True},
-            {'scenario': scenario},  # Pass the scenario parameter
-            {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros_ws', 'src', 'avoa3d', 'results')},
-            {'topics.desired_vel': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('desired_vel', '/model/agente/desired_vel')},
-            {'topics.cmd_vel': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('cmd_vel', '/model/agente/cmd_vel')},
-            {'topics.odometry': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('odometry', '/model/agente/odometry')},
-            {'topics.goal_odometry': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('goal_odometry', '/model/goal/odometry')},
-            params_path
+            {'scenario': scenario},
+            {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')},
+            {'agent_odometry_topic': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('odometry', '/model/agente/odometry')},
+            {'main_obstacle_topic': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('obstacle_odometry', '/model/obstacle/odometry')}
         ]
     )
 
@@ -289,7 +302,8 @@ def generate_launch_description():
         goal_topic_arg,
         
         # Add gazebo process
-        gazebo_process
+        gazebo_process,
+        ground_truth_obstacles_launch
     ]
     
     # Always add transform publishers when enabled (recommended for most use cases)
@@ -306,6 +320,7 @@ def generate_launch_description():
     
     if launch_avoa3d:
         nodes.append(avoa3d_node)
+        #nodes.append(velocity_filter_node)
     
     if launch_obstacle_publisher:
         nodes.append(obstacle_publisher_node)

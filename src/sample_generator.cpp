@@ -437,7 +437,7 @@ geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const Veloc
     geometry_msgs::msg::Twist twist;
     
     //!Handle zero or near-zero velocities
-    if (std::abs(sample.vx) = 0.0 && std::abs(sample.vy) = 0.0) {
+    if (std::abs(sample.vx) == 0.0 && std::abs(sample.vy) == 0.0) {
         return twist;  // All zeros
     }
     

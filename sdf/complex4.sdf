@@ -52,8 +52,7 @@
 
         <!--!AGENTE -->
         <model name='agente' canonical_link='chassis'>
-            <pose relative_to='world'>-5.0 0 0.0 0 0 0</pose> <!-- Changed z-position to 0.0 -->
-            <link name='chassis'>
+            <pose relative_to='world'>-5.0 0 0.00 0 0 0</pose> <!-- Changed z-position to 0.0 -->            <link name='chassis'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose> <!-- Match the dynamic file positioning -->
                 <inertial>
                     <mass>1.14395</mass>
@@ -69,7 +68,7 @@
                 <visual name='visual'>
                     <geometry>
                         <box>
-                            <size>1.0 1.0 0.1</size> <!-- Changed height to 0.1 for flatter chassis -->
+                            <size>1.0 1.0 1.0</size> <!-- Changed height to 1.0 for cube chassis -->
                         </box>
                     </geometry>
                     <material>
@@ -183,7 +182,7 @@
         <!-- !OBSTACULO 1 (Left side of V) -->
         <model name='obstacle_1' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 -5.0 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 -5.0 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -225,7 +224,7 @@
         <!-- !OBSTACULO 2 (Left side of V) -->
         <model name='obstacle_2' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 -3.3 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 -3.3 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -267,7 +266,7 @@
         <!-- !OBSTACULO 3 (Left side of V) -->
         <model name='obstacle_3' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 -1.6 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 -1.6 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -309,7 +308,7 @@
         <!-- !OBSTACULO 4 (Center of V) -->
         <model name='obstacle_4' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 0.0 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 0.0 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -351,7 +350,7 @@
         <!-- !OBSTACULO 5 (Right side of V) -->
         <model name='obstacle_5' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 1.6 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 1.6 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -389,53 +388,51 @@
                 <dimensions>3</dimensions>
             </plugin>
         </model>
-
-        <!-- !OBSTACULO 6 (Right side of V) -->
         <model name='obstacle_6' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 3.3 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 3.3 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
                     <geometry>
                         <sphere>
                             <radius>0.5</radius> 
-                        </sphere>
-                    </geometry>
-                    <material>
-                        <ambient>1.0 0.0 0.0 1</ambient>
-                        <diffuse>1.0 0.0 0.0 1</diffuse>
-                        <specular>1.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                <collision name='collision'>
-                    <geometry>
-                        <sphere>
-                            <radius>0.5</radius>
-                        </sphere>
-                    </geometry>
-                </collision>
-                <enable_gravity>false</enable_gravity>
-            </link>
-            
-            <plugin
-                filename="ignition-gazebo-velocity-control-system"
-                name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>0.0 0 0</initial_linear>
-                <initial_angular>0 0 0.0</initial_angular>
-            </plugin> 
-            
-            <plugin
-                filename="ignition-gazebo-odometry-publisher-system"
-                name="ignition::gazebo::systems::OdometryPublisher">
-                <dimensions>3</dimensions>
-            </plugin>
-        </model>
-
-        <!-- !OBSTACULO 7 (Right side of V) -->
+                            </sphere>
+                            </geometry>
+                            <material>
+                                <ambient>1.0 0.0 0.0 1</ambient>
+                                <diffuse>1.0 0.0 0.0 1</diffuse>
+                                <specular>1.0 0.0 0.0 1</specular>
+                                </material>
+                                </visual>
+                                <collision name='collision'>
+                                    <geometry>
+                                        <sphere>
+                                            <radius>0.5</radius>
+                                            </sphere>
+                                            </geometry>
+                                            </collision>
+                                            <enable_gravity>false</enable_gravity>
+                                            </link>
+                                            
+                                            <plugin
+                                            filename="ignition-gazebo-velocity-control-system"
+                                            name="ignition::gazebo::systems::VelocityControl">
+                                            <initial_linear>0.0 0 0</initial_linear>
+                                            <initial_angular>0 0 0.0</initial_angular>
+                                            </plugin> 
+                                            
+                                            <plugin
+                                            filename="ignition-gazebo-odometry-publisher-system"
+                                            name="ignition::gazebo::systems::OdometryPublisher">
+                                            <dimensions>3</dimensions>
+                                            </plugin>
+                                            </model>
+        <!-- 
+                                            
         <model name='obstacle_7' canonical_link='obstacle'>
             <static>true</static>
-            <pose relative_to='world'>5.0 5.0 0.0 0 0 0</pose>
+            <pose relative_to='world'>5.0 5.0 -0.05 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
                 <visual name='visual'>
@@ -472,7 +469,7 @@
                 name="ignition::gazebo::systems::OdometryPublisher">
                 <dimensions>3</dimensions>
             </plugin>
-        </model>
+        </model> -->
 
     
     </world>
