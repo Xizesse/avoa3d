@@ -58,11 +58,7 @@ def generate_launch_description():
         description='RViz2 goal pose topic'
     )
     
-    launch_metrics_arg = DeclareLaunchArgument(
-        'launch_metrics',
-        default_value='true',
-        description='Whether to launch the metrics/recorder node'
-    )
+
 
     # Create LaunchConfigurations
     name = LaunchConfiguration('name')
@@ -73,7 +69,7 @@ def generate_launch_description():
     fixed_frame = LaunchConfiguration('fixed_frame')
     agent_frame = LaunchConfiguration('agent_frame')
     goal_topic = LaunchConfiguration('goal_topic')
-    launch_metrics = LaunchConfiguration('launch_metrics')
+
 
     # Get package share directory and config paths
     pkg_share = get_package_share_directory('avoa3d')
@@ -93,7 +89,7 @@ def generate_launch_description():
     launch_rviz_marker = launch_configs.get('rviz_marker', True)
     launch_test_w_goal = launch_configs.get('test_w_goal', True)
     launch_thruster_controller = launch_configs.get('thruster_controller', False)
-    launch_metrics_yaml = launch_configs.get('metrics_node', False)
+
     launch_velocity_filter = launch_configs.get('velocity_filter_node', True)
     
     # NEW: Single flag to control all transforms
@@ -274,18 +270,7 @@ def generate_launch_description():
         ]
     )
 
-    recorder_node = Node(
-        package='avoa3d',
-        executable='recorder.py',
-        name='data_recorder',
-        output='screen',
-        parameters=[
-            {'use_sim_time': True},
-            {'scenario': scenario},
-            {'algorithm': 'javoa'}, 
-            {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')},
-        ]
-    )
+
 
     # Create an empty list for nodes and add the argument declarations
     nodes = [
@@ -347,6 +332,6 @@ def generate_launch_description():
     if launch_thruster_controller:
         nodes.append(thruster_controller_node)
     
-    nodes.append(recorder_node)
+
     
     return LaunchDescription(nodes)

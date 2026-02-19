@@ -1,0 +1,22 @@
+[0.006s] Invoking command in '/home/xizesse/ros2_ws/build/avoa3d': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros2_ws/build/avoa3d -- -j20 -l20
+[0.035s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.054s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[2.547s] Traceback (most recent call last):
+[2.548s]   File "/opt/ros/jazzy/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py", line 21, in <module>
+[2.548s]     from ament_package.templates import get_environment_hook_template_path
+[2.548s] ModuleNotFoundError: No module named 'ament_package'
+[2.584s] [31mCMake Error at /opt/ros/jazzy/share/ament_cmake_core/cmake/ament_cmake_package_templates-extras.cmake:41 (message):
+[2.584s]   execute_process(/usr/bin/python3
+[2.584s]   /opt/ros/jazzy/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py
+[2.584s]   /home/xizesse/ros2_ws/build/avoa3d/ament_cmake_package_templates/templates.cmake)
+[2.584s]   returned error code 1
+[2.584s] Call Stack (most recent call first):
+[2.584s]   /opt/ros/jazzy/share/ament_cmake_core/cmake/ament_cmake_coreConfig.cmake:41 (include)
+[2.584s]   /opt/ros/jazzy/share/ament_cmake/cmake/ament_cmake_export_dependencies-extras.cmake:15 (find_package)
+[2.584s]   /opt/ros/jazzy/share/ament_cmake/cmake/ament_cmakeConfig.cmake:41 (include)
+[2.584s]   CMakeLists.txt:6 (find_package)
+[2.584s] 
+[2.584s] [0m
+[2.584s] -- Configuring incomplete, errors occurred!
+[2.586s] gmake: *** [Makefile:1412: cmake_check_build_system] Error 1
+[2.588s] Invoked command in '/home/xizesse/ros2_ws/build/avoa3d' returned '2': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros2_ws/build/avoa3d -- -j20 -l20

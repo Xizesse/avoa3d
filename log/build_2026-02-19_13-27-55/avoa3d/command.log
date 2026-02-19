@@ -1,0 +1,2 @@
+Invoking command in '/home/xizesse/ros2_ws/build/avoa3d': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros2_ws/build/avoa3d -- -j20 -l20
+Invoked command in '/home/xizesse/ros2_ws/build/avoa3d' returned '2': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros2_ws/build/avoa3d -- -j20 -l20

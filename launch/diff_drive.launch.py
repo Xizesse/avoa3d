@@ -83,7 +83,7 @@ def generate_launch_description():
     launch_rviz_marker = launch_configs.get('rviz_marker', True)
     launch_test_w_goal = launch_configs.get('test_w_goal', True)
     launch_thruster_controller = launch_configs.get('thruster_controller', False)
-    launch_metrics = launch_configs.get('metrics_node', False)
+
     
     # NEW: Single flag to control all transforms
     publish_transforms = launch_configs.get('publish_transforms', True)
@@ -261,22 +261,7 @@ def generate_launch_description():
         ]
     )
 
-    metrics_node = Node(
-        package='avoa3d',  # Replace with your actual package name
-        executable='metrics_w_detection.py',
-        name='metrics_node',
-        output='screen',
-        parameters=[
-            {'use_sim_time': True},
-            {'scenario': scenario},  # Pass the scenario parameter
-            {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros_ws', 'src', 'avoa3d', 'results')},
-            {'topics.desired_vel': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('desired_vel', '/model/agente/desired_vel')},
-            {'topics.cmd_vel': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('cmd_vel', '/model/agente/cmd_vel')},
-            {'topics.odometry': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('odometry', '/model/agente/odometry')},
-            {'topics.goal_odometry': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('goal_odometry', '/model/goal/odometry')},
-            params_path
-        ]
-    )
+
 
     # Create an empty list for nodes and add the argument declarations
     nodes = [
@@ -322,7 +307,6 @@ def generate_launch_description():
     if launch_thruster_controller:
         nodes.append(thruster_controller_node)
     
-    if launch_metrics:
-        nodes.append(metrics_node)
+
     
     return LaunchDescription(nodes)

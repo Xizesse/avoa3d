@@ -172,11 +172,6 @@ install(DIRECTORY
 
 install(PROGRAMS
   src/laser_frame_transformer.py
-  src/metrics.py
-  src/metrics3d.py
-  src/metrics3d_raw.py
-  src/metrics_w_detection.py
-  src/recorder.py
 
   DESTINATION lib/${PROJECT_NAME}
 )

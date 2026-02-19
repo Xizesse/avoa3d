@@ -235,36 +235,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    # recorder_node = Node(
-    #     package='avoa3d',
-    #     executable='recorder.py',
-    #     name='data_recorder_debug',
-    #     output='screen',
-    #     parameters=[
-    #         {'use_sim_time': True},
-    #         {'scenario': scenario},
-    #         {'algorithm': 'rvo'}, 
-    #         {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')},
-    #     ]
-    # )
 
-    # FORCE EXECUTION via explicit process spawn
-    # We pass parameters as CLI args if the node supports them, or via --ros-args -p key:=value
-    # Since recorder.py reads parameters from ROS, we need to pass them via -p
-    results_dir = os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')
-    
-    recorder_node = ExecuteProcess(
-        cmd=[
-            'ros2', 'run', 'avoa3d', 'recorder.py',
-            '--ros-args', 
-            '-p', 'use_sim_time:=true',
-            '-p', 'algorithm:=rvo',
-            '-p', f'results_directory:={results_dir}',
-            '-p', 'scenario:=0', # temporarily harcoded to '0' to avoid LaunchSubstitution complexity in cmd list
-            '-r', '__node:=data_recorder_forced'
-        ],
-        output='screen'
-    )
 
     # Helper to publish a static goal for testing
     static_goal_pub = ExecuteProcess(
@@ -299,13 +270,12 @@ def generate_launch_description():
         obstacle_publisher_node,# 2. Generates obstacles_array
         rvo2_node,              # 3. Generates cmd_vel_unfiltered
         velocity_filter_node,   # 4. Generates cmd_vel
-        recorder_node,
-        
+
+
         # Optional: Auto-publish goal
         static_goal_pub
     ]
 
-    print(f"DEBUG: Node list length: {len(nodes)}")
-    print("DEBUG: ---------------------------------------------------")
+
 
     return LaunchDescription(nodes)
