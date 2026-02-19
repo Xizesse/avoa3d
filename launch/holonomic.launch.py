@@ -9,6 +9,7 @@ from launch.actions import (
     ExecuteProcess,
     IncludeLaunchDescription
 )
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -34,8 +35,8 @@ def generate_launch_description():
     )
     scenario_arg = DeclareLaunchArgument(
         'scenario',
-        default_value='s0',
-        description='Scenario number: s=static, d=dynamic.'
+        default_value='0',
+        description='Scenario number: integer index for generated scenarios.'
     )
     
     # Frame arguments
@@ -56,6 +57,12 @@ def generate_launch_description():
         default_value='/goal_pose',
         description='RViz2 goal pose topic'
     )
+    
+    launch_metrics_arg = DeclareLaunchArgument(
+        'launch_metrics',
+        default_value='true',
+        description='Whether to launch the metrics/recorder node'
+    )
 
     # Create LaunchConfigurations
     name = LaunchConfiguration('name')
@@ -66,6 +73,7 @@ def generate_launch_description():
     fixed_frame = LaunchConfiguration('fixed_frame')
     agent_frame = LaunchConfiguration('agent_frame')
     goal_topic = LaunchConfiguration('goal_topic')
+    launch_metrics = LaunchConfiguration('launch_metrics')
 
     # Get package share directory and config paths
     pkg_share = get_package_share_directory('avoa3d')
@@ -85,7 +93,8 @@ def generate_launch_description():
     launch_rviz_marker = launch_configs.get('rviz_marker', True)
     launch_test_w_goal = launch_configs.get('test_w_goal', True)
     launch_thruster_controller = launch_configs.get('thruster_controller', False)
-    launch_metrics = launch_configs.get('metrics_node', False)
+    launch_metrics_yaml = launch_configs.get('metrics_node', False)
+    launch_velocity_filter = launch_configs.get('velocity_filter_node', True)
     
     # NEW: Single flag to control all transforms
     publish_transforms = launch_configs.get('publish_transforms', True)
@@ -102,34 +111,24 @@ def generate_launch_description():
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
-        sdf_base = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d', 'sdf')
+        base_path = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d')
+        scenarios_dir = os.path.join(base_path, 'scenarios')
         
-        # Define scenario mapping here in the launch file
-        scenario_map = {
-            's1': 'single_static1.sdf',
-            'd0': 'single_dynamic0.sdf',
-            'd1': 'single_dynamic1.sdf',
-            'd2': 'single_dynamic2.sdf',
-            'd3': 'single_dynamic3.sdf',
-            'c0': 'complex0.sdf',
-            'c1': 'complex1.sdf',
-            'c2': 'complex2.sdf',
-            'c3': 'complex3.sdf',
-            'c4': 'complex4.sdf',
-            'c5': 'complex5.sdf',
-            'c6': 'complex6.sdf',
-            'c7': 'complex7.sdf',
-            'c8': 'complex8.sdf',
-            'c9': 'complex9.sdf',
-            'v0': 'viana0.sdf',
-        }
-        
-        chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')
-        sdf_file = os.path.join(sdf_base, chosen_sdf)
+        try:
+            scenario_idx = int(scenario_value)
+            sdf_file_name = f"scenario_{scenario_idx:03d}.sdf"
+            sdf_path = os.path.join(scenarios_dir, sdf_file_name)
+            
+            if not os.path.exists(sdf_path):
+                 print(f"WARNING: Scenario file not found: {sdf_path}")
+
+        except ValueError:
+            print(f"ERROR: Scenario '{scenario_value}' is not a valid integer. Using default scenario_000.sdf")
+            sdf_path = os.path.join(scenarios_dir, "scenario_000.sdf")
         
         return [
             ExecuteProcess(
-                cmd=['gz', 'sim', '4', '-r', sdf_file],
+                cmd=['gz', 'sim', '4', '-r', sdf_path],
                 output='screen'
             )
         ]
@@ -275,17 +274,16 @@ def generate_launch_description():
         ]
     )
 
-    metrics_node = Node(
+    recorder_node = Node(
         package='avoa3d',
-        executable='metrics3d_raw.py',
-        name='metrics_raw_node',
+        executable='recorder.py',
+        name='data_recorder',
         output='screen',
         parameters=[
             {'use_sim_time': True},
             {'scenario': scenario},
+            {'algorithm': 'javoa'}, 
             {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')},
-            {'agent_odometry_topic': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('odometry', '/model/agente/odometry')},
-            {'main_obstacle_topic': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('obstacle_odometry', '/model/obstacle/odometry')}
         ]
     )
 
@@ -320,7 +318,9 @@ def generate_launch_description():
     
     if launch_avoa3d:
         nodes.append(avoa3d_node)
-        #nodes.append(velocity_filter_node)
+
+    if launch_velocity_filter:
+        nodes.append(velocity_filter_node)
     
     if launch_obstacle_publisher:
         nodes.append(obstacle_publisher_node)
@@ -332,10 +332,21 @@ def generate_launch_description():
     if launch_test_w_goal:
         nodes.append(test_w_goal_node)
         
+        # Publish static goal pose
+        nodes.append(
+            ExecuteProcess(
+                cmd=[
+                    'ros2', 'topic', 'pub', '-r', '1',
+                    '/goal_pose', 'geometry_msgs/msg/PoseStamped',
+                    '{header: {frame_id: "map"}, pose: {position: {x: 10.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}'
+                ],
+                output='screen'
+            )
+        )
+        
     if launch_thruster_controller:
         nodes.append(thruster_controller_node)
     
-    if launch_metrics:
-        nodes.append(metrics_node)
+    nodes.append(recorder_node)
     
     return LaunchDescription(nodes)

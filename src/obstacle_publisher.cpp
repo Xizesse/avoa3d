@@ -155,7 +155,7 @@ private:
         element.size.x = 1.0;
         element.size.y = 1.0;
         element.size.z = 1.0;
-        element.protective_zone = 0.5;
+        element.protective_zone = 0.0;
         
         // Add to array
         array_msg.elements.push_back(element);

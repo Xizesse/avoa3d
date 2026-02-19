@@ -41,7 +41,7 @@ public:
     this->declare_parameter<std::string>("topics.desired_vel", "/model/agente/desired_vel");
     this->declare_parameter<std::string>("topics.agent_odometry", "/model/agente/odometry");
     this->declare_parameter<std::string>("topics.goal_pose", "/goal_pose");
-    this->declare_parameter<double>("constant_speed", 0.5);
+    this->declare_parameter<double>("constant_speed", 5.0);
 
     fixed_frame_ = this->get_parameter("fixed_frame").as_string();
     agent_frame_ = this->get_parameter("agent_frame").as_string();
@@ -102,7 +102,7 @@ private:
   double current_y_ = 0.0;
   double current_z_ = 0.0;
   
-  const double constant_speed_ = 1.0; //! fixed speed
+  const double constant_speed_ = 5.0; //! fixed speed
   
   void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
@@ -187,12 +187,12 @@ private:
       msg.linear.z = 0.0;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, " 🏁 Goal reached!");
     }
-    else if (distance < 5.0)
+    else if (distance < 10.0)
     {
       // Slow down when close to goal
-      msg.linear.x = (error_x)/5.0 * constant_speed_;
-      msg.linear.y = (error_y)/5.0 * constant_speed_;
-      msg.linear.z = (error_z)/5.0 * constant_speed_;
+      msg.linear.x = (error_x)/10.0 * constant_speed_;
+      msg.linear.y = (error_y)/10.0 * constant_speed_;
+      msg.linear.z = (error_z)/10.0 * constant_speed_;
       RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
                           "❯❯❯❯ Approaching goal, distance: %.2f", distance);
     }

@@ -25,8 +25,10 @@ class BasicAVOAMetrics(Node):
         super().__init__('basic_avoa_metrics')
         
         # Declare parameters
+        # Declare parameters
         self.declare_parameter('scenario', 'default')
-        self.declare_parameter('results_directory', 'results')
+        self.declare_parameter('algorithm', 'unknown') # New parameter
+        self.declare_parameter('results_directory', os.path.expanduser('~/ros2_ws/src/avoa3d/results')) # Use absolute path default
         self.declare_parameter('auto_generate_plots', True)
         
         # Topic parameters (from your yaml structure)
@@ -37,6 +39,7 @@ class BasicAVOAMetrics(Node):
         
         # Get parameters
         self.scenario = self.get_parameter('scenario').value
+        self.algorithm = self.get_parameter('algorithm').value
         self.results_dir = self.get_parameter('results_directory').value
         
         # Get topic names
@@ -45,9 +48,17 @@ class BasicAVOAMetrics(Node):
         self.odometry_topic = self.get_parameter('topics.odometry').value
         self.goal_odometry_topic = self.get_parameter('topics.goal_odometry').value
         
-        # Create timestamped results directory
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.scenario_dir = os.path.join(self.results_dir, f"{self.scenario}_{timestamp}")
+        # Create timestamped results directory: results/randomized/s<id>_<algo>
+        # We'll use a specific "randomized" subdirectory to keep it clean as requested
+        base_dir = os.path.join(self.results_dir, "randomized")
+        folder_name = f"s{self.scenario}_{self.algorithm}"
+        self.scenario_dir = os.path.join(base_dir, folder_name)
+        
+        if os.path.exists(self.scenario_dir):
+            self.get_logger().warn(f"Directory {self.scenario_dir} already exists. Appending timestamp.")
+            timestamp = datetime.now().strftime("%H%M%S")
+            self.scenario_dir = os.path.join(base_dir, f"{folder_name}_{timestamp}")
+
         os.makedirs(self.scenario_dir, exist_ok=True)
         
         # Initialize data storage

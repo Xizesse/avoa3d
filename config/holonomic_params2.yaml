@@ -68,9 +68,9 @@
     a_yaw_max: 0.0
 
     # Maximum linear velocities
-    v_x_max: 1.5
-    v_y_max: 1.5
-    v_z_max: 0.5
+    v_x_max: 15.0
+    v_y_max: 15.0
+    v_z_max: 5.0
 
     # Maximum angular velocities
     w_roll_max: 0.0

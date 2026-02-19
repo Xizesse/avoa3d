@@ -9,12 +9,16 @@ from launch.actions import (
     ExecuteProcess,
     IncludeLaunchDescription
 )
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+    print("DEBUG: ---------------------------------------------------")
+    print("DEBUG: STARTING RVO.LAUNCH.PY GENERATION")
+    print("DEBUG: ---------------------------------------------------")
     # Declare arguments
     name_arg = DeclareLaunchArgument(
         'name',
@@ -34,8 +38,8 @@ def generate_launch_description():
     )
     scenario_arg = DeclareLaunchArgument(
         'scenario',
-        default_value='s0',
-        description='Scenario number: s=static, d=dynamic.'
+        default_value='0',
+        description='Scenario number: integer index for generated scenarios.'
     )
     
     # Frame arguments
@@ -56,6 +60,7 @@ def generate_launch_description():
         default_value='/goal_pose',
         description='RViz2 goal pose topic'
     )
+    
 
     # Create LaunchConfigurations
     name = LaunchConfiguration('name')
@@ -68,27 +73,14 @@ def generate_launch_description():
     goal_topic = LaunchConfiguration('goal_topic')
 
     # Get package share directory and config paths
-    pkg_share = get_package_share_directory('avoa3d')
-    params_path = os.path.join(pkg_share, 'config', 'holonomic_params2.yaml')
+    pkg_share_avoa = get_package_share_directory('avoa3d')
+    # pkg_share_rvo = get_package_share_directory('rvo2_ros2') # If needed
+    
+    params_path = os.path.join(pkg_share_avoa, 'config', 'holonomic_params2.yaml')
     
     # Load parameters from yaml
     with open(params_path, 'r') as f:
         params = yaml.safe_load(f)
-    
-    # Extract launch configurations
-    launch_configs = params.get('/**', {}).get('ros__parameters', {}).get('launch_nodes', {})
-    
-    # Check which nodes to launch
-    launch_bridge = launch_configs.get('bridge_node', True)
-    launch_avoa3d = launch_configs.get('avoa3d_node', True)
-    launch_obstacle_publisher = launch_configs.get('obstacle_publisher', True)
-    launch_rviz_marker = launch_configs.get('rviz_marker', True)
-    launch_test_w_goal = launch_configs.get('test_w_goal', True)
-    launch_thruster_controller = launch_configs.get('thruster_controller', False)
-    launch_metrics = launch_configs.get('metrics_node', False)
-    
-    # NEW: Single flag to control all transforms
-    publish_transforms = launch_configs.get('publish_transforms', True)
     
     # Bridge config path
     home_path = os.environ.get('HOME', '/tmp')
@@ -102,34 +94,24 @@ def generate_launch_description():
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
-        sdf_base = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d', 'sdf')
+        base_path = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d')
+        scenarios_dir = os.path.join(base_path, 'scenarios')
         
-        # Define scenario mapping here in the launch file
-        scenario_map = {
-            's1': 'single_static1.sdf',
-            'd0': 'single_dynamic0.sdf',
-            'd1': 'single_dynamic1.sdf',
-            'd2': 'single_dynamic2.sdf',
-            'd3': 'single_dynamic3.sdf',
-            'c0': 'complex0.sdf',
-            'c1': 'complex1.sdf',
-            'c2': 'complex2.sdf',
-            'c3': 'complex3.sdf',
-            'c4': 'complex4.sdf',
-            'c5': 'complex5.sdf',
-            'c6': 'complex6.sdf',
-            'c7': 'complex7.sdf',
-            'c8': 'complex8.sdf',
-            'c9': 'complex9.sdf',
-            'v0': 'viana0.sdf',
-        }
-        
-        chosen_sdf = scenario_map.get(scenario_value, 'single_static1.sdf')
-        sdf_file = os.path.join(sdf_base, chosen_sdf)
+        try:
+            scenario_idx = int(scenario_value)
+            sdf_file_name = f"scenario_{scenario_idx:03d}.sdf"
+            sdf_path = os.path.join(scenarios_dir, sdf_file_name)
+            
+            if not os.path.exists(sdf_path):
+                 print(f"WARNING: Scenario file not found: {sdf_path}")
+
+        except ValueError:
+            print(f"ERROR: Scenario '{scenario_value}' is not a valid integer. Using default scenario_000.sdf")
+            sdf_path = os.path.join(scenarios_dir, "scenario_000.sdf")
         
         return [
             ExecuteProcess(
-                cmd=['gz', 'sim', '4', '-r', sdf_file],
+                cmd=['gz', 'sim', '4', '-r', sdf_path],
                 output='screen'
             )
         ]
@@ -139,11 +121,11 @@ def generate_launch_description():
 
     ground_truth_obstacles_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_share, 'launch', 'ground_truth_obstacles.launch.py')
+            os.path.join(pkg_share_avoa, 'launch', 'ground_truth_obstacles.launch.py')
         )
     )
 
-    # Static Transform Publishers (Standard ROS2 approach)
+    # Static Transform Publishers
     static_tf_map_odom = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -151,7 +133,6 @@ def generate_launch_description():
         arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom'],
         parameters=[{'use_sim_time': True}]
     )
-    
     
     static_tf_base_agent = Node(
         package='tf2_ros',
@@ -161,10 +142,10 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    # Dynamic Transform Publisher (for odom->base_link)
+    # Dynamic Transform Publisher (odom->base_link)
     dynamic_tf_publisher = Node(
         package='avoa3d',
-        executable='tf_publisher',  # Keep your existing executable name
+        executable='tf_publisher',
         name='tf_publisher',
         output='screen',
         emulate_tty=True,
@@ -172,12 +153,11 @@ def generate_launch_description():
             {'use_sim_time': True},
             {'fixed_frame': fixed_frame},
             {'agent_frame': agent_frame},
-            {'agent_odometry_topic': '/model/agente/odometry'},  # Make configurable
-            params_path
+            {'agent_odometry_topic': '/model/agente/odometry'}, 
         ]
     )
 
-    # Regular nodes
+    # Bridge
     bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -199,28 +179,13 @@ def generate_launch_description():
         output='screen',
         parameters=[{'use_sim_time': True}]
     )
-
-    obstacle_publisher_node = Node(
-        package='rvo2_ros2',
-        executable='obstacle_publisher',
-        name='obstacle_publisher',
-        output='screen',
-        parameters=[{'use_sim_time': True}]
-    )
-
-    rviz_marker_node = Node(
-        package='avoa3d',
-        executable='rviz_marker',
-        name='rviz_marker',
-        output='screen',
-        parameters=[
-            {'use_sim_time': True},
-            {'fixed_frame': fixed_frame},
-            {'agent_frame': agent_frame},
-            params_path
-        ]
-    )
-
+    
+    # -------------------------------------------------------------
+    # RVO / Avoa3d Hybrid Setup
+    # -------------------------------------------------------------
+    
+    # 1. Test with Goal (from avoa3d)
+    # This publishes /model/agente/desired_vel based on /goal_pose
     test_w_goal_node = Node(
         package='avoa3d',
         executable='test_w_goal',
@@ -231,10 +196,14 @@ def generate_launch_description():
             {'fixed_frame': fixed_frame},
             {'agent_frame': agent_frame},
             {'goal_topic': goal_topic},
-            params_path
+            # Map parameters just in case they are used, but primarily uses defaults/args
+            {'topics.desired_vel': '/model/agente/desired_vel'}
         ]
     )
-
+    
+    # 2. RVO2 Node (from rvo2_ros2)
+    # Subscribes: /model/agente/odometry, /model/agente/desired_vel, /obstacles_array
+    # Publishes: /model/agente/cmd_vel_unfiltered
     rvo2_node = Node(
         package='rvo2_ros2',
         executable='rvo2_node',
@@ -243,6 +212,21 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
+    # 3. Obstacle Publisher (from rvo2_ros2) 
+    # Publishes /obstacles_array from /model/obstacle_*/odometry
+    # The rvo2_node needs the custom message format provided by this node
+    obstacle_publisher_node = Node(
+        package='rvo2_ros2',
+        executable='obstacle_publisher',
+        name='obstacle_publisher',
+        output='screen',
+        parameters=[{'use_sim_time': True}]
+    )
+
+    # 4. Velocity Filter (from rvo2_ros2)
+    # Subscribes /model/agente/cmd_vel_unfiltered
+    # Publishes /model/agente/cmd_vel
+    # The bridge picks up /model/agente/cmd_vel to send to Gazebo
     velocity_filter_node = Node(
         package='rvo2_ros2',
         executable='velocity_filter_node',
@@ -250,38 +234,49 @@ def generate_launch_description():
         output='screen',
         parameters=[{'use_sim_time': True}]
     )
+
+    # recorder_node = Node(
+    #     package='avoa3d',
+    #     executable='recorder.py',
+    #     name='data_recorder_debug',
+    #     output='screen',
+    #     parameters=[
+    #         {'use_sim_time': True},
+    #         {'scenario': scenario},
+    #         {'algorithm': 'rvo'}, 
+    #         {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')},
+    #     ]
+    # )
+
+    # FORCE EXECUTION via explicit process spawn
+    # We pass parameters as CLI args if the node supports them, or via --ros-args -p key:=value
+    # Since recorder.py reads parameters from ROS, we need to pass them via -p
+    results_dir = os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')
     
-    thruster_controller_node = Node(
-        package='avoa3d',
-        executable='thruster_controller',
-        name='thruster_controller',
-        output='screen',
-        emulate_tty=True,
-        parameters=[
-            {'use_sim_time': True},
-            {'fixed_frame': fixed_frame},
-            {'agent_frame': agent_frame},
-            params_path
-        ]
+    recorder_node = ExecuteProcess(
+        cmd=[
+            'ros2', 'run', 'avoa3d', 'recorder.py',
+            '--ros-args', 
+            '-p', 'use_sim_time:=true',
+            '-p', 'algorithm:=rvo',
+            '-p', f'results_directory:={results_dir}',
+            '-p', 'scenario:=0', # temporarily harcoded to '0' to avoid LaunchSubstitution complexity in cmd list
+            '-r', '__node:=data_recorder_forced'
+        ],
+        output='screen'
     )
 
-    metrics_node = Node(
-        package='avoa3d',
-        executable='metrics3d_raw.py',
-        name='metrics_raw_node',
-        output='screen',
-        parameters=[
-            {'use_sim_time': True},
-            {'scenario': scenario},
-            {'results_directory': os.path.join(os.environ.get('HOME', '/tmp'), 'ros2_ws', 'src', 'avoa3d', 'results')},
-            {'agent_odometry_topic': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('odometry', '/model/agente/odometry')},
-            {'main_obstacle_topic': params.get('/**', {}).get('ros__parameters', {}).get('topics', {}).get('obstacle_odometry', '/model/obstacle/odometry')}
-        ]
+    # Helper to publish a static goal for testing
+    static_goal_pub = ExecuteProcess(
+        cmd=[
+            'ros2', 'topic', 'pub', '-r', '1',
+            '/goal_pose', 'geometry_msgs/msg/PoseStamped',
+            '{header: {frame_id: "map"}, pose: {position: {x: 10.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}'
+        ],
+        output='screen'
     )
 
-    # Create an empty list for nodes and add the argument declarations
     nodes = [
-        # Declare arguments
         name_arg,
         config_file_arg,
         namespace_arg,
@@ -291,42 +286,26 @@ def generate_launch_description():
         agent_frame_arg,
         goal_topic_arg,
         
-        # Add gazebo process
         gazebo_process,
-        ground_truth_obstacles_launch
-    ]
-    
-    # Always add transform publishers when enabled (recommended for most use cases)
-    if publish_transforms:
-        nodes.extend([
-            static_tf_map_odom,
-            static_tf_base_agent,
-            dynamic_tf_publisher
-        ])
-    
-    # Conditionally add other nodes based on configuration
-    if launch_bridge:
-        nodes.append(bridge_node)
-    
-    if launch_avoa3d:
-        nodes.append(rvo2_node)
-        #nodes.append(velocity_filter_node)
-    
-    if launch_obstacle_publisher:
-        nodes.append(obstacle_publisher_node)
-    
-    if launch_rviz_marker:
-        nodes.append(rviz_marker_node)
-        nodes.append(rviz_node)
-    
-    if launch_test_w_goal:
-        nodes.append(test_w_goal_node)
+        bridge_node,
+        static_tf_map_odom,
+        static_tf_base_agent,
+        dynamic_tf_publisher,
+        rviz_node,
+        ground_truth_obstacles_launch,
         
-    if launch_thruster_controller:
-        nodes.append(thruster_controller_node)
-    
-    if launch_metrics:
-        nodes.append(metrics_node)
-    
-    
+        # Modified Logic Chain
+        test_w_goal_node,       # 1. Generates desired_vel
+        obstacle_publisher_node,# 2. Generates obstacles_array
+        rvo2_node,              # 3. Generates cmd_vel_unfiltered
+        velocity_filter_node,   # 4. Generates cmd_vel
+        recorder_node,
+        
+        # Optional: Auto-publish goal
+        static_goal_pub
+    ]
+
+    print(f"DEBUG: Node list length: {len(nodes)}")
+    print("DEBUG: ---------------------------------------------------")
+
     return LaunchDescription(nodes)
