@@ -47,6 +47,7 @@ public:
         this->declare_parameter("heading_weight", 0.0);
         this->declare_parameter("abs_weight", 0.0);
         this->declare_parameter("danger_weight", 0.0);
+        this->declare_parameter("momentum_weight", 0.1);
         
         // Motion parameters
         this->declare_parameter("a_x_max", 0.0);
@@ -76,6 +77,7 @@ public:
         double heading_weight = this->get_parameter("heading_weight").as_double();
         double abs_weight = this->get_parameter("abs_weight").as_double();
         double danger_weight = this->get_parameter("danger_weight").as_double();
+        double momentum_weight = this->get_parameter("momentum_weight").as_double();
 
         double time_to_collision_threshold = this->get_parameter("time_to_collision_threshold").as_double();
         double radius_threshold = this->get_parameter("radius_threshold").as_double();
@@ -107,6 +109,7 @@ public:
         std::cout << "  - Heading Weight: " << heading_weight << std::endl;
         std::cout << "  - Danger Weight: " << danger_weight << std::endl;
         std::cout << "  - Absolute Weight: " << abs_weight << std::endl;
+        std::cout << "  - Momentum Weight: " << momentum_weight << std::endl;
         
         std::cout << "Motion Limits:" << std::endl;
         std::cout << "  - Max Linear Velocity [X,Y,Z]: ["
@@ -165,6 +168,7 @@ public:
             heading_weight,
             danger_weight, 
             abs_weight,    
+            momentum_weight,
             time_to_collision_threshold,  
             radius_threshold);           
     

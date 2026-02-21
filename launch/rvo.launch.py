@@ -42,6 +42,12 @@ def generate_launch_description():
         description='Scenario number: integer index for generated scenarios.'
     )
     
+    scenarios_dir_arg = DeclareLaunchArgument(
+        'scenarios_dir',
+        default_value='scenarios',
+        description='Name of the scenarios directory'
+    )
+    
     # Frame arguments
     fixed_frame_arg = DeclareLaunchArgument(
         'fixed_frame',
@@ -94,8 +100,9 @@ def generate_launch_description():
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
+        scenarios_dir_name = context.launch_configurations['scenarios_dir']
         base_path = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d')
-        scenarios_dir = os.path.join(base_path, 'scenarios')
+        scenarios_dir = os.path.join(base_path, scenarios_dir_name)
         
         try:
             scenario_idx = int(scenario_value)
@@ -220,7 +227,10 @@ def generate_launch_description():
         executable='obstacle_publisher',
         name='obstacle_publisher',
         output='screen',
-        parameters=[{'use_sim_time': True}]
+        parameters=[
+            {'use_sim_time': True},
+            {'num_obstacles': LaunchConfiguration('num_obstacles')}
+        ]
     )
 
     # 4. Velocity Filter (from rvo2_ros2)
@@ -253,6 +263,7 @@ def generate_launch_description():
         namespace_arg,
         log_level_arg,
         scenario_arg,
+        scenarios_dir_arg,
         fixed_frame_arg,
         agent_frame_arg,
         goal_topic_arg,

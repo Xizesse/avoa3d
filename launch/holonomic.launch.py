@@ -39,6 +39,12 @@ def generate_launch_description():
         description='Scenario number: integer index for generated scenarios.'
     )
     
+    scenarios_dir_arg = DeclareLaunchArgument(
+        'scenarios_dir',
+        default_value='scenarios',
+        description='Name of the scenarios directory'
+    )
+    
     # Frame arguments
     fixed_frame_arg = DeclareLaunchArgument(
         'fixed_frame',
@@ -56,6 +62,12 @@ def generate_launch_description():
         'goal_topic',
         default_value='/goal_pose',
         description='RViz2 goal pose topic'
+    )
+    
+    num_obstacles_arg = DeclareLaunchArgument(
+        'num_obstacles',
+        default_value='50',
+        description='Number of obstacles to track'
     )
     
 
@@ -107,8 +119,9 @@ def generate_launch_description():
     # Function to select the SDF file based on scenario parameter
     def get_gazebo_process(context):
         scenario_value = context.launch_configurations['scenario']
+        scenarios_dir_name = context.launch_configurations['scenarios_dir']
         base_path = os.path.join(home_path, 'ros2_ws', 'src', 'avoa3d')
-        scenarios_dir = os.path.join(base_path, 'scenarios')
+        scenarios_dir = os.path.join(base_path, scenarios_dir_name)
         
         try:
             scenario_idx = int(scenario_value)
@@ -204,6 +217,7 @@ def generate_launch_description():
             {'use_sim_time': True},
             {'fixed_frame': fixed_frame},
             {'agent_frame': agent_frame},
+            {'num_obstacles': LaunchConfiguration('num_obstacles')},
             params_path
         ]
     )
@@ -280,9 +294,11 @@ def generate_launch_description():
         namespace_arg,
         log_level_arg,
         scenario_arg,
+        scenarios_dir_arg,
         fixed_frame_arg,
         agent_frame_arg,
         goal_topic_arg,
+        num_obstacles_arg,
         
         # Add gazebo process
         gazebo_process,

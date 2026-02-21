@@ -152,9 +152,9 @@ private:
         element.velocity.z = velocity_agent.vector.z;
         
         // Set size (fixed for all obstacles)
-        element.size.x = 1.0;
-        element.size.y = 1.0;
-        element.size.z = 1.0;
+        element.size.x = 2.0;
+        element.size.y = 2.0;
+        element.size.z = 2.0;
         element.protective_zone = 0.0;
         
         // Add to array

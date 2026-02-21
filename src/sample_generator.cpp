@@ -195,17 +195,18 @@ VelocitySample HolonomicEllipsoidalSampleGenerator::generateEllipsoidSample(std:
     // Generate uniform samples within ellipsoid using spherical coordinates
     std::uniform_real_distribution<> dist_r(0.0, 1.0);
     std::uniform_real_distribution<> dist_theta(0.0, 2.0 * M_PI);
-    std::uniform_real_distribution<> dist_phi(0.0, M_PI);
+    std::uniform_real_distribution<> dist_cos_phi(-1.0, 1.0);
     
     // Generate radius with cube root for uniform volume distribution
     double r = std::cbrt(dist_r(gen));
     double theta = dist_theta(gen);
-    double phi = dist_phi(gen);
+    double cos_phi = dist_cos_phi(gen);
+    double sin_phi = std::sqrt(1.0 - cos_phi * cos_phi);
     
     // Convert to Cartesian coordinates and scale by ellipsoid semi-axes
-    double vx = r * vx_max * std::sin(phi) * std::cos(theta);
-    double vy = r * vy_max * std::sin(phi) * std::sin(theta);
-    double vz = r * vz_max * std::cos(phi);
+    double vx = r * vx_max * sin_phi * std::cos(theta);
+    double vy = r * vy_max * sin_phi * std::sin(theta);
+    double vz = r * vz_max * cos_phi;
     
     return VelocitySample(vx, vy, vz);
 }
@@ -221,7 +222,7 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
     // Calculate velocity limits based on current velocity and acceleration constraints
     // This creates a "reachable ellipsoid" that's potentially smaller than the full velocity ellipsoid
     
-    // Calculate reachable velocity bounds (same as original holonomic)
+    //! Calculate reachable velocity bounds (same as original holonomic) from the acceleration constraints
     double min_vx = std::max(current_velocity.linear.x - params_.a_x_max * params_.delta_t, -params_.v_x_max);
     double max_vx = std::min(current_velocity.linear.x + params_.a_x_max * params_.delta_t, params_.v_x_max);
     
@@ -231,38 +232,29 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
     double min_vz = std::max(current_velocity.linear.z - params_.a_z_max * params_.delta_t, -params_.v_z_max);
     double max_vz = std::min(current_velocity.linear.z + params_.a_z_max * params_.delta_t, params_.v_z_max);
     
-    // Calculate effective ellipsoid semi-axes (bounded by reachable limits)
-    double eff_vx_max = std::min(params_.v_x_max, std::max(std::abs(min_vx), std::abs(max_vx)));
-    double eff_vy_max = std::min(params_.v_y_max, std::max(std::abs(min_vy), std::abs(max_vy)));
-    double eff_vz_max = std::min(params_.v_z_max, std::max(std::abs(min_vz), std::abs(max_vz)));
+    std::uniform_real_distribution<> dist_vx(min_vx, max_vx);
+    std::uniform_real_distribution<> dist_vy(min_vy, max_vy);
+    std::uniform_real_distribution<> dist_vz(min_vz, max_vz);
     
-    // Generate samples using rejection sampling within the intersection of:
-    // 1. The velocity ellipsoid
-    // 2. The acceleration-reachable box
     int attempts = 0;
-    int max_attempts = params_.num_samples * 5; // Prevent infinite loops
+    int max_attempts = params_.num_samples * 10; // Prevent infinite loops
     
+    //! Generate samples by sampling from the reachable acceleration box, 
+    // and crop/reject those outside the global velocity ellipsoid.
     while (samples.size() < static_cast<size_t>(params_.num_samples) && attempts < max_attempts) {
-        // Generate a sample within the ellipsoid
-        VelocitySample candidate = generateEllipsoidSample(gen, eff_vx_max, eff_vy_max, eff_vz_max);
+        double vx = dist_vx(gen);
+        double vy = dist_vy(gen);
+        double vz = dist_vz(gen);
         
-        // Check if it's within the acceleration-reachable bounds
-        if (candidate.vx >= min_vx && candidate.vx <= max_vx &&
-            candidate.vy >= min_vy && candidate.vy <= max_vy &&
-            candidate.vz >= min_vz && candidate.vz <= max_vz) {
-            samples.push_back(candidate);
+        if (isInsideEllipsoid(vx, vy, vz, params_.v_x_max, params_.v_y_max, params_.v_z_max)) {
+            samples.push_back(VelocitySample(vx, vy, vz));
         }
         attempts++;
     }
     
-    // If we didn't get enough samples due to rejection, fill with purely ellipsoidal samples
-    // (this handles edge cases where acceleration constraints are very restrictive)
-    while (samples.size() < static_cast<size_t>(params_.num_samples)) {
-        VelocitySample candidate = generateEllipsoidSample(gen, params_.v_x_max, params_.v_y_max, params_.v_z_max);
-        samples.push_back(candidate);
-    }
+    // Fallback: None right now
     
-    // Always include the current velocity as a sample (if valid)
+    //! Always include the current velocity as a sample (if valid)
     if (current_velocity.linear.x >= min_vx && current_velocity.linear.x <= max_vx &&
         current_velocity.linear.y >= min_vy && current_velocity.linear.y <= max_vy &&
         current_velocity.linear.z >= min_vz && current_velocity.linear.z <= max_vz &&
@@ -275,7 +267,7 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
         ));
     }
     
-    // Always include the desired velocity as a sample (if valid)
+    //! Always include the desired velocity as a sample (if valid)
     if (desired_velocity.linear.x >= min_vx && desired_velocity.linear.x <= max_vx &&
         desired_velocity.linear.y >= min_vy && desired_velocity.linear.y <= max_vy &&
         desired_velocity.linear.z >= min_vz && desired_velocity.linear.z <= max_vz &&

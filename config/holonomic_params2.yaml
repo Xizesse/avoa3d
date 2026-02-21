@@ -38,6 +38,7 @@
     #Goal weights 
     heading_weight: 0.80
     abs_weight: 0.2
+    momentum_weight: 0.1
     #Danger weight. Goal weight will be * (1 - danger_weight)
     danger_weight: 0.8
 
@@ -47,7 +48,7 @@
     vehicle_radius: 0.5
 
     # How long in the future to look for a velocity sample
-    delta_t: 1.0
+    delta_t: 3.0
     
     # Sampling parameters
     num_samples: 10000

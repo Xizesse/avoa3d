@@ -7,12 +7,13 @@
 namespace avoa3d {
 
 SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius, 
-                                 double heading_weight, double danger_weight, double abs_weight, double time_to_collision_threshold, double radius_threshold)
+                                 double heading_weight, double danger_weight, double abs_weight, double momentum_weight, double time_to_collision_threshold, double radius_threshold)
     : logger_(logger),
       vehicle_radius_(vehicle_radius),
         heading_weight_(heading_weight),
         danger_weight_(danger_weight),
         abs_weight_(abs_weight),
+        momentum_weight_(momentum_weight),
         time_to_collision_threshold_(time_to_collision_threshold),
         radius_threshold_(radius_threshold)
 
@@ -21,6 +22,7 @@ SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius,
     RCLCPP_INFO(logger_, "Heading weight: %.2f", heading_weight_);
     RCLCPP_INFO(logger_, "Danger weight: %.2f", danger_weight_);
     RCLCPP_INFO(logger_, "Abs weight: %.2f", abs_weight_);
+    RCLCPP_INFO(logger_, "Momentum weight: %.2f", momentum_weight_);
 }
 
 void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desired_velocity)
@@ -62,12 +64,12 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
         }
 
             for (const auto& obstacle : obstacles.elements) {
+            
+            //!Relative velocity
 
             translated_sample.vx = sample.vx - obstacle.velocity.x ;
             translated_sample.vy = sample.vy - obstacle.velocity.y ;
             translated_sample.vz = sample.vz - obstacle.velocity.z ;
-
-            
             
             double obstacle_x = obstacle.pose.position.x;
             double obstacle_y = obstacle.pose.position.y;
@@ -85,8 +87,11 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 obstacle_y * obstacle_y +
                 obstacle_z * obstacle_z
             );
-
-            //std::cout << "Obstacle distance: " << obstacle_distance << std::endl;
+            
+            if (obstacle_distance < 0.001) {
+                collision_free = false;
+                break;
+            }
 
             //TGet Sample Distance
             double sample_distance = std::sqrt(
@@ -99,19 +104,18 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             
             double cone_angle = 0.0;
             
-            if(false && (obstacle_distance < obstacle_radius))
+            if (obstacle_distance <= obstacle_radius)
             {
-                cone_angle = M_PI;   
+                cone_angle = M_PI / 2.0;   
                 if (projection > 0.0)
                 {
                     collision_free = false;
                     break;
                 }
-                
             }
             else
             {
-                cone_angle = std::atan(obstacle_radius / obstacle_distance);
+                cone_angle = std::asin(obstacle_radius / obstacle_distance);
             }
             
             //Get the projection of the translated sample on the obstacle axis
@@ -126,8 +130,8 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             double actual_radius = (radius_squared >= 0.0) ? std::sqrt(radius_squared) : 0.0;
             //std::cout << "Actual radius: " << actual_radius << std::endl;
             
-
-            float time_to_collision = (obstacle_distance - obstacle_radius) / sample_distance;
+            // Use projection (velocity towards obstacle) instead of full sample distance
+            float time_to_collision = (obstacle_distance - obstacle_radius) / std::max(0.001, projection);
             
             if (actual_radius < expected_radius) { //if Collision Cone
                 // Collision detected -> Break to Remove
@@ -200,13 +204,13 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 double sample_ny = sample.vy / sample_magnitude;
                 double sample_nz = sample.vz / sample_magnitude;
                 
-                double dot_product = (sample_nx * desired_vx + sample_ny * desired_vy + sample_nz * desired_vz ) / desired_magnitude;
+                // desired_vx/y/z are already normalized at the start of the function, 
+                // so we don't divide by desired_magnitude here!
+                double dot_product = (sample_nx * desired_vx + sample_ny * desired_vy + sample_nz * desired_vz);
                 
                 dot_product = std::max(-1.0, std::min(1.0, dot_product));
                 
                 direction_error = (dot_product - 1.0) / -2.0;  // Normalize to [0, 1]
-
-
             } else {
                 continue;  // No direction error if sample velocity is zero
             }
@@ -219,15 +223,38 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             double max_speed = 1.0;
             double normalized_magnitude_error = magnitude_error / max_speed;
             
-            std::atan2(sample.vy,sample.vx);
+            // To prevent oscillation/chattering, we penalize drastic changes in velocity direction!
+            // We calculate how much this sample diverges from the CURRENT velocity context.
+            double momentum_error = 0.0;
+            double current_magnitude = std::sqrt(current_velocity.linear.x * current_velocity.linear.x +
+                                                 current_velocity.linear.y * current_velocity.linear.y +
+                                                 current_velocity.linear.z * current_velocity.linear.z);
+            if (current_magnitude >= 0.01 && sample_magnitude >= 0.01) {
+                double curr_nx = current_velocity.linear.x / current_magnitude;
+                double curr_ny = current_velocity.linear.y / current_magnitude;
+                double curr_nz = current_velocity.linear.z / current_magnitude;
+                
+                double sample_nx = sample.vx / sample_magnitude;
+                double sample_ny = sample.vy / sample_magnitude;
+                double sample_nz = sample.vz / sample_magnitude;
+                
+                double dot_momentum = sample_nx * curr_nx + sample_ny * curr_ny + sample_nz * curr_nz;
+                dot_momentum = std::max(-1.0, std::min(1.0, dot_momentum));
+                momentum_error = (1.0 - dot_momentum) / 2.0; // [0, 1], 0 means keep same direction
+            }
+            
+            // Temporary small weight for momentum to fix oscillation. 
+            // This favors keeping the same avoidance side instead of switching back and forth.
+            // Using parameterized momentum_weight_ 
 
-            // ! Combine goal-directed cost with safety cost
-            double goal_cost = heading_weight_ * direction_error + abs_weight_ * normalized_magnitude_error;
+            // ! Combine goal-directed cost with safety cost and momentum
+            double goal_cost = heading_weight_ * direction_error + 
+                               abs_weight_ * normalized_magnitude_error + 
+                               momentum_weight_ * momentum_error;
             
             sample.cost = (1-danger_weight_) * goal_cost + danger_weight_ * sample.danger;
-            
              
-            valid_samples.push_back(sample); 
+            valid_samples.push_back(sample);  
         }
     }
     

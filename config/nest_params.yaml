@@ -31,6 +31,7 @@
     #Goal weights 
     heading_weight: 0.50
     abs_weight: 0.5
+    momentum_weight: 0.1
     #Danger weight. Goal weight will be * (1 - danger_weight)
     danger_weight: 0.7
 

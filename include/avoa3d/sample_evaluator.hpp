@@ -15,7 +15,7 @@ namespace avoa3d {
 class SampleEvaluator {
 public:
     SampleEvaluator(rclcpp::Logger logger, double vehicle_radius, 
-                    double heading_weight, double danger_weight, double abs_weight, double time_to_collision_threshold, double radius_threshold);
+                    double heading_weight, double danger_weight, double abs_weight, double momentum_weight, double time_to_collision_threshold, double radius_threshold);
     
     // Set the desired velocity
     void setDesiredVelocity(const geometry_msgs::msg::Twist& desired_velocity);
@@ -58,6 +58,7 @@ private:
     double heading_weight_ = 0.0;
     double danger_weight_ = 0.0;
     double abs_weight_ = 0.0;
+    double momentum_weight_ = 0.0;
 
     // Safety cost parameters
     double time_to_collision_threshold_ = 3000.0; // in seconds

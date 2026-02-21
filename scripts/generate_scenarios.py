@@ -12,24 +12,45 @@ def generate_sdf(scenario_id, seed, output_dir):
     # Configuration
     # -------------------------------------------------------------------------
     
+    
+
+
     # Map Bounds for Obstacles (keep away from agent start if possible)
     # Agent is at -5, 0. Let's spawn obstacles in a region in front of it?
     # Or just random in the world.
     # complex0 has obstacles at (3, -3) and (3, 3).
     # Let's define a spawning area.
-    MIN_X, MAX_X = -5.0, 10.0
+    MIN_X, MAX_X = -5.0, 15.0
     MIN_Y, MAX_Y = -5.0, 5.0
     MIN_Z, MAX_Z = -2.0, 2.0
 
     # Obstacle Parameters
     MIN_OBSTACLES = 10
-    MAX_OBSTACLES = 10
-    MIN_RADIUS = 0.5
-    MAX_RADIUS = 0.5
+    MAX_OBSTACLES = 50
+    MIN_RADIUS = 1.0
+    MAX_RADIUS = 1.0
+    
+    # Static Wall Parameters
+    MIN_WALLS = 2
+    MAX_WALLS = 4
+    WALL_SIZES = [4, 6, 8]
+    WALL_X_RANGE = (-5.0, 8.0)
+    
+    # Dynamic Obstacle Parameters
+    MIN_DYNAMIC_CLUSTERS = 2
+    MAX_DYNAMIC_CLUSTERS = 6
+    DYNAMIC_SIZES = [1, 2]
+    DYNAMIC_X_RANGE = (-5.0, 10.0)
+    MIN_DIST_FROM_OTHER_CLUSTERS = 3.0
     
     # Linear Velocity Parameters
     MIN_VEL = 0.0
-    MAX_VEL = 2.0
+    MAX_VEL = 4.0
+
+    # Cluster Rotation Parameters (Limits for random orientation in radians)
+    MAX_CLUSTER_ROLL = 0.0 #math.pi       # max deviation +/- (e.g., math.pi/4 for 45 deg)
+    MAX_CLUSTER_PITCH = 0.0 #math.pi
+    MAX_CLUSTER_YAW = 0.0 #math.pi
     
     # -------------------------------------------------------------------------
     # Templates
@@ -76,6 +97,13 @@ def generate_sdf(scenario_id, seed, output_dir):
             </attenuation>
             <direction>-0.5 0.1 -0.9</direction>
         </light>
+
+        <gui fullscreen="0">
+            <camera name="user_camera">
+                <pose>5.0 0.0 20.0 0.0 1.5708 1.5708</pose>
+                <view_controller>orbit</view_controller>
+            </camera>
+        </gui>
 """
 
     # Agent (Fixed at start position for now, or randomize if requested)
@@ -217,48 +245,64 @@ def generate_sdf(scenario_id, seed, output_dir):
     # -------------------------------------------------------------------------
     
     obstacles_xml = ""
-    num_obstacles = random.randint(MIN_OBSTACLES, MAX_OBSTACLES)
+    obstacle_count = 0
+    c_idx = 0
+    occupied_x_positions = []
     
-    # Constants based on your requirements
-    ROBOT_START_X = -10.0
-    ROBOT_SPEED = 2.5  # m/s to reach goal (dist=20m) in 8 seconds
-    
-    for i in range(num_obstacles):
-        # 1. Spawn obstacles further out so they have room to "run in"
-        pos_x = random.uniform(-10.0, 10.0)
-        pos_y = random.uniform(-20.0, 20.0) # Spawn specifically on the flanks
-        pos_z = random.uniform(-5.0, 5.0)
+    # Helper to rotate points
+    def rotate_point(x, y, z, r, p, yw):
+        x1 = x * math.cos(yw) - y * math.sin(yw)
+        y1 = x * math.sin(yw) + y * math.cos(yw)
+        z1 = z
+        x2 = x1 * math.cos(p) + z1 * math.sin(p)
+        y2 = y1
+        z2 = -x1 * math.sin(p) + z1 * math.cos(p)
+        x3 = x2
+        y3 = y2 * math.cos(r) - z2 * math.sin(r)
+        z3 = y2 * math.sin(r) + z2 * math.cos(r)
+        return x3, y3, z3
         
-        # 2. Pick a random "Time to Impact" (when the robot will be near this X)
-        # We want obstacles to hit the path between t=2s and t=7s
-        t_col = random.uniform(2.0, 7.0)
+    def add_cluster(cluster_size, cx, cy, cz, vx, vy, vz, is_wall=False):
+        nonlocal obstacles_xml, obstacle_count, c_idx
+        c_idx += 1
         
-        # 3. Calculate where the robot will be at t_col
-        target_x = ROBOT_START_X + (ROBOT_SPEED * t_col)
-        target_y = 0.0
-        target_z = 0.0
+        if is_wall:
+            cols = max(1, cluster_size // 2)
+            rows = 2 if cluster_size >= 2 else 1
+        else:
+            cols = cluster_size
+            rows = 1
+            
+        pitch_y = 2.0
+        pitch_z = 2.0
         
-        # 4. Calculate required velocity components to reach (target) at (t_col)
-        # Velocity = Distance / Time
-        vel_x = (target_x - pos_x) / t_col
-        vel_y = (target_y - pos_y) / t_col
-        vel_z = (target_z - pos_z) / t_col
+        cluster_roll = random.uniform(-MAX_CLUSTER_ROLL, MAX_CLUSTER_ROLL)
+        cluster_pitch = random.uniform(-MAX_CLUSTER_PITCH, MAX_CLUSTER_PITCH)
+        cluster_yaw = random.uniform(-MAX_CLUSTER_YAW, MAX_CLUSTER_YAW)
         
-        # Cap the speed to your MAX_VEL if the math gets too aggressive
-        current_speed = math.sqrt(vel_x**2 + vel_y**2 + vel_z**2)
-        if current_speed > MAX_VEL:
-            scale = MAX_VEL / current_speed
-            vel_x *= scale
-            vel_y *= scale
-            vel_z *= scale
-        
-        # Size
-        radius = random.uniform(MIN_RADIUS, MAX_RADIUS)
-        
-        obstacle_block = f"""
-        <!-- OBSTACLE {i+1} -->
-        <model name='obstacle_{i+1}' canonical_link='obstacle'>
-            <static>false</static>
+        added = 0
+        for r in range(rows):
+            for c in range(cols):
+                if added >= cluster_size: break
+                obstacle_count += 1
+                added += 1
+                
+                offset_x = 0.0
+                offset_y = (c * pitch_y) - ((cols - 1) * pitch_y) / 2.0
+                offset_z = (r * pitch_z) - ((rows - 1) * pitch_z) / 2.0
+                
+                rx, ry, rz = rotate_point(offset_x, offset_y, offset_z, cluster_roll, cluster_pitch, cluster_yaw)
+                
+                pos_x = cx + rx
+                pos_y = cy + ry
+                pos_z = cz + rz
+                
+                radius = MIN_RADIUS
+                
+                obstacle_block = f"""
+        <!-- OBSTACLE {obstacle_count} (Cluster {c_idx}) -->
+        <model name='obstacle_{obstacle_count}' canonical_link='obstacle'>
+            <static>{"true" if is_wall else "false"}</static>
             <pose relative_to='world'>{pos_x:.2f} {pos_y:.2f} {pos_z:.2f} 0 0 0</pose>
             <link name='obstacle'>
                 <pose relative_to='__model__'>0.0 0 0.0 0 0 0</pose>
@@ -287,7 +331,7 @@ def generate_sdf(scenario_id, seed, output_dir):
             <plugin
                 filename="ignition-gazebo-velocity-control-system"
                 name="ignition::gazebo::systems::VelocityControl">
-                <initial_linear>{vel_x:.2f} {vel_y:.2f} {vel_z:.2f}</initial_linear>
+                <initial_linear>{vx:.2f} {vy:.2f} {vz:.2f}</initial_linear>
                 <initial_angular>0 0 0</initial_angular>
             </plugin> 
             
@@ -298,7 +342,89 @@ def generate_sdf(scenario_id, seed, output_dir):
             </plugin>
         </model>
 """
-        obstacles_xml += obstacle_block
+                obstacles_xml += obstacle_block
+
+    # 1. Generate Static Walls
+    # Agent is at X=-10, Goal is around X=10. Spawn walls in between.
+    num_walls = random.randint(MIN_WALLS, MAX_WALLS)
+    for _ in range(num_walls):
+        if obstacle_count >= MAX_OBSTACLES: break
+        
+        cluster_size = random.choice(WALL_SIZES)
+        if obstacle_count + cluster_size > MAX_OBSTACLES:
+            cluster_size = MAX_OBSTACLES - obstacle_count
+            if cluster_size < min(WALL_SIZES): break
+            
+        center_x = random.uniform(WALL_X_RANGE[0], WALL_X_RANGE[1])
+        occupied_x_positions.append(center_x)
+        
+        center_y = random.uniform(MIN_Y, MAX_Y)
+        center_z = 0.0 # user requested centered around z=0
+        
+        vel_x, vel_y, vel_z = 0.0, 0.0, 0.0
+        
+        add_cluster(cluster_size, center_x, center_y, center_z, vel_x, vel_y, vel_z, is_wall=True)
+        
+    # 2. Generate Dynamic Obstacles
+    # Keep adding until we hit MIN_OBSTACLES, or add a few more randomly
+    num_dynamic = random.randint(MIN_DYNAMIC_CLUSTERS, MAX_DYNAMIC_CLUSTERS)
+    d_idx = 0
+    while obstacle_count < MIN_OBSTACLES or (d_idx < num_dynamic and obstacle_count < MAX_OBSTACLES):
+        d_idx += 1
+        
+        cluster_size = random.choice(DYNAMIC_SIZES)
+        if obstacle_count + cluster_size > MAX_OBSTACLES:
+            cluster_size = MAX_OBSTACLES - obstacle_count
+            if cluster_size < min(DYNAMIC_SIZES): break
+            
+        # Find an X position away from walls and other dynamic clusters
+        valid_x = False
+        center_x = 0.0
+        attempts = 0
+        while not valid_x and attempts < 50:
+            center_x = random.uniform(DYNAMIC_X_RANGE[0], DYNAMIC_X_RANGE[1])
+            valid_x = True
+            for ox in occupied_x_positions:
+                if abs(center_x - ox) < MIN_DIST_FROM_OTHER_CLUSTERS:
+                    valid_x = False
+                    break
+            attempts += 1
+            
+        if not valid_x:
+            # If we repeatedly fail to find space, the map's X-axis is likely full.
+            break
+            
+        occupied_x_positions.append(center_x)
+        
+        center_y = random.uniform(MIN_Y, MAX_Y)
+        # Avoid spawning exactly at Y=0 so they have some distance to travel
+        if abs(center_y) < 1.0: 
+            center_y = 1.0 if center_y >= 0 else -1.0
+            
+        center_z = random.uniform(MIN_Z, MAX_Z)
+        
+        vel_mag = random.uniform(MIN_VEL or 0.5, MAX_VEL)
+        
+        # Point towards trajectory (Y=0, Z=0)
+        dir_y = -center_y
+        dir_z = -center_z
+        
+        # Add slight randomness
+        dir_y += random.uniform(-0.2, 0.2)
+        dir_z += random.uniform(-0.2, 0.2)
+        
+        magnitude = math.sqrt(dir_y**2 + dir_z**2)
+        if magnitude > 0:
+            dir_y /= magnitude
+            dir_z /= magnitude
+        else:
+            dir_y, dir_z = 1.0, 0.0
+            
+        vel_x = 0.0  # No component in X velocity
+        vel_y = dir_y * vel_mag
+        vel_z = dir_z * vel_mag
+        
+        add_cluster(cluster_size, center_x, center_y, center_z, vel_x, vel_y, vel_z, is_wall=False)
 
     # -------------------------------------------------------------------------
     # File Writing
@@ -316,10 +442,10 @@ def generate_sdf(scenario_id, seed, output_dir):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate random AVOA3D scenarios (SDF)")
-    parser.add_argument('--seed', type=int, default=67 , help='Random seed')
+    parser.add_argument('--seed', type=int, default=42 , help='Random seed')
     parser.add_argument('--count', type=int, default=100, help='Number of scenarios to generate')
     parser.add_argument('--out-dir', type=str, 
-                        default=os.path.join(os.environ.get('HOME'), 'ros2_ws/src/avoa3d/scenarios'),
+                        default=os.path.join(os.environ.get('HOME'), 'ros2_ws/src/avoa3d/scenarios_complex'),
                         help='Output directory')
     
     args = parser.parse_args()

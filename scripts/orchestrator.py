@@ -2,286 +2,219 @@
 
 import rclpy
 from rclpy.node import Node
-from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
-import subprocess
+from nav_msgs.msg import Odometry
+import csv
 import time
 import os
 import signal
-import sys
-import csv
+import subprocess
+import argparse
 from datetime import datetime
+import math
 
 class ScenarioManager(Node):
-    def __init__(self, scenario_index, algorithm_name):
+    def __init__(self, scenario_id=0, algorithm='javoa'):
         super().__init__('scenario_manager')
-        self.target_goal = [10.0, 0.0, 0.0]  # Matches your static goal in launch
-        self.threshold = 1.0  # 1.0 meter margin
-        self.reached = False
-        self.start_time = time.time()
-        self.timeout = 60.0 * 5 # 5 minutes timeout
+        self.scenario_id = scenario_id
+        self.algorithm = algorithm
+        self.goal_reached = False
         
-        # Recorder Setup
-        self.scenario = scenario_index
-        self.algorithm = algorithm_name.replace('.launch.py', '')
+        # Data storage
+        self.data_buffer = []
+        self.start_time = None
+        self.is_recording = False
         
-        # Rename holonomic -> javoa
-        if 'holonomic' in self.algorithm:
-            self.algorithm = 'javoa'
-            
-        self.results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results')
+        # Subscribers
+        self.create_subscription(Odometry, '/model/agente/odometry', self.odom_callback, 10)
+        self.create_subscription(Twist, '/model/agente/cmd_vel', self.cmd_vel_callback, 10)
+        self.create_subscription(Twist, '/model/agente/cmd_vel_unfiltered', self.cmd_vel_unfiltered_callback, 10)
+        self.create_subscription(Twist, '/model/agente/desired_vel', self.desired_vel_callback, 10)
         
-        # Create output directory: results/randomized/s_<id>
-        base_dir = os.path.join(self.results_dir, "randomized")
-        folder_name = f"s_{self.scenario:03d}"
-        self.scenario_dir = os.path.join(base_dir, folder_name)
-        
-        # Overwrite logic: Just make directory
-        if os.path.exists(self.scenario_dir):
-            self.get_logger().warn(f"Directory {self.scenario_dir} exists. Files will be overwritten/added.")
-
-        os.makedirs(self.scenario_dir, exist_ok=True)
-        
-        # Initialize storage
-        self.current_data = {
-            'pos_x': 0.0, 'pos_y': 0.0, 'pos_z': 0.0,
-            'vel_x': 0.0, 'vel_y': 0.0, 'vel_z': 0.0,
-            'cmd_vel_x': 0.0, 'cmd_vel_y': 0.0, 'cmd_vel_z': 0.0,
-            'cmd_vel_raw_x': 0.0, 'cmd_vel_raw_y': 0.0, 'cmd_vel_raw_z': 0.0,
-            'des_vel_x': 0.0, 'des_vel_y': 0.0, 'des_vel_z': 0.0,
-        }
-        self.obstacles = {} 
-        self.received_odom = False
-        
-        # CSV Init
-        # javoa -> javoa.csv
-        # others -> recorder.csv
-        if self.algorithm == 'javoa':
-            csv_filename = 'javoa.csv'
-        else:
-            csv_filename = 'rvo.csv'
-            
-        self.csv_file = os.path.join(self.scenario_dir, csv_filename)
-        self.init_csv()
-
-        self.sub = self.create_subscription(
-            Odometry, 
-            '/model/agente/odometry', 
-            self.odom_callback, 
-            10)
-            
-        self.create_subscription(Twist, '/model/agente/cmd_vel', self.cmd_vel_cb, 10)
-        self.create_subscription(Twist, '/model/agente/cmd_vel_unfiltered', self.cmd_vel_raw_cb, 10)
-        self.create_subscription(Twist, '/model/agente/desired_vel', self.desired_vel_cb, 10)
-        
-        # Obstacle subscrbers
-        self.create_subscription(Odometry, '/model/obstacle/odometry', lambda m: self.obstacle_cb('main', m), 10)
-        for i in range(10):
+        # Obstacle subscribers (up to 50 obstacles)
+        self.obstacles = {}
+        for i in range(1, 51):
             topic = f'/model/obstacle_{i}/odometry'
-            self.create_subscription(Odometry, topic, lambda m, idx=i: self.obstacle_cb(idx, m), 10)
-            
-        # Logging timer (10 Hz)
-        self.create_timer(0.1, self.log_data)
-        
-        self.get_logger().info(f"Monitor started for Scenario {scenario_index} | Algo: {self.algorithm}")
-        self.get_logger().info(f"Recording to {self.csv_file}")
+            self.create_subscription(Odometry, topic, lambda msg, idx=i: self.obstacle_callback(msg, idx), 10)
 
-    def odom_callback(self, msg):
-        # Monitor Goal
-        pos = msg.pose.pose.position
-        dist = ((pos.x - self.target_goal[0])**2 + 
-                (pos.y - self.target_goal[1])**2 + 
-                (pos.z - self.target_goal[2])**2)**0.5
+        # State variables
+        self.current_odom = None
+        self.current_cmd_vel = None
+        self.current_cmd_vel_unfiltered = None
+        self.current_desired_vel = None
         
-        if dist < self.threshold:
-            self.get_logger().info(f"Goal Reached! Distance: {dist:.4f}m")
-            self.reached = True
+        # File setup
+        self.results_dir = os.path.expanduser(f'~/ros2_ws/src/avoa3d/results/randomized/s{self.scenario_id:03d}')
+        os.makedirs(self.results_dir, exist_ok=True)
+        
+        if self.algorithm == 'rvo':
+            filename = 'rvo.csv'
+        else:
+            filename = 'javoa.csv'
             
-        # Update Recorder Data
-        self.current_data['pos_x'] = msg.pose.pose.position.x
-        self.current_data['pos_y'] = msg.pose.pose.position.y
-        self.current_data['pos_z'] = msg.pose.pose.position.z
-        self.current_data['vel_x'] = msg.twist.twist.linear.x
-        self.current_data['vel_y'] = msg.twist.twist.linear.y
-        self.current_data['vel_z'] = msg.twist.twist.linear.z
-        self.received_odom = True
+        self.csv_file = os.path.join(self.results_dir, filename)
+        self.init_csv()
+        
+        self.get_logger().info(f"Scenario Manager started for Scenario {self.scenario_id}, Algorithm: {self.algorithm}")
+        self.start_time = self.get_clock().now()
+        self.is_recording = True
+        
+        # Timer for recording at 10Hz
+        self.create_timer(0.1, self.record_step)
 
     def init_csv(self):
-        headers = [
-            'timestamp', 'time_elapsed',
-            'pos_x', 'pos_y', 'pos_z',
-            'vel_x', 'vel_y', 'vel_z',
-            'cmd_vel_x', 'cmd_vel_y', 'cmd_vel_z',
-            'cmd_vel_unfiltered_x', 'cmd_vel_unfiltered_y', 'cmd_vel_unfiltered_z',
-            'des_vel_x', 'des_vel_y', 'des_vel_z',
-        ]
-        
-        # Obstacles (main + 0-9)
-        headers.extend(['obs_main_valid', 'obs_main_x', 'obs_main_y', 'obs_main_z', 'obs_main_vx', 'obs_main_vy', 'obs_main_vz'])
-        for i in range(10):
-             headers.extend([f'obs_{i}_valid', f'obs_{i}_x', f'obs_{i}_y', f'obs_{i}_z', f'obs_{i}_vx', f'obs_{i}_vy', f'obs_{i}_vz'])
-             
         with open(self.csv_file, 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(headers)
+            # Header
+            header = ['time_elapsed', 
+                      'pos_x', 'pos_y', 'pos_z', 
+                      'vel_x', 'vel_y', 'vel_z',
+                      'cmd_vel_x', 'cmd_vel_y', 'cmd_vel_z',
+                      'cmd_vel_unfiltered_x', 'cmd_vel_unfiltered_y', 'cmd_vel_unfiltered_z',
+                      'desired_vel_x', 'desired_vel_y', 'desired_vel_z']
             
-    def cmd_vel_cb(self, msg):
-        self.current_data['cmd_vel_x'] = msg.linear.x
-        self.current_data['cmd_vel_y'] = msg.linear.y
-        self.current_data['cmd_vel_z'] = msg.linear.z
+            # Obstacle headers
+            for i in range(1, 51):
+                header.extend([f'obs_{i}_pos_x', f'obs_{i}_pos_y', f'obs_{i}_pos_z',
+                               f'obs_{i}_vel_x', f'obs_{i}_vel_y', f'obs_{i}_vel_z'])
+            
+            writer.writerow(header)
 
-    def cmd_vel_raw_cb(self, msg):
-        self.current_data['cmd_vel_raw_x'] = msg.linear.x
-        self.current_data['cmd_vel_raw_y'] = msg.linear.y
-        self.current_data['cmd_vel_raw_z'] = msg.linear.z
+    def odom_callback(self, msg):
+        self.current_odom = msg
+        p = msg.pose.pose.position
+        dist = math.sqrt((p.x - 10.0)**2 + (p.y - 0.0)**2 + (p.z - 0.0)**2)
+        if dist < 3.0:
+            self.goal_reached = True
+
+    def cmd_vel_callback(self, msg):
+        self.current_cmd_vel = msg
         
-    def desired_vel_cb(self, msg):
-        self.current_data['des_vel_x'] = msg.linear.x
-        self.current_data['des_vel_y'] = msg.linear.y
-        self.current_data['des_vel_z'] = msg.linear.z
+    def cmd_vel_unfiltered_callback(self, msg):
+        self.current_cmd_vel_unfiltered = msg
         
-    def obstacle_cb(self, idx, msg):
-        self.obstacles[idx] = {
-            'pos_x': msg.pose.pose.position.x,
-            'pos_y': msg.pose.pose.position.y,
-            'pos_z': msg.pose.pose.position.z,
-            'vel_x': msg.twist.twist.linear.x,
-            'vel_y': msg.twist.twist.linear.y,
-            'vel_z': msg.twist.twist.linear.z,
-            'last_seen': time.time(),
-            'valid': True
-        }
-        
-    def log_data(self):
-        if not self.received_odom:
+    def desired_vel_callback(self, msg):
+        self.current_desired_vel = msg
+
+    def obstacle_callback(self, msg, idx):
+        self.obstacles[idx] = msg
+
+    def record_step(self):
+        if not self.is_recording or self.current_odom is None:
             return
             
-        now = time.time()
-        elapsed = now - self.start_time
+        now = self.get_clock().now()
+        elapsed = (now - self.start_time).nanoseconds / 1e9
         
-        row = [
-            now, elapsed,
-            self.current_data['pos_x'], self.current_data['pos_y'], self.current_data['pos_z'],
-            self.current_data['vel_x'], self.current_data['vel_y'], self.current_data['vel_z'],
-            self.current_data['cmd_vel_x'], self.current_data['cmd_vel_y'], self.current_data['cmd_vel_z'],
-            self.current_data['cmd_vel_raw_x'], self.current_data['cmd_vel_raw_y'], self.current_data['cmd_vel_raw_z'],
-            self.current_data['des_vel_x'], self.current_data['des_vel_y'], self.current_data['des_vel_z'],
-        ]
+        row = [elapsed]
         
-        # Check obstacles helper
-        def get_obs_data(idx):
-            if idx in self.obstacles:
-                o = self.obstacles[idx]
-                # Optional: Check if data is stale? e.g. > 1.0s old -> invalid?
-                if (now - o['last_seen']) < 2.0:
-                    return [1, o['pos_x'], o['pos_y'], o['pos_z'], o['vel_x'], o['vel_y'], o['vel_z']]
-            return [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-
-        # Main obst
-        row.extend(get_obs_data('main'))
+        # Agent Odom
+        p = self.current_odom.pose.pose.position
+        v = self.current_odom.twist.twist.linear
+        row.extend([p.x, p.y, p.z, v.x, v.y, v.z])
+        
+        # Cmd Vel
+        if self.current_cmd_vel:
+            c = self.current_cmd_vel.linear
+            row.extend([c.x, c.y, c.z])
+        else:
+            row.extend([0, 0, 0])
             
-        # 0-9 obst
-        for i in range(10):
-            row.extend(get_obs_data(i))
+        # Cmd Vel Unfiltered
+        if self.current_cmd_vel_unfiltered:
+            u = self.current_cmd_vel_unfiltered.linear
+            row.extend([u.x, u.y, u.z])
+        else:
+            row.extend([0, 0, 0])
+            
+        # Desired Vel
+        if self.current_desired_vel:
+            d = self.current_desired_vel.linear
+            row.extend([d.x, d.y, d.z])
+        else:
+            row.extend([0, 0, 0])
+            
+        # Obstacles
+        for i in range(1, 51):
+            if i in self.obstacles:
+                obs = self.obstacles[i]
+                op = obs.pose.pose.position
+                ov = obs.twist.twist.linear
+                row.extend([op.x, op.y, op.z, ov.x, ov.y, ov.z])
+            else:
+                row.extend([0, 0, 0, 0, 0, 0])
                 
+        # Append to file
         with open(self.csv_file, 'a', newline='') as f:
-            csv.writer(f).writerow(row)
-            
-    def check_timeout(self):
-        if time.time() - self.start_time > self.timeout:
-            self.get_logger().warn("Scenario timed out!")
-            return True
-        return False
+            writer = csv.writer(f)
+            writer.writerow(row)
 
 def run_experiment():
-    # Initialize ROS 2 context once
-    rclpy.init()
-
-    # 1. Get list of scenarios
-    scenario_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/scenarios')
-    
-    # Check if directory exists
-    if not os.path.exists(scenario_dir):
-        print(f"Error: Scenario directory not found at {scenario_dir}")
-        return
-
-    # Filter and sort sdf files
-    scenario_files = [f for f in os.listdir(scenario_dir) if f.endswith('.sdf')]
-    scenario_files.sort() # Ensure consistent order
-    num_scenarios = len(scenario_files)
-    
-    print(f"Found {num_scenarios} scenarios.")
-    
-    algorithms = ["rvo.launch.py", "holonomic.launch.py"]
-
-    import argparse
     parser = argparse.ArgumentParser(description="Run AVOA3D experiments")
-    parser.add_argument('--limit', type=int, default=None, help='Limit number of scenarios to run')
-    args = parser.parse_args(args=None if sys.argv[0] == __file__ else sys.argv[1:])
+    parser.add_argument('--limit', type=int, help='Limit the number of scenarios to run', default=None)
+    parser.add_argument('--scenarios-dir', type=str, default='scenarios_complex', help='Name of the scenarios directory to use')
+    args = parser.parse_args()
 
-    # Apply limit
-    if args.limit is not None and args.limit < num_scenarios:
-        num_scenarios = args.limit
+    num_scenarios = 100
+    if args.limit is not None:
+        num_scenarios = min(num_scenarios, args.limit)
         print(f"Limiting execution to first {num_scenarios} scenarios.")
+
+    algorithms = [
+        {'name': 'javoa', 'launch_file': 'holonomic.launch.py'},
+        {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
+    ]
 
     for i in range(num_scenarios):
         for algo in algorithms:
-            print(f"\n========================================")
-            print(f"--- SCENARIO {i} | ALGORITHM: {algo} ---")
-            print(f"========================================")
+            print(f"Processing Scenario {i}, Algorithm: {algo['name']}")
             
-            # 2. Launch the ROS2 process
-            # Using setsid to create a new process group so we can kill the whole tree later
-            cmd = ["ros2", "launch", "avoa3d", algo, f"scenario:={i}"]
+            # Launch command
+            cmd = [
+                'ros2', 'launch', 'avoa3d', algo['launch_file'],
+                f'scenario:={i}', # Changed to integer index as per holonomic.launch.py update in 921
+                f'scenarios_dir:={args.scenarios_dir}',
+                'launch_bridge:=true',
+                'launch_avoa3d:=true',
+                'launch_obstacle_publisher:=true',
+                'launch_rviz_marker:=false', 
+                'rviz_marker:=false',
+                'publish_transforms:=true',
+                'num_obstacles:=50' # Add this argument for scaling
+            ]
             
+            # Start simulation (non-blocking)
+            sim_process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
             
-            # Open /dev/null to suppress output if desired, or let it print to screen
-            # For now, let's keep it visible but you might want to redirect stdout/stderr
-            process = subprocess.Popen(cmd, preexec_fn=os.setsid)
-    
-            # 3. Start Monitoring Node
-            # We need a fresh node for each iteration to reset state cleanly
-            monitor = ScenarioManager(i, algo)
+            # Start Recording Node
+            rclpy.init()
+            recorder = ScenarioManager(scenario_id=i, algorithm=algo['name'])
             
+            # Run for a fixed duration or until goal is reached
             try:
-                while rclpy.ok() and not monitor.reached:
-                    rclpy.spin_once(monitor, timeout_sec=0.5)
-                    if monitor.check_timeout():
+                start_time = time.time()
+                while time.time() - start_time < 30: # 30 seconds timeout
+                    rclpy.spin_once(recorder, timeout_sec=0.1)
+                    if recorder.goal_reached:
+                        print(f"Goal reached for Scenario {i} with {algo['name']}")
                         break
-                        
             except KeyboardInterrupt:
-                print("\nCaught KeyboardInterrupt, stopping experiment...")
-                # Kill the current process before exiting
-                os.killpg(os.getpgid(process.pid), signal.SIGINT)
-                process.wait()
-                # If user interrupts, we probably want to stop the whole experiment, not just this algo
-                return 
-                
+                pass
             finally:
-                # 4. Cleanup current scenario
-                print(f"Terminating {algo} for Scenario {i}...")
+                recorder.destroy_node()
+                rclpy.shutdown()
                 
-                # Send SIGINT to the process group to ensure all child processes (Gazebo, etc.) are killed
-                os.killpg(os.getpgid(process.pid), signal.SIGINT) 
-                
-                # Wait for the process to exit
-                try:
-                    process.wait(timeout=10)
-                except subprocess.TimeoutExpired:
-                     print("Force killing process...")
-                     os.killpg(os.getpgid(process.pid), signal.SIGKILL)
-                     process.wait()
-    
-                monitor.destroy_node()
-                
-                # Brief sleep to let Gazebo/Nodes release ports/memory completely
-                print("Waiting for cleanup...")
-                time.sleep(5) 
+                # Kill simulation
+                sim_process.send_signal(signal.SIGINT)
+                sim_process.wait()
+                subprocess.run(['pkill', '-f', 'ros'], stdout=subprocess.DEVNULL)
+                subprocess.run(['pkill', '-f', 'gz'], stdout=subprocess.DEVNULL)
+                time.sleep(2) 
 
-    # Shutdown ROS 2 context
-    if rclpy.ok():
-        rclpy.shutdown()
-        
     # 5. Run Post-Processing
     print("\n---------------------------------------------------")
     print("Running Data Post-Processing...")

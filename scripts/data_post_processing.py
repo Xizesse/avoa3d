@@ -9,8 +9,8 @@ def process_results(base_dir):
     # Iterate over all subdirectories in the base results directory
     for root, dirs, files in os.walk(base_dir):
         for dir_name in dirs:
-            # Check if directory starts with 's_' (scenario result folder)
-            if not dir_name.startswith('s_'):
+            # Check if directory starts with 's' and isn't 's_' (scenario result folder)
+            if not dir_name.startswith('s') or dir_name == 'scripts':
                 continue
                 
             scenario_path = os.path.join(root, dir_name)
@@ -70,29 +70,29 @@ def generate_plots(output_dir, csv_file, prefix_name):
     plt.figure(figsize=(10, 6))
     
     # Obstacle keys
-    obstacles = ['main'] + [str(i) for i in range(10)]
+    obstacles = [str(i) for i in range(1, 51)]
     
     has_valid_obstacles = False
     
     for obs_key in obstacles:
         prefix = f'obs_{obs_key}'
-        valid_col = f'{prefix}_valid'
-        x_col = f'{prefix}_x'
-        y_col = f'{prefix}_y'
-        z_col = f'{prefix}_z'
+        x_col = f'{prefix}_pos_x'
+        y_col = f'{prefix}_pos_y'
+        z_col = f'{prefix}_pos_z'
         
         # Check if columns exist in first row keys
-        if valid_col not in data[0]:
+        if x_col not in data[0]:
             continue
             
         # Get data
-        valid = [int(float(row[valid_col])) for row in data]
         obs_x = [float(row[x_col]) for row in data]
         obs_y = [float(row[y_col]) for row in data]
-        obs_z = [float(row.get(z_col, 0.0)) for row in data] # Use .get for backward compatibility (default 0.0)
+        obs_z = [float(row.get(z_col, 0.0)) for row in data]
 
-        # Check if any valid
-        if not any(v == 1 for v in valid):
+        # Check if any point is non-zero (assuming 0,0,0 means obstacle not tracked)
+        is_tracked = [(ox != 0.0 or oy != 0.0 or oz != 0.0) for ox, oy, oz in zip(obs_x, obs_y, obs_z)]
+        
+        if not any(is_tracked):
             continue
             
         has_valid_obstacles = True
@@ -101,15 +101,14 @@ def generate_plots(output_dir, csv_file, prefix_name):
         distances = []
         plot_times = []
         
-        for i in range(len(valid)):
-            if valid[i] == 1:
+        for i in range(len(obs_x)):
+            if is_tracked[i]:
                 dx = agent_x[i] - obs_x[i]
                 dy = agent_y[i] - obs_y[i]
                 dz = agent_z[i] - obs_z[i]
                 dist = math.sqrt(dx*dx + dy*dy + dz*dz)
                 
-                # Clearance = dist - (agent_radius + obstacle_radius)
-                # agent_radius = 0.5, obstacle_radius = 0.5
+                # Clearance = dist - 1.0
                 clearance = dist - 1.0
                 
                 distances.append(clearance)
@@ -156,14 +155,14 @@ def generate_plots(output_dir, csv_file, prefix_name):
             
             for obs_key in obstacles:
                 prefix = f'obs_{obs_key}'
-                if f'{prefix}_valid' not in data[i]: continue
+                if f'{prefix}_pos_x' not in data[i]: continue
                 
-                is_valid = int(float(data[i][f'{prefix}_valid']))
-                if is_valid == 1:
-                    ox = float(data[i][f'{prefix}_x'])
-                    oy = float(data[i][f'{prefix}_y'])
-                    oz = float(data[i].get(f'{prefix}_z', 0.0))
-                    
+                ox = float(data[i][f'{prefix}_pos_x'])
+                oy = float(data[i][f'{prefix}_pos_y'])
+                oz = float(data[i].get(f'{prefix}_pos_z', 0.0))
+                
+                is_valid = (ox != 0.0 or oy != 0.0 or oz != 0.0)
+                if is_valid:
                     dist = math.sqrt((ax-ox)**2 + (ay-oy)**2 + (az-oz)**2)
                     # Clearance = dist - 1.0
                     clearance = dist - 1.0
@@ -215,9 +214,9 @@ def generate_plots(output_dir, csv_file, prefix_name):
         raw_vz = get_col('cmd_vel_unfiltered_z')
         
         # Desired
-        des_vx = get_col('des_vel_x')
-        des_vy = get_col('des_vel_y')
-        des_vz = get_col('des_vel_z')
+        des_vx = get_col('desired_vel_x')
+        des_vy = get_col('desired_vel_y')
+        des_vz = get_col('desired_vel_z')
         
         time_elapsed = get_col('time_elapsed')
         
@@ -268,7 +267,7 @@ def get_data_for_comparison(csv_file):
         
     # Min Clearance
     min_clearances = []
-    obstacles = ['main'] + [str(i) for i in range(10)]
+    obstacles = [str(i) for i in range(1, 51)]
     
     for i in range(len(data)):
         min_dist = float('inf')
@@ -280,11 +279,14 @@ def get_data_for_comparison(csv_file):
         
         for obs_key in obstacles:
             prefix = f'obs_{obs_key}'
-            if f'{prefix}_valid' not in data[i]: continue
-            if int(float(data[i][f'{prefix}_valid'])) == 1:
-                ox = float(data[i][f'{prefix}_x'])
-                oy = float(data[i][f'{prefix}_y'])
-                oz = float(data[i].get(f'{prefix}_z', 0.0))
+            if f'{prefix}_pos_x' not in data[i]: continue
+            
+            ox = float(data[i][f'{prefix}_pos_x'])
+            oy = float(data[i][f'{prefix}_pos_y'])
+            oz = float(data[i].get(f'{prefix}_pos_z', 0.0))
+            is_valid = (ox != 0.0 or oy != 0.0 or oz != 0.0)
+            
+            if is_valid:
                 dist = math.sqrt((ax-ox)**2 + (ay-oy)**2 + (az-oz)**2)
                 # Clearance
                 clr = dist - 1.0

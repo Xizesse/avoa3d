@@ -52,3 +52,354 @@
   ros_type_name: "sensor_msgs/msg/PointCloud2" 
   gz_type_name: "gz.msgs.PointCloudPacked"
   direction: GZ_TO_ROS
+
+# Obstacles 1 to 50
+- ros_topic_name: "/model/obstacle_1/odometry"
+  gz_topic_name: "/model/obstacle_1/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_2/odometry"
+  gz_topic_name: "/model/obstacle_2/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_3/odometry"
+  gz_topic_name: "/model/obstacle_3/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_4/odometry"
+  gz_topic_name: "/model/obstacle_4/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_5/odometry"
+  gz_topic_name: "/model/obstacle_5/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_6/odometry"
+  gz_topic_name: "/model/obstacle_6/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_7/odometry"
+  gz_topic_name: "/model/obstacle_7/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_8/odometry"
+  gz_topic_name: "/model/obstacle_8/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_9/odometry"
+  gz_topic_name: "/model/obstacle_9/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_10/odometry"
+  gz_topic_name: "/model/obstacle_10/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_11/odometry"
+  gz_topic_name: "/model/obstacle_11/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_12/odometry"
+  gz_topic_name: "/model/obstacle_12/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_13/odometry"
+  gz_topic_name: "/model/obstacle_13/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_14/odometry"
+  gz_topic_name: "/model/obstacle_14/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_15/odometry"
+  gz_topic_name: "/model/obstacle_15/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_16/odometry"
+  gz_topic_name: "/model/obstacle_16/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_17/odometry"
+  gz_topic_name: "/model/obstacle_17/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_18/odometry"
+  gz_topic_name: "/model/obstacle_18/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_19/odometry"
+  gz_topic_name: "/model/obstacle_19/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_20/odometry"
+  gz_topic_name: "/model/obstacle_20/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_21/odometry"
+  gz_topic_name: "/model/obstacle_21/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_22/odometry"
+  gz_topic_name: "/model/obstacle_22/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_23/odometry"
+  gz_topic_name: "/model/obstacle_23/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_24/odometry"
+  gz_topic_name: "/model/obstacle_24/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_25/odometry"
+  gz_topic_name: "/model/obstacle_25/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_26/odometry"
+  gz_topic_name: "/model/obstacle_26/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_27/odometry"
+  gz_topic_name: "/model/obstacle_27/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_28/odometry"
+  gz_topic_name: "/model/obstacle_28/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_29/odometry"
+  gz_topic_name: "/model/obstacle_29/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_30/odometry"
+  gz_topic_name: "/model/obstacle_30/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_31/odometry"
+  gz_topic_name: "/model/obstacle_31/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_32/odometry"
+  gz_topic_name: "/model/obstacle_32/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_33/odometry"
+  gz_topic_name: "/model/obstacle_33/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_34/odometry"
+  gz_topic_name: "/model/obstacle_34/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_35/odometry"
+  gz_topic_name: "/model/obstacle_35/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_36/odometry"
+  gz_topic_name: "/model/obstacle_36/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_37/odometry"
+  gz_topic_name: "/model/obstacle_37/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_38/odometry"
+  gz_topic_name: "/model/obstacle_38/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_39/odometry"
+  gz_topic_name: "/model/obstacle_39/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_40/odometry"
+  gz_topic_name: "/model/obstacle_40/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_41/odometry"
+  gz_topic_name: "/model/obstacle_41/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_42/odometry"
+  gz_topic_name: "/model/obstacle_42/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_43/odometry"
+  gz_topic_name: "/model/obstacle_43/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_44/odometry"
+  gz_topic_name: "/model/obstacle_44/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_45/odometry"
+  gz_topic_name: "/model/obstacle_45/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_46/odometry"
+  gz_topic_name: "/model/obstacle_46/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_47/odometry"
+  gz_topic_name: "/model/obstacle_47/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_48/odometry"
+  gz_topic_name: "/model/obstacle_48/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_49/odometry"
+  gz_topic_name: "/model/obstacle_49/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/model/obstacle_50/odometry"
+  gz_topic_name: "/model/obstacle_50/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  lazy: true
+  direction: GZ_TO_ROS
