@@ -286,7 +286,10 @@ private:
         if (!have_desired_velocity && 
            (std::abs(latest_desired_velocity_.linear.x) > 0.001 || 
             std::abs(latest_desired_velocity_.linear.y) > 0.001 || 
-            std::abs(latest_desired_velocity_.linear.z) > 0.001)) {
+            std::abs(latest_desired_velocity_.linear.z) > 0.001 ||
+            std::abs(latest_desired_velocity_.angular.x) > 0.001 ||
+            std::abs(latest_desired_velocity_.angular.y) > 0.001 ||
+            std::abs(latest_desired_velocity_.angular.z) > 0.001)) {
             have_desired_velocity = true;
         }
         

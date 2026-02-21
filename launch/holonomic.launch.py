@@ -135,9 +135,13 @@ def generate_launch_description():
             print(f"ERROR: Scenario '{scenario_value}' is not a valid integer. Using default scenario_000.sdf")
             sdf_path = os.path.join(scenarios_dir, "scenario_000.sdf")
         
+        gazebo_default_gui_config = os.path.join(
+            home_path, 'ros2_ws', 'src', 'avoa3d', 'config', 'gz_window_layout.config'
+        )
+
         return [
             ExecuteProcess(
-                cmd=['gz', 'sim', '4', '-r', sdf_path],
+                cmd=['gz', 'sim', '4', '-r', f'--gui-config={gazebo_default_gui_config}', sdf_path],
                 output='screen'
             )
         ]
@@ -328,7 +332,7 @@ def generate_launch_description():
     
     if launch_rviz_marker:
         nodes.append(rviz_marker_node)
-        nodes.append(rviz_node)
+        #nodes.append(rviz_node)
     
     if launch_test_w_goal:
         nodes.append(test_w_goal_node)

@@ -25,15 +25,17 @@ public:
     this->declare_parameter<std::string>("fixed_frame", "map");
     this->declare_parameter<std::string>("agent_frame", "agent");
     this->declare_parameter<int>("num_obstacles", 11);
+    this->declare_parameter<double>("obstacle_size", 2.0);
     
     fixed_frame_ = this->get_parameter("fixed_frame").as_string();
     agent_frame_ = this->get_parameter("agent_frame").as_string();
     int num_obstacles = this->get_parameter("num_obstacles").as_int();
+    obstacle_size_ = this->get_parameter("obstacle_size").as_double();
     
     RCLCPP_INFO(this->get_logger(), "Starting Simple Obstacle Publisher");
     RCLCPP_INFO(this->get_logger(), "Fixed frame: %s, Agent frame: %s", 
                 fixed_frame_.c_str(), agent_frame_.c_str());
-    RCLCPP_INFO(this->get_logger(), "Tracking %d obstacles", num_obstacles);
+    RCLCPP_INFO(this->get_logger(), "Tracking %d obstacles of size %.2f", num_obstacles, obstacle_size_);
     
     // Set up TF2
     tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
@@ -151,16 +153,52 @@ private:
         element.velocity.y = velocity_agent.vector.y;
         element.velocity.z = velocity_agent.vector.z;
         
-        // Set size (fixed for all obstacles)
-        element.size.x = 2.0;
-        element.size.y = 2.0;
-        element.size.z = 2.0;
+        // Set size based on parameterized obstacle_size_
+        element.size.x = obstacle_size_;
+        element.size.y = obstacle_size_;
+        element.size.z = obstacle_size_;
         element.protective_zone = 0.0;
         
         // Add to array
         array_msg.elements.push_back(element);
       }
       
+      //! Add virtual floor obstacle
+      if (false)
+      {
+        auto floor_element = avoa3d::msg::ElementCharacteristicsStamped();
+        floor_element.header.stamp = current_time;
+        floor_element.header.frame_id = agent_frame_;
+        floor_element.id = 99;  // Special ID for floor
+        floor_element.type = 1;
+        floor_element.dynamic = false;
+        
+        // The floor is positioned straight down relative to the agent.
+        // E.g. z = -obstacle_size_ (so the top of the obstacle barely touches the agent)
+        // or simply -large_number if we just want a solid floor plane.
+        floor_element.pose.position.x = 0.0;
+        floor_element.pose.position.y = 0.0;
+        floor_element.pose.position.z = -500;
+        
+        // Identity quaternion (no rotation relative to agent needed for a flat floor)
+        floor_element.pose.orientation.x = 0.0;
+        floor_element.pose.orientation.y = 0.0;
+        floor_element.pose.orientation.z = 0.0;
+        floor_element.pose.orientation.w = 1.0;
+        
+        // Floor is static
+        floor_element.velocity.x = 0.0;
+        floor_element.velocity.y = 0.0;
+        floor_element.velocity.z = 0.0;
+        
+        // Make it a massive sphere
+        floor_element.size.x = 1000.0;
+        floor_element.size.y = 1000.0;
+        floor_element.size.z = 1000.0; 
+        floor_element.protective_zone = 0.0;
+        
+        array_msg.elements.push_back(floor_element);
+      }
       // Publish array
       publisher_->publish(array_msg);
       RCLCPP_DEBUG(this->get_logger(), "Published %zu obstacles", array_msg.elements.size());
@@ -173,6 +211,7 @@ private:
   // Member variables
   std::string fixed_frame_;
   std::string agent_frame_;
+  double obstacle_size_;
   std::vector<nav_msgs::msg::Odometry> obstacles_data_;
   std::vector<bool> obstacles_active_;
   std::vector<rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr> obstacle_subs_;

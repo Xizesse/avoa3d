@@ -109,7 +109,7 @@ def generate_plots(output_dir, csv_file, prefix_name):
                 dist = math.sqrt(dx*dx + dy*dy + dz*dz)
                 
                 # Clearance = dist - 1.0
-                clearance = dist - 1.0
+                clearance = dist - 0.5 - 1.0
                 
                 distances.append(clearance)
                 plot_times.append(time_elapsed[i])

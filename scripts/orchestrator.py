@@ -84,7 +84,7 @@ class ScenarioManager(Node):
         self.current_odom = msg
         p = msg.pose.pose.position
         dist = math.sqrt((p.x - 10.0)**2 + (p.y - 0.0)**2 + (p.z - 0.0)**2)
-        if dist < 3.0:
+        if dist < 2.0:
             self.goal_reached = True
 
     def cmd_vel_callback(self, msg):
@@ -152,21 +152,35 @@ class ScenarioManager(Node):
 def run_experiment():
     parser = argparse.ArgumentParser(description="Run AVOA3D experiments")
     parser.add_argument('--limit', type=int, help='Limit the number of scenarios to run', default=None)
+    parser.add_argument('--scenario', type=int, help='Run a specific scenario index only', default=None)
     parser.add_argument('--scenarios-dir', type=str, default='scenarios_complex', help='Name of the scenarios directory to use')
     args = parser.parse_args()
 
-    num_scenarios = 100
-    if args.limit is not None:
-        num_scenarios = min(num_scenarios, args.limit)
-        print(f"Limiting execution to first {num_scenarios} scenarios.")
+    if args.scenario is not None:
+        scenarios_to_run = [args.scenario]
+        print(f"Running ONLY Scenario {args.scenario}.")
+    else:
+        num_scenarios = 100
+        if args.limit is not None:
+            num_scenarios = min(num_scenarios, args.limit)
+            print(f"Limiting execution to first {num_scenarios} scenarios.")
+        scenarios_to_run = range(num_scenarios)
 
     algorithms = [
         {'name': 'javoa', 'launch_file': 'holonomic.launch.py'},
         {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
     ]
 
-    for i in range(num_scenarios):
+    rclpy.init()
+    abort_experiment = False
+
+    for i in scenarios_to_run:
+        if abort_experiment:
+            break
+            
         for algo in algorithms:
+            if abort_experiment:
+                break
             print(f"Processing Scenario {i}, Algorithm: {algo['name']}")
             
             # Launch command
@@ -180,18 +194,19 @@ def run_experiment():
                 'launch_rviz_marker:=false', 
                 'rviz_marker:=false',
                 'publish_transforms:=true',
-                'num_obstacles:=50' # Add this argument for scaling
+                'num_obstacles:=50', # Add this argument for scaling
+                'launch_rviz:=false' # Disabled per request
             ]
             
-            # Start simulation (non-blocking)
+            # Start simulation (non-blocking) in a new process group so we can cleanly kill it
             sim_process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL
+                stderr=subprocess.DEVNULL,
+                preexec_fn=os.setsid
             )
             
             # Start Recording Node
-            rclpy.init()
             recorder = ScenarioManager(scenario_id=i, algorithm=algo['name'])
             
             # Run for a fixed duration or until goal is reached
@@ -203,17 +218,30 @@ def run_experiment():
                         print(f"Goal reached for Scenario {i} with {algo['name']}")
                         break
             except KeyboardInterrupt:
-                pass
+                print("\nCaught KeyboardInterrupt! Aborting all scenarios...")
+                abort_experiment = True
             finally:
                 recorder.destroy_node()
-                rclpy.shutdown()
                 
-                # Kill simulation
-                sim_process.send_signal(signal.SIGINT)
+                # Kill simulation cleanly via process group
+                try:
+                    os.killpg(os.getpgid(sim_process.pid), signal.SIGINT)
+                except ProcessLookupError:
+                    pass
                 sim_process.wait()
+                
+                # Double tap leftovers just in case
                 subprocess.run(['pkill', '-f', 'ros'], stdout=subprocess.DEVNULL)
                 subprocess.run(['pkill', '-f', 'gz'], stdout=subprocess.DEVNULL)
+                subprocess.run(['pkill', '-f', 'ruby'], stdout=subprocess.DEVNULL)
                 time.sleep(2) 
+
+    if rclpy.ok():
+        rclpy.shutdown()
+
+    if abort_experiment:
+        print("\nExperiment was aborted early. Skipping Analysis.")
+        return
 
     # 5. Run Post-Processing
     print("\n---------------------------------------------------")

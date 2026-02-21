@@ -107,6 +107,8 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             if (obstacle_distance <= obstacle_radius)
             {
                 cone_angle = M_PI / 2.0;   
+                
+                // If projection is positive, we are moving deeper into the obstacle
                 if (projection > 0.0)
                 {
                     collision_free = false;
@@ -157,6 +159,7 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
                 if((time_to_collision < time_to_collision_threshold_)) // above this threshold
                 {
                     sample.danger += (( radius_threshold_ - (actual_radius - expected_radius)) / radius_threshold_)  *projection;
+                    sample.danger = std::min(1.0, sample.danger);
                 }
                 else
                 {   

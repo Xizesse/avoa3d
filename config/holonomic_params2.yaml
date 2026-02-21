@@ -36,8 +36,8 @@
 
 
     #Goal weights 
-    heading_weight: 0.80
-    abs_weight: 0.2
+    heading_weight: 0.90
+    abs_weight: 0.1
     momentum_weight: 0.1
     #Danger weight. Goal weight will be * (1 - danger_weight)
     danger_weight: 0.8
@@ -55,7 +55,7 @@
 
     #safey parameters
     radius_threshold: 0.5 # meters/s
-    time_to_collision_threshold: 120.0 # seconds
+    time_to_collision_threshold: 5.0 # seconds
     
     # 6DOF parameters
     # Maximum accelerations

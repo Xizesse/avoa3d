@@ -116,9 +116,13 @@ def generate_launch_description():
             print(f"ERROR: Scenario '{scenario_value}' is not a valid integer. Using default scenario_000.sdf")
             sdf_path = os.path.join(scenarios_dir, "scenario_000.sdf")
         
+        gazebo_default_gui_config = os.path.join(
+            home_path, 'ros2_ws', 'src', 'avoa3d', 'config', 'gz_window_layout.config'
+        )
+        
         return [
             ExecuteProcess(
-                cmd=['gz', 'sim', '4', '-r', sdf_path],
+                cmd=['gz', 'sim', '4', '-r', f'--gui-config={gazebo_default_gui_config}', sdf_path],
                 output='screen'
             )
         ]
@@ -273,17 +277,15 @@ def generate_launch_description():
         static_tf_map_odom,
         static_tf_base_agent,
         dynamic_tf_publisher,
-        rviz_node,
+        #rviz_node,
         ground_truth_obstacles_launch,
         
-        # Modified Logic Chain
-        test_w_goal_node,       # 1. Generates desired_vel
-        obstacle_publisher_node,# 2. Generates obstacles_array
-        rvo2_node,              # 3. Generates cmd_vel_unfiltered
-        velocity_filter_node,   # 4. Generates cmd_vel
+        test_w_goal_node,       
+        obstacle_publisher_node,
+        rvo2_node,              
+        velocity_filter_node,   
 
 
-        # Optional: Auto-publish goal
         static_goal_pub
     ]
 

@@ -150,7 +150,7 @@ def process_single_csv(csv_file):
             
             if is_valid:
                 dist = math.sqrt((ax-ox)**2 + (ay-oy)**2 + (az-oz)**2)
-                clr = dist - 1.0
+                clr = dist - 1.5
                 
                 if clr < current_step_min:
                     current_step_min = clr
