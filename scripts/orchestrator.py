@@ -19,6 +19,7 @@ class ScenarioManager(Node):
         self.scenario_id = scenario_id
         self.algorithm = algorithm
         self.goal_reached = False
+        self.collision_detected = False
         
         # Data storage
         self.data_buffer = []
@@ -134,13 +135,18 @@ class ScenarioManager(Node):
         else:
             row.extend([0, 0, 0])
             
-        # Obstacles
+        # Obstacles and Collision Check
         for i in range(1, 51):
             if i in self.obstacles:
                 obs = self.obstacles[i]
                 op = obs.pose.pose.position
                 ov = obs.twist.twist.linear
                 row.extend([op.x, op.y, op.z, ov.x, ov.y, ov.z])
+                
+                # Check for collision safely during runtime
+                dist = math.sqrt((p.x - op.x)**2 + (p.y - op.y)**2 + (p.z - op.z)**2)
+                if dist < 1.5:
+                    self.collision_detected = True
             else:
                 row.extend([0, 0, 0, 0, 0, 0])
                 
@@ -168,7 +174,7 @@ def run_experiment():
 
     algorithms = [
         {'name': 'javoa', 'launch_file': 'holonomic.launch.py'},
-        {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
+        # {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
     ]
 
     rclpy.init()
@@ -216,6 +222,10 @@ def run_experiment():
                     rclpy.spin_once(recorder, timeout_sec=0.1)
                     if recorder.goal_reached:
                         print(f"Goal reached for Scenario {i} with {algo['name']}")
+                        break
+                    
+                    if recorder.collision_detected:
+                        print(f"Collision detected for Scenario {i} with {algo['name']} - Stopping early!")
                         break
             except KeyboardInterrupt:
                 print("\nCaught KeyboardInterrupt! Aborting all scenarios...")

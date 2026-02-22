@@ -85,7 +85,7 @@ def generate_launch_description():
 
     # Get package share directory and config paths
     pkg_share = get_package_share_directory('avoa3d')
-    params_path = os.path.join(pkg_share, 'config', 'holonomic_params2.yaml')
+    params_path = os.path.join(pkg_share, 'config', 'holonomic_params.yaml')
     
     # Load parameters from yaml
     with open(params_path, 'r') as f:
@@ -332,7 +332,7 @@ def generate_launch_description():
     
     if launch_rviz_marker:
         nodes.append(rviz_marker_node)
-        #nodes.append(rviz_node)
+        nodes.append(rviz_node)
     
     if launch_test_w_goal:
         nodes.append(test_w_goal_node)

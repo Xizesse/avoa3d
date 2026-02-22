@@ -3,7 +3,21 @@
 import os
 import csv
 import matplotlib.pyplot as plt
+
+plt.rcParams.update({
+    'font.size': 20,
+    'axes.labelsize': 22,
+    'axes.titlesize': 24,
+    'xtick.labelsize': 18,
+    'ytick.labelsize': 18,
+    'legend.fontsize': 18,
+    'figure.titlesize': 26
+})
+
 import math
+import numpy as np
+
+import glob
 
 def process_results(base_dir):
     # Iterate over all subdirectories in the base results directory
@@ -15,28 +29,37 @@ def process_results(base_dir):
                 
             scenario_path = os.path.join(root, dir_name)
             
-            # Process both CSVs if they exist
-            csv_files = {
-                'rvo': os.path.join(scenario_path, 'rvo.csv'),
-                'javoa': os.path.join(scenario_path, 'javoa.csv')
-            }
+            # Use glob to find all CSV files dynamically
+            csv_paths = sorted(glob.glob(os.path.join(scenario_path, '*.csv')))
+            
+            if not csv_paths:
+                continue
+                
+            csv_files = {}
+            for path in csv_paths:
+                algo_name = os.path.splitext(os.path.basename(path))[0]
+                csv_files[algo_name] = path
             
             # Individual plots
             for prefix, csv_path in csv_files.items():
-                if os.path.exists(csv_path):
-                    print(f"Processing {dir_name} / {prefix}...")
-                    try:
-                        generate_plots(scenario_path, csv_path, prefix)
-                    except Exception as e:
-                        print(f"Error processing {dir_name}/{prefix}: {e}")
-                else:
-                    print(f"Skipping {dir_name}/{prefix}: File not found.")
-            
-            # Comparative plots (if both exist)
-            if os.path.exists(csv_files['rvo']) and os.path.exists(csv_files['javoa']):
-                print(f"Generating comparison plots for {dir_name}...")
+                print(f"Processing {dir_name} / {prefix}...")
                 try:
-                    generate_comparison_plots(scenario_path, csv_files['rvo'], csv_files['javoa'])
+                    generate_plots(scenario_path, csv_path, prefix)
+                except Exception as e:
+                    print(f"Error processing {dir_name}/{prefix}: {e}")
+            
+            # Comparative plots (if multiple exist)
+            if len(csv_files) >= 2:
+                print(f"Generating comparison plots for {dir_name}...")
+                algorithms = list(csv_files.keys())
+                # For backward compatibility, default pass first two algorithms
+                algo1, algo2 = algorithms[0], algorithms[1]
+                # Force specific order if known (javoa vs rvo often preferred)
+                if 'rvo' in csv_files and 'javoa' in csv_files:
+                    algo1, algo2 = 'rvo', 'javoa'
+                
+                try:
+                    generate_comparison_plots(scenario_path, csv_files[algo1], csv_files[algo2], algo1, algo2)
                 except Exception as e:
                     print(f"Error generating comparison for {dir_name}: {e}")
 
@@ -108,8 +131,8 @@ def generate_plots(output_dir, csv_file, prefix_name):
                 dz = agent_z[i] - obs_z[i]
                 dist = math.sqrt(dx*dx + dy*dy + dz*dz)
                 
-                # Clearance = dist - 1.0
-                clearance = dist - 0.5 - 1.0
+                # Clearance = dist - 1.5, clip to 0
+                clearance = max(0.0, dist - 1.5)
                 
                 distances.append(clearance)
                 plot_times.append(time_elapsed[i])
@@ -120,10 +143,12 @@ def generate_plots(output_dir, csv_file, prefix_name):
         plt.plot(plot_times, distances, label=f'Obstacle {obs_key}')
 
     if has_valid_obstacles:
-        plt.title('Clearance to Obstacles over Time')
-        plt.xlabel('Time (s)')
-        plt.ylabel('Clearance (m)')
-        plt.legend()
+        plt.title('Clearance to Obstacles over Time', fontsize=18)
+        plt.xlabel('Time (s)', fontsize=16)
+        plt.ylabel('Clearance (m)', fontsize=16)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+        plt.legend(fontsize=12)
         plt.grid(True)
         plt.ylim(-1, 3)
         
@@ -164,8 +189,8 @@ def generate_plots(output_dir, csv_file, prefix_name):
                 is_valid = (ox != 0.0 or oy != 0.0 or oz != 0.0)
                 if is_valid:
                     dist = math.sqrt((ax-ox)**2 + (ay-oy)**2 + (az-oz)**2)
-                    # Clearance = dist - 1.0
-                    clearance = dist - 1.0
+                    # Clearance = dist - 1.5, clip to 0
+                    clearance = max(0.0, dist - 1.5)
                     
                     if clearance < min_dist:
                         min_dist = clearance
@@ -180,10 +205,12 @@ def generate_plots(output_dir, csv_file, prefix_name):
                 
         plt.figure(figsize=(10, 6))
         plt.plot(min_clearance_times, min_clearances, label='Min Clearance', color='blue')
-        plt.title('Minimum Clearance to Any Obstacle over Time')
-        plt.xlabel('Time (s)')
-        plt.ylabel('Clearance (m)')
-        plt.legend()
+        plt.title('Minimum Clearance to Any Obstacle over Time', fontsize=18)
+        plt.xlabel('Time (s)', fontsize=16)
+        plt.ylabel('Clearance (m)', fontsize=16)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+        plt.legend(fontsize=14)
         plt.grid(True)
         plt.axhline(0, color='red', linestyle='--', linewidth=1, label='Collision')
         plt.ylim(-1, 3) # Consistent scale
@@ -227,10 +254,12 @@ def generate_plots(output_dir, csv_file, prefix_name):
             plt.plot(time_elapsed, c_raw, label='Cmd Vel Unfiltered', alpha=0.6)
             plt.plot(time_elapsed, c_cmd, label='Cmd Vel (Filtered)', linewidth=2)
             
-            plt.title(f'Velocity {component_name} Component over Time')
-            plt.xlabel('Time (s)')
-            plt.ylabel('Velocity (m/s)')
-            plt.legend()
+            plt.title(f'Velocity {component_name} Component over Time', fontsize=18)
+            plt.xlabel('Time (s)', fontsize=16)
+            plt.ylabel('Velocity (m/s)', fontsize=16)
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=14)
+            plt.legend(fontsize=14)
             plt.grid(True)
             
             p = os.path.join(output_dir, filename)
@@ -244,6 +273,105 @@ def generate_plots(output_dir, csv_file, prefix_name):
         
     except Exception as e:
         print(f"Could not generate velocity plots: {e}")
+
+    # --- NEW PLOT: 3D Trajectory (Static PNG) ---
+    try:
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+        
+        # Agent
+        ax.plot(agent_x, agent_y, agent_z, label='Agent', color='blue', linewidth=2)
+        ax.scatter([agent_x[0]], [agent_y[0]], [agent_z[0]], color='green', s=50, label='Start')
+        ax.scatter([agent_x[-1]], [agent_y[-1]], [agent_z[-1]], color='red', s=50, marker='x', label='End')
+        
+        # Obstacles
+        if has_valid_obstacles:
+            for obs_key in obstacles:
+                prefix_obs = f'obs_{obs_key}'
+                if f'{prefix_obs}_pos_x' not in data[0]: continue
+                
+                ox = [float(row[f'{prefix_obs}_pos_x']) for row in data]
+                oy = [float(row[f'{prefix_obs}_pos_y']) for row in data]
+                oz = [float(row.get(f'{prefix_obs}_pos_z', 0.0)) for row in data]
+                
+                is_valid = [(c_x != 0.0 or c_y != 0.0 or c_z != 0.0) for c_x, c_y, c_z in zip(ox, oy, oz)]
+                if any(is_valid):
+                    valid_ox = [ox[j] for j in range(len(ox)) if is_valid[j]]
+                    valid_oy = [oy[j] for j in range(len(oy)) if is_valid[j]]
+                    valid_oz = [oz[j] for j in range(len(oz)) if is_valid[j]]
+                    # Check if obstacle is dynamic (moved more than a tiny threshold)
+                    dx = max(valid_ox) - min(valid_ox)
+                    dy = max(valid_oy) - min(valid_oy)
+                    dz = max(valid_oz) - min(valid_oz)
+                    is_dynamic = (dx > 0.01 or dy > 0.01 or dz > 0.01)
+                    obs_color = 'green' if is_dynamic else 'red'
+                    
+                    ax.plot(valid_ox, valid_oy, valid_oz, label=f'Obstacle {obs_key}', linestyle='--', linewidth=1, color=obs_color)
+                    
+                    # Plot 1m radius sphere at the final position of the obstacle
+                    if len(valid_ox) > 0:
+                        last_x = valid_ox[-1]
+                        last_y = valid_oy[-1]
+                        last_z = valid_oz[-1]
+                        
+                        u = np.linspace(0, 2 * np.pi, 20)
+                        v = np.linspace(0, np.pi, 20)
+                        x = 1.0 * np.outer(np.cos(u), np.sin(v)) + last_x
+                        y = 1.0 * np.outer(np.sin(u), np.sin(v)) + last_y
+                        z = 1.0 * np.outer(np.ones(np.size(u)), np.cos(v)) + last_z
+                        
+                        ax.plot_wireframe(x, y, z, color=obs_color, alpha=0.3, linewidth=0.5)
+        
+        ax.set_title(f'3D Trajectory - {prefix_name.upper()}', fontsize=18)
+        ax.set_xlabel('X (m)', fontsize=16)
+        ax.set_ylabel('Y (m)', fontsize=16)
+        ax.set_zlabel('Z (m)', fontsize=16)
+        ax.tick_params(axis='both', which='major', labelsize=14)
+        
+        # Determine appropriate aspect ratio based on data limits
+        all_x = agent_x + valid_ox if has_valid_obstacles and 'valid_ox' in locals() else agent_x
+        all_y = agent_y + valid_oy if has_valid_obstacles and 'valid_oy' in locals() else agent_y
+        all_z = agent_z + valid_oz if has_valid_obstacles and 'valid_oz' in locals() else agent_z
+        
+        if all_x and all_y and all_z:
+            max_range = np.array([max(all_x)-min(all_x), max(all_y)-min(all_y), max(all_z)-min(all_z)]).max() / 2.0
+            mid_x = (max(all_x)+min(all_x)) * 0.5
+            mid_y = (max(all_y)+min(all_y)) * 0.5
+            mid_z = (max(all_z)+min(all_z)) * 0.5
+            
+            ax.set_xlim(mid_x - max_range, mid_x + max_range)
+            ax.set_ylim(mid_y - max_range, mid_y + max_range)
+            ax.set_zlim(mid_z - max_range, mid_z + max_range)
+        
+        # Legend might be too big if many obstacles, so limit or place outside
+        if has_valid_obstacles and len(valid_ox) > 5:
+             handles, labels = ax.get_legend_handles_labels()
+             # Keep only Agent, Start, End
+             ax.legend(handles[:3], labels[:3], loc='best', fontsize=14)
+        else:
+             ax.legend(loc='best', fontsize=14)
+             
+        # Default isometric-ish view
+        path_3d_png = os.path.join(output_dir, f'{prefix_name}_3d_trajectory_iso.png')
+        plt.savefig(path_3d_png)
+        print(f"Generated 3D trajectory plot (Iso View): {path_3d_png}")
+        
+        # Set Top View (Elevation = 90, Azimuth = -90)
+        ax.view_init(elev=90, azim=-90)
+        path_3d_top_png = os.path.join(output_dir, f'{prefix_name}_3d_trajectory_top.png')
+        plt.savefig(path_3d_top_png)
+        print(f"Generated 3D trajectory plot (Top View): {path_3d_top_png}")
+        
+        # Set Side View (Elevation = 0, Azimuth = -90)
+        ax.view_init(elev=0, azim=-90)
+        path_3d_side_png = os.path.join(output_dir, f'{prefix_name}_3d_trajectory_side.png')
+        plt.savefig(path_3d_side_png)
+        print(f"Generated 3D trajectory plot (Side View): {path_3d_side_png}")
+
+        plt.close()
+        
+    except Exception as e:
+        print(f"Could not generate 3D trajectory plot: {e}")
 
 def get_data_for_comparison(csv_file):
     # Helper to extract relevant data for comparison headers
@@ -288,8 +416,8 @@ def get_data_for_comparison(csv_file):
             
             if is_valid:
                 dist = math.sqrt((ax-ox)**2 + (ay-oy)**2 + (az-oz)**2)
-                # Clearance
-                clr = dist - 1.0
+                # Clearance, clip to 0
+                clr = max(0.0, dist - 1.5)
                 if clr < min_dist: min_dist = clr
                 valid_found = True
         
@@ -298,23 +426,29 @@ def get_data_for_comparison(csv_file):
         
     return times, min_clearances, vel_mags
 
-def generate_comparison_plots(output_dir, rvo_csv, javoa_csv):
-    t_rvo, clr_rvo, vel_rvo = get_data_for_comparison(rvo_csv)
-    t_jav, clr_jav, vel_jav = get_data_for_comparison(javoa_csv)
+def generate_comparison_plots(output_dir, csv_algo1, csv_algo2, name1='Algo1', name2='Algo2'):
+    t_algo1, clr_algo1, vel_algo1 = get_data_for_comparison(csv_algo1)
+    t_algo2, clr_algo2, vel_algo2 = get_data_for_comparison(csv_algo2)
     
-    if t_rvo is None or t_jav is None:
+    if t_algo1 is None or t_algo2 is None:
         print("Comparison failed: Empty data")
         return
 
+    # Use nicely capitalized labels (e.g., S3VO mapping)
+    label1 = 'S3VO' if name1.lower() == 'javoa' else name1.upper()
+    label2 = 'S3VO' if name2.lower() == 'javoa' else name2.upper()
+
     # Plot 1: Min Clearance Comparison
     plt.figure(figsize=(10, 6))
-    plt.plot(t_rvo, clr_rvo, label='RVO', color='red', alpha=0.8)
-    plt.plot(t_jav, clr_jav, label='Javoa', color='blue', alpha=0.8)
-    plt.title('Comparison: Minimum Clearance over Time')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Clearance (m)')
-    plt.axhline(0, color='black', linestyle='--', linewidth=1, label='Collision')
-    plt.legend()
+    plt.plot(t_algo1, clr_algo1, label=label1, color='red', alpha=0.8, linewidth=2)
+    plt.plot(t_algo2, clr_algo2, label=label2, color='blue', alpha=0.8, linewidth=2)
+    plt.title('Comparison: Minimum Clearance over Time', fontsize=18)
+    plt.xlabel('Time (s)', fontsize=16)
+    plt.ylabel('Clearance (m)', fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.axhline(0, color='black', linestyle='--', linewidth=1.5, label='Collision')
+    plt.legend(fontsize=14)
     plt.grid(True)
     plt.ylim(-1, 3)
     
@@ -325,12 +459,14 @@ def generate_comparison_plots(output_dir, rvo_csv, javoa_csv):
 
     # Plot 2: Velocity Magnitude Comparison
     plt.figure(figsize=(10, 6))
-    plt.plot(t_rvo, vel_rvo, label='RVO', color='red', alpha=0.8)
-    plt.plot(t_jav, vel_jav, label='Javoa', color='blue', alpha=0.8)
-    plt.title('Comparison: Agent Velocity Magnitude over Time')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Velocity (m/s)')
-    plt.legend()
+    plt.plot(t_algo1, vel_algo1, label=label1, color='red', alpha=0.8, linewidth=2)
+    plt.plot(t_algo2, vel_algo2, label=label2, color='blue', alpha=0.8, linewidth=2)
+    plt.title('Comparison: Agent Velocity Magnitude over Time', fontsize=18)
+    plt.xlabel('Time (s)', fontsize=16)
+    plt.ylabel('Velocity (m/s)', fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.legend(fontsize=14)
     plt.grid(True)
     
     p2 = os.path.join(output_dir, 'comparison_velocity.png')
@@ -339,7 +475,8 @@ def generate_comparison_plots(output_dir, rvo_csv, javoa_csv):
     print(f"Generated comparison: {p2}")
 
 if __name__ == "__main__":
-    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/randomized')
+    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/randomized_ablated')
+
     if os.path.exists(results_dir):
         process_results(results_dir)
     else:

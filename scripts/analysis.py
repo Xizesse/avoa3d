@@ -3,6 +3,17 @@
 import os
 import csv
 import matplotlib.pyplot as plt
+
+plt.rcParams.update({
+    'font.size': 20,
+    'axes.labelsize': 22,
+    'axes.titlesize': 24,
+    'xtick.labelsize': 18,
+    'ytick.labelsize': 18,
+    'legend.fontsize': 18,
+    'figure.titlesize': 26
+})
+
 import math
 import numpy as np
 
@@ -12,64 +23,96 @@ def analyze_results(base_dir):
     
     scenarios_processed = 0
     
+    import glob
+    subdirs = sorted([d for d in os.listdir(base_dir) if d.startswith('s') and d != 'scripts' and os.path.isdir(os.path.join(base_dir, d))])
+    
+    # 1. Discover all algorithm names from the first valid scenario folder
+    algos = []
+    for dir_name in subdirs:
+        scenario_path = os.path.join(base_dir, dir_name)
+        csv_files = glob.glob(os.path.join(scenario_path, '*.csv'))
+        if csv_files:
+            algos = [os.path.splitext(os.path.basename(f))[0] for f in csv_files]
+            algos.sort()
+            break
+            
+    if not algos:
+        print("No CSV files found in any scenario directories.")
+        return
+        
+    print(f"Discovered algorithms: {algos}")
+
     # Data storage
-    # { 'rvo': [val1, val2...], 'javoa': [val1, val2...] }
     data = {
-        'time_to_goal': {'rvo': [], 'javoa': []},
-        'min_clearance': {'rvo': [], 'javoa': []},
-        'distance_traveled': {'rvo': [], 'javoa': []}
+        'time_to_goal': {algo: {'val': [], 'id': []} for algo in algos},
+        'min_clearance': {algo: {'val': [], 'id': []} for algo in algos},
+        'distance_traveled': {algo: {'val': [], 'id': []} for algo in algos},
+        'smoothness': {algo: {'val': [], 'id': []} for algo in algos}
     }
     
-    success_counts = {'rvo': 0, 'javoa': 0}
-    
-    # Iterate over all subdirectories
-    # We assume folders are named s{id}
-    # Sort folders to process in order (s000, s001...)
-    subdirs = sorted([d for d in os.listdir(base_dir) if d.startswith('s') and d != 'scripts' and os.path.isdir(os.path.join(base_dir, d))])
+    success_counts = {algo: 0 for algo in algos}
+    collision_counts = {algo: 0 for algo in algos}
     
     for dir_name in subdirs:
         scenario_path = os.path.join(base_dir, dir_name)
-        rvo_csv = os.path.join(scenario_path, 'rvo.csv')
-        javoa_csv = os.path.join(scenario_path, 'javoa.csv')
         
-        # Check if both exist
-        if not (os.path.exists(rvo_csv) and os.path.exists(javoa_csv)):
-            # print(f"Skipping {dir_name}: Missing one or both CSVs.")
+        # Check if all discovered algorithms have a CSV in this scenario
+        missing = False
+        for algo in algos:
+            if not os.path.exists(os.path.join(scenario_path, f'{algo}.csv')):
+                missing = True
+                break
+        
+        if missing and len(algos) > 1:
             continue
             
         print(f"Processing {dir_name}...")
         
         try:
-            # Process RVO
-            rvo_time, rvo_clearance, rvo_dist, rvo_goal = process_single_csv(rvo_csv)
-            # Process Javoa
-            jav_time, jav_clearance, jav_dist, jav_goal = process_single_csv(javoa_csv)
+            scenario_results = {}
+            for algo in algos:
+                csv_path = os.path.join(scenario_path, f'{algo}.csv')
+                if not os.path.exists(csv_path): continue
+                t, c, d, s, g = process_single_csv(csv_path)
+                scenario_results[algo] = {
+                    'time': t, 'clearance': c, 'dist': d, 'smoothness': s, 'goal': g
+                }
             
-            if rvo_time is not None and jav_time is not None:
+            # Check valid outputs
+            if all(res['time'] is not None for res in scenario_results.values()):
                 scenarios_processed += 1
                 
-                if rvo_goal:
-                    success_counts['rvo'] += 1
-                    data['time_to_goal']['rvo'].append(rvo_time)
-                    data['min_clearance']['rvo'].append(rvo_clearance)
-                    data['distance_traveled']['rvo'].append(rvo_dist)
-                    
-                if jav_goal:
-                    success_counts['javoa'] += 1
-                    data['time_to_goal']['javoa'].append(jav_time)
-                    data['min_clearance']['javoa'].append(jav_clearance)
-                    data['distance_traveled']['javoa'].append(jav_dist)
+                # Minimum clearance is appended for all algorithms unconditionally
+                for algo, res in scenario_results.items():
+                    data['min_clearance'][algo]['val'].append(res['clearance'])
+                    data['min_clearance'][algo]['id'].append(dir_name)
+                    if res['goal']:
+                        success_counts[algo] += 1
+                    if res['clearance'] <= 0.0:
+                        collision_counts[algo] += 1
+                
+                # Performance metrics (time, distance, smoothness) are appended only if ALL algorithms reached the goal
+                all_reached_goal = all(res['goal'] for res in scenario_results.values())
+                if all_reached_goal:
+                    for algo, res in scenario_results.items():
+                        data['time_to_goal'][algo]['val'].append(res['time'])
+                        data['time_to_goal'][algo]['id'].append(dir_name)
+                        data['distance_traveled'][algo]['val'].append(res['dist'])
+                        data['distance_traveled'][algo]['id'].append(dir_name)
+                        data['smoothness'][algo]['val'].append(res['smoothness'])
+                        data['smoothness'][algo]['id'].append(dir_name)
                 
         except Exception as e:
             print(f"Error analyzing {dir_name}: {e}")
             
     if scenarios_processed == 0:
-        print("No valid scenarios found with both algorithms data.")
+        print("No valid scenarios found with data for all algorithms.")
         return
 
     print(f"\nAnalysis complete. Processed {scenarios_processed} scenarios.")
     
-    # Generate Box Plots
+    # Generate individual Matplotlib Box Plots
+    print("Generating static matplotlib boxplots...")
     generate_boxplot(
         data['time_to_goal'], 
         'Time to Reach Goal Distribution', 
@@ -91,12 +134,28 @@ def analyze_results(base_dir):
         os.path.join(analysis_dir, 'distance_traveled_boxplot.png')
     )
 
+    generate_boxplot(
+        data['smoothness'], 
+        'Smoothness Distribution', 
+        'Smoothness ($m/s^2$)', 
+        os.path.join(analysis_dir, 'smoothness_boxplot.png')
+    )
+
     generate_success_barplot(
         success_counts,
         scenarios_processed,
         'Goal Reach Rate (< 5m)',
         'Number of Scenarios',
         os.path.join(analysis_dir, 'goal_reached_barplot.png')
+    )
+
+    generate_success_barplot(
+        collision_counts,
+        scenarios_processed,
+        'Collision Rate (Clearance <= 0)',
+        'Number of Scenarios',
+        os.path.join(analysis_dir, 'collision_barplot.png'),
+        color_override='lightcoral'
     )
 
 def process_single_csv(csv_file):
@@ -107,7 +166,7 @@ def process_single_csv(csv_file):
             rows.append(row)
             
     if not rows:
-        return None, None, None, False
+        return None, None, None, None, False
         
     last_row = rows[-1]
     last_x = float(last_row['pos_x'])
@@ -150,7 +209,7 @@ def process_single_csv(csv_file):
             
             if is_valid:
                 dist = math.sqrt((ax-ox)**2 + (ay-oy)**2 + (az-oz)**2)
-                clr = dist - 1.5
+                clr = max(0.0, dist - 1.5)
                 
                 if clr < current_step_min:
                     current_step_min = clr
@@ -173,54 +232,101 @@ def process_single_csv(csv_file):
         dz = float(curr.get('pos_z', 0.0)) - float(prev.get('pos_z', 0.0))
         distance_traveled += math.sqrt(dx*dx + dy*dy + dz*dz)
 
-    return time_to_goal, min_clearance_global, distance_traveled, goal_reached
+    # 4. Smoothness (m_vsm)
+    smoothness = 0.0
+    valid_steps = 0
+    for i in range(1, len(rows)):
+        prev = rows[i-1]
+        curr = rows[i]
+        
+        t_prev = float(prev['time_elapsed'])
+        t_curr = float(curr['time_elapsed'])
+        dt = t_curr - t_prev
+        
+        if dt > 0:
+            vx_prev = float(prev['vel_x'])
+            vy_prev = float(prev['vel_y'])
+            vx_curr = float(curr['vel_x'])
+            vy_curr = float(curr['vel_y'])
+            
+            dvx = vx_curr - vx_prev
+            dvy = vy_curr - vy_prev
+            
+            dv_mag = math.sqrt(dvx*dvx + dvy*dvy)
+            smoothness += dv_mag / dt
+            valid_steps += 1
+            
+    if valid_steps > 0:
+        smoothness /= valid_steps
+    else:
+        smoothness = float('nan')
+
+    return time_to_goal, min_clearance_global, distance_traveled, smoothness, goal_reached
 
 def generate_boxplot(data_dict, title, ylabel, output_path):
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(10, 8))
     
-    labels = ['Javoa', 'RVO']
-    values = [data_dict['javoa'], data_dict['rvo']]
+    data_list = []
+    labels = []
     
-    if len(values[0]) == 0 and len(values[1]) == 0:
-        print(f"Skipping plot {title} because there is no matching data.")
+    # Sort algorithms for consistent plotting (case-insensitive for nice display, e.g. javoa then rvo)
+    algos = sorted(list(data_dict.keys()), key=lambda x: x.lower())
+    
+    # Generic distinct colors
+    color_palette = ['lightblue', 'lightcoral', 'lightgreen', 'wheat', 'plum', 'lightgray', 'khaki']
+    colors = []
+    
+    for i, algo in enumerate(algos):
+        vals = data_dict[algo]['val']
+        if vals:
+            data_list.append(vals)
+            # Make S3VO instead of javoa dynamically if named exactly javoa
+            labels.append('S3VO' if algo.lower() == 'javoa' else algo.upper())
+            colors.append(color_palette[i % len(color_palette)])
+            
+    if not data_list:
         plt.close()
         return
-    
-    # Create boxplot
-    # patch_artist=True allowing for color filling
-    # whis=(0, 100) extends whiskers to min/max data points (no outliers shown separately)
-    
-    clean_values = [v if len(v) > 0 else [np.nan] for v in values]
-    
-    bplot = plt.boxplot(clean_values, labels=labels, patch_artist=True, medianprops=dict(color="black"), whis=(0, 100))
-    
-    # Colors
-    colors = ['lightblue', 'lightcoral']
-    for patch, color in zip(bplot['boxes'], colors):
-        patch.set_facecolor(color)
-        
-    plt.title(title)
-    plt.ylabel(ylabel)
-    plt.grid(True, axis='y', linestyle='--', alpha=0.7)
-    
-    # Add scattered data points for visibility
-    # Add some jitter to x
-    for i, data in enumerate(values):
-        y = data
-        x = np.random.normal(1 + i, 0.04, size=len(y))
-        plt.plot(x, y, 'r.', alpha=0.5)
 
-    plt.savefig(output_path)
+    box = plt.boxplot(data_list, labels=labels, patch_artist=True, widths=0.2, showfliers=False, whis=(0, 100))
+    
+    for patch, color in zip(box['boxes'], colors):
+        patch.set_facecolor(color)
+        patch.set_edgecolor('black')
+        
+    for median in box['medians']:
+        median.set_color('black')
+        
+    # Scatter with jitter (Show all data points)
+    for i, vals in enumerate(data_list):
+        x = np.random.normal(i + 1, 0.04, size=len(vals))
+        plt.scatter(x, vals, color='red', alpha=0.5, s=20, zorder=3)
+        
+    plt.title(title, pad=15, fontsize=24)
+    plt.ylabel(ylabel, labelpad=10, fontsize=22)
+    plt.xticks(fontsize=20)
+    plt.yticks(fontsize=18)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300)
     plt.close()
     print(f"Generated plot: {output_path}")
 
-def generate_success_barplot(counts, total, title, ylabel, output_path):
-    plt.figure(figsize=(8, 6))
+def generate_success_barplot(counts, total, title, ylabel, output_path, color_override=None):
+    plt.figure(figsize=(10, 8))
     
-    labels = ['Javoa', 'RVO']
-    values = [counts['javoa'], counts['rvo']]
+    algos = sorted(list(counts.keys()), key=lambda x: x.lower())
+    labels = ['S3VO' if algo.lower() == 'javoa' else algo.upper() for algo in algos]
+    values = [counts[algo] for algo in algos]
     
-    bars = plt.bar(labels, values, color=['lightblue', 'lightcoral'])
+    if color_override:
+        plot_colors = [color_override] * len(algos)
+    else:
+        color_palette = ['lightblue', 'lightcoral', 'lightgreen', 'wheat', 'plum', 'lightgray', 'khaki']
+        plot_colors = [color_palette[i % len(color_palette)] for i in range(len(algos))]
+    
+    bars = plt.bar(labels, values, color=plot_colors)
     
     plt.title(f"{title} (Total Scenarios: {total})")
     plt.ylabel(ylabel)
@@ -236,7 +342,7 @@ def generate_success_barplot(counts, total, title, ylabel, output_path):
     print(f"Generated plot: {output_path}")
 
 if __name__ == "__main__":
-    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/randomized')
+    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/randomized_ablated')
     if os.path.exists(results_dir):
         analyze_results(results_dir)
     else:
