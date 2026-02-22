@@ -67,6 +67,12 @@ def generate_launch_description():
         description='RViz2 goal pose topic'
     )
     
+    num_obstacles_arg = DeclareLaunchArgument(
+        'num_obstacles',
+        default_value='50',
+        description='Number of obstacles to track'
+    )
+    
 
     # Create LaunchConfigurations
     name = LaunchConfiguration('name')
@@ -229,7 +235,7 @@ def generate_launch_description():
     obstacle_publisher_node = Node(
         package='rvo2_ros2',
         executable='obstacle_publisher',
-        name='obstacle_publisher',
+        name='rvo2_obstacle_publisher',
         output='screen',
         parameters=[
             {'use_sim_time': True},
@@ -271,6 +277,7 @@ def generate_launch_description():
         fixed_frame_arg,
         agent_frame_arg,
         goal_topic_arg,
+        num_obstacles_arg,
         
         gazebo_process,
         bridge_node,

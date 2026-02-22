@@ -1,0 +1,277 @@
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In constructor ‘[01m[KRVO::RVOSimulator::[01;32m[KRVOSimulator[m[K(float, float, size_t, float, float, float, const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:58:44:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+   58 |                 defaultAgent_->velocity_ = [01;35m[Kvelocity[m[K;
+      |                                            [01;35m[K^~~~~~~~[m[K
+In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/RVOSimulator.h:46[m[K,
+                 from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:33[m[K:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Ksize_t RVO::RVOSimulator::[01;32m[KaddAgent[m[K(const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:111:36:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  111 |                 agent->position_ = [01;35m[Kposition[m[K;
+      |                                    [01;35m[K^~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:117:51:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  117 |                 agent->velocity_ = defaultAgent_->[01;35m[Kvelocity_[m[K;
+      |                                                   [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Ksize_t RVO::RVOSimulator::[01;32m[KaddAgent[m[K(const RVO::Vector3&, float, size_t, float, float, float, const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:130:36:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  130 |                 agent->position_ = [01;35m[Kposition[m[K;
+      |                                    [01;35m[K^~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:136:36:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  136 |                 agent->velocity_ = [01;35m[Kvelocity[m[K;
+      |                                    [01;35m[K^~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentDefaults[m[K(float, size_t, float, float, float, const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:233:44:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  233 |                 defaultAgent_->velocity_ = [01;35m[Kvelocity[m[K;
+      |                                            [01;35m[K^~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentPosition[m[K(size_t, const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:253:47:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  253 |                 agents_[agentNo]->position_ = [01;35m[Kposition[m[K;
+      |                                               [01;35m[K^~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentPrefVelocity[m[K(size_t, const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:258:51:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  258 |                 agents_[agentNo]->prefVelocity_ = [01;35m[KprefVelocity[m[K;
+      |                                                   [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentVelocity[m[K(size_t, const RVO::Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:273:47:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  273 |                 agents_[agentNo]->velocity_ = [01;35m[Kvelocity[m[K;
+      |                                               [01;35m[K^~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:[m[K In member function ‘[01m[Kvoid RVO::KdTree::[01;32m[KbuildAgentTreeRecursive[m[K(size_t, size_t, size_t)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:60:61:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+   60 |                 agentTree_[node].minCoord = agents_[begin]->[01;35m[Kposition_[m[K;
+      |                                                             [01;35m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/KdTree.h:44[m[K,
+                 from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:33[m[K:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:61:61:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+   61 |                 agentTree_[node].maxCoord = agents_[begin]->[01;35m[Kposition_[m[K;
+      |                                                             [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In member function ‘[01m[Kvoid RVO::Agent::[01;32m[KcomputeNewVelocity[m[K()[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:149:56:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  149 |                                         plane.normal = [01;35m[KunitW[m[K;
+      |                                                        [01;35m[K^~~~~[m[K
+In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/RVOSimulator.h:46[m[K,
+                 from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Agent.h:46[m[K,
+                 from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:33[m[K:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:150:91:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  150 |                                         u = (combinedRadius * invTimeHorizon - wLength) * [01;35m[KunitW[m[K;
+      |                                                                                           [01;35m[K^~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:162:56:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  162 |                                         plane.normal = [01;35m[KunitW[m[K;
+      |                                                        [01;35m[K^~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:163:78:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  163 |                                         u = (combinedRadius * t - wLength) * [01;35m[KunitW[m[K;
+      |                                                                              [01;35m[K^~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:173:48:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  173 |                                 plane.normal = [01;35m[KunitW[m[K;
+      |                                                [01;35m[K^~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:174:80:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  174 |                                 u = (combinedRadius * invTimeStep - wLength) * [01;35m[KunitW[m[K;
+      |                                                                                [01;35m[K^~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:178:58:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  178 |                         plane.point = velocity_ + 1.0f * [01;35m[Ku[m[K;
+      |                                                          [01;35m[K^[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In member function ‘[01m[Kvoid RVO::Agent::[01;32m[Kupdate[m[K()[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:217:29:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  217 |                 velocity_ = [01;35m[KnewVelocity_[m[K;
+      |                             [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Kbool RVO::[01;32m[KlinearProgram1[m[K(const std::vector<Plane>&, size_t, const Line&, float, const Vector3&, bool, Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:269:69:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  269 |                                 result = line.point + tRight * line.[01;35m[Kdirection[m[K;
+      |                                                                     [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:273:68:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  273 |                                 result = line.point + tLeft * line.[01;35m[Kdirection[m[K;
+      |                                                                    [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:281:68:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  281 |                                 result = line.point + tLeft * line.[01;35m[Kdirection[m[K;
+      |                                                                    [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:284:69:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  284 |                                 result = line.point + tRight * line.[01;35m[Kdirection[m[K;
+      |                                                                     [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:287:64:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  287 |                                 result = line.point + t * line.[01;35m[Kdirection[m[K;
+      |                                                                [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Kbool RVO::[01;32m[KlinearProgram2[m[K(const std::vector<Plane>&, size_t, float, const Vector3&, bool, Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:315:42:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  315 |                                 result = [01;35m[KplaneCenter[m[K;
+      |                                          [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:318:110:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  318 |                                 result = planeCenter + std::sqrt(planeRadiusSq / planeOptVelocityLengthSq) * [01;35m[KplaneOptVelocity[m[K;
+      |                                                                                                              [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:323:131:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  323 |                         result = optVelocity + ((planes[planeNo].point - optVelocity) * planes[planeNo].normal) * planes[planeNo].[01;35m[Knormal[m[K;
+      |                                                                                                                                   [01;35m[K^~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:329:105:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  329 |                                 result = planeCenter + std::sqrt(planeRadiusSq / planeResultLengthSq) * [01;35m[KplaneResult[m[K;
+      |                                                                                                         [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:345:72:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  345 |                                 line.direction = normalize(crossProduct[01;35m[K)[m[K;
+      |                                                                        [01;35m[K^[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:347:171:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  347 |                                 line.point = planes[planeNo].point + (((planes[i].point - planes[planeNo].point) * planes[i].normal) / (lineNormal * planes[i].normal)) * [01;35m[KlineNormal[m[K;
+      |                                                                                                                                                                           [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Ksize_t RVO::[01;32m[KlinearProgram3[m[K(const std::vector<Plane>&, float, const Vector3&, bool, Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:362:48:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  362 |                         result = optVelocity * [01;35m[Kradius[m[K;
+      |                                                [01;35m[K^~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:366:59:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  366 |                         result = normalize(optVelocity) * [01;35m[Kradius[m[K;
+      |                                                           [01;35m[K^~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:370:34:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  370 |                         result = [01;35m[KoptVelocity[m[K;
+      |                                  [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:379:50:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  379 |                                         result = [01;35m[KtempResult[m[K;
+      |                                                  [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Kvoid RVO::[01;32m[KlinearProgram4[m[K(const std::vector<Plane>&, size_t, float, Vector3&)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:410:112:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  410 |                                                         plane.point = 0.5f * (planes[i].point + planes[j].point[01;35m[K)[m[K;
+      |                                                                                                                [01;35m[K^[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:416:176:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  416 |                                                 plane.point = planes[i].point + (((planes[j].point - planes[i].point) * planes[j].normal) / (lineNormal * planes[j].normal)) * [01;35m[KlineNormal[m[K;
+      |                                                                                                                                                                                [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:419:101:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  419 |                                         plane.normal = normalize(planes[j].normal - planes[i].normal[01;35m[K)[m[K;
+      |                                                                                                     [01;35m[K^[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:427:50:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+  427 |                                         result = [01;35m[KtempResult[m[K;
+      |                                                  [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                                [01;36m[K^~~~~~~[m[K
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:[m[K In member function ‘[01m[Kvoid RVO2Node::[01;32m[KodomCallback[m[K(nav_msgs::msg::Odometry_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:51:114:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+   51 | ion.y, msg->pose.pose.position.z[01;35m[K)[m[K;
+      |                                 [01;35m[K^[m[K
+
+In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/RVOSimulator.h:46[m[K,
+                 from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:5[m[K:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |         RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                        [01;36m[K^~~~~~~[m[K
+
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:52:114:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+   52 | ear.y, msg->twist.twist.linear.z[01;35m[K)[m[K;
+      |                                 [01;35m[K^[m[K
+
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |         RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                        [01;36m[K^~~~~~~[m[K
+
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:[m[K In member function ‘[01m[Kvoid RVO2Node::[01;32m[KdesiredVelCallback[m[K(geometry_msgs::msg::Twist_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:58:81:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+   58 | .x, msg->linear.y, msg->linear.z[01;35m[K)[m[K;
+      |                                 [01;35m[K^[m[K
+
+[01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+   66 |         RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+      |                        [01;36m[K^~~~~~~[m[K
+

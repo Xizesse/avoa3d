@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "rvo2_ros2__py",
+		"source" : "/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2/rvo2_ros2__py"
+	}
+}

@@ -174,10 +174,9 @@ def run_experiment():
 
     algorithms = [
         {'name': 'javoa', 'launch_file': 'holonomic.launch.py'},
-        # {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
+        {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
     ]
 
-    rclpy.init()
     abort_experiment = False
 
     for i in scenarios_to_run:
@@ -213,6 +212,7 @@ def run_experiment():
             )
             
             # Start Recording Node
+            rclpy.init()
             recorder = ScenarioManager(scenario_id=i, algorithm=algo['name'])
             
             # Run for a fixed duration or until goal is reached
@@ -232,6 +232,8 @@ def run_experiment():
                 abort_experiment = True
             finally:
                 recorder.destroy_node()
+                if rclpy.ok():
+                    rclpy.shutdown()
                 
                 # Kill simulation cleanly via process group
                 try:
@@ -241,37 +243,34 @@ def run_experiment():
                 sim_process.wait()
                 
                 # Double tap leftovers just in case
-                subprocess.run(['pkill', '-f', 'ros'], stdout=subprocess.DEVNULL)
-                subprocess.run(['pkill', '-f', 'gz'], stdout=subprocess.DEVNULL)
+                subprocess.run(['pkill', '-f', 'ros2 launch'], stdout=subprocess.DEVNULL)
+                subprocess.run(['pkill', '-f', 'gz sim'], stdout=subprocess.DEVNULL)
                 subprocess.run(['pkill', '-f', 'ruby'], stdout=subprocess.DEVNULL)
                 time.sleep(2) 
-
-    if rclpy.ok():
-        rclpy.shutdown()
 
     if abort_experiment:
         print("\nExperiment was aborted early. Skipping Analysis.")
         return
 
-    # 5. Run Post-Processing
-    print("\n---------------------------------------------------")
-    print("Running Data Post-Processing...")
-    print("---------------------------------------------------")
-    post_process_script = os.path.expanduser('~/ros2_ws/src/avoa3d/scripts/data_post_processing.py')
-    if os.path.exists(post_process_script):
-        subprocess.run(['python3', post_process_script])
-    else:
-        print(f"Warning: Post-processing script not found at {post_process_script}")
+    # # 5. Run Post-Processing
+    # print("\n---------------------------------------------------")
+    # print("Running Data Post-Processing...")
+    # print("---------------------------------------------------")
+    # post_process_script = os.path.expanduser('~/ros2_ws/src/avoa3d/scripts/data_post_processing.py')
+    # if os.path.exists(post_process_script):
+    #     subprocess.run(['python3', post_process_script])
+    # else:
+    #     print(f"Warning: Post-processing script not found at {post_process_script}")
 
-    # 6. Run Analysis
-    print("\n---------------------------------------------------")
-    print("Running Global Analysis...")
-    print("---------------------------------------------------")
-    analysis_script = os.path.expanduser('~/ros2_ws/src/avoa3d/scripts/analysis.py')
-    if os.path.exists(analysis_script):
-        subprocess.run(['python3', analysis_script])
-    else:
-        print(f"Warning: Analysis script not found at {analysis_script}")
+    # # 6. Run Analysis
+    # print("\n---------------------------------------------------")
+    # print("Running Global Analysis...")
+    # print("---------------------------------------------------")
+    # analysis_script = os.path.expanduser('~/ros2_ws/src/avoa3d/scripts/analysis.py')
+    # if os.path.exists(analysis_script):
+    #     subprocess.run(['python3', analysis_script])
+    # else:
+    #     print(f"Warning: Analysis script not found at {analysis_script}")
 
 if __name__ == '__main__':
     run_experiment()

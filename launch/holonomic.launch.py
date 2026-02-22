@@ -85,7 +85,7 @@ def generate_launch_description():
 
     # Get package share directory and config paths
     pkg_share = get_package_share_directory('avoa3d')
-    params_path = os.path.join(pkg_share, 'config', 'holonomic_params.yaml')
+    params_path = os.path.join(pkg_share, 'config', 'holonomic_params2.yaml')
     
     # Load parameters from yaml
     with open(params_path, 'r') as f:

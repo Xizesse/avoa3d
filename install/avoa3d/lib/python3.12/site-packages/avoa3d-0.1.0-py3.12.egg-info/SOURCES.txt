@@ -1,0 +1,6 @@
+setup.py
+avoa3d/__init__.py
+avoa3d.egg-info/PKG-INFO
+avoa3d.egg-info/SOURCES.txt
+avoa3d.egg-info/dependency_links.txt
+avoa3d.egg-info/top_level.txt

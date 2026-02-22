@@ -1,0 +1,600 @@
+[0.008s] Invoking command in '/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/xizesse/ros2_ws/src/rvo2_ros2 -DCMAKE_INSTALL_PREFIX=/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2
+[0.128s] -- The C compiler identification is GNU 13.3.0
+[0.215s] -- The CXX compiler identification is GNU 13.3.0
+[0.233s] -- Detecting C compiler ABI info
+[0.319s] -- Detecting C compiler ABI info - done
+[0.326s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.326s] -- Detecting C compile features
+[0.326s] -- Detecting C compile features - done
+[0.335s] -- Detecting CXX compiler ABI info
+[0.412s] -- Detecting CXX compiler ABI info - done
+[0.419s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.419s] -- Detecting CXX compile features
+[0.419s] -- Detecting CXX compile features - done
+[0.423s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.541s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.659s] -- Found rclcpp: 28.1.16 (/opt/ros/jazzy/share/rclcpp/cmake)
+[0.695s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.707s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.726s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.744s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.803s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.806s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.876s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[0.892s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[0.911s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.968s] -- Found geometry_msgs: 5.3.6 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+[0.991s] -- Found nav_msgs: 5.3.6 (/opt/ros/jazzy/share/nav_msgs/cmake)
+[1.009s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[1.024s] -- Found rosidl_adapter: 4.6.7 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[1.495s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[2.223s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.477s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.484s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[2.612s] -- Found PythonExtra: /usr/bin/python3  
+[2.966s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+[3.017s] -- Configuring done (3.0s)
+[3.057s] -- Generating done (0.0s)
+[3.068s] -- Build files have been written to: /home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2
+[3.078s] Invoked command in '/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/xizesse/ros2_ws/src/rvo2_ros2 -DCMAKE_INSTALL_PREFIX=/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2
+[3.080s] Invoking command in '/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2 -- -j20 -l20
+[3.135s] [  1%] [32mBuilding CXX object CMakeFiles/rvo2_core.dir/src/rvo2/KdTree.cpp.o[0m
+[3.135s] [  3%] [32mBuilding CXX object CMakeFiles/rvo2_core.dir/src/rvo2/Agent.cpp.o[0m
+[3.136s] [  5%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[3.136s] [  7%] [32mBuilding CXX object CMakeFiles/rvo2_core.dir/src/rvo2/RVOSimulator.cpp.o[0m
+[3.138s] [  7%] Built target ament_cmake_python_copy_rvo2_ros2
+[3.289s] running egg_info
+[3.290s] creating rvo2_ros2.egg-info
+[3.302s] writing rvo2_ros2.egg-info/PKG-INFO
+[3.302s] writing dependency_links to rvo2_ros2.egg-info/dependency_links.txt
+[3.302s] writing top-level names to rvo2_ros2.egg-info/top_level.txt
+[3.302s] writing manifest file 'rvo2_ros2.egg-info/SOURCES.txt'
+[3.344s] reading manifest file 'rvo2_ros2.egg-info/SOURCES.txt'
+[3.344s] writing manifest file 'rvo2_ros2.egg-info/SOURCES.txt'
+[3.378s] [  7%] Built target ament_cmake_python_build_rvo2_ros2_egg
+[3.378s] [  7%] Built target rvo2_ros2__rosidl_generator_type_description
+[3.387s] [  9%] [34m[1mGenerating C code for ROS interfaces[0m
+[3.392s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In constructor ‘[01m[KRVO::RVOSimulator::[01;32m[KRVOSimulator[m[K(float, float, size_t, float, float, float, const RVO::Vector3&)[m[K’:
+[3.392s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:58:44:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.392s]    58 |                 defaultAgent_->velocity_ = [01;35m[Kvelocity[m[K;
+[3.392s]       |                                            [01;35m[K^~~~~~~~[m[K
+[3.392s] In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/RVOSimulator.h:46[m[K,
+[3.392s]                  from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:33[m[K:
+[3.392s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.392s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.392s]       |                                [01;36m[K^~~~~~~[m[K
+[3.394s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Ksize_t RVO::RVOSimulator::[01;32m[KaddAgent[m[K(const RVO::Vector3&)[m[K’:
+[3.394s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:111:36:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.394s]   111 |                 agent->position_ = [01;35m[Kposition[m[K;
+[3.394s]       |                                    [01;35m[K^~~~~~~~[m[K
+[3.394s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.394s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.394s]       |                                [01;36m[K^~~~~~~[m[K
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:117:51:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.395s]   117 |                 agent->velocity_ = defaultAgent_->[01;35m[Kvelocity_[m[K;
+[3.395s]       |                                                   [01;35m[K^~~~~~~~~[m[K
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.395s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.395s]       |                                [01;36m[K^~~~~~~[m[K
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Ksize_t RVO::RVOSimulator::[01;32m[KaddAgent[m[K(const RVO::Vector3&, float, size_t, float, float, float, const RVO::Vector3&)[m[K’:
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:130:36:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.395s]   130 |                 agent->position_ = [01;35m[Kposition[m[K;
+[3.395s]       |                                    [01;35m[K^~~~~~~~[m[K
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.395s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.395s]       |                                [01;36m[K^~~~~~~[m[K
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:136:36:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.395s]   136 |                 agent->velocity_ = [01;35m[Kvelocity[m[K;
+[3.395s]       |                                    [01;35m[K^~~~~~~~[m[K
+[3.395s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.396s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.396s]       |                                [01;36m[K^~~~~~~[m[K
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentDefaults[m[K(float, size_t, float, float, float, const RVO::Vector3&)[m[K’:
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:233:44:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.396s]   233 |                 defaultAgent_->velocity_ = [01;35m[Kvelocity[m[K;
+[3.396s]       |                                            [01;35m[K^~~~~~~~[m[K
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.396s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.396s]       |                                [01;36m[K^~~~~~~[m[K
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentPosition[m[K(size_t, const RVO::Vector3&)[m[K’:
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:253:47:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.396s]   253 |                 agents_[agentNo]->position_ = [01;35m[Kposition[m[K;
+[3.396s]       |                                               [01;35m[K^~~~~~~~[m[K
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.396s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.396s]       |                                [01;36m[K^~~~~~~[m[K
+[3.396s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentPrefVelocity[m[K(size_t, const RVO::Vector3&)[m[K’:
+[3.397s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:258:51:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.397s]   258 |                 agents_[agentNo]->prefVelocity_ = [01;35m[KprefVelocity[m[K;
+[3.397s]       |                                                   [01;35m[K^~~~~~~~~~~~[m[K
+[3.397s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.397s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.397s]       |                                [01;36m[K^~~~~~~[m[K
+[3.397s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:[m[K In member function ‘[01m[Kvoid RVO::RVOSimulator::[01;32m[KsetAgentVelocity[m[K(size_t, const RVO::Vector3&)[m[K’:
+[3.397s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/RVOSimulator.cpp:273:47:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.397s]   273 |                 agents_[agentNo]->velocity_ = [01;35m[Kvelocity[m[K;
+[3.397s]       |                                               [01;35m[K^~~~~~~~[m[K
+[3.397s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.397s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.397s]       |                                [01;36m[K^~~~~~~[m[K
+[3.398s] [ 11%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[3.398s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:[m[K In member function ‘[01m[Kvoid RVO::KdTree::[01;32m[KbuildAgentTreeRecursive[m[K(size_t, size_t, size_t)[m[K’:
+[3.398s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:60:61:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.398s]    60 |                 agentTree_[node].minCoord = agents_[begin]->[01;35m[Kposition_[m[K;
+[3.398s]       |                                                             [01;35m[K^~~~~~~~~[m[K
+[3.398s] In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/KdTree.h:44[m[K,
+[3.398s]                  from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:33[m[K:
+[3.398s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.398s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.398s]       |                                [01;36m[K^~~~~~~[m[K
+[3.398s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/KdTree.cpp:61:61:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.398s]    61 |                 agentTree_[node].maxCoord = agents_[begin]->[01;35m[Kposition_[m[K;
+[3.398s]       |                                                             [01;35m[K^~~~~~~~~[m[K
+[3.398s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.398s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.398s]       |                                [01;36m[K^~~~~~~[m[K
+[3.399s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In member function ‘[01m[Kvoid RVO::Agent::[01;32m[KcomputeNewVelocity[m[K()[m[K’:
+[3.399s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:149:56:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.399s]   149 |                                         plane.normal = [01;35m[KunitW[m[K;
+[3.399s]       |                                                        [01;35m[K^~~~~[m[K
+[3.399s] In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/RVOSimulator.h:46[m[K,
+[3.399s]                  from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Agent.h:46[m[K,
+[3.399s]                  from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:33[m[K:
+[3.399s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.399s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.400s]       |                                [01;36m[K^~~~~~~[m[K
+[3.400s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:150:91:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.400s]   150 |                                         u = (combinedRadius * invTimeHorizon - wLength) * [01;35m[KunitW[m[K;
+[3.400s]       |                                                                                           [01;35m[K^~~~~[m[K
+[3.400s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.400s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.400s]       |                                [01;36m[K^~~~~~~[m[K
+[3.400s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:162:56:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.400s]   162 |                                         plane.normal = [01;35m[KunitW[m[K;
+[3.400s]       |                                                        [01;35m[K^~~~~[m[K
+[3.401s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.401s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.401s]       |                                [01;36m[K^~~~~~~[m[K
+[3.401s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:163:78:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.401s]   163 |                                         u = (combinedRadius * t - wLength) * [01;35m[KunitW[m[K;
+[3.401s]       |                                                                              [01;35m[K^~~~~[m[K
+[3.401s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.401s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.401s]       |                                [01;36m[K^~~~~~~[m[K
+[3.402s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:173:48:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.402s]   173 |                                 plane.normal = [01;35m[KunitW[m[K;
+[3.402s]       |                                                [01;35m[K^~~~~[m[K
+[3.402s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.402s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.402s]       |                                [01;36m[K^~~~~~~[m[K
+[3.402s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:174:80:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.403s]   174 |                                 u = (combinedRadius * invTimeStep - wLength) * [01;35m[KunitW[m[K;
+[3.403s]       |                                                                                [01;35m[K^~~~~[m[K
+[3.403s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.403s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.403s]       |                                [01;36m[K^~~~~~~[m[K
+[3.403s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:178:58:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.403s]   178 |                         plane.point = velocity_ + 1.0f * [01;35m[Ku[m[K;
+[3.404s]       |                                                          [01;35m[K^[m[K
+[3.404s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.404s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.404s]       |                                [01;36m[K^~~~~~~[m[K
+[3.404s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In member function ‘[01m[Kvoid RVO::Agent::[01;32m[Kupdate[m[K()[m[K’:
+[3.404s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:217:29:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.404s]   217 |                 velocity_ = [01;35m[KnewVelocity_[m[K;
+[3.404s]       |                             [01;35m[K^~~~~~~~~~~~[m[K
+[3.404s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.404s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.404s]       |                                [01;36m[K^~~~~~~[m[K
+[3.405s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Kbool RVO::[01;32m[KlinearProgram1[m[K(const std::vector<Plane>&, size_t, const Line&, float, const Vector3&, bool, Vector3&)[m[K’:
+[3.405s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:269:69:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.405s]   269 |                                 result = line.point + tRight * line.[01;35m[Kdirection[m[K;
+[3.405s]       |                                                                     [01;35m[K^~~~~~~~~[m[K
+[3.405s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.405s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.405s]       |                                [01;36m[K^~~~~~~[m[K
+[3.405s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:273:68:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.405s]   273 |                                 result = line.point + tLeft * line.[01;35m[Kdirection[m[K;
+[3.405s]       |                                                                    [01;35m[K^~~~~~~~~[m[K
+[3.405s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.406s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.406s]       |                                [01;36m[K^~~~~~~[m[K
+[3.406s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:281:68:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.406s]   281 |                                 result = line.point + tLeft * line.[01;35m[Kdirection[m[K;
+[3.406s]       |                                                                    [01;35m[K^~~~~~~~~[m[K
+[3.406s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.406s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.406s]       |                                [01;36m[K^~~~~~~[m[K
+[3.406s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:284:69:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.406s]   284 |                                 result = line.point + tRight * line.[01;35m[Kdirection[m[K;
+[3.406s]       |                                                                     [01;35m[K^~~~~~~~~[m[K
+[3.406s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.407s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.407s]       |                                [01;36m[K^~~~~~~[m[K
+[3.407s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:287:64:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.407s]   287 |                                 result = line.point + t * line.[01;35m[Kdirection[m[K;
+[3.407s]       |                                                                [01;35m[K^~~~~~~~~[m[K
+[3.407s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.407s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.407s]       |                                [01;36m[K^~~~~~~[m[K
+[3.407s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Kbool RVO::[01;32m[KlinearProgram2[m[K(const std::vector<Plane>&, size_t, float, const Vector3&, bool, Vector3&)[m[K’:
+[3.407s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:315:42:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.407s]   315 |                                 result = [01;35m[KplaneCenter[m[K;
+[3.407s]       |                                          [01;35m[K^~~~~~~~~~~[m[K
+[3.407s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.408s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.408s]       |                                [01;36m[K^~~~~~~[m[K
+[3.408s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:318:110:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.408s]   318 |                                 result = planeCenter + std::sqrt(planeRadiusSq / planeOptVelocityLengthSq) * [01;35m[KplaneOptVelocity[m[K;
+[3.408s]       |                                                                                                              [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[3.408s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.408s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.408s]       |                                [01;36m[K^~~~~~~[m[K
+[3.408s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:323:131:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.408s]   323 |                         result = optVelocity + ((planes[planeNo].point - optVelocity) * planes[planeNo].normal) * planes[planeNo].[01;35m[Knormal[m[K;
+[3.408s]       |                                                                                                                                   [01;35m[K^~~~~~[m[K
+[3.408s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.409s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.409s]       |                                [01;36m[K^~~~~~~[m[K
+[3.409s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:329:105:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.409s]   329 |                                 result = planeCenter + std::sqrt(planeRadiusSq / planeResultLengthSq) * [01;35m[KplaneResult[m[K;
+[3.409s]       |                                                                                                         [01;35m[K^~~~~~~~~~~[m[K
+[3.409s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.409s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.409s]       |                                [01;36m[K^~~~~~~[m[K
+[3.409s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:345:72:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.409s]   345 |                                 line.direction = normalize(crossProduct[01;35m[K)[m[K;
+[3.409s]       |                                                                        [01;35m[K^[m[K
+[3.409s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.409s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.410s]       |                                [01;36m[K^~~~~~~[m[K
+[3.410s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:347:171:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.410s]   347 |                                 line.point = planes[planeNo].point + (((planes[i].point - planes[planeNo].point) * planes[i].normal) / (lineNormal * planes[i].normal)) * [01;35m[KlineNormal[m[K;
+[3.410s]       |                                                                                                                                                                           [01;35m[K^~~~~~~~~~[m[K
+[3.410s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.410s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.410s]       |                                [01;36m[K^~~~~~~[m[K
+[3.410s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Ksize_t RVO::[01;32m[KlinearProgram3[m[K(const std::vector<Plane>&, float, const Vector3&, bool, Vector3&)[m[K’:
+[3.410s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:362:48:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.410s]   362 |                         result = optVelocity * [01;35m[Kradius[m[K;
+[3.410s]       |                                                [01;35m[K^~~~~~[m[K
+[3.410s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.410s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.411s]       |                                [01;36m[K^~~~~~~[m[K
+[3.411s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:366:59:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.411s]   366 |                         result = normalize(optVelocity) * [01;35m[Kradius[m[K;
+[3.411s]       |                                                           [01;35m[K^~~~~~[m[K
+[3.411s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.411s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.411s]       |                                [01;36m[K^~~~~~~[m[K
+[3.411s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:370:34:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.411s]   370 |                         result = [01;35m[KoptVelocity[m[K;
+[3.411s]       |                                  [01;35m[K^~~~~~~~~~~[m[K
+[3.411s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.411s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.412s]       |                                [01;36m[K^~~~~~~[m[K
+[3.412s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:379:50:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.412s]   379 |                                         result = [01;35m[KtempResult[m[K;
+[3.412s]       |                                                  [01;35m[K^~~~~~~~~~[m[K
+[3.412s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.412s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.412s]       |                                [01;36m[K^~~~~~~[m[K
+[3.412s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:[m[K In function ‘[01m[Kvoid RVO::[01;32m[KlinearProgram4[m[K(const std::vector<Plane>&, size_t, float, Vector3&)[m[K’:
+[3.412s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:410:112:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.412s]   410 |                                                         plane.point = 0.5f * (planes[i].point + planes[j].point[01;35m[K)[m[K;
+[3.412s]       |                                                                                                                [01;35m[K^[m[K
+[3.412s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.413s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.413s]       |                                [01;36m[K^~~~~~~[m[K
+[3.413s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:416:176:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.413s]   416 |                                                 plane.point = planes[i].point + (((planes[j].point - planes[i].point) * planes[j].normal) / (lineNormal * planes[j].normal)) * [01;35m[KlineNormal[m[K;
+[3.413s]       |                                                                                                                                                                                [01;35m[K^~~~~~~~~~[m[K
+[3.413s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.413s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.413s]       |                                [01;36m[K^~~~~~~[m[K
+[3.413s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:419:101:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.413s]   419 |                                         plane.normal = normalize(planes[j].normal - planes[i].normal[01;35m[K)[m[K;
+[3.413s]       |                                                                                                     [01;35m[K^[m[K
+[3.413s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.413s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.414s]       |                                [01;36m[K^~~~~~~[m[K
+[3.414s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2/Agent.cpp:427:50:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[3.414s]   427 |                                         result = [01;35m[KtempResult[m[K;
+[3.414s]       |                                                  [01;35m[K^~~~~~~~~~[m[K
+[3.414s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[3.414s]    66 |                 RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[3.414s]       |                                [01;36m[K^~~~~~~[m[K
+[3.530s] [ 12%] [32m[1mLinking CXX shared library librvo2_core.so[0m
+[3.633s] [ 12%] Built target rvo2_core
+[3.704s] [ 12%] Built target rvo2_ros2__cpp
+[3.731s] [ 24%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_c.dir/rosidl_generator_c/rvo2_ros2/msg/detail/element_characteristics_stamped__description.c.o[0m
+[3.731s] [ 24%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_c.dir/rosidl_generator_c/rvo2_ros2/msg/detail/element_characteristics_array__type_support.c.o[0m
+[3.731s] [ 24%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_c.dir/rosidl_generator_c/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.c.o[0m
+[3.732s] [ 24%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_c.dir/rosidl_generator_c/rvo2_ros2/msg/detail/element_characteristics_array__functions.c.o[0m
+[3.732s] [ 24%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_c.dir/rosidl_generator_c/rvo2_ros2/msg/detail/element_characteristics_stamped__functions.c.o[0m
+[3.732s] [ 24%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_c.dir/rosidl_generator_c/rvo2_ros2/msg/detail/element_characteristics_array__description.c.o[0m
+[3.795s] [ 25%] [32m[1mLinking C shared library librvo2_ros2__rosidl_generator_c.so[0m
+[3.834s] [ 25%] Built target rvo2_ros2__rosidl_generator_c
+[3.843s] [ 31%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[3.843s] [ 31%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[3.844s] [ 31%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[3.845s] [ 33%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[3.846s] [ 35%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[3.846s] [ 37%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[4.079s] [ 40%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rvo2_ros2/msg/element_characteristics_array__type_support.cpp.o[0m
+[4.079s] [ 40%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rvo2_ros2/msg/element_characteristics_stamped__type_support.cpp.o[0m
+[4.098s] [ 44%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rvo2_ros2/msg/detail/element_characteristics_array__type_support.cpp.o[0m
+[4.098s] [ 44%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.cpp.o[0m
+[4.126s] [ 48%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_c.dir/rosidl_typesupport_c/rvo2_ros2/msg/element_characteristics_array__type_support.cpp.o[0m
+[4.126s] [ 48%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_c.dir/rosidl_typesupport_c/rvo2_ros2/msg/element_characteristics_stamped__type_support.cpp.o[0m
+[4.137s] [ 51%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rvo2_ros2/msg/detail/element_characteristics_array__type_support.c.o[0m
+[4.138s] [ 51%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.c.o[0m
+[4.147s] [ 55%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rvo2_ros2/msg/detail/element_characteristics_array__type_support_c.cpp.o[0m
+[4.147s] [ 55%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support_c.cpp.o[0m
+[4.149s] [ 59%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rvo2_ros2/msg/detail/dds_fastrtps/element_characteristics_stamped__type_support.cpp.o[0m
+[4.149s] [ 59%] [32mBuilding CXX object CMakeFiles/rvo2_ros2__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rvo2_ros2/msg/detail/dds_fastrtps/element_characteristics_array__type_support.cpp.o[0m
+[4.175s] [ 61%] [32m[1mLinking CXX shared library librvo2_ros2__rosidl_typesupport_c.so[0m
+[4.182s] [ 62%] [32m[1mLinking C shared library librvo2_ros2__rosidl_typesupport_introspection_c.so[0m
+[4.216s] [ 62%] Built target rvo2_ros2__rosidl_typesupport_introspection_c
+[4.216s] [ 62%] Built target rvo2_ros2__rosidl_typesupport_c
+[4.465s] [ 64%] [32m[1mLinking CXX shared library librvo2_ros2__rosidl_typesupport_cpp.so[0m
+[4.518s] [ 64%] Built target rvo2_ros2__rosidl_typesupport_cpp
+[4.547s] [ 66%] [32mBuilding CXX object CMakeFiles/velocity_filter_node.dir/src/velocity_filter_node.cpp.o[0m
+[4.550s] [ 68%] [32mBuilding CXX object CMakeFiles/rvo2_node.dir/src/rvo2_node.cpp.o[0m
+[4.550s] [ 70%] [32mBuilding CXX object CMakeFiles/obstacle_publisher.dir/src/obstacle_publisher.cpp.o[0m
+[4.573s] [ 72%] [32m[1mLinking CXX shared library librvo2_ros2__rosidl_typesupport_introspection_cpp.so[0m
+[4.624s] [ 74%] [32m[1mLinking CXX shared library librvo2_ros2__rosidl_typesupport_fastrtps_cpp.so[0m
+[4.662s] [ 74%] Built target rvo2_ros2__rosidl_typesupport_introspection_cpp
+[4.701s] [ 74%] Built target rvo2_ros2__rosidl_typesupport_fastrtps_cpp
+[4.748s] [ 75%] [32m[1mLinking CXX shared library librvo2_ros2__rosidl_typesupport_fastrtps_c.so[0m
+[4.807s] [ 75%] Built target rvo2_ros2__rosidl_typesupport_fastrtps_c
+[4.836s] [ 75%] Built target rvo2_ros2
+[4.859s] [ 77%] [34m[1mGenerating Python code for ROS interfaces[0m
+[5.400s] [ 77%] Built target rvo2_ros2__py
+[5.422s] [ 81%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_py.dir/rosidl_generator_py/rvo2_ros2/msg/_element_characteristics_array_s.c.o[0m
+[5.423s] [ 81%] [32mBuilding C object CMakeFiles/rvo2_ros2__rosidl_generator_py.dir/rosidl_generator_py/rvo2_ros2/msg/_element_characteristics_stamped_s.c.o[0m
+[5.669s] [ 83%] [32m[1mLinking C shared library librvo2_ros2__rosidl_generator_py.so[0m
+[5.753s] [ 83%] Built target rvo2_ros2__rosidl_generator_py
+[5.784s] [ 87%] [32mBuilding C object CMakeFiles/rvo2_ros2_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/rvo2_ros2/_rvo2_ros2_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[5.784s] [ 87%] [32mBuilding C object CMakeFiles/rvo2_ros2_s__rosidl_typesupport_c.dir/rosidl_generator_py/rvo2_ros2/_rvo2_ros2_s.ep.rosidl_typesupport_c.c.o[0m
+[5.784s] [ 88%] [32mBuilding C object CMakeFiles/rvo2_ros2_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/rvo2_ros2/_rvo2_ros2_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[5.881s] [ 90%] [32m[1mLinking C shared module rosidl_generator_py/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_introspection_c.so[0m
+[5.898s] [ 92%] [32m[1mLinking C shared module rosidl_generator_py/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_c.so[0m
+[5.923s] [ 94%] [32m[1mLinking C shared module rosidl_generator_py/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_fastrtps_c.so[0m
+[5.923s] [ 94%] Built target rvo2_ros2_s__rosidl_typesupport_introspection_c
+[6.017s] [ 94%] Built target rvo2_ros2_s__rosidl_typesupport_c
+[6.038s] [ 94%] Built target rvo2_ros2_s__rosidl_typesupport_fastrtps_c
+[8.047s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:[m[K In member function ‘[01m[Kvoid RVO2Node::[01;32m[KodomCallback[m[K(nav_msgs::msg::Odometry_<std::allocator<void> >::SharedPtr)[m[K’:
+[8.047s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:51:114:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[8.047s]    51 | ion.y, msg->pose.pose.position.z[01;35m[K)[m[K;
+[8.047s]       |                                 [01;35m[K^[m[K
+[8.047s] 
+[8.048s] In file included from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/RVOSimulator.h:46[m[K,
+[8.048s]                  from [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:5[m[K:
+[8.048s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[8.048s]    66 |         RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[8.048s]       |                        [01;36m[K^~~~~~~[m[K
+[8.048s] 
+[8.048s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:52:114:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[8.048s]    52 | ear.y, msg->twist.twist.linear.z[01;35m[K)[m[K;
+[8.048s]       |                                 [01;35m[K^[m[K
+[8.048s] 
+[8.048s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[8.048s]    66 |         RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[8.048s]       |                        [01;36m[K^~~~~~~[m[K
+[8.049s] 
+[8.049s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:[m[K In member function ‘[01m[Kvoid RVO2Node::[01;32m[KdesiredVelCallback[m[K(geometry_msgs::msg::Twist_<std::allocator<void> >::SharedPtr)[m[K’:
+[8.049s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/src/rvo2_node.cpp:58:81:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr RVO::Vector3& RVO::Vector3::[01;32m[Koperator=[m[K(const RVO::Vector3&)[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-copy-Wdeprecated-copy]8;;[m[K]
+[8.049s]    58 | .x, msg->linear.y, msg->linear.z[01;35m[K)[m[K;
+[8.049s]       |                                 [01;35m[K^[m[K
+[8.049s] 
+[8.049s] [01m[K/home/xizesse/ros2_ws/src/rvo2_ros2/include/rvo2/Vector3.h:66:32:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KRVO::Vector3[m[K’ has user-provided ‘[01m[KRVO::Vector3::[01;32m[KVector3[m[K(const RVO::Vector3&)[m[K’
+[8.049s]    66 |         RVO_API inline [01;36m[KVector3[m[K(const Vector3 &vector)
+[8.049s]       |                        [01;36m[K^~~~~~~[m[K
+[8.049s] 
+[22.378s] [ 96%] [32m[1mLinking CXX executable velocity_filter_node[0m
+[23.104s] [ 98%] [32m[1mLinking CXX executable obstacle_publisher[0m
+[23.636s] [ 98%] Built target velocity_filter_node
+[23.937s] [ 98%] Built target obstacle_publisher
+[30.688s] [100%] [32m[1mLinking CXX executable rvo2_node[0m
+[31.781s] [100%] Built target rvo2_node
+[31.815s] Invoked command in '/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2 -- -j20 -l20
+[31.849s] Invoking command in '/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2
+[31.880s] -- Install configuration: ""
+[31.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/ament_index/resource_index/rosidl_interfaces/rvo2_ros2
+[31.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/msg/ElementCharacteristicsStamped.json
+[31.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/msg/ElementCharacteristicsArray.json
+[31.881s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/rosidl_generator_c__visibility_control.h
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.c
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__type_support.c
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__struct.h
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__functions.c
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__description.c
+[31.882s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__functions.c
+[31.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__functions.h
+[31.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.h
+[31.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__description.c
+[31.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__functions.h
+[31.883s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__struct.h
+[31.884s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__type_support.h
+[31.884s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/element_characteristics_array.h
+[31.884s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/element_characteristics_stamped.h
+[31.884s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/library_path.sh
+[31.884s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/library_path.dsv
+[31.884s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_generator_c.so
+[31.885s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_generator_c.so" to ""
+[31.885s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2
+[31.886s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg
+[31.886s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail
+[31.886s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__rosidl_typesupport_fastrtps_c.h
+[31.886s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_c.h
+[31.886s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[31.886s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_fastrtps_c.so
+[31.886s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_fastrtps_c.so" to ""
+[31.886s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2
+[31.886s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/element_characteristics_array.hpp
+[31.887s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__struct.hpp
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.hpp
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__traits.hpp
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__traits.hpp
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__builder.hpp
+[31.887s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__builder.hpp
+[31.888s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__struct.hpp
+[31.888s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__type_support.hpp
+[31.888s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/rosidl_generator_cpp__visibility_control.hpp
+[31.888s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/element_characteristics_stamped.hpp
+[31.888s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2
+[31.889s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg
+[31.889s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail
+[31.889s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__rosidl_typesupport_fastrtps_cpp.hpp
+[31.889s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__rosidl_typesupport_fastrtps_cpp.hpp
+[31.889s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/dds_fastrtps
+[31.889s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[31.889s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_fastrtps_cpp.so
+[31.890s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_fastrtps_cpp.so" to ""
+[31.890s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2
+[31.890s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg
+[31.890s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[31.890s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail
+[31.890s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.c
+[31.890s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__type_support.c
+[31.891s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_c.h
+[31.891s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__rosidl_typesupport_introspection_c.h
+[31.891s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_introspection_c.so
+[31.891s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_introspection_c.so" to ""
+[31.891s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_c.so
+[31.891s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_c.so" to ""
+[31.891s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2
+[31.891s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg
+[31.891s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail
+[31.892s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__rosidl_typesupport_introspection_cpp.hpp
+[31.892s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__type_support.cpp
+[31.892s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_array__type_support.cpp
+[31.892s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2_ros2/rvo2_ros2/msg/detail/element_characteristics_stamped__rosidl_typesupport_introspection_cpp.hpp
+[31.892s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_introspection_cpp.so
+[31.893s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_introspection_cpp.so" to ""
+[31.893s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_cpp.so
+[31.894s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_typesupport_cpp.so" to ""
+[31.894s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/pythonpath.sh
+[31.894s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/pythonpath.dsv
+[31.894s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2-0.0.1-py3.12.egg-info
+[31.894s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2-0.0.1-py3.12.egg-info/dependency_links.txt
+[31.895s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2-0.0.1-py3.12.egg-info/PKG-INFO
+[31.895s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2-0.0.1-py3.12.egg-info/top_level.txt
+[31.895s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2-0.0.1-py3.12.egg-info/SOURCES.txt
+[31.896s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2
+[31.896s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg
+[31.896s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/_element_characteristics_array_s.c
+[31.896s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/_element_characteristics_array.py
+[31.896s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/__init__.py
+[31.897s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/_element_characteristics_stamped.py
+[31.897s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/_element_characteristics_stamped_s.c
+[31.897s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_c.so
+[31.898s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/_rvo2_ros2_s.ep.rosidl_typesupport_c.c
+[31.898s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/_rvo2_ros2_s.ep.rosidl_typesupport_fastrtps_c.c
+[31.898s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_fastrtps_c.so
+[31.898s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/__init__.py
+[31.898s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/_rvo2_ros2_s.ep.rosidl_typesupport_introspection_c.c
+[31.898s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_introspection_c.so
+[32.030s] Listing '/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2'...
+[32.030s] Compiling '/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/__init__.py'...
+[32.030s] Listing '/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg'...
+[32.031s] Compiling '/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/__init__.py'...
+[32.031s] Compiling '/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/_element_characteristics_array.py'...
+[32.031s] Compiling '/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/msg/_element_characteristics_stamped.py'...
+[32.059s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_fastrtps_c.so
+[32.060s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_fastrtps_c.so" to ""
+[32.060s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_introspection_c.so
+[32.060s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_introspection_c.so" to ""
+[32.060s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_c.so
+[32.061s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/python3.12/site-packages/rvo2_ros2/rvo2_ros2_s__rosidl_typesupport_c.so" to ""
+[32.061s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_generator_py.so
+[32.068s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_ros2__rosidl_generator_py.so" to ""
+[32.068s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/msg/ElementCharacteristicsStamped.idl
+[32.068s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/msg/ElementCharacteristicsArray.idl
+[32.068s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/msg/ElementCharacteristicsStamped.msg
+[32.069s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/msg/ElementCharacteristicsArray.msg
+[32.069s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/librvo2_core.so
+[32.070s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/rvo2_ros2/rvo2_node
+[32.102s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/rvo2_ros2/rvo2_node" to ""
+[32.102s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/rvo2_ros2/obstacle_publisher
+[32.109s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/rvo2_ros2/obstacle_publisher" to ""
+[32.109s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/rvo2_ros2/velocity_filter_node
+[32.114s] -- Set non-toolchain portion of runtime path of "/home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/lib/rvo2_ros2/velocity_filter_node" to ""
+[32.115s] -- Up-to-date: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include
+[32.115s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2
+[32.115s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/API.h
+[32.115s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/Vector3.h
+[32.115s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/Agent.h
+[32.115s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/KdTree.h
+[32.116s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/Definitions.h
+[32.116s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/RVOSimulator.h
+[32.116s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/include/rvo2/RVO.h
+[32.116s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/launch
+[32.116s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/launch/rvo_demo.launch.py
+[32.117s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/config
+[32.117s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/config/bridge_config.yaml
+[32.117s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/config/obstacle_bridge.yaml
+[32.118s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf
+[32.118s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex7.sdf
+[32.118s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex6.sdf
+[32.119s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex5.sdf
+[32.119s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/single_static1.sdf
+[32.120s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex1.sdf
+[32.120s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/viana0.sdf
+[32.121s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex8.sdf
+[32.121s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/single_dynamic1.sdf
+[32.121s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex9.sdf
+[32.121s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex0.sdf
+[32.122s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex3.sdf
+[32.122s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/single_dynamic0.sdf
+[32.122s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex4.sdf
+[32.122s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/single_dynamic2.sdf
+[32.122s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex2.sdf
+[32.123s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/complex10.sdf
+[32.124s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/sdf/single_dynamic3.sdf
+[32.127s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/ament_index/resource_index/package_run_dependencies/rvo2_ros2
+[32.128s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/ament_index/resource_index/parent_prefix_path/rvo2_ros2
+[32.128s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/ament_prefix_path.sh
+[32.129s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/ament_prefix_path.dsv
+[32.130s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/path.sh
+[32.130s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/environment/path.dsv
+[32.130s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/local_setup.bash
+[32.130s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/local_setup.sh
+[32.131s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/local_setup.zsh
+[32.131s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/local_setup.dsv
+[32.131s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/package.dsv
+[32.131s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/ament_index/resource_index/packages/rvo2_ros2
+[32.132s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_generator_cExport.cmake
+[32.132s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_generator_cExport-noconfig.cmake
+[32.132s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_typesupport_fastrtps_cExport.cmake
+[32.132s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[32.133s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_generator_cppExport.cmake
+[32.133s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_typesupport_fastrtps_cppExport.cmake
+[32.133s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[32.133s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_introspection_cExport.cmake
+[32.134s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[32.134s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_cExport.cmake
+[32.134s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_cExport-noconfig.cmake
+[32.134s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_introspection_cppExport.cmake
+[32.135s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[32.135s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_cppExport.cmake
+[32.135s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2__rosidl_typesupport_cppExport-noconfig.cmake
+[32.136s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_generator_pyExport.cmake
+[32.136s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/export_rvo2_ros2__rosidl_generator_pyExport-noconfig.cmake
+[32.136s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rosidl_cmake-extras.cmake
+[32.136s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/ament_cmake_export_dependencies-extras.cmake
+[32.137s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/ament_cmake_export_include_directories-extras.cmake
+[32.137s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/ament_cmake_export_libraries-extras.cmake
+[32.137s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/ament_cmake_export_targets-extras.cmake
+[32.137s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[32.137s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[32.138s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2Config.cmake
+[32.138s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/cmake/rvo2_ros2Config-version.cmake
+[32.138s] -- Installing: /home/xizesse/ros2_ws/src/avoa3d/install/rvo2_ros2/share/rvo2_ros2/package.xml
+[32.147s] Invoked command in '/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2

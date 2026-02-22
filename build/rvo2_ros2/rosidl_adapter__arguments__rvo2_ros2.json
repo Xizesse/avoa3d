@@ -1,0 +1,7 @@
+{
+  "package_name": "rvo2_ros2",
+  "non_idl_tuples": [
+    "/home/xizesse/ros2_ws/src/rvo2_ros2:msg/ElementCharacteristicsStamped.msg",
+    "/home/xizesse/ros2_ws/src/rvo2_ros2:msg/ElementCharacteristicsArray.msg"
+  ]
+}

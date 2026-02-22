@@ -1,0 +1,13 @@
+{
+  "package_name": "rvo2_ros2",
+  "output_dir": "/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2/rosidl_generator_type_description/rvo2_ros2",
+  "idl_tuples": [
+    "/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2/rosidl_adapter/rvo2_ros2:msg/ElementCharacteristicsStamped.idl",
+    "/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2/rosidl_adapter/rvo2_ros2:msg/ElementCharacteristicsArray.idl"
+  ],
+  "include_paths": [
+    "std_msgs:/opt/ros/jazzy/share/std_msgs",
+    "builtin_interfaces:/opt/ros/jazzy/share/builtin_interfaces",
+    "geometry_msgs:/opt/ros/jazzy/share/geometry_msgs"
+  ]
+}

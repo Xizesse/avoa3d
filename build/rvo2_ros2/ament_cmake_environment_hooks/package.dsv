@@ -1,0 +1,4 @@
+source;share/rvo2_ros2/local_setup.bash
+source;share/rvo2_ros2/local_setup.dsv
+source;share/rvo2_ros2/local_setup.sh
+source;share/rvo2_ros2/local_setup.zsh

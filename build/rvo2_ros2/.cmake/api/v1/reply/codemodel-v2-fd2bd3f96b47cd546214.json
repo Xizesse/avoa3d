@@ -1,0 +1,278 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-307690f4cfa50f74d698.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22
+					]
+				},
+				{
+					"build" : "rvo2_ros2__py",
+					"jsonFile" : "directory-rvo2_ros2__py-cd609588326806951925.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2/rvo2_ros2__py",
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "rvo2_ros2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_rvo2_ros2_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_rvo2_ros2_egg-1fab9f234fb43b647db9.json",
+					"name" : "ament_cmake_python_build_rvo2_ros2_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_rvo2_ros2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_rvo2_ros2-6ebffab32b08972f1e2d.json",
+					"name" : "ament_cmake_python_copy_rvo2_ros2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "obstacle_publisher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-obstacle_publisher-0ecd77507e124632556c.json",
+					"name" : "obstacle_publisher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_core::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_core-61c4d54cb00519beae73.json",
+					"name" : "rvo2_core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_node-6fb846d697ab00019337.json",
+					"name" : "rvo2_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2-741a2f959b5d70fff366.json",
+					"name" : "rvo2_ros2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__cpp-f385591a1836334b224d.json",
+					"name" : "rvo2_ros2__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "rvo2_ros2__py::@a431dcb89c99e15d661b",
+					"jsonFile" : "target-rvo2_ros2__py-4756060d3162d1820466.json",
+					"name" : "rvo2_ros2__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_generator_c-8411dcf8fadce7393945.json",
+					"name" : "rvo2_ros2__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_generator_py-0907281b730f4c012e29.json",
+					"name" : "rvo2_ros2__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_generator_type_description::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_generator_type_description-5b6f1c1786948e2c39bf.json",
+					"name" : "rvo2_ros2__rosidl_generator_type_description",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_typesupport_c-08f5dbb230993891f991.json",
+					"name" : "rvo2_ros2__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_typesupport_cpp-226cb26885e218fd3562.json",
+					"name" : "rvo2_ros2__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_typesupport_fastrtps_c-263095f9c53f7725be2c.json",
+					"name" : "rvo2_ros2__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_typesupport_fastrtps_cpp-ec0124b3eac5008cf715.json",
+					"name" : "rvo2_ros2__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_typesupport_introspection_c-7081d24d0f24511a325a.json",
+					"name" : "rvo2_ros2__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2__rosidl_typesupport_introspection_cpp-29663ac887be9d10c6c9.json",
+					"name" : "rvo2_ros2__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2_s__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2_s__rosidl_typesupport_c-cc0e413bbb60da5dabea.json",
+					"name" : "rvo2_ros2_s__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2_s__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2_s__rosidl_typesupport_fastrtps_c-f279a88f98768d0673d4.json",
+					"name" : "rvo2_ros2_s__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2_s__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2_s__rosidl_typesupport_introspection_c-2f3727a9a2fee29e8b50.json",
+					"name" : "rvo2_ros2_s__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rvo2_ros2_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rvo2_ros2_uninstall-9a2b10cfbd41bf1a861c.json",
+					"name" : "rvo2_ros2_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-3f36c66c8203e394f356.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "velocity_filter_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-velocity_filter_node-69038627c4df3a86b274.json",
+					"name" : "velocity_filter_node",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/xizesse/ros2_ws/src/avoa3d/build/rvo2_ros2",
+		"source" : "/home/xizesse/ros2_ws/src/rvo2_ros2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
