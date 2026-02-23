@@ -111,52 +111,62 @@ def analyze_results(base_dir):
 
     print(f"\nAnalysis complete. Processed {scenarios_processed} scenarios.")
     
-    # Generate individual Matplotlib Box Plots
-    print("Generating static matplotlib boxplots...")
-    generate_boxplot(
-        data['time_to_goal'], 
-        'Time to Reach Goal Distribution', 
-        'Time (s)', 
-        os.path.join(analysis_dir, 'time_to_goal_boxplot.png')
-    )
-    
-    generate_boxplot(
-        data['min_clearance'], 
-        'Minimum Clearance Distribution', 
-        'Clearance (m)', 
-        os.path.join(analysis_dir, 'min_clearance_boxplot.png')
-    )
+    pairs_to_plot = [('javoa', 'javoa_ablated'), ('javoa', 'rvo')]
+    for a1, a2 in pairs_to_plot:
+        if a1 not in algos or a2 not in algos:
+            continue
+        
+        print(f"Generating static matplotlib plots for {a1} vs {a2}...")
+        suffix = f"_{a1}_vs_{a2}"
+        
+        # Helper to subset data
+        def subset(d):
+            return {k: d[k] for k in (a1, a2) if k in d}
+            
+        generate_boxplot(
+            subset(data['time_to_goal']), 
+            'Time to Reach Goal Distribution', 
+            'Time (s)', 
+            os.path.join(analysis_dir, f'time_to_goal_boxplot{suffix}.png')
+        )
+        
+        generate_boxplot(
+            subset(data['min_clearance']), 
+            'Minimum Clearance Distribution', 
+            'Clearance (m)', 
+            os.path.join(analysis_dir, f'min_clearance_boxplot{suffix}.png')
+        )
 
-    generate_boxplot(
-        data['distance_traveled'], 
-        'Distance Traveled Distribution', 
-        'Distance (m)', 
-        os.path.join(analysis_dir, 'distance_traveled_boxplot.png')
-    )
+        generate_boxplot(
+            subset(data['distance_traveled']), 
+            'Distance Traveled Distribution', 
+            'Distance (m)', 
+            os.path.join(analysis_dir, f'distance_traveled_boxplot{suffix}.png')
+        )
 
-    generate_boxplot(
-        data['smoothness'], 
-        'Smoothness Distribution', 
-        'Smoothness ($m/s^2$)', 
-        os.path.join(analysis_dir, 'smoothness_boxplot.png')
-    )
+        generate_boxplot(
+            subset(data['smoothness']), 
+            'Smoothness Distribution', 
+            'Smoothness ($m/s^2$)', 
+            os.path.join(analysis_dir, f'smoothness_boxplot{suffix}.png')
+        )
 
-    generate_success_barplot(
-        success_counts,
-        scenarios_processed,
-        'Goal Reach Rate (< 5m)',
-        'Number of Scenarios',
-        os.path.join(analysis_dir, 'goal_reached_barplot.png')
-    )
+        generate_success_barplot(
+            subset(success_counts),
+            scenarios_processed,
+            'Goal Reach Rate (< 5m)',
+            'Number of Scenarios',
+            os.path.join(analysis_dir, f'goal_reached_barplot{suffix}.png')
+        )
 
-    generate_success_barplot(
-        collision_counts,
-        scenarios_processed,
-        'Collision Rate (Clearance <= 0)',
-        'Number of Scenarios',
-        os.path.join(analysis_dir, 'collision_barplot.png'),
-        color_override='lightcoral'
-    )
+        generate_success_barplot(
+            subset(collision_counts),
+            scenarios_processed,
+            'Collision Rate (Clearance <= 0)',
+            'Number of Scenarios',
+            os.path.join(analysis_dir, f'collision_barplot{suffix}.png'),
+            color_override='lightcoral'
+        )
 
 def process_single_csv(csv_file):
     rows = []
@@ -246,13 +256,16 @@ def process_single_csv(csv_file):
         if dt > 0:
             vx_prev = float(prev['vel_x'])
             vy_prev = float(prev['vel_y'])
+            vz_prev = float(prev.get('vel_z', 0.0))
             vx_curr = float(curr['vel_x'])
             vy_curr = float(curr['vel_y'])
+            vz_curr = float(curr.get('vel_z', 0.0))
             
             dvx = vx_curr - vx_prev
             dvy = vy_curr - vy_prev
+            dvz = vz_curr - vz_prev
             
-            dv_mag = math.sqrt(dvx*dvx + dvy*dvy)
+            dv_mag = math.sqrt(dvx*dvx + dvy*dvy + dvz*dvz)
             smoothness += dv_mag / dt
             valid_steps += 1
             
@@ -281,7 +294,7 @@ def generate_boxplot(data_dict, title, ylabel, output_path):
         if vals:
             data_list.append(vals)
             # Make S3VO instead of javoa dynamically if named exactly javoa
-            labels.append('S3VO' if algo.lower() == 'javoa' else algo.upper())
+            labels.append('S3VO (Ablated)' if algo == 'javoa_ablated' else ('S3VO' if algo == 'javoa' else algo.upper()))
             colors.append(color_palette[i % len(color_palette)])
             
     if not data_list:
@@ -317,7 +330,7 @@ def generate_success_barplot(counts, total, title, ylabel, output_path, color_ov
     plt.figure(figsize=(10, 8))
     
     algos = sorted(list(counts.keys()), key=lambda x: x.lower())
-    labels = ['S3VO' if algo.lower() == 'javoa' else algo.upper() for algo in algos]
+    labels = ['S3VO (Ablated)' if algo == 'javoa_ablated' else ('S3VO' if algo == 'javoa' else algo.upper()) for algo in algos]
     values = [counts[algo] for algo in algos]
     
     if color_override:
@@ -342,7 +355,7 @@ def generate_success_barplot(counts, total, title, ylabel, output_path, color_ov
     print(f"Generated plot: {output_path}")
 
 if __name__ == "__main__":
-    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/randomized_ablated')
+    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/final_5')
     if os.path.exists(results_dir):
         analyze_results(results_dir)
     else:

@@ -48,20 +48,19 @@ def process_results(base_dir):
                 except Exception as e:
                     print(f"Error processing {dir_name}/{prefix}: {e}")
             
-            # Comparative plots (if multiple exist)
+            # Comparative plots
             if len(csv_files) >= 2:
                 print(f"Generating comparison plots for {dir_name}...")
-                algorithms = list(csv_files.keys())
-                # For backward compatibility, default pass first two algorithms
-                algo1, algo2 = algorithms[0], algorithms[1]
-                # Force specific order if known (javoa vs rvo often preferred)
-                if 'rvo' in csv_files and 'javoa' in csv_files:
-                    algo1, algo2 = 'rvo', 'javoa'
                 
-                try:
-                    generate_comparison_plots(scenario_path, csv_files[algo1], csv_files[algo2], algo1, algo2)
-                except Exception as e:
-                    print(f"Error generating comparison for {dir_name}: {e}")
+                # Desired pairs
+                pairs = [('javoa', 'javoa_ablated'), ('javoa', 'rvo')]
+                
+                for a1, a2 in pairs:
+                    if a1 in csv_files and a2 in csv_files:
+                        try:
+                            generate_comparison_plots(scenario_path, csv_files[a1], csv_files[a2], a1, a2, suffix=f"_{a1}_vs_{a2}")
+                        except Exception as e:
+                            print(f"Error generating comparison {a1} vs {a2} for {dir_name}: {e}")
 
 def generate_plots(output_dir, csv_file, prefix_name):
     # Load data using csv module
@@ -390,7 +389,7 @@ def get_data_for_comparison(csv_file):
     for row in data:
         vx = float(row['vel_x'])
         vy = float(row['vel_y'])
-        vz = float(row['vel_z'])
+        vz = float(row.get('vel_z', 0.0))
         vel_mags.append(math.sqrt(vx**2 + vy**2 + vz**2))
         
     # Min Clearance
@@ -426,7 +425,7 @@ def get_data_for_comparison(csv_file):
         
     return times, min_clearances, vel_mags
 
-def generate_comparison_plots(output_dir, csv_algo1, csv_algo2, name1='Algo1', name2='Algo2'):
+def generate_comparison_plots(output_dir, csv_algo1, csv_algo2, name1='Algo1', name2='Algo2', suffix=''):
     t_algo1, clr_algo1, vel_algo1 = get_data_for_comparison(csv_algo1)
     t_algo2, clr_algo2, vel_algo2 = get_data_for_comparison(csv_algo2)
     
@@ -434,9 +433,9 @@ def generate_comparison_plots(output_dir, csv_algo1, csv_algo2, name1='Algo1', n
         print("Comparison failed: Empty data")
         return
 
-    # Use nicely capitalized labels (e.g., S3VO mapping)
-    label1 = 'S3VO' if name1.lower() == 'javoa' else name1.upper()
-    label2 = 'S3VO' if name2.lower() == 'javoa' else name2.upper()
+    # Use nicely capitalized labels
+    label1 = 'S3VO (Ablated)' if name1 == 'javoa_ablated' else ('S3VO' if name1 == 'javoa' else name1.upper())
+    label2 = 'S3VO (Ablated)' if name2 == 'javoa_ablated' else ('S3VO' if name2 == 'javoa' else name2.upper())
 
     # Plot 1: Min Clearance Comparison
     plt.figure(figsize=(10, 6))
@@ -452,7 +451,7 @@ def generate_comparison_plots(output_dir, csv_algo1, csv_algo2, name1='Algo1', n
     plt.grid(True)
     plt.ylim(-1, 3)
     
-    p1 = os.path.join(output_dir, 'comparison_min_clearance.png')
+    p1 = os.path.join(output_dir, f'comparison_min_clearance{suffix}.png')
     plt.savefig(p1)
     plt.close()
     print(f"Generated comparison: {p1}")
@@ -469,13 +468,13 @@ def generate_comparison_plots(output_dir, csv_algo1, csv_algo2, name1='Algo1', n
     plt.legend(fontsize=14)
     plt.grid(True)
     
-    p2 = os.path.join(output_dir, 'comparison_velocity.png')
+    p2 = os.path.join(output_dir, f'comparison_velocity{suffix}.png')
     plt.savefig(p2)
     plt.close()
     print(f"Generated comparison: {p2}")
 
 if __name__ == "__main__":
-    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/randomized_ablated')
+    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/final_5')
 
     if os.path.exists(results_dir):
         process_results(results_dir)

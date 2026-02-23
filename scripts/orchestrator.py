@@ -48,10 +48,7 @@ class ScenarioManager(Node):
         self.results_dir = os.path.expanduser(f'~/ros2_ws/src/avoa3d/results/randomized/s{self.scenario_id:03d}')
         os.makedirs(self.results_dir, exist_ok=True)
         
-        if self.algorithm == 'rvo':
-            filename = 'rvo.csv'
-        else:
-            filename = 'javoa.csv'
+        filename = f"{self.algorithm}.csv"
             
         self.csv_file = os.path.join(self.results_dir, filename)
         self.init_csv()
@@ -174,7 +171,8 @@ def run_experiment():
 
     algorithms = [
         {'name': 'javoa', 'launch_file': 'holonomic.launch.py'},
-        {'name': 'rvo', 'launch_file': 'rvo.launch.py'}
+        {'name': 'rvo', 'launch_file': 'rvo.launch.py'},
+        {'name': 'javoa_ablated', 'launch_file': 'holonomic.ablated.py'},
     ]
 
     abort_experiment = False
