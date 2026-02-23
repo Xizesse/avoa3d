@@ -13,6 +13,19 @@ import argparse
 from datetime import datetime
 import math
 
+def play_sound(sound_type):
+    try:
+        if sound_type == "collision":
+            # Play the user provided mp3 file
+            mp3_path = os.path.expanduser('~/ros2_ws/src/avoa3d/results/wawawa.mp3')
+            if os.path.exists(mp3_path):
+                # Use mpg123
+                subprocess.Popen(['mpg123', '-q', mp3_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            else:
+                subprocess.Popen(['spd-say', '-t', 'male1', '-p', '-50', 'collision!'])
+    except Exception as e:
+        print(f"Warning: Audio playback failed: {e}")
+
 class ScenarioManager(Node):
     def __init__(self, scenario_id=0, algorithm='javoa'):
         super().__init__('scenario_manager')
@@ -219,11 +232,15 @@ def run_experiment():
                 while time.time() - start_time < 30: # 30 seconds timeout
                     rclpy.spin_once(recorder, timeout_sec=0.1)
                     if recorder.goal_reached:
-                        print(f"Goal reached for Scenario {i} with {algo['name']}")
+                        msg = f"Goal reached for Scenario {i} with {algo['name']}"
+                        print(msg)
                         break
                     
                     if recorder.collision_detected:
-                        print(f"Collision detected for Scenario {i} with {algo['name']} - Stopping early!")
+                        msg = f"Collision detected for Scenario {i} with {algo['name']} - Stopping early!"
+                        print(msg)
+                        if algo['name'] == 'javoa':
+                            play_sound('collision')
                         break
             except KeyboardInterrupt:
                 print("\nCaught KeyboardInterrupt! Aborting all scenarios...")

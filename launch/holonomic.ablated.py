@@ -332,7 +332,7 @@ def generate_launch_description():
     
     if launch_rviz_marker:
         nodes.append(rviz_marker_node)
-        nodes.append(rviz_node)
+        #nodes.append(rviz_node)
     
     if launch_test_w_goal:
         nodes.append(test_w_goal_node)
