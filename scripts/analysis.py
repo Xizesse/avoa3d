@@ -355,7 +355,7 @@ def generate_success_barplot(counts, total, title, ylabel, output_path, color_ov
     print(f"Generated plot: {output_path}")
 
 if __name__ == "__main__":
-    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/final_5')
+    results_dir = os.path.expanduser('~/ros2_ws/src/avoa3d/results/Final_100')
     if os.path.exists(results_dir):
         analyze_results(results_dir)
     else:
