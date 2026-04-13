@@ -5,13 +5,15 @@ import csv
 import matplotlib.pyplot as plt
 
 plt.rcParams.update({
-    'font.size': 20,
-    'axes.labelsize': 22,
-    'axes.titlesize': 24,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
-    'legend.fontsize': 18,
-    'figure.titlesize': 26
+    'font.size': 22,
+    'axes.labelsize': 24,
+    'axes.titlesize': 26,
+    'xtick.labelsize': 20,
+    'ytick.labelsize': 20,
+    'legend.fontsize': 20,
+    'figure.titlesize': 28,
+    'lines.linewidth': 2.0,
+    'axes.linewidth': 1.5
 })
 
 import math
@@ -47,7 +49,8 @@ def analyze_results(base_dir):
         'time_to_goal': {algo: {'val': [], 'id': []} for algo in algos},
         'min_clearance': {algo: {'val': [], 'id': []} for algo in algos},
         'distance_traveled': {algo: {'val': [], 'id': []} for algo in algos},
-        'smoothness': {algo: {'val': [], 'id': []} for algo in algos}
+        'smoothness': {algo: {'val': [], 'id': []} for algo in algos},
+        'goal': {algo: {'val': [], 'id': []} for algo in algos}
     }
     
     success_counts = {algo: 0 for algo in algos}
@@ -82,25 +85,23 @@ def analyze_results(base_dir):
             if all(res['time'] is not None for res in scenario_results.values()):
                 scenarios_processed += 1
                 
-                # Minimum clearance is appended for all algorithms unconditionally
+                # Append all metrics unconditionally
                 for algo, res in scenario_results.items():
                     data['min_clearance'][algo]['val'].append(res['clearance'])
                     data['min_clearance'][algo]['id'].append(dir_name)
+                    data['time_to_goal'][algo]['val'].append(res['time'])
+                    data['time_to_goal'][algo]['id'].append(dir_name)
+                    data['distance_traveled'][algo]['val'].append(res['dist'])
+                    data['distance_traveled'][algo]['id'].append(dir_name)
+                    data['smoothness'][algo]['val'].append(res['smoothness'])
+                    data['smoothness'][algo]['id'].append(dir_name)
+                    data['goal'][algo]['val'].append(res['goal'])
+                    data['goal'][algo]['id'].append(dir_name)
+                    
                     if res['goal']:
                         success_counts[algo] += 1
                     if res['clearance'] <= 0.0:
                         collision_counts[algo] += 1
-                
-                # Performance metrics (time, distance, smoothness) are appended only if ALL algorithms reached the goal
-                all_reached_goal = all(res['goal'] for res in scenario_results.values())
-                if all_reached_goal:
-                    for algo, res in scenario_results.items():
-                        data['time_to_goal'][algo]['val'].append(res['time'])
-                        data['time_to_goal'][algo]['id'].append(dir_name)
-                        data['distance_traveled'][algo]['val'].append(res['dist'])
-                        data['distance_traveled'][algo]['id'].append(dir_name)
-                        data['smoothness'][algo]['val'].append(res['smoothness'])
-                        data['smoothness'][algo]['id'].append(dir_name)
                 
         except Exception as e:
             print(f"Error analyzing {dir_name}: {e}")
@@ -119,48 +120,68 @@ def analyze_results(base_dir):
         print(f"Generating static matplotlib plots for {a1} vs {a2}...")
         suffix = f"_{a1}_vs_{a2}"
         
-        # Helper to subset data
-        def subset(d):
-            return {k: d[k] for k in (a1, a2) if k in d}
+        # Helper to subset data based on both algorithms reaching the goal
+        def subset(metric_name, require_both_goal=True):
+            sub_d = {a1: {'val': [], 'id': []}, a2: {'val': [], 'id': []}}
+            
+            ids_a1 = data[metric_name][a1]['id']
+            vals_a1 = data[metric_name][a1]['val']
+            goals_a1 = data['goal'][a1]['val']
+            
+            vals_a2 = data[metric_name][a2]['val']
+            goals_a2 = data['goal'][a2]['val']
+            
+            for i in range(len(ids_a1)):
+                if not require_both_goal or (goals_a1[i] and goals_a2[i]):
+                    if not math.isnan(vals_a1[i]) and not math.isnan(vals_a2[i]):
+                        sub_d[a1]['val'].append(vals_a1[i])
+                        sub_d[a1]['id'].append(ids_a1[i])
+                        sub_d[a2]['val'].append(vals_a2[i])
+                        sub_d[a2]['id'].append(ids_a1[i])
+            return sub_d
+
+        # Helper for success/collision counts which are simple dicts
+        def subset_counts(counts_dict):
+            return {k: counts_dict[k] for k in (a1, a2) if k in counts_dict}
             
         generate_boxplot(
-            subset(data['time_to_goal']), 
+            subset('time_to_goal', require_both_goal=True), 
             'Time to Reach Goal Distribution', 
             'Time (s)', 
             os.path.join(analysis_dir, f'time_to_goal_boxplot{suffix}.png')
         )
         
         generate_boxplot(
-            subset(data['min_clearance']), 
+            subset('min_clearance', require_both_goal=False), 
             'Minimum Clearance Distribution', 
             'Clearance (m)', 
             os.path.join(analysis_dir, f'min_clearance_boxplot{suffix}.png')
         )
 
         generate_boxplot(
-            subset(data['distance_traveled']), 
+            subset('distance_traveled', require_both_goal=True), 
             'Distance Traveled Distribution', 
             'Distance (m)', 
             os.path.join(analysis_dir, f'distance_traveled_boxplot{suffix}.png')
         )
 
         generate_boxplot(
-            subset(data['smoothness']), 
+            subset('smoothness', require_both_goal=True), 
             'Smoothness Distribution', 
             'Smoothness ($m/s^2$)', 
             os.path.join(analysis_dir, f'smoothness_boxplot{suffix}.png')
         )
 
         generate_success_barplot(
-            subset(success_counts),
+            subset_counts(success_counts),
             scenarios_processed,
-            'Goal Reach Rate (< 5m)',
+            'Goal Reach Rate ',
             'Number of Scenarios',
             os.path.join(analysis_dir, f'goal_reached_barplot{suffix}.png')
         )
 
         generate_success_barplot(
-            subset(collision_counts),
+            subset_counts(collision_counts),
             scenarios_processed,
             'Collision Rate (Clearance <= 0)',
             'Number of Scenarios',
@@ -192,6 +213,11 @@ def process_single_csv(csv_file):
     # Using float() conversion safety
     times = [float(r['time_elapsed']) for r in rows]
     time_to_goal = max(times)
+    
+    # Filter out runs that timed out (even if within the goal radius at the last second)
+    if time_to_goal >= 29.5:
+        goal_reached = False
+        time_to_goal = float('nan')
     
     # 2. Global Minimum Clearance
     # We need to calculate min clearance for every row, then find the min of those mins.
@@ -277,7 +303,7 @@ def process_single_csv(csv_file):
     return time_to_goal, min_clearance_global, distance_traveled, smoothness, goal_reached
 
 def generate_boxplot(data_dict, title, ylabel, output_path):
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(9, 7))
     
     data_list = []
     labels = []
@@ -294,31 +320,44 @@ def generate_boxplot(data_dict, title, ylabel, output_path):
         if vals:
             data_list.append(vals)
             # Make S3VO instead of javoa dynamically if named exactly javoa
-            labels.append('S3VO (Ablated)' if algo == 'javoa_ablated' else ('S3VO' if algo == 'javoa' else algo.upper()))
+            display_name = 'S3VO (Ablated)' if algo == 'javoa_ablated' else ('S3VO' if algo == 'javoa' else ('ORCA' if algo == 'rvo' else algo.upper()))
+            labels.append(display_name)
             colors.append(color_palette[i % len(color_palette)])
             
-    if not data_list:
+    print(f"\n--- Quartiles for {title} ---")
+    for algo in algos:
+        vals = data_dict[algo]['val']
+        if vals:
+            q1, med, q3 = np.percentile(vals, [25, 50, 75])
+            display_name = 'S3VO (Ablated)' if algo == 'javoa_ablated' else ('S3VO' if algo == 'javoa' else ('ORCA' if algo == 'rvo' else algo.upper()))
+            print(f"{display_name}: Q1={q1:.2f}, Median={med:.2f}, Q3={q3:.2f}")
+            
+    if all(len(vals) == 0 for vals in data_list):
         plt.close()
         return
 
-    box = plt.boxplot(data_list, labels=labels, patch_artist=True, widths=0.2, showfliers=False, whis=(0, 100))
+    boxprops = dict(linewidth=1.5)
+    whiskerprops = dict(linewidth=1.5)
+    capprops = dict(linewidth=1.5)
+    medianprops = dict(linewidth=2.0, color='black')
+
+    box = plt.boxplot(data_list, labels=labels, patch_artist=True, widths=0.3, showfliers=False, whis=(0, 100),
+                      boxprops=boxprops, whiskerprops=whiskerprops, capprops=capprops, medianprops=medianprops)
     
     for patch, color in zip(box['boxes'], colors):
         patch.set_facecolor(color)
         patch.set_edgecolor('black')
-        
-    for median in box['medians']:
-        median.set_color('black')
+        patch.set_linewidth(1.5)
         
     # Scatter with jitter (Show all data points)
     for i, vals in enumerate(data_list):
         x = np.random.normal(i + 1, 0.04, size=len(vals))
-        plt.scatter(x, vals, color='red', alpha=0.5, s=20, zorder=3)
+        plt.scatter(x, vals, color='red', alpha=0.5, s=40, zorder=3)
         
-    plt.title(title, pad=15, fontsize=24)
-    plt.ylabel(ylabel, labelpad=10, fontsize=22)
-    plt.xticks(fontsize=20)
-    plt.yticks(fontsize=18)
+    plt.title(title, pad=15, fontsize=26)
+    plt.ylabel(ylabel, labelpad=10, fontsize=24)
+    plt.xticks(fontsize=22)
+    plt.yticks(fontsize=20)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     
     plt.tight_layout()
@@ -327,7 +366,7 @@ def generate_boxplot(data_dict, title, ylabel, output_path):
     print(f"Generated plot: {output_path}")
 
 def generate_success_barplot(counts, total, title, ylabel, output_path, color_override=None):
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(9, 7))
     
     algos = sorted(list(counts.keys()), key=lambda x: x.lower())
     labels = ['S3VO (Ablated)' if algo == 'javoa_ablated' else ('S3VO' if algo == 'javoa' else algo.upper()) for algo in algos]
@@ -339,18 +378,21 @@ def generate_success_barplot(counts, total, title, ylabel, output_path, color_ov
         color_palette = ['lightblue', 'lightcoral', 'lightgreen', 'wheat', 'plum', 'lightgray', 'khaki']
         plot_colors = [color_palette[i % len(color_palette)] for i in range(len(algos))]
     
-    bars = plt.bar(labels, values, color=plot_colors)
+    bars = plt.bar(labels, values, color=plot_colors, edgecolor='black', linewidth=1.5)
     
-    plt.title(f"{title} (Total Scenarios: {total})")
-    plt.ylabel(ylabel)
+    plt.title(f"{title} (n={total})", fontsize=26)
+    plt.ylabel(ylabel, fontsize=24)
+    plt.xticks(fontsize=22)
+    plt.yticks(fontsize=20)
     plt.ylim(0, total + max(total * 0.1, 1))
     
     for bar in bars:
         yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom', ha='center')
+        plt.text(bar.get_x() + bar.get_width()/2.0, yval + (total*0.01), int(yval), va='bottom', ha='center', fontsize=22, fontweight='bold')
 
     plt.grid(True, axis='y', linestyle='--', alpha=0.7)
-    plt.savefig(output_path)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300)
     plt.close()
     print(f"Generated plot: {output_path}")
 
