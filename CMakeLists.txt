@@ -43,6 +43,8 @@ add_executable(avoa3dnode src/avoa3dnode.cpp
                           src/sample_evaluator.cpp
                           src/sample_visualizer.cpp
                           src/sample_generator.cpp
+                          src/holonomic_sample_generator.cpp
+                          src/diff_drive_sample_generator.cpp
                           )
 add_executable(obstacle_publisher src/obstacle_publisher.cpp)
 add_executable(test_w_goal src/test_w_goal.cpp)
@@ -172,7 +174,8 @@ install(DIRECTORY
 
 install(PROGRAMS
   src/laser_frame_transformer.py
-
+  src/lidar_frame_transformer.py
+  scripts/gazebo_obstacle_publisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

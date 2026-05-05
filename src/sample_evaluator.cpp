@@ -32,13 +32,19 @@ void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desire
 
 void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const avoa3d::msg::ElementCharacteristicsArray& obstacles, const geometry_msgs::msg::Twist& current_velocity)
 {
-    double desired_vx = latest_desired_velocity_.linear.x;
-    double desired_vy = latest_desired_velocity_.linear.y;
-    double desired_vz = latest_desired_velocity_.linear.z;
+    
+    double desired_vx, desired_vy, desired_vz;
+    
+    double dt = 1.0; //TODO: Make this a parameteR
+
+    // SAMPLES ARE ALLWAYS XYZ
+    desired_vx = latest_desired_velocity_.linear.x;
+    desired_vy = latest_desired_velocity_.linear.y;
+    desired_vz = latest_desired_velocity_.linear.z;
     
     double desired_magnitude = std::sqrt(desired_vx * desired_vx + desired_vy * desired_vy + desired_vz * desired_vz);
     
-    if (desired_magnitude > 0.001) {
+    if (desired_magnitude > 0.001) { //TODO ELSE ?
         desired_vx /= desired_magnitude;
         desired_vy /= desired_magnitude;
         desired_vz /= desired_magnitude;
@@ -48,144 +54,145 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
     VelocitySample translated_sample;
     
     // Safety cost parameters
-    const double safety_threshold = 0.3;   // Maximum distance to apply safety cost
-    const double max_safety_cost = 0.3;    // Maximum safety cost when on cone boundary
+    const double safety_threshold = 0.3;   // TODO: Make this a parameter
+    const double max_safety_cost = 0.3;    // TODO: make this a parameter
     
+    //! For each sample 
     for (auto& sample : samples) {
         bool collision_free = true;
         sample.cost = 0.0;
         sample.danger = 0.0;
 
+        //NON ZERO LINEAR SAMPLES 
+        if (!(sample.vx == 0.0 && sample.vy == 0.0 && sample.vz == 0.0)) { 
 
-        if (sample.vx == 0.0 && sample.vy == 0.0 && sample.vz == 0.0) {
-            // Skip zero velocity samples
-            RCLCPP_INFO(logger_, "Skipping zero velocity sample: vx=%.2f, vy=%.2f, vz=%.2f", sample.vx, sample.vy, sample.vz);
-            continue;
-        }
-
+            //Obstacle loop
             for (const auto& obstacle : obstacles.elements) {
             
-            //!Relative velocity
-
-            translated_sample.vx = sample.vx - obstacle.velocity.x ;
-            translated_sample.vy = sample.vy - obstacle.velocity.y ;
-            translated_sample.vz = sample.vz - obstacle.velocity.z ;
-            
-            double obstacle_x = obstacle.pose.position.x;
-            double obstacle_y = obstacle.pose.position.y;
-            double obstacle_z = obstacle.pose.position.z;
-
-            // get obstacle radius
-            double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
-                                    + vehicle_radius_ + obstacle.protective_zone; 
-
-            //std::cout << "Obstacle radius: " << obstacle_radius << std::endl;
-
-            //get obstacle distance
-            double obstacle_distance = std::sqrt(
-                obstacle_x * obstacle_x +
-                obstacle_y * obstacle_y +
-                obstacle_z * obstacle_z
-            );
-            
-            if (obstacle_distance < 0.001) {
-                collision_free = false;
-                break;
-            }
-
-            //TGet Sample Distance
-            double sample_distance = std::sqrt(
-                translated_sample.vx * translated_sample.vx +
-                translated_sample.vy * translated_sample.vy +
-                translated_sample.vz * translated_sample.vz
-            );
-
-            double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
-            
-            double cone_angle = 0.0;
-            
-            if (obstacle_distance <= obstacle_radius)
-            {
-                cone_angle = M_PI / 2.0;   
+                //!Relative velocity
+                translated_sample.vx = sample.vx - obstacle.velocity.x ;
+                translated_sample.vy = sample.vy - obstacle.velocity.y ;
+                translated_sample.vz = sample.vz - obstacle.velocity.z ;
                 
-                // If projection is positive, we are moving deeper into the obstacle
-                if (projection > 0.0)
-                {
+                double obstacle_x = obstacle.pose.position.x;
+                double obstacle_y = obstacle.pose.position.y;
+                double obstacle_z = obstacle.pose.position.z;
+
+                // get obstacle radius
+                double obstacle_radius = std::max({obstacle.size.x / 2.0, obstacle.size.y / 2.0, obstacle.size.z / 2.0}) 
+                                        + vehicle_radius_ + obstacle.protective_zone; 
+
+                //std::cout << "Obstacle radius: " << obstacle_radius << std::endl;
+
+                //get obstacle distance
+                double obstacle_distance = std::sqrt(
+                    obstacle_x * obstacle_x +
+                    obstacle_y * obstacle_y +
+                    obstacle_z * obstacle_z
+                );
+                
+                if (obstacle_distance < 0.001) {
                     collision_free = false;
                     break;
                 }
-            }
-            else
-            {
-                cone_angle = std::asin(obstacle_radius / obstacle_distance);
-            }
-            
-            //Get the projection of the translated sample on the obstacle axis
 
-            // Calculate the expected radius in the cone :
-            double expected_radius = projection * std::tan(cone_angle);
+                //TGet Sample Distance
+                double sample_distance = std::sqrt(
+                    translated_sample.vx * translated_sample.vx +
+                    translated_sample.vy * translated_sample.vy +
+                    translated_sample.vz * translated_sample.vz
+                );
 
-            //std::cout << "Expected radius: " << expected_radius << std::endl;
-
-            // Calculate the actual distance to the axis (use the angle between the translated sample and the obstacle, and the distance to the sample
-            double radius_squared = sample_distance * sample_distance - projection * projection;
-            double actual_radius = (radius_squared >= 0.0) ? std::sqrt(radius_squared) : 0.0;
-            //std::cout << "Actual radius: " << actual_radius << std::endl;
-            
-            // Use projection (velocity towards obstacle) instead of full sample distance
-            float time_to_collision = (obstacle_distance - obstacle_radius) / std::max(0.001, projection);
-            
-            if (actual_radius < expected_radius) { //if Collision Cone
-                // Collision detected -> Break to Remove
+                double projection = (translated_sample.vx * obstacle_x + translated_sample.vy * obstacle_y + translated_sample.vz * obstacle_z) / obstacle_distance;
                 
-                /*//! Time Horizon Constraint
-                If the time for collision is greater than X seconds, we dont remove the sample
-                sample distance = magnitude velocity
-                obstacle_distance - obstacle_radius = distance for collision
-                defined time
-                check if the time for collision is greater than the threshold 
-                */
+                double cone_angle = 0.0;
                 
-                if (time_to_collision < time_to_collision_threshold_)
+                if (obstacle_distance <= obstacle_radius)
                 {
-                    collision_free = false;
-                    break;
-                }
-                else {
+                    cone_angle = M_PI / 2.0;   
                     
-                }
-            } 
-            if (projection > 0.0 && actual_radius - expected_radius < radius_threshold_ ) {
-                if((time_to_collision < time_to_collision_threshold_)) // above this threshold
-                {
-                    sample.danger += (( radius_threshold_ - (actual_radius - expected_radius)) / radius_threshold_)  *projection;
-                    sample.danger = std::min(1.0, sample.danger);
+                    // If projection is positive, we are moving deeper into the obstacle
+                    if (projection > 0.0)
+                    {
+                        collision_free = false;
+                        break;
+                    }
                 }
                 else
-                {   
-                    float truncated_min_distance = (obstacle_distance - obstacle_radius) / time_to_collision_threshold_;
-                    float truncated_center_x = (obstacle_x/obstacle_distance)* truncated_min_distance;
-                    float truncated_center_y = (obstacle_y/obstacle_distance)* truncated_min_distance;
-                    float truncated_center_z = (obstacle_z/obstacle_distance)* truncated_min_distance;
-                
-                    float distance_to_truncated_center = std::sqrt(
-                        (truncated_center_x - translated_sample.vx) * (truncated_center_x - translated_sample.vx) +
-                        (truncated_center_y - translated_sample.vy) * (truncated_center_y - translated_sample.vy) +
-                        (truncated_center_z - translated_sample.vz) * (truncated_center_z - translated_sample.vz)
-                    );
-                    double truncated_expected_radius =  radius_threshold_ + (truncated_min_distance/obstacle_distance)*obstacle_radius;
-
-                    if (distance_to_truncated_center < truncated_expected_radius )
-                    {
-                        //sample.danger += (truncated_expected_radius - distance_to_truncated_center) / truncated_expected_radius;
-                    }
-         
+                {
+                    cone_angle = std::asin(obstacle_radius / obstacle_distance);
                 }
                 
-            }
+                //Get the projection of the translated sample on the obstacle axis
+
+                // Calculate the expected radius in the cone :
+                double expected_radius = projection * std::tan(cone_angle);
+
+                //std::cout << "Expected radius: " << expected_radius << std::endl;
+
+                // Calculate the actual distance to the axis (use the angle between the translated sample and the obstacle, and the distance to the sample
+                double radius_squared = sample_distance * sample_distance - projection * projection;
+                double actual_radius = (radius_squared >= 0.0) ? std::sqrt(radius_squared) : 0.0;
+                //std::cout << "Actual radius: " << actual_radius << std::endl;
+                
+                // Use projection (velocity towards obstacle) instead of full sample distance
+                float time_to_collision = (obstacle_distance - obstacle_radius) / std::max(0.001, projection);
+                
+                if (actual_radius < expected_radius) { //if Collision Cone
+                    // Collision detected -> Break to Remove
+                    
+                    /*//! Time Horizon Constraint
+                    If the time for collision is greater than X seconds, we dont remove the sample
+                    sample distance = magnitude velocity
+                    obstacle_distance - obstacle_radius = distance for collision
+                    defined time
+                    check if the time for collision is greater than the threshold 
+                    */
+                    
+                    if (time_to_collision < time_to_collision_threshold_)
+                    {
+                        collision_free = false;
+                        break;
+                    }
+                    else {
+                        
+                    }
+                } 
+                if (projection > 0.0 && actual_radius - expected_radius < radius_threshold_ ) {
+                    if((time_to_collision < time_to_collision_threshold_)) // above this threshold
+                    {
+                        sample.danger += (( radius_threshold_ - (actual_radius - expected_radius)) / radius_threshold_)  *projection;
+                        sample.danger = std::min(1.0, sample.danger);
+                    }
+                    else
+                    {   
+                        float truncated_min_distance = (obstacle_distance - obstacle_radius) / time_to_collision_threshold_;
+                        float truncated_center_x = (obstacle_x/obstacle_distance)* truncated_min_distance;
+                        float truncated_center_y = (obstacle_y/obstacle_distance)* truncated_min_distance;
+                        float truncated_center_z = (obstacle_z/obstacle_distance)* truncated_min_distance;
+                    
+                        float distance_to_truncated_center = std::sqrt(
+                            (truncated_center_x - translated_sample.vx) * (truncated_center_x - translated_sample.vx) +
+                            (truncated_center_y - translated_sample.vy) * (truncated_center_y - translated_sample.vy) +
+                            (truncated_center_z - translated_sample.vz) * (truncated_center_z - translated_sample.vz)
+                        );
+                        double truncated_expected_radius =  radius_threshold_ + (truncated_min_distance/obstacle_distance)*obstacle_radius;
+
+                        if (distance_to_truncated_center < truncated_expected_radius )
+                        {
+                            //sample.danger += (truncated_expected_radius - distance_to_truncated_center) / truncated_expected_radius;
+                        }
+            
+                    }
+                    
+                }
             
     
         }   
+        else {
+            // TODO NOT Skip zero velocity samples
+            
+        }
 
 
         

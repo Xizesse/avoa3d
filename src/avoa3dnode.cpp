@@ -7,6 +7,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
+#include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "sensor_msgs/point_cloud2_iterator.hpp"
@@ -176,12 +177,12 @@ public:
         sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
 
         // Publishers and subscribers - keep these as they are
-        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/agente/cmd_vel_unfiltered", 10);
+        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(cmd_vel_topic, 10);
         
-        desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
+        desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
             desired_vel_topic, 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
             
-        velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
+        velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
             cmd_vel_topic, 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
         
         agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
@@ -200,10 +201,10 @@ public:
 
 private:
     // Callback functions
-    void desired_velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
+    void desired_velocity_callback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)
     {
-        latest_desired_velocity_ = *msg;
-        sample_evaluator_->setDesiredVelocity(*msg);
+        latest_desired_velocity_ = msg->twist;
+        sample_evaluator_->setDesiredVelocity(msg->twist);
         RCLCPP_DEBUG(this->get_logger(), "Updated agent desired velocity");
     }
 
@@ -213,9 +214,9 @@ private:
         RCLCPP_DEBUG(this->get_logger(), "Updated goal odometry");
     }
 
-    void velocity_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
+    void velocity_callback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)
     {
-        latest_velocity_ = *msg;
+        latest_velocity_ = msg->twist;
         RCLCPP_DEBUG(this->get_logger(), "Updated agent velocity");
     }
     
@@ -236,8 +237,10 @@ private:
     {
         // Timer callback to eval time
         
-        geometry_msgs::msg::Twist cmd_vel;
+        geometry_msgs::msg::TwistStamped cmd_vel;
         if (!has_received_all_data()) {
+            RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 5000, 
+                "Waiting for Odometry and Desired Velocity data...");
             return;
         }
 
@@ -251,12 +254,14 @@ private:
         best_sample = sample_evaluator_->findBestSample(samples);
         best_twist = sample_generator_->translateToTwist(best_sample);
 
-        cmd_vel.linear.x = best_twist.linear.x;
-        cmd_vel.linear.y = best_twist.linear.y;
-        cmd_vel.linear.z = best_twist.linear.z;
-        cmd_vel.angular.x = best_twist.angular.x;
-        cmd_vel.angular.y = best_twist.angular.y;
-        cmd_vel.angular.z = best_twist.angular.z;
+        cmd_vel.header.stamp = this->get_clock()->now();
+        cmd_vel.header.frame_id = this->get_parameter("fixed_frame").as_string();
+        cmd_vel.twist.linear.x = best_twist.linear.x;
+        cmd_vel.twist.linear.y = best_twist.linear.y;
+        cmd_vel.twist.linear.z = best_twist.linear.z;
+        cmd_vel.twist.angular.x = best_twist.angular.x;
+        cmd_vel.twist.angular.y = best_twist.angular.y;
+        cmd_vel.twist.angular.z = best_twist.angular.z;
 
         cmd_vel_publisher_->publish(cmd_vel);
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
@@ -307,10 +312,10 @@ private:
     geometry_msgs::msg::Twist best_twist;
 
     // Publishers and subscribers
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
+    rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr cmd_vel_publisher_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr desired_velocity_subscriber_;
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr velocity_subscriber_;
+    rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr desired_velocity_subscriber_;
+    rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr velocity_subscriber_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
     rclcpp::Subscription<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr obstacles_subscriber_;
     //goal odometry

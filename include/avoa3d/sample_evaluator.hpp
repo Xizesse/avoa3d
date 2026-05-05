@@ -61,8 +61,8 @@ private:
     double momentum_weight_ = 0.0;
 
     // Safety cost parameters
-    double time_to_collision_threshold_ = 3000.0; // in seconds
-    double radius_threshold_ = 0.2; // in meters
+    double time_to_collision_threshold_ = 0.0; // in seconds
+    double radius_threshold_ = 0.0; // in meters
 };
 
 } // namespace avoa3d
