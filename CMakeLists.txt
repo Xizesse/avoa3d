@@ -17,7 +17,7 @@ find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)  # Added for PoseStamped transforms
 find_package(rviz_visual_tools REQUIRED)
 #find_package(nest_interfaces REQUIRED) # FOR nest messages
-find_package(obstacle_detector REQUIRED) # Added for obstacle_converter_node
+# find_package(obstacle_detector REQUIRED) # Added for obstacle_converter_node
 
 
 # Generate custom messages
@@ -124,7 +124,7 @@ ament_target_dependencies(obstacle_converter_node
   nav_msgs
   tf2_ros
   tf2_geometry_msgs
-  obstacle_detector
+  # obstacle_detector
 )
 
 # ament_target_dependencies(dummy_obstacle_publisher
