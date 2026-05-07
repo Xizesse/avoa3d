@@ -176,6 +176,7 @@ install(PROGRAMS
   src/laser_frame_transformer.py
   src/lidar_frame_transformer.py
   scripts/gazebo_obstacle_publisher.py
+  scripts/durius_gps_obstacle_publisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

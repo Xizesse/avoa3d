@@ -15,15 +15,23 @@ class GazeboObstaclePublisher(Node):
         self.declare_parameter('agent_odom_topic', '/usv/lily/mavros/local_position/odom')
         self.declare_parameter('durius_odom_topic', '/model/DURIUS/odometry')
         self.declare_parameter('nautilus_odom_topic', '/model/nautilus/odometry')
+        self.declare_parameter('buoy_south_odom_topic', '/model/buoy_south_30m/odometry')
+        self.declare_parameter('buoy_west_odom_topic', '/model/buoy_west_20m/odometry')
+        self.declare_parameter('nautilys_north_odom_topic', '/model/nautilys_north_40m/odometry')
+        
         self.declare_parameter('output_topic', '/element_tracking/elements')
         self.declare_parameter('marker_topic', '/element_tracking/markers')
         self.declare_parameter('durius_radius', 10.0)
         self.declare_parameter('nautilus_radius', 2.0)
+        self.declare_parameter('obstacle_radius', 0.5)
         
         # Subscriptions
         self.agent_sub = self.create_subscription(Odometry, self.get_parameter('agent_odom_topic').value, self.agent_callback, 10)
         self.durius_sub = self.create_subscription(Odometry, self.get_parameter('durius_odom_topic').value, self.durius_callback, 10)
         self.nautilus_sub = self.create_subscription(Odometry, self.get_parameter('nautilus_odom_topic').value, self.nautilus_callback, 10)
+        self.buoy_south_sub = self.create_subscription(Odometry, self.get_parameter('buoy_south_odom_topic').value, self.buoy_south_callback, 10)
+        self.buoy_west_sub = self.create_subscription(Odometry, self.get_parameter('buoy_west_odom_topic').value, self.buoy_west_callback, 10)
+        self.nautilys_north_sub = self.create_subscription(Odometry, self.get_parameter('nautilys_north_odom_topic').value, self.nautilys_north_callback, 10)
             
         # Publishers
         self.publisher = self.create_publisher(ElementCharacteristicsArray, self.get_parameter('output_topic').value, 10)
@@ -36,7 +44,10 @@ class GazeboObstaclePublisher(Node):
         # We store the full msg or extracted info for each obstacle
         self.obstacles_data = {
             'durius': {'pos': None, 'vel_local': None, 'yaw': 0.0},
-            'nautilus': {'pos': None, 'vel_local': None, 'yaw': 0.0}
+            'nautilus': {'pos': None, 'vel_local': None, 'yaw': 0.0},
+            'buoy_south': {'pos': None, 'vel_local': None, 'yaw': 0.0},
+            'buoy_west': {'pos': None, 'vel_local': None, 'yaw': 0.0},
+            'nautilys_north': {'pos': None, 'vel_local': None, 'yaw': 0.0}
         }
         
         # Timer for publishing at a fixed rate
@@ -60,6 +71,21 @@ class GazeboObstaclePublisher(Node):
         self.obstacles_data['nautilus']['vel_local'] = msg.twist.twist.linear
         self.obstacles_data['nautilus']['yaw'] = self.get_yaw(msg.pose.pose.orientation)
 
+    def buoy_south_callback(self, msg):
+        self.obstacles_data['buoy_south']['pos'] = msg.pose.pose.position
+        self.obstacles_data['buoy_south']['vel_local'] = msg.twist.twist.linear
+        self.obstacles_data['buoy_south']['yaw'] = self.get_yaw(msg.pose.pose.orientation)
+
+    def buoy_west_callback(self, msg):
+        self.obstacles_data['buoy_west']['pos'] = msg.pose.pose.position
+        self.obstacles_data['buoy_west']['vel_local'] = msg.twist.twist.linear
+        self.obstacles_data['buoy_west']['yaw'] = self.get_yaw(msg.pose.pose.orientation)
+
+    def nautilys_north_callback(self, msg):
+        self.obstacles_data['nautilys_north']['pos'] = msg.pose.pose.position
+        self.obstacles_data['nautilys_north']['vel_local'] = msg.twist.twist.linear
+        self.obstacles_data['nautilys_north']['yaw'] = self.get_yaw(msg.pose.pose.orientation)
+
     def rotate_2d(self, x, y, angle):
         """Rotate a 2D vector by an angle."""
         cos_a = math.cos(angle)
@@ -76,7 +102,10 @@ class GazeboObstaclePublisher(Node):
         # Define obstacles to process
         targets = [
             {'name': 'durius', 'radius': self.get_parameter('durius_radius').value, 'color': (1.0, 0.0, 0.0), 'id': 0},
-            {'name': 'nautilus', 'radius': self.get_parameter('nautilus_radius').value, 'color': (0.0, 1.0, 0.0), 'id': 10}
+            {'name': 'nautilus', 'radius': self.get_parameter('nautilus_radius').value, 'color': (0.0, 1.0, 0.0), 'id': 10},
+            {'name': 'buoy_south', 'radius': self.get_parameter('obstacle_radius').value, 'color': (1.0, 1.0, 0.0), 'id': 20},
+            {'name': 'buoy_west', 'radius': self.get_parameter('obstacle_radius').value, 'color': (1.0, 0.5, 0.0), 'id': 30},
+            {'name': 'nautilys_north', 'radius': self.get_parameter('obstacle_radius').value, 'color': (0.5, 0.0, 1.0), 'id': 40}
         ]
 
         for target in targets:

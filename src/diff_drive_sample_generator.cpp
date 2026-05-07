@@ -21,22 +21,6 @@ DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger,
     (void)node;
 }
 
-/**
- * @brief Generates velocity samples for a differential drive vehicle.
- * 
- * This method implements a Dynamic Window approach:
- * 1. It samples Linear Velocity (v) and Angular Velocity (w) within the reachable 
- *    window defined by acceleration limits and time step (delta_t).
- * 2. It then transposes these (v, w) samples into Cartesian (vx, vy) points.
- *    This allows the SampleEvaluator to perform standard Velocity Obstacle (VO) 
- *    math in a linear velocity space.
- * 
- * @param current_velocity The robot's current state (expects linear.x as v, angular.z as w). 
- *        Used here for reachability analysis.
- * @param desired_velocity The goal velocity (expects linear.x/y as Cartesian goal). 
- *        Used to allways check the desired vel
- * @return std::vector<VelocitySample> A cloud of reachable Cartesian velocity vectors.
- */
 std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     const geometry_msgs::msg::Twist& current_velocity,
     const geometry_msgs::msg::Twist& desired_velocity)
@@ -64,57 +48,46 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
         double v = dist_v(gen);
         double w = dist_w(gen);
         
-        // The transposition: vx and vy represent the position the robot would 
-        // reach if it followed the arc defined by (v, w) for delta_t.
+        // VO-Space: Mapped Cartesian velocity
         double vx = v * std::cos(w * params_.delta_t); 
         double vy = v * std::sin(w * params_.delta_t); 
-        samples.push_back(VelocitySample(vx, vy, 0.0));
+        
+        // Create sample with both domains
+        samples.push_back(VelocitySample(vx, vy, 0.0,  v, 0.0, 0.0,  0.0, 0.0, w));
     }
     
+    // Helper to add a specific (v, w) pair
+    auto add_vw = [&](double v, double w) {
+        double vx = v * std::cos(w * params_.delta_t);
+        double vy = v * std::sin(w * params_.delta_t);
+        samples.push_back(VelocitySample(vx, vy, 0.0,  v, 0.0, 0.0,  0.0, 0.0, w));
+    };
+
     // Always include the current velocity for smoothness 
     if (current_v >= min_v && current_v <= max_v && current_w >= min_w && current_w <= max_w) {
-        double vx_current = current_v * std::cos(current_w * params_.delta_t);
-        double vy_current = current_v * std::sin(current_w * params_.delta_t);
-        samples.push_back(VelocitySample(vx_current, vy_current, 0.0));
+        add_vw(current_v, current_w);
     }
     
-    // MAP Desired from vw to xy
+    // Include desired velocity
     double desired_v = desired_velocity.linear.x;
     double desired_w = desired_velocity.angular.z;
-    
-    double vx_desired = desired_v * std::cos(desired_w * params_.delta_t);
-    double vy_desired = desired_v * std::sin(desired_w * params_.delta_t);
-
     if (desired_v >= min_v && desired_v <= max_v && desired_w >= min_w && desired_w <= max_w) {
-        samples.push_back(VelocitySample(vx_desired, vy_desired, 0.0));
+        add_vw(desired_v, desired_w);
     }
     
     return samples;
 }
 
-/**
- * @brief Translates a chosen Cartesian velocity sample back into robot commands (v, w).
- * 
- * After the Evaluator picks the safest/best (vx, vy) vector, we need to convert it 
- * back into the Differential Drive commands that the USV hardware understands.
- * 
- * @param sample The chosen Cartesian velocity vector.
- * @return geometry_msgs::msg::Twist A twist message with linear.x as speed and angular.z as turn rate.
- */
 geometry_msgs::msg::Twist DiffDriveSampleGenerator::translateToTwist(const VelocitySample& sample)
 {
+    // Now we just return the stored twist directly!
     geometry_msgs::msg::Twist twist;
-    if (std::abs(sample.vx) == 0.0 && std::abs(sample.vy) == 0.0) return twist;
-    
-    // Recover the angle (heading change) from the Cartesian vector
-    double angle = std::atan2(sample.vy, sample.vx);
-    
-    // Set linear speed (magnitude of the vector)
-    twist.linear.x = std::sqrt(sample.vx * sample.vx + sample.vy * sample.vy);
-    
-    // Set angular speed (angle over time)
-    twist.angular.z = angle / params_.delta_t;
-    
+    twist.linear.x = sample.twist.lx;
+    twist.linear.y = sample.twist.ly;
+    twist.linear.z = sample.twist.lz;
+    twist.angular.x = sample.twist.ax;
+    twist.angular.y = sample.twist.ay;
+    twist.angular.z = sample.twist.az;
     return twist;
 }
 
@@ -125,9 +98,6 @@ double DiffDriveSampleGenerator::normalizeAngle(double angle)
     return angle;
 }
 
-/**
- * @brief Updates the kinematic and dynamic constraints for the generator.
- */
 void DiffDriveSampleGenerator::setParams(
     double v_x_max, double v_y_max, double v_z_max,
     double a_x_max, double a_y_max, double a_z_max,

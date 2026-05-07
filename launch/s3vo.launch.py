@@ -19,10 +19,12 @@ def generate_launch_description():
         'kinematic_mode': 'diff_drive',
         'vehicle_radius': 2.15,
 
-        'heading_weight': 0.80,
-        'abs_weight': 0.2,
-        'danger_weight': 0.5,
-        'momentum_weight': 0.1,
+        'heading_weight': 0.0,
+        'abs_weight': 0.0,
+        'danger_weight': 0.0,
+        'momentum_weight': 0.2,
+        'linear_matching_weight': 0.0,
+        'twist_matching_weight': 0.8,
 
         'a_x_max': 1.0,
         'a_y_max': 0.0,
@@ -38,7 +40,7 @@ def generate_launch_description():
         'w_yaw_max': 1.0,
         'delta_t': 1.0,
         'num_samples': 3000,
-        'time_to_collision_threshold': 30.0,
+        'time_to_collision_threshold': 3000.0,
         'radius_threshold': 0.1
     }
 

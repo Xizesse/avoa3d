@@ -49,6 +49,8 @@ public:
         this->declare_parameter("abs_weight", 0.0);
         this->declare_parameter("danger_weight", 0.0);
         this->declare_parameter("momentum_weight", 0.1);
+        this->declare_parameter("linear_matching_weight", 0.0);
+        this->declare_parameter("twist_matching_weight", 0.0);
         
         // Motion parameters
         this->declare_parameter("a_x_max", 0.0);
@@ -67,6 +69,7 @@ public:
         this->declare_parameter("num_samples", 0);
         this->declare_parameter("time_to_collision_threshold", 3000.0);
         this->declare_parameter("radius_threshold", 0.2);
+        this->declare_parameter("watchdog_timeout", 1.0);
         
         // Log parameters
         std::string fixed_frame = this->get_parameter("fixed_frame").as_string();
@@ -79,6 +82,8 @@ public:
         double abs_weight = this->get_parameter("abs_weight").as_double();
         double danger_weight = this->get_parameter("danger_weight").as_double();
         double momentum_weight = this->get_parameter("momentum_weight").as_double();
+        double linear_matching_weight = this->get_parameter("linear_matching_weight").as_double();
+        double twist_matching_weight = this->get_parameter("twist_matching_weight").as_double();
 
         double time_to_collision_threshold = this->get_parameter("time_to_collision_threshold").as_double();
         double radius_threshold = this->get_parameter("radius_threshold").as_double();
@@ -111,6 +116,8 @@ public:
         std::cout << "  - Danger Weight: " << danger_weight << std::endl;
         std::cout << "  - Absolute Weight: " << abs_weight << std::endl;
         std::cout << "  - Momentum Weight: " << momentum_weight << std::endl;
+        std::cout << "  - Linear Matching Weight: " << linear_matching_weight << std::endl;
+        std::cout << "  - Twist Matching Weight: " << twist_matching_weight << std::endl;
         
         std::cout << "Motion Limits:" << std::endl;
         std::cout << "  - Max Linear Velocity [X,Y,Z]: ["
@@ -170,6 +177,8 @@ public:
             danger_weight, 
             abs_weight,    
             momentum_weight,
+            linear_matching_weight,
+            twist_matching_weight,
             time_to_collision_threshold,  
             radius_threshold);           
     
@@ -197,6 +206,9 @@ public:
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(static_cast<int>(100)), 
             std::bind(&AVOA::timer_callback, this));
+        
+        last_odom_time_ = this->get_clock()->now();
+        last_desired_vel_time_ = this->get_clock()->now();
     }
 
 private:
@@ -205,6 +217,7 @@ private:
     {
         latest_desired_velocity_ = msg->twist;
         sample_evaluator_->setDesiredVelocity(msg->twist);
+        last_desired_vel_time_ = this->get_clock()->now();
         RCLCPP_DEBUG(this->get_logger(), "Updated agent desired velocity");
     }
 
@@ -224,6 +237,7 @@ private:
     {
         latest_agent_odometry_ = *msg;
         sample_visualizer_->setAgentOdometry(*msg);
+        last_odom_time_ = this->get_clock()->now();
         RCLCPP_DEBUG(this->get_logger(), "Updated agent odometry");
     }
 
@@ -238,6 +252,24 @@ private:
         // Timer callback to eval time
         
         geometry_msgs::msg::TwistStamped cmd_vel;
+        
+        // --- WATCHDOG CHECK ---
+        auto now = this->get_clock()->now();
+        double timeout = this->get_parameter("watchdog_timeout").as_double();
+        bool odom_timeout = (now - last_odom_time_).seconds() > timeout;
+        bool desired_vel_timeout = (now - last_desired_vel_time_).seconds() > timeout;
+
+        if (odom_timeout || desired_vel_timeout) {
+            if (odom_timeout) RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "WATCHDOG: Odometry timeout! Forcing zero velocity.");
+            if (desired_vel_timeout) RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "WATCHDOG: Desired Velocity timeout! Forcing zero velocity.");
+            
+            cmd_vel.header.stamp = now;
+            cmd_vel.header.frame_id = this->get_parameter("fixed_frame").as_string();
+            cmd_vel.twist = geometry_msgs::msg::Twist(); // Zero velocity
+            cmd_vel_publisher_->publish(cmd_vel);
+            return;
+        }
+
         if (!has_received_all_data()) {
             RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 5000, 
                 "Waiting for Odometry and Desired Velocity data...");
@@ -252,16 +284,18 @@ private:
         auto t1 = std::chrono::steady_clock::now();
 
         best_sample = sample_evaluator_->findBestSample(samples);
-        best_twist = sample_generator_->translateToTwist(best_sample);
+        
+        // Directly use the twist stored in the best sample (No more translation needed!)
+        best_twist.linear.x = best_sample.twist.lx;
+        best_twist.linear.y = best_sample.twist.ly;
+        best_twist.linear.z = best_sample.twist.lz;
+        best_twist.angular.x = best_sample.twist.ax;
+        best_twist.angular.y = best_sample.twist.ay;
+        best_twist.angular.z = best_sample.twist.az;
 
         cmd_vel.header.stamp = this->get_clock()->now();
         cmd_vel.header.frame_id = this->get_parameter("fixed_frame").as_string();
-        cmd_vel.twist.linear.x = best_twist.linear.x;
-        cmd_vel.twist.linear.y = best_twist.linear.y;
-        cmd_vel.twist.linear.z = best_twist.linear.z;
-        cmd_vel.twist.angular.x = best_twist.angular.x;
-        cmd_vel.twist.angular.y = best_twist.angular.y;
-        cmd_vel.twist.angular.z = best_twist.angular.z;
+        cmd_vel.twist = best_twist;
 
         cmd_vel_publisher_->publish(cmd_vel);
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
@@ -335,7 +369,9 @@ private:
     size_t meas_count_ = 0;      // how many cycles we measured
     int64_t meas_total_us_ = 0;  // accumulated time in microseconds
 
-        
+    // Watchdog timing
+    rclcpp::Time last_odom_time_;
+    rclcpp::Time last_desired_vel_time_;
 };
 
 int main(int argc, char * argv[])

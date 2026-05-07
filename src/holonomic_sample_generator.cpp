@@ -43,13 +43,17 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
     std::uniform_real_distribution<> dist_vz(min_vz, max_vz);
     
     for (int i = 0; i < params_.num_samples; ++i) {
-        samples.push_back(VelocitySample(dist_vx(gen), dist_vy(gen), dist_vz(gen)));
+        double vx = dist_vx(gen);
+        double vy = dist_vy(gen);
+        double vz = dist_vz(gen);
+        // Holonomic: Evaluation space == Control space
+        samples.push_back(VelocitySample(vx, vy, vz, vx, vy, vz, 0.0, 0.0, 0.0));
     }
     
     // Always include current and desired velocity if within bounds
     auto include_if_valid = [&](double x, double y, double z) {
         if (x >= min_vx && x <= max_vx && y >= min_vy && y <= max_vy && z >= min_vz && z <= max_vz) {
-            samples.push_back(VelocitySample(x, y, z));
+            samples.push_back(VelocitySample(x, y, z, x, y, z, 0.0, 0.0, 0.0));
         }
     };
 
@@ -62,9 +66,12 @@ std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
 geometry_msgs::msg::Twist HolonomicSampleGenerator::translateToTwist(const VelocitySample& sample)
 {
     geometry_msgs::msg::Twist twist;
-    twist.linear.x = sample.vx;
-    twist.linear.y = sample.vy;
-    twist.linear.z = sample.vz;
+    twist.linear.x = sample.twist.lx;
+    twist.linear.y = sample.twist.ly;
+    twist.linear.z = sample.twist.lz;
+    twist.angular.x = sample.twist.ax;
+    twist.angular.y = sample.twist.ay;
+    twist.angular.z = sample.twist.az;
     return twist;
 }
 
@@ -113,7 +120,7 @@ bool HolonomicEllipsoidalSampleGenerator::isInsideEllipsoid(double vx, double vy
 }
 
 VelocitySample HolonomicEllipsoidalSampleGenerator::generateEllipsoidSample(std::mt19937& gen,
-                                                                            double vx_max, double vy_max, double vz_max) const
+                                                                             double vx_max, double vy_max, double vz_max) const
 {
     std::uniform_real_distribution<> dist_r(0.0, 1.0);
     std::uniform_real_distribution<> dist_theta(0.0, 2.0 * M_PI);
@@ -124,9 +131,11 @@ VelocitySample HolonomicEllipsoidalSampleGenerator::generateEllipsoidSample(std:
     double cos_phi = dist_cos_phi(gen);
     double sin_phi = std::sqrt(1.0 - cos_phi * cos_phi);
     
-    return VelocitySample(r * vx_max * sin_phi * std::cos(theta),
-                         r * vy_max * sin_phi * std::sin(theta),
-                         r * vz_max * cos_phi);
+    double vx = r * vx_max * sin_phi * std::cos(theta);
+    double vy = r * vy_max * sin_phi * std::sin(theta);
+    double vz = r * vz_max * cos_phi;
+    
+    return VelocitySample(vx, vy, vz, vx, vy, vz, 0.0, 0.0, 0.0);
 }
 
 std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples(
@@ -152,7 +161,7 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
     while (samples.size() < static_cast<size_t>(params_.num_samples) && attempts < max_attempts) {
         double vx = dist_vx(gen), vy = dist_vy(gen), vz = dist_vz(gen);
         if (isInsideEllipsoid(vx, vy, vz, params_.v_x_max, params_.v_y_max, params_.v_z_max)) {
-            samples.push_back(VelocitySample(vx, vy, vz));
+            samples.push_back(VelocitySample(vx, vy, vz, vx, vy, vz, 0.0, 0.0, 0.0));
         }
         attempts++;
     }
@@ -160,7 +169,7 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
     auto include_if_valid = [&](double x, double y, double z) {
         if (x >= min_vx && x <= max_vx && y >= min_vy && y <= max_vy && z >= min_vz && z <= max_vz &&
             isInsideEllipsoid(x, y, z, params_.v_x_max, params_.v_y_max, params_.v_z_max)) {
-            samples.push_back(VelocitySample(x, y, z));
+            samples.push_back(VelocitySample(x, y, z, x, y, z, 0.0, 0.0, 0.0));
         }
     };
 
@@ -173,7 +182,12 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
 geometry_msgs::msg::Twist HolonomicEllipsoidalSampleGenerator::translateToTwist(const VelocitySample& sample)
 {
     geometry_msgs::msg::Twist twist;
-    twist.linear.x = sample.vx; twist.linear.y = sample.vy; twist.linear.z = sample.vz;
+    twist.linear.x = sample.twist.lx;
+    twist.linear.y = sample.twist.ly;
+    twist.linear.z = sample.twist.lz;
+    twist.angular.x = sample.twist.ax;
+    twist.angular.y = sample.twist.ay;
+    twist.angular.z = sample.twist.az;
     return twist;
 }
 
