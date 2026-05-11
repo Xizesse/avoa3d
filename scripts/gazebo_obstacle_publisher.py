@@ -105,7 +105,7 @@ class GazeboObstaclePublisher(Node):
             {'name': 'nautilus', 'radius': self.get_parameter('nautilus_radius').value, 'color': (0.0, 1.0, 0.0), 'id': 10},
             {'name': 'buoy_south', 'radius': self.get_parameter('obstacle_radius').value, 'color': (1.0, 1.0, 0.0), 'id': 20},
             {'name': 'buoy_west', 'radius': self.get_parameter('obstacle_radius').value, 'color': (1.0, 0.5, 0.0), 'id': 30},
-            {'name': 'nautilys_north', 'radius': self.get_parameter('obstacle_radius').value, 'color': (0.5, 0.0, 1.0), 'id': 40}
+            {'name': 'nautilys_north', 'radius': self.get_parameter('nautilus_radius').value, 'color': (0.5, 0.0, 1.0), 'id': 40}
         ]
 
         for target in targets:
