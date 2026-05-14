@@ -17,7 +17,7 @@ def generate_launch_description():
         'topics.goal_odometry': '/model/goal/odometry', #TODO : REMOVE THIS
         
         'kinematic_mode': 'diff_drive',
-        'vehicle_radius': 2.15,
+        'vehicle_radius': 1.5,
 
         'heading_weight': 0.0,
         'abs_weight': 0.0,
@@ -32,15 +32,15 @@ def generate_launch_description():
         'a_roll_max': 0.0,
         'a_pitch_max': 0.0,
         'a_yaw_max': 0.5,
-        'v_x_max': 0.6,
+        'v_x_max': 1.5,
         'v_y_max': 0.0,
         'v_z_max': 0.0,
         'w_roll_max': 0.0,
         'w_pitch_max': 0.0,
         'w_yaw_max': 1.0,
         'delta_t': 1.0,
-        'num_samples': 3000,
-        'time_to_collision_threshold': 3000.0,
+        'num_samples': 10000,
+        'time_to_collision_threshold': 200.0,
         'radius_threshold': 0.1
     }
 

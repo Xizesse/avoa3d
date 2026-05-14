@@ -1,0 +1,35 @@
+obstacles:
+  - name: "DURIUS"
+    latitude_deg: 41.685703
+    longitude_deg: -8.838605
+    radius: 9.0
+    height: 2.0
+    protective_zone: 0.0
+
+  - name: "Dock_C1"
+    latitude_deg: 41.685551
+    longitude_deg: -8.838564
+    radius: 3.13
+    height: 1.0
+    protective_zone: 0.0
+
+  - name: "Dock_C2"
+    latitude_deg: 41.685532
+    longitude_deg: -8.838635
+    radius: 3.13
+    height: 1.0
+    protective_zone: 0.0
+
+  - name: "Dock_C3"
+    latitude_deg: 41.685513
+    longitude_deg: -8.838706
+    radius: 3.13
+    height: 1.0
+    protective_zone: 0.0
+  
+  - name : "StaticBoat"
+    latitude_deg: 41.685618
+    longitude_deg: -8.838926
+    radius: 4.0
+    height: 2.0
+    protective_zone: 0.0
