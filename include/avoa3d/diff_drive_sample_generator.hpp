@@ -10,7 +10,6 @@ class DiffDriveSampleGenerator : public SampleGenerator
 {
 public:
     DiffDriveSampleGenerator(const rclcpp::Logger& logger);
-    DiffDriveSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node);
     
     std::vector<VelocitySample> generateSamples(
         const geometry_msgs::msg::Twist& current_velocity,

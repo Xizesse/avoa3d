@@ -10,7 +10,6 @@ class HolonomicSampleGenerator : public SampleGenerator
 {
 public:
     HolonomicSampleGenerator(const rclcpp::Logger& logger);
-    HolonomicSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node);
 
     std::vector<VelocitySample> generateSamples(
         const geometry_msgs::msg::Twist& current_velocity,
@@ -34,7 +33,6 @@ class HolonomicEllipsoidalSampleGenerator : public SampleGenerator
 {
 public:
     HolonomicEllipsoidalSampleGenerator(const rclcpp::Logger& logger);
-    HolonomicEllipsoidalSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node);
 
     std::vector<VelocitySample> generateSamples(
         const geometry_msgs::msg::Twist& current_velocity,

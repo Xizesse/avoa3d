@@ -9,8 +9,6 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
-#include "sensor_msgs/msg/point_cloud2.hpp"
-#include "sensor_msgs/point_cloud2_iterator.hpp"
 //#include "custom_msgs/msg/element_characteristics_array.hpp"
 #include "avoa3d/msg/element_characteristics_stamped.hpp"
 #include "avoa3d/msg/element_characteristics_array.hpp"
@@ -191,9 +189,6 @@ public:
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
             desired_vel_topic, 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
             
-        velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
-            cmd_vel_topic, 10, std::bind(&AVOA::velocity_callback, this, std::placeholders::_1));
-        
         agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
             odometry_topic, 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
         
@@ -227,12 +222,6 @@ private:
         RCLCPP_DEBUG(this->get_logger(), "Updated goal odometry");
     }
 
-    void velocity_callback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)
-    {
-        latest_velocity_ = msg->twist;
-        RCLCPP_DEBUG(this->get_logger(), "Updated agent velocity");
-    }
-    
     void agent_odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
     {
         latest_agent_odometry_ = *msg;
@@ -338,7 +327,6 @@ private:
 
     
     // State variables and components
-    MotionParameters motion_params_;
     std::unique_ptr<avoa3d::SampleGenerator> sample_generator_;
     std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;
     std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;
@@ -348,9 +336,7 @@ private:
 
     // Publishers and subscribers
     rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr cmd_vel_publisher_;
-    rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr samples_cloud_publisher_;
     rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr desired_velocity_subscriber_;
-    rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr velocity_subscriber_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
     rclcpp::Subscription<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr obstacles_subscriber_;
     //goal odometry
@@ -361,14 +347,8 @@ private:
     // Message storage
     nav_msgs::msg::Odometry latest_goal_odometry_{};
     geometry_msgs::msg::Twist latest_desired_velocity_{};
-    geometry_msgs::msg::Twist latest_velocity_{};
     nav_msgs::msg::Odometry latest_agent_odometry_{};
     avoa3d::msg::ElementCharacteristicsArray latest_obstacles_{};
-
-    size_t callback_counter_ = 0;
-    int64_t total_duration_us_ = 0;
-    size_t meas_count_ = 0;      // how many cycles we measured
-    int64_t meas_total_us_ = 0;  // accumulated time in microseconds
 
     // Watchdog timing
     rclcpp::Time last_odom_time_;

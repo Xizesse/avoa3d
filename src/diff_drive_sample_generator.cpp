@@ -13,22 +13,12 @@ DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger)
     RCLCPP_INFO(logger_, "Initializing diff drive generator");
 }
 
-DiffDriveSampleGenerator::DiffDriveSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node)
-    : logger_(logger),  
-      random_engine_(std::random_device()())
-{
-    RCLCPP_INFO(logger_, "Initializing diff drive generator");
-    (void)node;
-}
-
 std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     const geometry_msgs::msg::Twist& current_velocity,
     const geometry_msgs::msg::Twist& desired_velocity)
 {
     std::vector<VelocitySample> samples;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    
+
     // Extract current linear and angular velocities (v, w space)
     double current_v = current_velocity.linear.x; 
     double current_w = current_velocity.angular.z;
@@ -45,8 +35,8 @@ std::vector<VelocitySample> DiffDriveSampleGenerator::generateSamples(
     
     // Generate random (v, w) pairs and transpose to (vx, vy) Cartesian space
     for (int i = 0; i < params_.num_samples; ++i) {
-        double v = dist_v(gen);
-        double w = dist_w(gen);
+        double v = dist_v(random_engine_);
+        double w = dist_w(random_engine_);
         
         // VO-Space: Mapped Cartesian velocity
         double vx = v * std::cos(w * params_.delta_t); 

@@ -14,7 +14,6 @@
 #include <tf2/LinearMath/Vector3.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include "geometry_msgs/msg/transform_stamped.hpp"
-#include <rviz_visual_tools/rviz_visual_tools.hpp>
 #include <Eigen/Geometry>
 
 // #include "custom_msgs/msg/element_characteristics_stamped.hpp"
@@ -36,7 +35,6 @@ class MarkerPublisher : public rclcpp::Node
 {
 public:
 
-  std::shared_ptr<rviz_visual_tools::RvizVisualTools> visual_tools_;
   MarkerPublisher()
   : Node("marker_publisher"), count_(0)
   {
@@ -84,10 +82,6 @@ public:
     std::cout << "================================================================\n" << std::endl;
 
     
-    visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>(agent_frame, "/visualization_marker", this); 
-    visual_tools_->loadMarkerPub();
-    visual_tools_->enableBatchPublishing();
-      
     //! PUBLISHERS
     // Publishers for Markers
     agent_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(agent_marker_topic, 10);

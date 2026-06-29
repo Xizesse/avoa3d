@@ -13,39 +13,29 @@ HolonomicSampleGenerator::HolonomicSampleGenerator(const rclcpp::Logger& logger)
     RCLCPP_INFO(logger_, "Initializing holonomic sample generator with default parameters");
 }
 
-HolonomicSampleGenerator::HolonomicSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node)
-    : logger_(logger),  
-      random_engine_(std::random_device()())
-{
-    RCLCPP_INFO(logger_, "Initializing holonomic sample generator");
-    (void)node; 
-}
-
 std::vector<VelocitySample> HolonomicSampleGenerator::generateSamples(
     const geometry_msgs::msg::Twist& current_velocity,
     const geometry_msgs::msg::Twist& desired_velocity)
 {
     std::vector<VelocitySample> samples;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    
+
     double min_vx = std::max(current_velocity.linear.x - params_.a_x_max * params_.delta_t, -params_.v_x_max);
     double max_vx = std::min(current_velocity.linear.x + params_.a_x_max * params_.delta_t, params_.v_x_max);
-    
+
     double min_vy = std::max(current_velocity.linear.y - params_.a_y_max * params_.delta_t, -params_.v_y_max);
     double max_vy = std::min(current_velocity.linear.y + params_.a_y_max * params_.delta_t, params_.v_y_max);
-    
+
     double min_vz = std::max(current_velocity.linear.z - params_.a_z_max * params_.delta_t, -params_.v_z_max);
     double max_vz = std::min(current_velocity.linear.z + params_.a_z_max * params_.delta_t, params_.v_z_max);
 
     std::uniform_real_distribution<> dist_vx(min_vx, max_vx);
     std::uniform_real_distribution<> dist_vy(min_vy, max_vy);
     std::uniform_real_distribution<> dist_vz(min_vz, max_vz);
-    
+
     for (int i = 0; i < params_.num_samples; ++i) {
-        double vx = dist_vx(gen);
-        double vy = dist_vy(gen);
-        double vz = dist_vz(gen);
+        double vx = dist_vx(random_engine_);
+        double vy = dist_vy(random_engine_);
+        double vz = dist_vz(random_engine_);
         // Holonomic: Evaluation space == Control space
         samples.push_back(VelocitySample(vx, vy, vz, vx, vy, vz, 0.0, 0.0, 0.0));
     }
@@ -102,14 +92,6 @@ HolonomicEllipsoidalSampleGenerator::HolonomicEllipsoidalSampleGenerator(const r
     RCLCPP_INFO(logger_, "Initializing holonomic ellipsoidal sample generator");
 }
 
-HolonomicEllipsoidalSampleGenerator::HolonomicEllipsoidalSampleGenerator(const rclcpp::Logger& logger, const rclcpp::Node* node)
-    : logger_(logger),  
-      random_engine_(std::random_device()())
-{
-    RCLCPP_INFO(logger_, "Initializing holonomic ellipsoidal sample generator");
-    (void)node;
-}
-
 bool HolonomicEllipsoidalSampleGenerator::isInsideEllipsoid(double vx, double vy, double vz, 
                                                            double vx_max, double vy_max, double vz_max) const
 {
@@ -143,9 +125,7 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
     const geometry_msgs::msg::Twist& desired_velocity)
 {
     std::vector<VelocitySample> samples;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    
+
     double min_vx = std::max(current_velocity.linear.x - params_.a_x_max * params_.delta_t, -params_.v_x_max);
     double max_vx = std::min(current_velocity.linear.x + params_.a_x_max * params_.delta_t, params_.v_x_max);
     double min_vy = std::max(current_velocity.linear.y - params_.a_y_max * params_.delta_t, -params_.v_y_max);
@@ -159,7 +139,7 @@ std::vector<VelocitySample> HolonomicEllipsoidalSampleGenerator::generateSamples
     
     int attempts = 0, max_attempts = params_.num_samples * 10;
     while (samples.size() < static_cast<size_t>(params_.num_samples) && attempts < max_attempts) {
-        double vx = dist_vx(gen), vy = dist_vy(gen), vz = dist_vz(gen);
+        double vx = dist_vx(random_engine_), vy = dist_vy(random_engine_), vz = dist_vz(random_engine_);
         if (isInsideEllipsoid(vx, vy, vz, params_.v_x_max, params_.v_y_max, params_.v_z_max)) {
             samples.push_back(VelocitySample(vx, vy, vz, vx, vy, vz, 0.0, 0.0, 0.0));
         }
