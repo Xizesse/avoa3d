@@ -1,9 +1,9 @@
-#ifndef AVOA3D_DIFF_DRIVE_SAMPLE_GENERATOR_HPP
-#define AVOA3D_DIFF_DRIVE_SAMPLE_GENERATOR_HPP
+#ifndef S3VO_DIFF_DRIVE_SAMPLE_GENERATOR_HPP
+#define S3VO_DIFF_DRIVE_SAMPLE_GENERATOR_HPP
 
-#include "avoa3d/sample_generator.hpp"
+#include "s3vo/sample_generator.hpp"
 
-namespace avoa3d
+namespace s3vo
 {
 
 class DiffDriveSampleGenerator : public SampleGenerator
@@ -31,6 +31,6 @@ private:
     std::mt19937 random_engine_;
 };
 
-} // namespace avoa3d
+} // namespace s3vo
 
-#endif // AVOA3D_DIFF_DRIVE_SAMPLE_GENERATOR_HPP
+#endif // S3VO_DIFF_DRIVE_SAMPLE_GENERATOR_HPP

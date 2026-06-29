@@ -1,13 +1,13 @@
-// include/avoa3d/sample_visualizer.hpp
-#ifndef AVOA3D_SAMPLE_VISUALIZER_HPP
-#define AVOA3D_SAMPLE_VISUALIZER_HPP
+// include/s3vo/sample_visualizer.hpp
+#ifndef S3VO_SAMPLE_VISUALIZER_HPP
+#define S3VO_SAMPLE_VISUALIZER_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include "avoa3d/velocity_sample.hpp"
+#include "s3vo/velocity_sample.hpp"
 
-namespace avoa3d {
+namespace s3vo {
 
 class SampleVisualizer {
 public:
@@ -27,6 +27,6 @@ private:
     std::string agent_frame_;
 };
 
-} // namespace avoa3d
+} // namespace s3vo
 
-#endif // AVOA3D_SAMPLE_VISUALIZER_HPP
+#endif // S3VO_SAMPLE_VISUALIZER_HPP

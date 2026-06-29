@@ -3,7 +3,7 @@
     # Node launch control - which nodes to launch
     launch_nodes:
       bridge_node: true
-      avoa3d_node: true  
+      s3vo_node: true  
       obstacle_publisher: false 
       rviz_marker: true  
       test_w_goal: true  
@@ -22,9 +22,9 @@
       goal_pose: "/goal_pose"
       goal_odometry: "/model/goal/odometry"
       obstacle_odometry: "/model/obstacle/odometry"
-      velocity_samples: "/avoa/velocity_samples"
+      velocity_samples: "/s3vo/velocity_samples"
     
-    # AVOA PARAMS
+    # S3VO PARAMS
     kinematic_mode: "diff_drive" # "diff_drive" or "holonomic"
 
     #Goal weights 

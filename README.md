@@ -1,4 +1,4 @@
-# avoa3d
+# s3vo
 
 ROS2 package implementing a 3D velocity obstacle avoidance algorithm. Given the robot's odometry, a desired velocity, and a list of tracked obstacles, it computes a collision-free velocity command.
 
@@ -11,20 +11,20 @@ ROS2 package implementing a 3D velocity obstacle avoidance algorithm. Given the 
 
 ```bash
 cd ~/ros2_ws
-colcon build --packages-select avoa3d
+colcon build --packages-select s3vo
 source install/setup.bash
 ```
 
 ## Launch
 
 ```bash
-ros2 launch avoa3d s3vo.launch.py
+ros2 launch s3vo s3vo.launch.py
 ```
 
 All parameters can be overridden from the command line:
 
 ```bash
-ros2 launch avoa3d s3vo.launch.py kinematic_mode:=holonomic v_x_max:=2.0
+ros2 launch s3vo s3vo.launch.py kinematic_mode:=holonomic v_x_max:=2.0
 ```
 
 ## Topics
@@ -33,11 +33,11 @@ ros2 launch avoa3d s3vo.launch.py kinematic_mode:=holonomic v_x_max:=2.0
 |-----------|-------|------|-------------|
 | Subscribe | `topics.odometry` | `nav_msgs/Odometry` | Robot odometry (actual velocity used for sampling) |
 | Subscribe | `topics.desired_vel` | `geometry_msgs/TwistStamped` | Desired velocity goal |
-| Subscribe | `topics.element_tracking` | `avoa3d/ElementCharacteristicsArray` | Tracked obstacles |
+| Subscribe | `topics.element_tracking` | `s3vo/ElementCharacteristicsArray` | Tracked obstacles |
 | Subscribe | `topics.goal_odometry` | `nav_msgs/Odometry` | Goal pose odometry |
 | Publish | `topics.cmd_vel` | `geometry_msgs/TwistStamped` | Collision-free velocity command |
 
-Default topic names are set in `avoa3dnode.cpp` and can be remapped via the parameter file or launch arguments.
+Default topic names are set in `s3vonode.cpp` and can be remapped via the parameter file or launch arguments.
 
 ## Key Parameters
 
@@ -86,7 +86,7 @@ See `config/holonomic_params.yaml` or `config/diff_drive_params.yaml` for ready-
 
 ## Obstacle Interface
 
-Obstacles are provided via the custom `avoa3d/ElementCharacteristicsArray` message. Each element carries:
+Obstacles are provided via the custom `s3vo/ElementCharacteristicsArray` message. Each element carries:
 
 - `pose` — position in the agent frame
 - `size` — bounding box (x, y, z)
@@ -100,4 +100,4 @@ Two optional helper nodes are provided:
 - **`rviz_marker`** — publishes agent and obstacle markers for RViz
 - **`element_markers`** — publishes obstacle bounding-box markers
 
-The avoa3dnode itself publishes the velocity sample cloud on `/avoa/velocity_samples` (PointCloud2) for direct inspection in RViz. Load `config/rviz_config.rviz` to get a pre-configured view.
+The s3vonode itself publishes the velocity sample cloud on `/s3vo/velocity_samples` (PointCloud2) for direct inspection in RViz. Load `config/rviz_config.rviz` to get a pre-configured view.

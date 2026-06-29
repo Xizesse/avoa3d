@@ -1,9 +1,9 @@
 // src/sample_visualizer.cpp
-#include "avoa3d/sample_visualizer.hpp"
+#include "s3vo/sample_visualizer.hpp"
 #include <sensor_msgs/point_cloud2_iterator.hpp>
 #include <limits>
 
-namespace avoa3d {
+namespace s3vo {
 
 SampleVisualizer::SampleVisualizer(rclcpp::Node* node)
     : node_(node)
@@ -19,7 +19,7 @@ SampleVisualizer::SampleVisualizer(rclcpp::Node* node)
     
     // Create publisher
     samples_cloud_publisher_ = node_->create_publisher<sensor_msgs::msg::PointCloud2>(
-        "/avoa/velocity_samples", 1);
+        "/s3vo/velocity_samples", 1);
 }
 
 void SampleVisualizer::setAgentOdometry(const nav_msgs::msg::Odometry& odometry)
@@ -88,4 +88,4 @@ void SampleVisualizer::publishSamplesAsPointcloud(
     samples_cloud_publisher_->publish(cloud_msg);
 }
 
-} // namespace avoa3d
+} // namespace s3vo

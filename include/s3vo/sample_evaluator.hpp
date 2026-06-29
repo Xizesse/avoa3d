@@ -1,15 +1,15 @@
-// include/avoa3d/sample_evaluator.hpp
-#ifndef AVOA3D_SAMPLE_EVALUATOR_HPP
-#define AVOA3D_SAMPLE_EVALUATOR_HPP
+// include/s3vo/sample_evaluator.hpp
+#ifndef S3VO_SAMPLE_EVALUATOR_HPP
+#define S3VO_SAMPLE_EVALUATOR_HPP
 
 #include <vector>
 #include <rclcpp/rclcpp.hpp>
 #include "geometry_msgs/msg/twist.hpp"
-#include "avoa3d/msg/element_characteristics_stamped.hpp"
-#include "avoa3d/msg/element_characteristics_array.hpp"
-#include "avoa3d/velocity_sample.hpp"
+#include "s3vo/msg/element_characteristics_stamped.hpp"
+#include "s3vo/msg/element_characteristics_array.hpp"
+#include "s3vo/velocity_sample.hpp"
 
-namespace avoa3d {
+namespace s3vo {
 
 class SampleEvaluator {
 public:
@@ -22,7 +22,7 @@ public:
     
     void evaluateSamples(
         std::vector<VelocitySample>& samples, 
-        const avoa3d::msg::ElementCharacteristicsArray& obstacles,
+        const s3vo::msg::ElementCharacteristicsArray& obstacles,
         const geometry_msgs::msg::Twist& current_velocity
     );
     
@@ -46,6 +46,6 @@ private:
     double radius_threshold_ = 0.0; 
 };
 
-} // namespace avoa3d
+} // namespace s3vo
 
-#endif // AVOA3D_SAMPLE_EVALUATOR_HPP
+#endif // S3VO_SAMPLE_EVALUATOR_HPP

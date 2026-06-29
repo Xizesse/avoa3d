@@ -1,7 +1,7 @@
-#include "avoa3d/holonomic_sample_generator.hpp"
+#include "s3vo/holonomic_sample_generator.hpp"
 #include <cmath>
 
-namespace avoa3d
+namespace s3vo
 {
 
 //! HOLONOMIC SAMPLE GENERATOR
@@ -186,4 +186,4 @@ void HolonomicEllipsoidalSampleGenerator::setParams(
     RCLCPP_INFO(logger_, "Set holonomic ellipsoidal parameters.");
 }
 
-} // namespace avoa3d
+} // namespace s3vo

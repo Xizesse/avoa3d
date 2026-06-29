@@ -5,7 +5,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # Define parameters with default values based on nest_params.yaml and avoa3dnode.cpp
+    # Define parameters with default values based on nest_params.yaml and s3vonode.cpp
     # Using dots in keys for nested parameters in the Node action
     params = {
         'fixed_frame': 'world',
@@ -57,13 +57,13 @@ def generate_launch_description():
         ))
         node_params[key] = LaunchConfiguration(arg_name)
 
-    # Define the avoa3dnode
-    avoa3d_node = Node(
-        package='avoa3d',
-        executable='avoa3dnode',
-        name='avoa3dnode',
+    # Define the s3vonode
+    s3vo_node = Node(
+        package='s3vo',
+        executable='s3vonode',
+        name='s3vonode',
         output='screen',
         parameters=[node_params]
     )
 
-    return LaunchDescription(launch_args + [avoa3d_node])
+    return LaunchDescription(launch_args + [s3vo_node])

@@ -1,7 +1,7 @@
-#ifndef AVOA3D_MOTION_PARAMS_HPP
-#define AVOA3D_MOTION_PARAMS_HPP
+#ifndef S3VO_MOTION_PARAMS_HPP
+#define S3VO_MOTION_PARAMS_HPP
 
-namespace avoa3d
+namespace s3vo
 {
 
 // Common structure to hold all motion parameters
@@ -43,6 +43,6 @@ struct MotionParameters
     int num_samples = 10000;
 };
 
-} // namespace avoa3d
+} // namespace s3vo
 
-#endif // AVOA3D_MOTION_PARAMS_HPP
+#endif // S3VO_MOTION_PARAMS_HPP

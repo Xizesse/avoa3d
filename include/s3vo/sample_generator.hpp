@@ -1,14 +1,14 @@
-#ifndef AVOA3D_SAMPLE_GENERATOR_HPP
-#define AVOA3D_SAMPLE_GENERATOR_HPP
+#ifndef S3VO_SAMPLE_GENERATOR_HPP
+#define S3VO_SAMPLE_GENERATOR_HPP
 
 #include <vector>
 #include <random>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "avoa3d/velocity_sample.hpp"
-#include "avoa3d/motion_params.hpp" 
+#include "s3vo/velocity_sample.hpp"
+#include "s3vo/motion_params.hpp" 
 
-namespace avoa3d
+namespace s3vo
 {
 
 // Base class for sample generators
@@ -34,10 +34,10 @@ protected:
     MotionParameters params_;
 };
 
-} // namespace avoa3d
+} // namespace s3vo
 
 // Include specialized generators
-#include "avoa3d/holonomic_sample_generator.hpp"
-#include "avoa3d/diff_drive_sample_generator.hpp"
+#include "s3vo/holonomic_sample_generator.hpp"
+#include "s3vo/diff_drive_sample_generator.hpp"
 
-#endif // AVOA3D_SAMPLE_GENERATOR_HPP
+#endif // S3VO_SAMPLE_GENERATOR_HPP

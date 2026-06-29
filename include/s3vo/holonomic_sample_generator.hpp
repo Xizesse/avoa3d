@@ -1,9 +1,9 @@
-#ifndef AVOA3D_HOLONOMIC_SAMPLE_GENERATOR_HPP
-#define AVOA3D_HOLONOMIC_SAMPLE_GENERATOR_HPP
+#ifndef S3VO_HOLONOMIC_SAMPLE_GENERATOR_HPP
+#define S3VO_HOLONOMIC_SAMPLE_GENERATOR_HPP
 
-#include "avoa3d/sample_generator.hpp"
+#include "s3vo/sample_generator.hpp"
 
-namespace avoa3d
+namespace s3vo
 {
 
 class HolonomicSampleGenerator : public SampleGenerator
@@ -58,6 +58,6 @@ private:
                                          double vx_max, double vy_max, double vz_max) const;
 };
 
-} // namespace avoa3d
+} // namespace s3vo
 
-#endif // AVOA3D_HOLONOMIC_SAMPLE_GENERATOR_HPP
+#endif // S3VO_HOLONOMIC_SAMPLE_GENERATOR_HPP

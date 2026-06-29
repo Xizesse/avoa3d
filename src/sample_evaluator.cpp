@@ -1,10 +1,10 @@
 // src/sample_evaluator.cpp
-#include "avoa3d/sample_evaluator.hpp"
+#include "s3vo/sample_evaluator.hpp"
 #include <algorithm>
 #include <cmath>
 
 
-namespace avoa3d {
+namespace s3vo {
 
 SampleEvaluator::SampleEvaluator(rclcpp::Logger logger, double vehicle_radius, 
                                  double heading_weight, double danger_weight, double abs_weight, 
@@ -30,7 +30,7 @@ void SampleEvaluator::setDesiredVelocity(const geometry_msgs::msg::Twist& desire
     latest_desired_velocity_ = desired_velocity;
 }
 
-void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const avoa3d::msg::ElementCharacteristicsArray& obstacles, const geometry_msgs::msg::Twist& current_velocity)
+void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, const s3vo::msg::ElementCharacteristicsArray& obstacles, const geometry_msgs::msg::Twist& current_velocity)
 {
     //* --- 1. PREPARE DESIRED VELOCITY CONTEXT ---
     double desired_vx = latest_desired_velocity_.linear.x;
@@ -210,4 +210,4 @@ VelocitySample SampleEvaluator::findBestSample(const std::vector<VelocitySample>
     return *min_element;
 }
 
-} // namespace avoa3d
+} // namespace s3vo

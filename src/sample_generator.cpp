@@ -1,6 +1,6 @@
-#include "avoa3d/sample_generator.hpp"
+#include "s3vo/sample_generator.hpp"
 
-namespace avoa3d
+namespace s3vo
 {
     // The base class methods are mostly virtual or inline.
     // Specialized implementations are in:

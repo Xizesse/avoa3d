@@ -10,22 +10,22 @@
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 //#include "custom_msgs/msg/element_characteristics_array.hpp"
-#include "avoa3d/msg/element_characteristics_stamped.hpp"
-#include "avoa3d/msg/element_characteristics_array.hpp"
-#include "avoa3d/velocity_sample.hpp"
-#include "avoa3d/sample_evaluator.hpp"
-#include "avoa3d/sample_visualizer.hpp"
-#include "avoa3d/sample_generator.hpp"
-#include "avoa3d/motion_params.hpp"
+#include "s3vo/msg/element_characteristics_stamped.hpp"
+#include "s3vo/msg/element_characteristics_array.hpp"
+#include "s3vo/velocity_sample.hpp"
+#include "s3vo/sample_evaluator.hpp"
+#include "s3vo/sample_visualizer.hpp"
+#include "s3vo/sample_generator.hpp"
+#include "s3vo/motion_params.hpp"
 
 using namespace std::chrono_literals;
-using avoa3d::VelocitySample;
-using avoa3d::MotionParameters;
+using s3vo::VelocitySample;
+using s3vo::MotionParameters;
 
-class AVOA : public rclcpp::Node
+class S3VO : public rclcpp::Node
 {
 public:
-    AVOA() : Node("avoa3dnode", rclcpp::NodeOptions())
+    S3VO() : Node("s3vonode", rclcpp::NodeOptions())
     {
         
         // Frame parameters
@@ -34,13 +34,13 @@ public:
         
         // Topic parameters
         this->declare_parameter("topics.desired_vel", "/model/agente/desired_vel");
-        this->declare_parameter("topics.cmd_vel", "/avoa/cmd_vel");
+        this->declare_parameter("topics.cmd_vel", "/s3vo/cmd_vel");
         this->declare_parameter("topics.odometry", "/nest/odometry");
         this->declare_parameter("topics.element_tracking", "/element_tracking/elements");
         this->declare_parameter("topics.goal_odometry", "/model/goal/odometry");
         
         
-        // AVOA parameters
+        // S3VO parameters
         this->declare_parameter("kinematic_mode", "holonomic");
         this->declare_parameter("vehicle_radius", 0.0);
         this->declare_parameter("heading_weight", 0.0);
@@ -93,7 +93,7 @@ public:
         std::string goal_odometry_topic = this->get_parameter("topics.goal_odometry").as_string();
         
         std::cout << "================================================================" << std::endl;
-        std::cout << "================== AVOA3D NODE INITIALIZATION =================" << std::endl;
+        std::cout << "================== S3VO NODE INITIALIZATION =================" << std::endl;
         std::cout << "================================================================" << std::endl;
         
         std::cout << "Frame Settings:" << std::endl;
@@ -107,7 +107,7 @@ public:
         std::cout << "  - Element Tracking: " << element_tracking_topic << std::endl;
         std::cout << "  - Goal Odometry: " << goal_odometry_topic << std::endl;
         
-        std::cout << "AVOA Parameters:" << std::endl;
+        std::cout << "S3VO Parameters:" << std::endl;
         std::cout << "  - Kinematic Mode: " << kinematic_mode << std::endl;
         std::cout << "  - Vehicle Radius: " << std::fixed << std::setprecision(2) << vehicle_radius << std::endl;
         std::cout << "  - Heading Weight: " << heading_weight << std::endl;
@@ -134,16 +134,16 @@ public:
         // Initialize the appropriate sample generator based on kinematic mode
         if (kinematic_mode == "diff_drive") {
             std::cout << "Using differential drive sample generator" << std::endl;
-            sample_generator_ = std::make_unique<avoa3d::DiffDriveSampleGenerator>(this->get_logger());
+            sample_generator_ = std::make_unique<s3vo::DiffDriveSampleGenerator>(this->get_logger());
         }
         else if (kinematic_mode == "holonomic_ellipsoidal"){
             std::cout << "Using holonomic ellipsoidal sample generator" << std::endl;
-            sample_generator_ = std::make_unique<avoa3d::HolonomicEllipsoidalSampleGenerator>(this->get_logger());
+            sample_generator_ = std::make_unique<s3vo::HolonomicEllipsoidalSampleGenerator>(this->get_logger());
 
         } else {
             // Default to holonomic
             std::cout << "Using holonomic sample generator" << std::endl;
-            sample_generator_ = std::make_unique<avoa3d::HolonomicSampleGenerator>(this->get_logger());
+            sample_generator_ = std::make_unique<s3vo::HolonomicSampleGenerator>(this->get_logger());
         }
                 
 
@@ -168,7 +168,7 @@ public:
 
 
         //! Initialize evaluator and visualizer
-        sample_evaluator_ = std::make_unique<avoa3d::SampleEvaluator>(
+        sample_evaluator_ = std::make_unique<s3vo::SampleEvaluator>(
             this->get_logger(), 
             vehicle_radius, 
             heading_weight,
@@ -181,26 +181,26 @@ public:
             radius_threshold);           
     
            
-        sample_visualizer_ = std::make_unique<avoa3d::SampleVisualizer>(this);
+        sample_visualizer_ = std::make_unique<s3vo::SampleVisualizer>(this);
 
         // Publishers and subscribers - keep these as they are
         cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(cmd_vel_topic, 10);
         
         desired_velocity_subscriber_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
-            desired_vel_topic, 10, std::bind(&AVOA::desired_velocity_callback, this, std::placeholders::_1));
+            desired_vel_topic, 10, std::bind(&S3VO::desired_velocity_callback, this, std::placeholders::_1));
             
         agent_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            odometry_topic, 10, std::bind(&AVOA::agent_odometry_callback, this, std::placeholders::_1));
+            odometry_topic, 10, std::bind(&S3VO::agent_odometry_callback, this, std::placeholders::_1));
         
-        obstacles_subscriber_ = this->create_subscription<avoa3d::msg::ElementCharacteristicsArray>(
-            element_tracking_topic, 10, std::bind(&AVOA::obstacles_callback, this, std::placeholders::_1));
+        obstacles_subscriber_ = this->create_subscription<s3vo::msg::ElementCharacteristicsArray>(
+            element_tracking_topic, 10, std::bind(&S3VO::obstacles_callback, this, std::placeholders::_1));
         
         goal_odometry_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            goal_odometry_topic, 10, std::bind(&AVOA::goal_callback, this, std::placeholders::_1));
+            goal_odometry_topic, 10, std::bind(&S3VO::goal_callback, this, std::placeholders::_1));
 
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(static_cast<int>(100)), 
-            std::bind(&AVOA::timer_callback, this));
+            std::bind(&S3VO::timer_callback, this));
         
         last_odom_time_ = this->get_clock()->now();
         last_desired_vel_time_ = this->get_clock()->now();
@@ -230,7 +230,7 @@ private:
         RCLCPP_DEBUG(this->get_logger(), "Updated agent odometry");
     }
 
-    void obstacles_callback(const avoa3d::msg::ElementCharacteristicsArray::SharedPtr msg)
+    void obstacles_callback(const s3vo::msg::ElementCharacteristicsArray::SharedPtr msg)
     {
         latest_obstacles_ = *msg;
         RCLCPP_DEBUG(this->get_logger(), "Updated obstacles");
@@ -313,9 +313,9 @@ private:
 
     
     // State variables and components
-    std::unique_ptr<avoa3d::SampleGenerator> sample_generator_;
-    std::unique_ptr<avoa3d::SampleEvaluator> sample_evaluator_;
-    std::unique_ptr<avoa3d::SampleVisualizer> sample_visualizer_;
+    std::unique_ptr<s3vo::SampleGenerator> sample_generator_;
+    std::unique_ptr<s3vo::SampleEvaluator> sample_evaluator_;
+    std::unique_ptr<s3vo::SampleVisualizer> sample_visualizer_;
     std::vector<VelocitySample> samples;
     VelocitySample best_sample;
     geometry_msgs::msg::Twist best_twist;
@@ -324,7 +324,7 @@ private:
     rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr cmd_vel_publisher_;
     rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr desired_velocity_subscriber_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr agent_odometry_subscriber_;
-    rclcpp::Subscription<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr obstacles_subscriber_;
+    rclcpp::Subscription<s3vo::msg::ElementCharacteristicsArray>::SharedPtr obstacles_subscriber_;
     //goal odometry
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr goal_odometry_subscriber_;
     rclcpp::TimerBase::SharedPtr timer_;
@@ -334,7 +334,7 @@ private:
     nav_msgs::msg::Odometry latest_goal_odometry_{};
     geometry_msgs::msg::Twist latest_desired_velocity_{};
     nav_msgs::msg::Odometry latest_agent_odometry_{};
-    avoa3d::msg::ElementCharacteristicsArray latest_obstacles_{};
+    s3vo::msg::ElementCharacteristicsArray latest_obstacles_{};
 
     // Watchdog timing
     rclcpp::Time last_odom_time_;
@@ -344,7 +344,7 @@ private:
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<AVOA>());
+    rclcpp::spin(std::make_shared<S3VO>());
     rclcpp::shutdown();
     return 0;
 }

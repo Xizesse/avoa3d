@@ -1,7 +1,7 @@
-#include "avoa3d/diff_drive_sample_generator.hpp"
+#include "s3vo/diff_drive_sample_generator.hpp"
 #include <cmath>
 
-namespace avoa3d
+namespace s3vo
 {
 
 //! Diff Drive Sample Generator
@@ -105,4 +105,4 @@ void DiffDriveSampleGenerator::setParams(
                params_.v_x_max, params_.w_yaw_max, params_.a_x_max, params_.a_yaw_max);
 }
 
-} // namespace avoa3d
+} // namespace s3vo

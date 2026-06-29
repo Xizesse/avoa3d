@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>avoa3d</name>
+  <name>s3vo</name>
   <version>0.1.0</version>
-  <description>avoa3d</description>
+  <description>s3vo</description>
 
   <maintainer email="kikopiressilva@gmail.com">Francisco Pires da Silva</maintainer>
   <license>Apache 2.0</license>

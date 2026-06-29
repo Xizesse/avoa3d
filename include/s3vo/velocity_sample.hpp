@@ -1,8 +1,8 @@
 
-#ifndef AVOA3D_VELOCITY_SAMPLE_HPP
-#define AVOA3D_VELOCITY_SAMPLE_HPP
+#ifndef S3VO_VELOCITY_SAMPLE_HPP
+#define S3VO_VELOCITY_SAMPLE_HPP
 
-namespace avoa3d {
+namespace s3vo {
 
 /**
  * @brief Represents a single candidate velocity for the robot.

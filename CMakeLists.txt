@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 3.5)
-project(avoa3d)
+project(s3vo)
 
 # Find dependencies
 find_package(ament_cmake REQUIRED)
@@ -33,8 +33,8 @@ include_directories(
 rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 # Create executables
-add_executable(avoa3dnode
-  src/avoa3dnode.cpp
+add_executable(s3vonode
+  src/s3vonode.cpp
   src/sample_evaluator.cpp
   src/sample_visualizer.cpp
   src/sample_generator.cpp
@@ -47,7 +47,7 @@ add_executable(element_markers src/element_markers.cpp)
 add_executable(tf_publisher src/tf_publisher.cpp)
 
 # Link dependencies
-ament_target_dependencies(avoa3dnode
+ament_target_dependencies(s3vonode
   rclcpp
   std_msgs
   geometry_msgs
@@ -79,14 +79,14 @@ ament_target_dependencies(tf_publisher
 )
 
 # Link typesupport
-target_link_libraries(avoa3dnode ${cpp_typesupport_target})
+target_link_libraries(s3vonode ${cpp_typesupport_target})
 target_link_libraries(rviz_marker ${cpp_typesupport_target})
 target_link_libraries(element_markers ${cpp_typesupport_target})
 target_link_libraries(tf_publisher ${cpp_typesupport_target})
 
 # Install executables
 install(TARGETS
-  avoa3dnode
+  s3vonode
   rviz_marker
   element_markers
   tf_publisher

@@ -6,7 +6,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "visualization_msgs/msg/marker.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
-#include "avoa3d/msg/element_characteristics_array.hpp"
+#include "s3vo/msg/element_characteristics_array.hpp"
 
 using namespace std::chrono_literals;
 
@@ -25,7 +25,7 @@ public:
 
         marker_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>(markers_topic, 10);
         
-        elements_sub_ = this->create_subscription<avoa3d::msg::ElementCharacteristicsArray>(
+        elements_sub_ = this->create_subscription<s3vo::msg::ElementCharacteristicsArray>(
             elements_topic, 10,
             std::bind(&ElementMarkersNode::elementsCallback, this, std::placeholders::_1));
 
@@ -35,7 +35,7 @@ public:
     }
 
 private:
-    void elementsCallback(const avoa3d::msg::ElementCharacteristicsArray::SharedPtr msg)
+    void elementsCallback(const s3vo::msg::ElementCharacteristicsArray::SharedPtr msg)
     {
         visualization_msgs::msg::MarkerArray marker_array;
 
@@ -94,7 +94,7 @@ private:
 
     std::string frame_id_;
     rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr marker_pub_;
-    rclcpp::Subscription<avoa3d::msg::ElementCharacteristicsArray>::SharedPtr elements_sub_;
+    rclcpp::Subscription<s3vo::msg::ElementCharacteristicsArray>::SharedPtr elements_sub_;
 };
 
 int main(int argc, char * argv[])
