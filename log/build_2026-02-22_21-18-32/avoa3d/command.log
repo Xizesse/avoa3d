@@ -1,2 +1,0 @@
-Invoking command in '/home/xizesse/ros2_ws/src/avoa3d/build/avoa3d': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/xizesse/ros2_ws/src/avoa3d -DCMAKE_INSTALL_PREFIX=/home/xizesse/ros2_ws/src/avoa3d/install/avoa3d
-Invoked command in '/home/xizesse/ros2_ws/src/avoa3d/build/avoa3d' returned '1': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/xizesse/ros2_ws/src/avoa3d -DCMAKE_INSTALL_PREFIX=/home/xizesse/ros2_ws/src/avoa3d/install/avoa3d
