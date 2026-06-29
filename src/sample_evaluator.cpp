@@ -84,21 +84,47 @@ void SampleEvaluator::evaluateSamples(std::vector<VelocitySample>& samples, cons
             double obs_radius = std::max({obstacle.size.x, obstacle.size.y, obstacle.size.z}) / 2.0 
                                 + vehicle_radius_ + obstacle.protective_zone;
 
-            double rel_mag_sq = rel_vx * rel_vx + rel_vy * rel_vy + rel_vz * rel_vz;
-            double projection = (rel_vx * obs_x + rel_vy * obs_y + rel_vz * obs_z) / obs_dist;
-            
-            double cone_angle = (obs_dist <= obs_radius) ? (M_PI / 2.0) : std::asin(obs_radius / obs_dist);
-            double expected_radius = projection * std::tan(cone_angle);
-            double radius_squared = rel_mag_sq - (projection * projection);
-            double actual_radius = (radius_squared >= 0.0) ? std::sqrt(radius_squared) : 0.0;
-            double ttc = (obs_dist - obs_radius) / std::max(0.001, projection);
-
-            if (projection > 0 && actual_radius < expected_radius) {
-                if (ttc < time_to_collision_threshold_) {
+            // Check if we are already inside the obstacle boundary
+            if (obs_dist <= obs_radius) {
+                double p_dot_v = rel_vx * obs_x + rel_vy * obs_y + rel_vz * obs_z;
+                if (p_dot_v > 0.0) { // Moving deeper/towards obstacle center
                     collision_free = false;
                     break;
                 }
-            } 
+                // Moving away is allowed to escape
+                continue; 
+            }
+
+            // Quadratic coefficients for sphere-ray intersection: a*t^2 + b*t + c = 0
+            // a = ||v||^2
+            double a = rel_vx * rel_vx + rel_vy * rel_vy + rel_vz * rel_vz;
+            // p_dot_v = p . v
+            double p_dot_v = rel_vx * obs_x + rel_vy * obs_y + rel_vz * obs_z;
+
+            if (a >= 0.001 && p_dot_v > 0.0) {
+                // b = -2 * (p . v)
+                double b = -2.0 * p_dot_v;
+                // c = ||p||^2 - R^2
+                double c = obs_dist * obs_dist - obs_radius * obs_radius;
+                
+                double discriminant = b * b - 4.0 * a * c;
+                if (discriminant >= 0.0) {
+                    double t_entry = (-b - std::sqrt(discriminant)) / (2.0 * a);
+                    if (t_entry > 0.0 && t_entry < time_to_collision_threshold_) {
+                        collision_free = false;
+                        break;
+                    }
+                }
+            }
+
+            // Retain original cone and ttc calculations strictly for the danger weight heuristic
+            double rel_mag_sq = rel_vx * rel_vx + rel_vy * rel_vy + rel_vz * rel_vz;
+            double projection = (rel_vx * obs_x + rel_vy * obs_y + rel_vz * obs_z) / obs_dist;
+            double cone_angle = std::asin(obs_radius / obs_dist);
+            double expected_radius = projection * std::tan(cone_angle);
+            double radius_squared = rel_mag_sq - (projection * projection);
+            double actual_radius = (radius_squared >= 0.0) ? std::sqrt(radius_squared) : 0.0;
+            double ttc = (obs_dist - obs_radius) / std::max(0.001, projection); 
 
             if (danger_weight_ > 0.0 && projection > 0.0) {
                 double dist_to_boundary = actual_radius - expected_radius;

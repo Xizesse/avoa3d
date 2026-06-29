@@ -1,0 +1,45 @@
+[0.000000] (-) TimerEvent: {}
+[0.000530] (avoa3d) JobQueued: {'identifier': 'avoa3d', 'dependencies': OrderedDict()}
+[0.000565] (avoa3d) JobStarted: {'identifier': 'avoa3d'}
+[0.006321] (avoa3d) JobProgress: {'identifier': 'avoa3d', 'progress': 'cmake'}
+[0.006790] (avoa3d) Command: {'cmd': ['/usr/bin/cmake', '/home/motusxico/ros2_ws/src/avoa3d', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/motusxico/ros2_ws/src/avoa3d/install/avoa3d'], 'cwd': '/home/motusxico/ros2_ws/src/avoa3d/build/avoa3d', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'VSCODE_CWD': '/home/motusxico', 'USER': 'motusxico', 'VSCODE_NLS_CONFIG': '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/antigravity/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}', 'XDG_SESSION_TYPE': 'x11', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '0', 'HOME': '/home/motusxico', 'CHROME_DESKTOP': 'antigravity.desktop', 'DESKTOP_SESSION': 'ubuntu', 'VSCODE_IPC_HOOK': '/run/user/1000/vscode-7017e34c-1.10-main.sock', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/antigravity.desktop', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'PAGER': 'cat', 'MANAGERPID': '2124', 'SYSTEMD_EXEC_PID': '2504', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'ANTIGRAVITY_AGENT': '1', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '5021', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'LOGNAME': 'motusxico', '_': '/usr/bin/colcon', 'JOURNAL_STREAM': '9:19715', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'motusxico', 'TERM': 'dumb', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'FC_FONTATIONS': '1', 'WINDOWPATH': '2', 'ANTIGRAVITY_EDITOR_APP_ROOT': '/usr/share/antigravity/resources/app', 'PATH': '/home/motusxico/venv-ardupilot/bin:/home/motusxico/venv-ardupilot/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/motusxico:@/tmp/.ICE-unix/2441,unix/motusxico:/tmp/.ICE-unix/2441', 'INVOCATION_ID': '5a7848811f5d4108b1b6759dd92af15a', 'XDG_MENU_PREFIX': 'gnome-', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'VIRTUAL_ENV_PROMPT': '(venv-ardupilot)', 'RMW_IMPLEMENTATION': 'rmw_cyclonedds_cpp', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': '', 'SBX_CHROME_API_RQ': '1', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'VIRTUAL_ENV': '/home/motusxico/venv-ardupilot', 'QT_IM_MODULE': 'ibus', 'ANTIGRAVITY_TRAJECTORY_ID': '7eb28a14-f5df-463d-84b0-aecf67d48e37', 'PWD': '/home/motusxico/ros2_ws/src/avoa3d/build/avoa3d', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'VSCODE_CODE_CACHE_PATH': '/home/motusxico/.config/Antigravity/CachedData/15487b3041e65228cae24980a3f796c905ef582c', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VSCODE_PID': '5021'}), 'shell': False}
+[0.102042] (-) TimerEvent: {}
+[0.148798] (avoa3d) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.3.0\n'}
+[0.202398] (-) TimerEvent: {}
+[0.262297] (avoa3d) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.3.0\n'}
+[0.286988] (avoa3d) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.302912] (-) TimerEvent: {}
+[0.403199] (-) TimerEvent: {}
+[0.436167] (avoa3d) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.446685] (avoa3d) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.447317] (avoa3d) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.448737] (avoa3d) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.463372] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.503434] (-) TimerEvent: {}
+[0.608294] (-) TimerEvent: {}
+[0.681796] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.698777] (avoa3d) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.699079] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.700683] (avoa3d) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.709298] (-) TimerEvent: {}
+[0.739182] (avoa3d) StderrLine: {'line': b'CMake Error at CMakeLists.txt:6 (find_package):\n'}
+[0.739492] (avoa3d) StderrLine: {'line': b'  By not providing "Findament_cmake.cmake" in CMAKE_MODULE_PATH this project\n'}
+[0.739584] (avoa3d) StderrLine: {'line': b'  has asked CMake to find a package configuration file provided by\n'}
+[0.739656] (avoa3d) StderrLine: {'line': b'  "ament_cmake", but CMake did not find one.\n'}
+[0.739728] (avoa3d) StderrLine: {'line': b'\n'}
+[0.740969] (avoa3d) StderrLine: {'line': b'  Could not find a package configuration file provided by "ament_cmake" with\n'}
+[0.742040] (avoa3d) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.742222] (avoa3d) StderrLine: {'line': b'  any of the following names:\n'}
+[0.742375] (avoa3d) StderrLine: {'line': b'\n'}
+[0.742446] (avoa3d) StderrLine: {'line': b'    ament_cmakeConfig.cmake\n'}
+[0.742513] (avoa3d) StderrLine: {'line': b'    ament_cmake-config.cmake\n'}
+[0.742576] (avoa3d) StderrLine: {'line': b'\n'}
+[0.742638] (avoa3d) StderrLine: {'line': b'  Add the installation prefix of "ament_cmake" to CMAKE_PREFIX_PATH or set\n'}
+[0.742700] (avoa3d) StderrLine: {'line': b'  "ament_cmake_DIR" to a directory containing one of the above files.  If\n'}
+[0.742761] (avoa3d) StderrLine: {'line': b'  "ament_cmake" provides a separate development package or SDK, be sure it\n'}
+[0.742820] (avoa3d) StderrLine: {'line': b'  has been installed.\n'}
+[0.742880] (avoa3d) StderrLine: {'line': b'\n'}
+[0.742940] (avoa3d) StderrLine: {'line': b'\n'}
+[0.753695] (avoa3d) CommandEnded: {'returncode': 1}
+[0.785302] (avoa3d) JobEnded: {'identifier': 'avoa3d', 'rc': 1}
+[0.795940] (-) EventReactorShutdown: {}

@@ -278,8 +278,9 @@ private:
 
         auto t0 = std::chrono::steady_clock::now();
         
-        samples = sample_generator_->generateSamples(latest_velocity_, latest_desired_velocity_);
-        sample_evaluator_->evaluateSamples(samples, latest_obstacles_, latest_velocity_);
+        geometry_msgs::msg::Twist current_velocity = latest_agent_odometry_.twist.twist;
+        samples = sample_generator_->generateSamples(current_velocity, latest_desired_velocity_);
+        sample_evaluator_->evaluateSamples(samples, latest_obstacles_, current_velocity);
 
         auto t1 = std::chrono::steady_clock::now();
 
