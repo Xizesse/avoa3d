@@ -265,13 +265,9 @@ private:
             return;
         }
 
-        auto t0 = std::chrono::steady_clock::now();
-        
         geometry_msgs::msg::Twist current_velocity = latest_agent_odometry_.twist.twist;
         samples = sample_generator_->generateSamples(current_velocity, latest_desired_velocity_);
         sample_evaluator_->evaluateSamples(samples, latest_obstacles_, current_velocity);
-
-        auto t1 = std::chrono::steady_clock::now();
 
         best_sample = sample_evaluator_->findBestSample(samples);
         
@@ -289,16 +285,6 @@ private:
 
         cmd_vel_publisher_->publish(cmd_vel);
         sample_visualizer_->publishSamplesAsPointcloud(samples, best_sample);
-
-        auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
-        meas_total_us_ += duration_us;
-        meas_count_++;
-
-        // RCLCPP_INFO(this->get_logger(),
-        //             "N=%zu  this_call=%ld us  avg=%ld us",
-        //             samples.size(),
-        //             duration_us,
-        //             meas_total_us_ / meas_count_);
 
     }
     
