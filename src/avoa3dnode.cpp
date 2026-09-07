@@ -68,6 +68,7 @@ public:
         this->declare_parameter("time_to_collision_threshold", 3000.0);
         this->declare_parameter("radius_threshold", 0.2);
         this->declare_parameter("watchdog_timeout", 1.0);
+        this->declare_parameter("bypass_avoidance", false);
         
         // Log parameters
         std::string fixed_frame = this->get_parameter("fixed_frame").as_string();
@@ -260,8 +261,19 @@ private:
         }
 
         if (!has_received_all_data()) {
-            RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 5000, 
+            RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
                 "Waiting for Odometry and Desired Velocity data...");
+            return;
+        }
+
+        // --- BYPASS: skip sampling/avoidance and pass the desired velocity straight through ---
+        if (this->get_parameter("bypass_avoidance").as_bool()) {
+            RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
+                "Obstacle avoidance BYPASSED - cmd_vel = desired_vel");
+            cmd_vel.header.stamp = this->get_clock()->now();
+            cmd_vel.header.frame_id = this->get_parameter("fixed_frame").as_string();
+            cmd_vel.twist = latest_desired_velocity_;
+            cmd_vel_publisher_->publish(cmd_vel);
             return;
         }
 

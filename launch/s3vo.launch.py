@@ -21,8 +21,8 @@ def generate_launch_description():
 
         'heading_weight': 0.0,
         'abs_weight': 0.0,
-        'danger_weight': 0.0,
-        'momentum_weight': 0.2,
+        'danger_weight': 0.2,
+        'momentum_weight': 0.4,
         'linear_matching_weight': 0.0,
         'twist_matching_weight': 0.8,
 
@@ -40,8 +40,9 @@ def generate_launch_description():
         'w_yaw_max': 1.0,
         'delta_t': 1.0,
         'num_samples': 10000,
-        'time_to_collision_threshold': 200.0,
-        'radius_threshold': 0.1
+        'time_to_collision_threshold': 60.0,
+        'radius_threshold': 0.1,
+        'bypass_avoidance': True,
     }
 
     # Create LaunchArguments for each parameter
