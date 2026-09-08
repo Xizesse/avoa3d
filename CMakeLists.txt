@@ -184,6 +184,7 @@ install(PROGRAMS
   scripts/gazebo_obstacle_publisher.py
   scripts/durius_gps_obstacle_publisher.py
   scripts/nautilus_obstacle_publisher.py
+  scripts/nautilus_detection_metrics.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

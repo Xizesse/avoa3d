@@ -3,25 +3,22 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-# Bridge for mission2 obstacle odometry (harmless if topics don't exist)
-_BRIDGE = [
-    '/model/DURIUS/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-    '/model/nautilus_1/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-    '/model/nautilus_2/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-    '/model/nautilus_3/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-]
-
 
 def generate_launch_description():
+    obstacle_model_name = LaunchConfiguration('obstacle_model_name')
+    obstacle_radius = LaunchConfiguration('obstacle_radius')
+
     return LaunchDescription([
-        DeclareLaunchArgument('scenario', default_value='mission1',
-                              description='mission1 or mission2'),
+        DeclareLaunchArgument('obstacle_model_name', default_value='nautilus',
+                              description='Gazebo model name of the obstacle to track'),
+        DeclareLaunchArgument('obstacle_radius', default_value='2.5',
+                              description='Obstacle radius in meters'),
 
         Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
             name='obstacle_bridge',
-            arguments=_BRIDGE,
+            arguments=['/model/nautilus/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry'],
             output='screen'
         ),
 
@@ -29,7 +26,10 @@ def generate_launch_description():
             package='avoa3d',
             executable='gazebo_obstacle_publisher.py',
             name='gazebo_obstacle_publisher',
-            parameters=[{'scenario': LaunchConfiguration('scenario')}],
+            parameters=[{
+                'obstacle_model_name': obstacle_model_name,
+                'obstacle_radius': obstacle_radius,
+            }],
             output='screen'
         ),
     ])

@@ -22,7 +22,7 @@ def generate_launch_description():
         'heading_weight': 0.0,
         'abs_weight': 0.0,
         'danger_weight': 0.2,
-        'momentum_weight': 0.4,
+        'momentum_weight': 0.2,
         'linear_matching_weight': 0.0,
         'twist_matching_weight': 0.8,
 
@@ -42,7 +42,7 @@ def generate_launch_description():
         'num_samples': 10000,
         'time_to_collision_threshold': 60.0,
         'radius_threshold': 0.1,
-        'bypass_avoidance': True,
+        'bypass_avoidance': False,
     }
 
     # Create LaunchArguments for each parameter
@@ -67,4 +67,23 @@ def generate_launch_description():
         parameters=[node_params]
     )
 
-    return LaunchDescription(launch_args + [avoa3d_node])
+    # rviz_marker: turns /element_tracking/elements into RViz obstacle markers
+    # (plus agent/desired_vel/cmd_vel markers). Reuses the same frame/topic
+    # LaunchConfigurations as avoa3dnode where the param names line up;
+    # rviz_marker's "topics.agent_odometry" maps to avoa3dnode's "topics.odometry".
+    rviz_marker_node = Node(
+        package='avoa3d',
+        executable='rviz_marker',
+        name='rviz_marker',
+        output='screen',
+        parameters=[{
+            'fixed_frame': node_params['fixed_frame'],
+            'agent_frame': node_params['agent_frame'],
+            'topics.desired_vel': node_params['topics.desired_vel'],
+            'topics.cmd_vel': node_params['topics.cmd_vel'],
+            'topics.agent_odometry': node_params['topics.odometry'],
+            'topics.element_tracking': node_params['topics.element_tracking'],
+        }]
+    )
+
+    return LaunchDescription(launch_args + [avoa3d_node, rviz_marker_node])

@@ -188,7 +188,7 @@ class NautilusObstaclePublisher(Node):
         m_cyl.scale.x = m_cyl.scale.y = radius * 2.0
         m_cyl.scale.z = 0.1
         m_cyl.color.r, m_cyl.color.g, m_cyl.color.b = (0.0, 1.0, 0.0) # Green
-        m_cyl.color.a = 0.4
+        m_cyl.color.a = 0.7
         marker_array.markers.append(m_cyl)
         
         # Arrow (Velocity)
